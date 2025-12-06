@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { tests, categories, getTestsByCategory, CategoryId } from "@/data/tests";
 import CategoryTabs from "@/components/CategoryTabs";
-import TestCard from "@/components/TestCard";
+import PosterCard from "@/components/PosterCard";
 import SearchBar from "@/components/SearchBar";
 import AdUnit from "@/components/AdUnit";
 import LanguageSelector from "@/components/LanguageSelector";
@@ -120,9 +120,9 @@ export default function Home() {
               <span className="text-base">🔥</span>
               {lang === 'ko' ? '인기 테스트' : lang === 'zh' ? '热门测试' : lang === 'ja' ? '人気テスト' : 'Popular'}
             </h3>
-            <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
               {hotTests.map(test => (
-                <TestCard key={test.id} test={test} realStats={allStats[test.id]} />
+                <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
             </div>
           </section>
@@ -135,9 +135,9 @@ export default function Home() {
               <span className="text-base">🆕</span>
               {lang === 'ko' ? '곧 출시' : lang === 'zh' ? '即将上线' : lang === 'ja' ? 'まもなく登場' : 'Coming Soon'}
             </h3>
-            <div className="space-y-3">
-              {newTests.slice(0, 3).map(test => (
-                <TestCard key={test.id} test={test} realStats={allStats[test.id]} />
+            <div className="grid grid-cols-2 gap-3">
+              {newTests.slice(0, 4).map(test => (
+                <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
             </div>
           </section>
@@ -162,9 +162,9 @@ export default function Home() {
             </h3>
             
             {filteredTests.length > 0 ? (
-              <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
                 {filteredTests.map(test => (
-                  <TestCard key={test.id} test={test} realStats={allStats[test.id]} />
+                  <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
                 ))}
               </div>
             ) : (
@@ -188,9 +188,9 @@ export default function Home() {
               <span className="text-base">📋</span>
               {lang === 'ko' ? '모든 테스트' : lang === 'zh' ? '所有测试' : lang === 'ja' ? 'すべてのテスト' : 'All Tests'}
             </h3>
-            <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
               {tests.map(test => (
-                <TestCard key={test.id} test={test} realStats={allStats[test.id]} />
+                <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
             </div>
           </section>
