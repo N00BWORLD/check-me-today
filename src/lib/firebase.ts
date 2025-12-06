@@ -91,7 +91,7 @@ export async function getAllTestStats(): Promise<Record<string, TestStats>> {
     
     return stats;
   } catch (error) {
-    console.error("Error getting all test stats:", error);
+    console.error("❌ Error getting all test stats:", error);
     return {};
   }
 }

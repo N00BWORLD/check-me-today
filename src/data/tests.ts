@@ -80,7 +80,7 @@ export const categories: Category[] = [
 // 테스트 목록
 export const tests: TestData[] = [
   {
-    id: "teto-egen",
+    id: "teto-vs-egen",  // Firebase에서 사용하는 ID와 일치
     slug: "test", // /test 경로
     category: "personality",
     name: { 
@@ -98,8 +98,8 @@ export const tests: TestData[] = [
     emoji: "🔥",
     gradient: "from-orange-500 via-red-500 to-pink-500",
     bgGradient: "from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30",
-    playCount: 12847,
-    likeCount: 1203,
+    playCount: 0,  // Firebase에서 실시간으로 가져옴
+    likeCount: 0,  // Firebase에서 실시간으로 가져옴
     badge: "HOT",
     isComingSoon: false,
     createdAt: "2024-12-01",
