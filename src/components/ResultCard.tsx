@@ -1,9 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { PersonalityType } from "@/data/questions";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ResultCardProps {
     type: PersonalityType;
@@ -53,6 +52,12 @@ const descriptions = {
 export default function ResultCard({ type }: ResultCardProps) {
     const content = descriptions[type] || descriptions.TETO;
     const [copied, setCopied] = useState(false);
+    const [showBars, setShowBars] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setShowBars(true), 800);
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleShare = async () => {
         const url = typeof window !== 'undefined' ? window.location.href : '';
@@ -76,12 +81,7 @@ export default function ResultCard({ type }: ResultCardProps) {
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="w-full max-w-md mx-auto"
-        >
+        <div className="w-full max-w-md mx-auto animate-slide-up">
             {/* Result Card */}
             <div className={`glass-strong rounded-[2.5rem] p-8 relative overflow-hidden mb-6 ${content.color.bg}`}>
                 
@@ -90,22 +90,12 @@ export default function ResultCard({ type }: ResultCardProps) {
                 <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gradient-to-br from-white/40 to-transparent" />
                 
                 {/* Confetti Animation */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.3, type: "spring" }}
-                    className="absolute top-4 right-6 text-3xl"
-                >
+                <div className="absolute top-4 right-6 text-3xl animate-scale-in" style={{ animationDelay: "0.3s" }}>
                     🎉
-                </motion.div>
+                </div>
 
                 {/* Main Icon */}
-                <motion.div
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                    className="relative mx-auto mb-6"
-                >
+                <div className="relative mx-auto mb-6 animate-scale-in" style={{ animationDelay: "0.2s" }}>
                     <div className={`
                         w-28 h-28 rounded-full 
                         bg-gradient-to-br ${content.color.gradient} 
@@ -115,15 +105,10 @@ export default function ResultCard({ type }: ResultCardProps) {
                     `}>
                         <span className="text-6xl">{content.emoji}</span>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Badge */}
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-center mb-4"
-                >
+                <div className="text-center mb-4 animate-fade-in" style={{ animationDelay: "0.4s" }}>
                     <span className={`
                         inline-block px-4 py-2 rounded-full 
                         bg-gradient-to-r ${content.color.gradient} 
@@ -132,57 +117,38 @@ export default function ResultCard({ type }: ResultCardProps) {
                     `}>
                         {content.badge}
                     </span>
-                </motion.div>
+                </div>
 
                 {/* Title */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                    className="text-center mb-2"
-                >
+                <div className="text-center mb-2 animate-fade-in" style={{ animationDelay: "0.5s" }}>
                     <h1 className="text-3xl font-black text-slate-800 break-keep">
                         {content.title}
                     </h1>
-                </motion.div>
+                </div>
 
                 {/* Subtitle */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.55 }}
-                    className={`text-center text-lg font-medium ${content.color.accent} mb-6`}
+                <p 
+                    className={`text-center text-lg font-medium ${content.color.accent} mb-6 animate-fade-in`}
+                    style={{ animationDelay: "0.55s" }}
                 >
-                    "{content.subtitle}"
-                </motion.p>
+                    &quot;{content.subtitle}&quot;
+                </p>
 
                 {/* Tags */}
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="flex flex-wrap justify-center gap-2 mb-8"
-                >
+                <div className="flex flex-wrap justify-center gap-2 mb-8">
                     {content.tags.map((tag, idx) => (
-                        <motion.span
+                        <span
                             key={tag}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.7 + idx * 0.05 }}
-                            className="px-3 py-1.5 bg-white/70 backdrop-blur-sm rounded-full text-slate-600 text-sm font-semibold border border-white/50"
+                            className="px-3 py-1.5 bg-white/70 backdrop-blur-sm rounded-full text-slate-600 text-sm font-semibold border border-white/50 animate-scale-in"
+                            style={{ animationDelay: `${0.7 + idx * 0.05}s` }}
                         >
                             {tag}
-                        </motion.span>
+                        </span>
                     ))}
-                </motion.div>
+                </div>
 
                 {/* Trait Bars */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8 }}
-                    className="space-y-4 mb-8"
-                >
+                <div className="space-y-4 mb-8">
                     {content.traits.map((trait, idx) => (
                         <div key={trait.label} className="space-y-1">
                             <div className="flex justify-between text-sm">
@@ -190,68 +156,52 @@ export default function ResultCard({ type }: ResultCardProps) {
                                 <span className={`font-bold ${content.color.accent}`}>{trait.value}%</span>
                             </div>
                             <div className="h-2 bg-white/50 rounded-full overflow-hidden">
-                                <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${trait.value}%` }}
-                                    transition={{ delay: 0.9 + idx * 0.1, duration: 0.8, ease: "easeOut" }}
-                                    className={`h-full rounded-full bg-gradient-to-r ${content.color.gradient}`}
+                                <div
+                                    className={`h-full rounded-full bg-gradient-to-r ${content.color.gradient} transition-all duration-1000 ease-out`}
+                                    style={{ 
+                                        width: showBars ? `${trait.value}%` : '0%',
+                                        transitionDelay: `${0.9 + idx * 0.1}s`
+                                    }}
                                 />
                             </div>
                         </div>
                     ))}
-                </motion.div>
+                </div>
 
                 {/* Description */}
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1 }}
-                    className="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/50"
+                <div 
+                    className="bg-white/60 backdrop-blur-sm rounded-2xl p-5 border border-white/50 animate-fade-in"
+                    style={{ animationDelay: "1s" }}
                 >
                     <p className="text-slate-600 leading-relaxed text-sm break-keep">
                         {content.description}
                     </p>
-                </motion.div>
+                </div>
             </div>
 
             {/* Action Buttons */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.1 }}
-                className="grid grid-cols-2 gap-3 mb-6"
-            >
-                <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+            <div className="grid grid-cols-2 gap-3 mb-6 animate-slide-up" style={{ animationDelay: "1.1s" }}>
+                <button
                     onClick={handleShare}
                     className={`
                         flex items-center justify-center gap-2 
                         bg-gradient-to-r ${content.color.gradient}
                         text-white py-4 rounded-2xl font-bold 
                         shadow-lg shadow-purple-500/20
+                        active:scale-[0.98] transition-transform
                     `}
                 >
                     {copied ? "✅ 복사완료!" : "🔗 공유하기"}
-                </motion.button>
+                </button>
                 <Link href="/">
-                    <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="flex items-center justify-center gap-2 glass text-slate-700 py-4 rounded-2xl font-bold h-full"
-                    >
+                    <div className="flex items-center justify-center gap-2 glass text-slate-700 py-4 rounded-2xl font-bold h-full active:scale-[0.98] transition-transform">
                         🏠 다른 테스트
-                    </motion.div>
+                    </div>
                 </Link>
-            </motion.div>
+            </div>
 
             {/* Retry Link */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-                className="text-center"
-            >
+            <div className="text-center animate-fade-in" style={{ animationDelay: "1.2s" }}>
                 <Link 
                     href="/test" 
                     className="inline-flex items-center gap-2 text-slate-400 text-sm font-medium hover:text-purple-500 transition-colors"
@@ -261,7 +211,7 @@ export default function ResultCard({ type }: ResultCardProps) {
                     </svg>
                     다시 테스트하기
                 </Link>
-            </motion.div>
-        </motion.div>
+            </div>
+        </div>
     );
 }

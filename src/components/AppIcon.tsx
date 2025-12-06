@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 interface AppIconProps {
     title: string;
@@ -41,11 +40,7 @@ export default function AppIcon({ title, iconSrc, href, isComingSoon = false }: 
 
     return (
         <Link href={href} className="block">
-            <motion.div
-                whileHover={{ scale: 1.08, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex flex-col items-center gap-2.5 cursor-pointer group"
-            >
+            <div className="flex flex-col items-center gap-2.5 cursor-pointer group transition-transform duration-200 hover:scale-[1.08] hover:-translate-y-1 active:scale-[0.95]">
                 <div className="relative">
                     {/* Glow Effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-pink-400 rounded-[22%] blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 scale-110" />
@@ -63,11 +58,7 @@ export default function AppIcon({ title, iconSrc, href, isComingSoon = false }: 
                     </div>
                     
                     {/* Active Indicator */}
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full border-2 border-white shadow-sm"
-                    />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full border-2 border-white shadow-sm" />
                 </div>
                 
                 {/* Title */}
@@ -76,7 +67,7 @@ export default function AppIcon({ title, iconSrc, href, isComingSoon = false }: 
                         {title}
                     </span>
                 </div>
-            </motion.div>
+            </div>
         </Link>
     );
 }

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { questions, PersonalityType } from "@/data/questions";
 import Link from "next/link";
 
@@ -14,9 +13,13 @@ export default function Quiz() {
         EGEN: 0,
     });
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const handleAnswer = (type: PersonalityType, optionId: number) => {
+        if (isAnimating) return;
+        
         setSelectedOption(optionId);
+        setIsAnimating(true);
         
         setTimeout(() => {
             const newScores = { ...scores, [type]: scores[type] + 1 };
@@ -25,6 +28,7 @@ export default function Quiz() {
 
             if (currentIndex < questions.length - 1) {
                 setCurrentIndex(currentIndex + 1);
+                setIsAnimating(false);
             } else {
                 const resultType = newScores.TETO > newScores.EGEN ? "TETO" : "EGEN";
                 router.push(`/result?type=${resultType}`);
@@ -39,11 +43,7 @@ export default function Quiz() {
         <div className="w-full max-w-md mx-auto px-4 py-6 flex flex-col min-h-[85vh] justify-between">
             
             {/* Header */}
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-8"
-            >
+            <div className="mb-8 animate-fade-in">
                 {/* Back Button & Progress */}
                 <div className="flex items-center justify-between mb-6">
                     <Link
@@ -68,11 +68,9 @@ export default function Quiz() {
                 {/* Progress Bar */}
                 <div className="relative">
                     <div className="w-full bg-white/50 rounded-full h-3 overflow-hidden backdrop-blur-sm border border-white/50">
-                        <motion.div
-                            className="progress-bar h-full rounded-full"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${progressPercent}%` }}
-                            transition={{ type: "spring", stiffness: 80, damping: 20 }}
+                        <div
+                            className="progress-bar h-full rounded-full transition-all duration-500 ease-out"
+                            style={{ width: `${progressPercent}%` }}
                         />
                     </div>
                     {/* Progress Dots */}
@@ -87,101 +85,84 @@ export default function Quiz() {
                         ))}
                     </div>
                 </div>
-            </motion.div>
+            </div>
 
             {/* Main Card Area */}
             <div className="flex-1 relative">
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentIndex}
-                        initial={{ opacity: 0, x: 60, scale: 0.95 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        exit={{ opacity: 0, x: -60, scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                        className="h-full flex flex-col"
-                    >
-                        {/* Question Card */}
-                        <div className="glass-strong rounded-3xl p-8 mb-6 relative overflow-hidden">
-                            {/* Decorative Element */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-                            
-                            {/* Question Number Badge */}
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-5">
-                                <span className="text-white text-xs font-bold tracking-wider">
-                                    QUESTION {currentIndex + 1}
+                <div
+                    key={currentIndex}
+                    className="h-full flex flex-col animate-slide-up"
+                >
+                    {/* Question Card */}
+                    <div className="glass-strong rounded-3xl p-8 mb-6 relative overflow-hidden">
+                        {/* Decorative Element */}
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+                        
+                        {/* Question Number Badge */}
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-5">
+                            <span className="text-white text-xs font-bold tracking-wider">
+                                QUESTION {currentIndex + 1}
+                            </span>
+                        </div>
+
+                        <h2 className="text-2xl md:text-3xl font-black text-slate-800 leading-snug break-keep relative z-10">
+                            {currentQuestion.text}
+                        </h2>
+                    </div>
+
+                    {/* Answer Options */}
+                    <div className="space-y-3 flex-1">
+                        {currentQuestion.options.map((option, idx) => (
+                            <button
+                                key={option.id}
+                                onClick={() => handleAnswer(option.type, option.id)}
+                                disabled={selectedOption !== null}
+                                className={`
+                                    w-full text-left p-5 rounded-2xl transition-all duration-300 relative overflow-hidden
+                                    animate-slide-up
+                                    ${selectedOption === option.id 
+                                        ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 scale-[0.98]" 
+                                        : "glass hover:bg-white/90 text-slate-700 hover:shadow-lg hover:scale-[1.02]"
+                                    }
+                                    disabled:cursor-not-allowed
+                                    active:scale-[0.98]
+                                `}
+                                style={{ animationDelay: `${idx * 0.1 + 0.2}s` }}
+                            >
+                                {/* Option Letter */}
+                                <span className={`
+                                    inline-flex items-center justify-center w-8 h-8 rounded-full mr-3 text-sm font-bold
+                                    ${selectedOption === option.id 
+                                        ? "bg-white/20 text-white" 
+                                        : "bg-purple-100 text-purple-600"
+                                    }
+                                `}>
+                                    {idx === 0 ? "A" : "B"}
                                 </span>
-                            </div>
-
-                            <h2 className="text-2xl md:text-3xl font-black text-slate-800 leading-snug break-keep relative z-10">
-                                {currentQuestion.text}
-                            </h2>
-                        </div>
-
-                        {/* Answer Options */}
-                        <div className="space-y-3 flex-1">
-                            {currentQuestion.options.map((option, idx) => (
-                                <motion.button
-                                    key={option.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: idx * 0.15 + 0.2 }}
-                                    whileHover={{ scale: 1.02, y: -2 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    onClick={() => handleAnswer(option.type, option.id)}
-                                    disabled={selectedOption !== null}
-                                    className={`
-                                        w-full text-left p-5 rounded-2xl transition-all duration-300 relative overflow-hidden
-                                        ${selectedOption === option.id 
-                                            ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30" 
-                                            : "glass hover:bg-white/90 text-slate-700 hover:shadow-lg"
-                                        }
-                                        disabled:cursor-not-allowed
-                                    `}
-                                >
-                                    {/* Option Letter */}
-                                    <span className={`
-                                        inline-flex items-center justify-center w-8 h-8 rounded-full mr-3 text-sm font-bold
-                                        ${selectedOption === option.id 
-                                            ? "bg-white/20 text-white" 
-                                            : "bg-purple-100 text-purple-600"
-                                        }
-                                    `}>
-                                        {idx === 0 ? "A" : "B"}
+                                <span className="font-semibold text-lg">
+                                    {option.text}
+                                </span>
+                                
+                                {/* Selection Indicator */}
+                                {selectedOption === option.id && (
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 animate-scale-in">
+                                        <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                        </svg>
                                     </span>
-                                    <span className="font-semibold text-lg">
-                                        {option.text}
-                                    </span>
-                                    
-                                    {/* Selection Indicator */}
-                                    {selectedOption === option.id && (
-                                        <motion.div
-                                            initial={{ scale: 0 }}
-                                            animate={{ scale: 1 }}
-                                            className="absolute right-4 top-1/2 -translate-y-1/2"
-                                        >
-                                            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                            </svg>
-                                        </motion.div>
-                                    )}
-                                </motion.button>
-                            ))}
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
+                                )}
+                            </button>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             {/* Footer Hint */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-6 text-center"
-            >
+            <div className="mt-6 text-center animate-fade-in" style={{ animationDelay: "0.5s" }}>
                 <p className="text-slate-400 text-sm">
                     ✨ 직감적으로 선택해보세요
                 </p>
-            </motion.div>
+            </div>
         </div>
     );
 }

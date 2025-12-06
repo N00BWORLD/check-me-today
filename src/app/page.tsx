@@ -1,10 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import SearchBar from "@/components/SearchBar";
 import AppIcon from "@/components/AppIcon";
 import AdUnit from "@/components/AdUnit";
+
+// Dynamic import for framer-motion to avoid SSR issues
+const MotionDiv = dynamic(
+  () => import("framer-motion").then((mod) => mod.motion.div),
+  { ssr: false }
+);
+
+const MotionHeader = dynamic(
+  () => import("framer-motion").then((mod) => mod.motion.header),
+  { ssr: false }
+);
+
+const MotionSpan = dynamic(
+  () => import("framer-motion").then((mod) => mod.motion.span),
+  { ssr: false }
+);
 
 const APPS = [
   {
@@ -33,30 +49,6 @@ const APPS = [
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15,
-    },
-  },
-};
-
 export default function Home() {
   const [filteredApps, setFilteredApps] = useState(APPS);
 
@@ -84,12 +76,7 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center pt-12 pb-32 px-4 sm:px-6">
       {/* Header */}
-      <motion.header 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full max-w-xl mb-8"
-      >
+      <header className="w-full max-w-xl mb-8 animate-fade-in">
         {/* Logo & Brand */}
         <div className="flex items-center gap-3 mb-6">
           <div className="relative">
@@ -120,86 +107,64 @@ export default function Home() {
             심리 테스트로 진짜 나를 발견해보세요 🔮
           </p>
         </div>
-      </motion.header>
+      </header>
 
       {/* Search Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="w-full max-w-xl"
-      >
+      <div className="w-full max-w-xl animate-slide-up stagger-1">
         <SearchBar onSearch={handleSearch} />
-      </motion.div>
+      </div>
 
       {/* Section Title */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="w-full max-w-xl mb-4"
-      >
+      <div className="w-full max-w-xl mb-4 animate-fade-in stagger-2">
         <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider px-1">
           🎯 테스트 목록
         </h3>
-      </motion.div>
+      </div>
 
       {/* App Grid */}
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="w-full max-w-xl"
-      >
+      <div className="w-full max-w-xl animate-slide-up stagger-3">
         <div className="glass rounded-3xl p-6">
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-6 gap-x-4">
-            {filteredApps.map((app) => (
-              <motion.div key={app.id} variants={itemVariants}>
+            {filteredApps.map((app, idx) => (
+              <div 
+                key={app.id} 
+                className="animate-scale-in"
+                style={{ animationDelay: `${0.1 + idx * 0.05}s` }}
+              >
                 <AppIcon
                   title={app.title}
                   iconSrc={app.iconSrc}
                   href={app.href}
                   isComingSoon={app.isComingSoon}
                 />
-              </motion.div>
+              </div>
             ))}
 
             {filteredApps.length === 0 && (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="col-span-full text-center py-12"
-              >
+              <div className="col-span-full text-center py-12 animate-fade-in">
                 <div className="text-4xl mb-3">🔍</div>
                 <p className="text-slate-400 font-medium">검색 결과가 없습니다</p>
                 <p className="text-slate-300 text-sm mt-1">다른 키워드로 검색해보세요</p>
-              </motion.div>
+              </div>
             )}
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Popular Tags */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="w-full max-w-xl mt-6"
-      >
+      <div className="w-full max-w-xl mt-6 animate-fade-in stagger-4">
         <div className="flex flex-wrap gap-2 justify-center">
           {["#심리", "#성격", "#연애", "#건강", "#뷰티"].map((tag, idx) => (
-            <motion.span
+            <span
               key={tag}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6 + idx * 0.05 }}
-              className="px-3 py-1.5 bg-white/60 backdrop-blur-sm rounded-full text-xs font-semibold text-slate-500 border border-white/50 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200 transition-colors cursor-pointer"
+              className="px-3 py-1.5 bg-white/60 backdrop-blur-sm rounded-full text-xs font-semibold text-slate-500 border border-white/50 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200 transition-colors cursor-pointer animate-scale-in"
+              style={{ animationDelay: `${0.5 + idx * 0.05}s` }}
             >
               {tag}
-            </motion.span>
+            </span>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Bottom Ad Placeholder */}
       <div className="fixed bottom-0 left-0 right-0 glass-strong border-t border-white/50 safe-bottom">
