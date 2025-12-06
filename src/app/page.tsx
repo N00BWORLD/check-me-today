@@ -193,6 +193,24 @@ export default function Home() {
         )}
       </div>
 
+      {/* Footer */}
+      <footer className="pb-24 pt-8 px-4">
+        <div className="max-w-xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-4 text-xs text-slate-400 dark:text-slate-500">
+            <a href="/privacy" className="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">
+              {lang === 'ko' ? '개인정보처리방침' : lang === 'zh' ? '隐私政策' : lang === 'ja' ? 'プライバシーポリシー' : 'Privacy Policy'}
+            </a>
+            <span>•</span>
+            <a href="/terms" className="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">
+              {lang === 'ko' ? '이용약관' : lang === 'zh' ? '服务条款' : lang === 'ja' ? '利用規約' : 'Terms of Service'}
+            </a>
+          </div>
+          <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-2">
+            © 2024 Check Me Today. All rights reserved.
+          </p>
+        </div>
+      </footer>
+
       {/* Bottom Ad */}
       <div className="fixed bottom-0 left-0 right-0 z-40">
         <AdUnit />
