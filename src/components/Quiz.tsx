@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Quiz() {
     const router = useRouter();
-    const { t, lang } = useLanguage();
+    const { t } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [scores, setScores] = useState<Record<PersonalityType, number>>({
         TETO: 0,
@@ -32,11 +32,9 @@ export default function Quiz() {
         setIsAnimating(true);
         
         setTimeout(() => {
-            // 타입 점수 업데이트
             const newScores = { ...scores, [type]: scores[type] + 1 };
             setScores(newScores);
 
-            // 특성 점수 업데이트
             const newTraitScores = { ...traitScores };
             traits.forEach(({ trait, score }) => {
                 newTraitScores[trait] += score;
@@ -49,7 +47,6 @@ export default function Quiz() {
                 setCurrentIndex(currentIndex + 1);
                 setIsAnimating(false);
             } else {
-                // 결과 페이지로 이동 - 특성 점수를 URL 파라미터로 전달
                 const resultType = newScores.TETO > newScores.EGEN ? "TETO" : "EGEN";
                 const params = new URLSearchParams({
                     type: resultType,
@@ -73,18 +70,17 @@ export default function Quiz() {
             
             {/* Header */}
             <div className="mb-8 animate-fade-in">
-                {/* Back Button & Progress */}
                 <div className="flex items-center justify-between mb-6">
                     <Link
                         href="/"
-                        className="w-10 h-10 rounded-full glass flex items-center justify-center text-slate-500 hover:text-slate-700 transition-colors"
+                        className="w-10 h-10 rounded-full glass dark:bg-slate-800/80 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                     </Link>
                     <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-purple-600">
+                        <span className="text-sm font-bold text-purple-600 dark:text-purple-400">
                             {currentIndex + 1}
                         </span>
                         <span className="text-sm text-slate-400">/</span>
@@ -96,19 +92,18 @@ export default function Quiz() {
 
                 {/* Progress Bar */}
                 <div className="relative">
-                    <div className="w-full bg-white/50 rounded-full h-3 overflow-hidden backdrop-blur-sm border border-white/50">
+                    <div className="w-full bg-white/50 dark:bg-slate-700/50 rounded-full h-3 overflow-hidden backdrop-blur-sm border border-white/50 dark:border-slate-600">
                         <div
                             className="progress-bar h-full rounded-full transition-all duration-500 ease-out"
                             style={{ width: `${progressPercent}%` }}
                         />
                     </div>
-                    {/* Progress Dots */}
                     <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-1 pointer-events-none">
                         {questions.map((_, idx) => (
                             <div
                                 key={idx}
                                 className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                                    idx <= currentIndex ? "bg-white" : "bg-white/30"
+                                    idx <= currentIndex ? "bg-white" : "bg-white/30 dark:bg-slate-600"
                                 }`}
                             />
                         ))}
@@ -123,18 +118,16 @@ export default function Quiz() {
                     className="h-full flex flex-col animate-slide-up"
                 >
                     {/* Question Card */}
-                    <div className="glass-strong rounded-3xl p-8 mb-6 relative overflow-hidden">
-                        {/* Decorative Element */}
+                    <div className="glass-strong dark:bg-slate-800/90 rounded-3xl p-8 mb-6 relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                         
-                        {/* Question Number Badge */}
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-5">
                             <span className="text-white text-xs font-bold tracking-wider">
                                 {t(uiTexts.question)} {currentIndex + 1}
                             </span>
                         </div>
 
-                        <h2 className="text-2xl md:text-3xl font-black text-slate-800 leading-snug break-keep relative z-10">
+                        <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white leading-snug break-keep relative z-10">
                             {t(currentQuestion.text)}
                         </h2>
                     </div>
@@ -151,19 +144,18 @@ export default function Quiz() {
                                     animate-slide-up
                                     ${selectedOption === option.id 
                                         ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 scale-[0.98]" 
-                                        : "glass hover:bg-white/90 text-slate-700 hover:shadow-lg hover:scale-[1.02]"
+                                        : "glass dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 hover:shadow-lg hover:scale-[1.02]"
                                     }
                                     disabled:cursor-not-allowed
                                     active:scale-[0.98]
                                 `}
                                 style={{ animationDelay: `${idx * 0.1 + 0.2}s` }}
                             >
-                                {/* Option Letter */}
                                 <span className={`
                                     inline-flex items-center justify-center w-8 h-8 rounded-full mr-3 text-sm font-bold
                                     ${selectedOption === option.id 
                                         ? "bg-white/20 text-white" 
-                                        : "bg-purple-100 text-purple-600"
+                                        : "bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400"
                                     }
                                 `}>
                                     {idx === 0 ? "A" : "B"}
@@ -172,7 +164,6 @@ export default function Quiz() {
                                     {t(option.text)}
                                 </span>
                                 
-                                {/* Selection Indicator */}
                                 {selectedOption === option.id && (
                                     <span className="absolute right-4 top-1/2 -translate-y-1/2 animate-scale-in">
                                         <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -188,7 +179,7 @@ export default function Quiz() {
 
             {/* Footer Hint */}
             <div className="mt-6 text-center animate-fade-in" style={{ animationDelay: "0.5s" }}>
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-400 dark:text-slate-500 text-sm">
                     {t(uiTexts.selectIntuitively)}
                 </p>
             </div>

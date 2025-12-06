@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Script from "next/script";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Check Me Today | 오늘 나를 확인해봐",
@@ -41,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         {/* Pretendard Font */}
         <link
@@ -61,14 +62,16 @@ export default function RootLayout({
       <body className="antialiased">
         {/* Background Decorative Elements */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="floating-shape w-96 h-96 bg-purple-300/30 top-0 -left-48" />
-          <div className="floating-shape w-80 h-80 bg-cyan-300/30 top-1/3 -right-40" style={{ animationDelay: "-5s" }} />
-          <div className="floating-shape w-72 h-72 bg-pink-300/30 bottom-0 left-1/4" style={{ animationDelay: "-10s" }} />
+          <div className="floating-shape w-96 h-96 bg-purple-300/30 dark:bg-purple-500/20 top-0 -left-48" />
+          <div className="floating-shape w-80 h-80 bg-cyan-300/30 dark:bg-cyan-500/20 top-1/3 -right-40" style={{ animationDelay: "-5s" }} />
+          <div className="floating-shape w-72 h-72 bg-pink-300/30 dark:bg-pink-500/20 bottom-0 left-1/4" style={{ animationDelay: "-10s" }} />
         </div>
         
-        <LanguageProvider>
-          {children}
-        </LanguageProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

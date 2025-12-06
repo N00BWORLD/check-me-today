@@ -13,18 +13,20 @@ export default function AdUnit() {
     }, []);
 
     return (
-        <div className="w-full max-w-xl mx-auto my-4 min-h-[90px] glass rounded-2xl flex items-center justify-center overflow-hidden text-center relative">
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span className="text-xs text-slate-300 font-medium">광고 영역</span>
+        <div className="w-full glass-strong dark:bg-slate-900/90 border-t border-white/50 dark:border-slate-700 py-2 px-4">
+            <div className="max-w-xl mx-auto min-h-[50px] flex items-center justify-center overflow-hidden text-center relative">
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span className="text-[10px] text-slate-300 dark:text-slate-600 font-medium">AD</span>
+                </div>
+                <ins
+                    className="adsbygoogle"
+                    style={{ display: "block", width: "100%", height: "50px" }}
+                    data-ad-client="ca-pub-8585338769159452"
+                    data-ad-slot="1234567890"
+                    data-ad-format="horizontal"
+                    data-full-width-responsive="false"
+                />
             </div>
-            <ins
-                className="adsbygoogle"
-                style={{ display: "block", width: "100%" }}
-                data-ad-client="ca-pub-8585338769159452"
-                data-ad-slot="1234567890"
-                data-ad-format="auto"
-                data-full-width-responsive="true"
-            />
         </div>
     );
 }

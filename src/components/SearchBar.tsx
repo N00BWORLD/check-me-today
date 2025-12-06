@@ -24,11 +24,11 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     };
 
     return (
-        <div className="w-full max-w-xl mx-auto mb-6 relative">
+        <div className="w-full max-w-xl mx-auto mb-6 relative z-10">
             <div 
                 className={`
                     relative flex items-center
-                    glass rounded-2xl
+                    glass dark:bg-slate-800/80 rounded-2xl
                     transition-all duration-300
                     ${isFocused 
                         ? "ring-2 ring-purple-400/50 shadow-lg shadow-purple-500/10" 
@@ -39,7 +39,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                 {/* Search Icon */}
                 <div className="absolute left-4 flex items-center pointer-events-none">
                     <svg
-                        className={`h-5 w-5 transition-colors duration-200 ${isFocused ? "text-purple-500" : "text-slate-400"}`}
+                        className={`h-5 w-5 transition-colors duration-200 ${isFocused ? "text-purple-500" : "text-slate-400 dark:text-slate-500"}`}
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -58,14 +58,14 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                     value={query}
                     onChange={handleChange}
                     onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
+                    onBlur={() => setTimeout(() => setIsFocused(false), 150)}
                     placeholder={t(uiTexts.searchPlaceholder)}
                     className="
                         block w-full 
                         pl-12 pr-12 py-4 
                         bg-transparent
                         border-none rounded-2xl
-                        text-slate-800 placeholder-slate-400
+                        text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500
                         font-medium
                         focus:outline-none
                     "
@@ -75,9 +75,9 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                 {query && (
                     <button
                         onClick={handleClear}
-                        className="absolute right-4 w-6 h-6 flex items-center justify-center bg-slate-200 hover:bg-slate-300 rounded-full transition-colors animate-scale-in"
+                        className="absolute right-4 w-6 h-6 flex items-center justify-center bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 rounded-full transition-colors animate-scale-in"
                     >
-                        <svg className="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 text-slate-500 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
