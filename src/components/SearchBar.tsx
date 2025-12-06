@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage, uiTexts } from "@/context/LanguageContext";
 
 interface SearchBarProps {
     onSearch: (query: string) => void;
 }
 
 export default function SearchBar({ onSearch }: SearchBarProps) {
+    const { t } = useLanguage();
     const [query, setQuery] = useState("");
     const [isFocused, setIsFocused] = useState(false);
 
@@ -57,7 +59,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                     onChange={handleChange}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    placeholder="테스트 검색하기..."
+                    placeholder={t(uiTexts.searchPlaceholder)}
                     className="
                         block w-full 
                         pl-12 pr-12 py-4 
@@ -81,28 +83,6 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                     </button>
                 )}
             </div>
-
-            {/* Search Hints */}
-            {isFocused && !query && (
-                <div className="absolute top-full left-0 right-0 mt-2 p-3 glass rounded-xl z-10 animate-fade-in">
-                    <p className="text-xs text-slate-400 mb-2">추천 검색어</p>
-                    <div className="flex flex-wrap gap-2">
-                        {["심리", "성격", "연애", "MBTI"].map((hint) => (
-                            <button
-                                key={hint}
-                                onMouseDown={(e) => {
-                                    e.preventDefault();
-                                    setQuery(hint);
-                                    onSearch(hint);
-                                }}
-                                className="px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-600 text-xs font-semibold rounded-full transition-colors"
-                            >
-                                {hint}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

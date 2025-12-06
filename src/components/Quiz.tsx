@@ -2,36 +2,65 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { questions, PersonalityType } from "@/data/questions";
+import { questions, PersonalityType, TraitType } from "@/data/questions";
+import { useLanguage, uiTexts } from "@/context/LanguageContext";
 import Link from "next/link";
 
 export default function Quiz() {
     const router = useRouter();
+    const { t, lang } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [scores, setScores] = useState<Record<PersonalityType, number>>({
         TETO: 0,
         EGEN: 0,
     });
+    const [traitScores, setTraitScores] = useState<Record<TraitType, number>>({
+        drive: 0,
+        social: 0,
+        decision: 0,
+        empathy: 0,
+        detail: 0,
+        creativity: 0,
+    });
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isAnimating, setIsAnimating] = useState(false);
 
-    const handleAnswer = (type: PersonalityType, optionId: number) => {
+    const handleAnswer = (type: PersonalityType, optionId: number, traits: { trait: TraitType; score: number }[]) => {
         if (isAnimating) return;
         
         setSelectedOption(optionId);
         setIsAnimating(true);
         
         setTimeout(() => {
+            // 타입 점수 업데이트
             const newScores = { ...scores, [type]: scores[type] + 1 };
             setScores(newScores);
+
+            // 특성 점수 업데이트
+            const newTraitScores = { ...traitScores };
+            traits.forEach(({ trait, score }) => {
+                newTraitScores[trait] += score;
+            });
+            setTraitScores(newTraitScores);
+            
             setSelectedOption(null);
 
             if (currentIndex < questions.length - 1) {
                 setCurrentIndex(currentIndex + 1);
                 setIsAnimating(false);
             } else {
+                // 결과 페이지로 이동 - 특성 점수를 URL 파라미터로 전달
                 const resultType = newScores.TETO > newScores.EGEN ? "TETO" : "EGEN";
-                router.push(`/result?type=${resultType}`);
+                const params = new URLSearchParams({
+                    type: resultType,
+                    drive: newTraitScores.drive.toString(),
+                    social: newTraitScores.social.toString(),
+                    decision: newTraitScores.decision.toString(),
+                    empathy: newTraitScores.empathy.toString(),
+                    detail: newTraitScores.detail.toString(),
+                    creativity: newTraitScores.creativity.toString(),
+                });
+                router.push(`/result?${params.toString()}`);
             }
         }, 300);
     };
@@ -101,12 +130,12 @@ export default function Quiz() {
                         {/* Question Number Badge */}
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-5">
                             <span className="text-white text-xs font-bold tracking-wider">
-                                QUESTION {currentIndex + 1}
+                                {t(uiTexts.question)} {currentIndex + 1}
                             </span>
                         </div>
 
                         <h2 className="text-2xl md:text-3xl font-black text-slate-800 leading-snug break-keep relative z-10">
-                            {currentQuestion.text}
+                            {t(currentQuestion.text)}
                         </h2>
                     </div>
 
@@ -115,7 +144,7 @@ export default function Quiz() {
                         {currentQuestion.options.map((option, idx) => (
                             <button
                                 key={option.id}
-                                onClick={() => handleAnswer(option.type, option.id)}
+                                onClick={() => handleAnswer(option.type, option.id, option.traits)}
                                 disabled={selectedOption !== null}
                                 className={`
                                     w-full text-left p-5 rounded-2xl transition-all duration-300 relative overflow-hidden
@@ -140,7 +169,7 @@ export default function Quiz() {
                                     {idx === 0 ? "A" : "B"}
                                 </span>
                                 <span className="font-semibold text-lg">
-                                    {option.text}
+                                    {t(option.text)}
                                 </span>
                                 
                                 {/* Selection Indicator */}
@@ -160,7 +189,7 @@ export default function Quiz() {
             {/* Footer Hint */}
             <div className="mt-6 text-center animate-fade-in" style={{ animationDelay: "0.5s" }}>
                 <p className="text-slate-400 text-sm">
-                    ✨ 직감적으로 선택해보세요
+                    {t(uiTexts.selectIntuitively)}
                 </p>
             </div>
         </div>

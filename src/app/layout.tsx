@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Script from "next/script";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Check Me Today | 오늘 나를 확인해봐",
@@ -65,7 +66,9 @@ export default function RootLayout({
           <div className="floating-shape w-72 h-72 bg-pink-300/30 bottom-0 left-1/4" style={{ animationDelay: "-10s" }} />
         </div>
         
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

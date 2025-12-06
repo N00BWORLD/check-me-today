@@ -1,55 +1,42 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import SearchBar from "@/components/SearchBar";
 import AppIcon from "@/components/AppIcon";
 import AdUnit from "@/components/AdUnit";
-
-// Dynamic import for framer-motion to avoid SSR issues
-const MotionDiv = dynamic(
-  () => import("framer-motion").then((mod) => mod.motion.div),
-  { ssr: false }
-);
-
-const MotionHeader = dynamic(
-  () => import("framer-motion").then((mod) => mod.motion.header),
-  { ssr: false }
-);
-
-const MotionSpan = dynamic(
-  () => import("framer-motion").then((mod) => mod.motion.span),
-  { ssr: false }
-);
-
-const APPS = [
-  {
-    id: "teto",
-    title: "테토 vs 에겐",
-    iconSrc: "/icon-teto.png",
-    href: "/test",
-    tags: ["심리", "성격", "호르몬", "연애"],
-    isComingSoon: false,
-  },
-  {
-    id: "sleep",
-    title: "수면 분석",
-    iconSrc: "/icon-sleep.png",
-    href: "#",
-    tags: ["건강", "수면", "잠"],
-    isComingSoon: true,
-  },
-  {
-    id: "color",
-    title: "퍼스널 컬러",
-    iconSrc: "/icon-color.png",
-    href: "#",
-    tags: ["뷰티", "색상", "진단"],
-    isComingSoon: true,
-  },
-];
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage, uiTexts } from "@/context/LanguageContext";
 
 export default function Home() {
+  const { t, lang } = useLanguage();
+  
+  const APPS = [
+    {
+      id: "teto",
+      title: t(uiTexts.tetoVsEgen),
+      iconSrc: "/icon-teto.png",
+      href: "/test",
+      tags: ["심리", "성격", "psychology", "personality"],
+      isComingSoon: false,
+    },
+    {
+      id: "sleep",
+      title: t(uiTexts.sleepAnalysis),
+      iconSrc: "/icon-sleep.png",
+      href: "#",
+      tags: ["건강", "수면", "health", "sleep"],
+      isComingSoon: true,
+    },
+    {
+      id: "color",
+      title: t(uiTexts.personalColor),
+      iconSrc: "/icon-color.png",
+      href: "#",
+      tags: ["뷰티", "색상", "beauty", "color"],
+      isComingSoon: true,
+    },
+  ];
+
   const [filteredApps, setFilteredApps] = useState(APPS);
 
   const handleSearch = (query: string) => {
@@ -67,32 +54,35 @@ export default function Home() {
   };
 
   const today = new Date();
-  const dateString = today.toLocaleDateString('ko-KR', { 
-    weekday: 'long', 
-    month: 'long', 
-    day: 'numeric' 
-  });
+  const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric' };
+  const dateString = today.toLocaleDateString(
+    lang === 'ko' ? 'ko-KR' : lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : 'en-US', 
+    dateOptions
+  );
 
   return (
     <main className="min-h-screen flex flex-col items-center pt-12 pb-32 px-4 sm:px-6">
       {/* Header */}
       <header className="w-full max-w-xl mb-8 animate-fade-in">
-        {/* Logo & Brand */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="relative">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
-              <span className="text-2xl">✨</span>
+        {/* Logo & Brand & Language */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                <span className="text-2xl">✨</span>
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-cyan-400 rounded-full border-2 border-white" />
             </div>
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-cyan-400 rounded-full border-2 border-white" />
+            <div>
+              <h1 className="text-xl font-black text-slate-800 tracking-tight">
+                {t(uiTexts.brandName)}
+              </h1>
+              <p className="text-xs text-slate-500 font-medium">
+                {t(uiTexts.brandSlogan)}
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-black text-slate-800 tracking-tight">
-              Check Me Today
-            </h1>
-            <p className="text-xs text-slate-500 font-medium">
-              오늘 나를 확인해봐
-            </p>
-          </div>
+          <LanguageSelector />
         </div>
 
         {/* Date & Title */}
@@ -101,10 +91,10 @@ export default function Home() {
             {dateString}
           </p>
           <h2 className="text-3xl font-black text-slate-800 mb-2">
-            투데이 <span className="text-gradient">테스트</span>
+            {t(uiTexts.todayTest).split(" ")[0]} <span className="text-gradient">{t(uiTexts.todayTest).split(" ").slice(1).join(" ") || "테스트"}</span>
           </h2>
           <p className="text-slate-500 text-sm">
-            심리 테스트로 진짜 나를 발견해보세요 🔮
+            {t(uiTexts.discoverYourself)}
           </p>
         </div>
       </header>
@@ -117,7 +107,7 @@ export default function Home() {
       {/* Section Title */}
       <div className="w-full max-w-xl mb-4 animate-fade-in stagger-2">
         <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider px-1">
-          🎯 테스트 목록
+          {t(uiTexts.testList)}
         </h3>
       </div>
 
@@ -143,8 +133,8 @@ export default function Home() {
             {filteredApps.length === 0 && (
               <div className="col-span-full text-center py-12 animate-fade-in">
                 <div className="text-4xl mb-3">🔍</div>
-                <p className="text-slate-400 font-medium">검색 결과가 없습니다</p>
-                <p className="text-slate-300 text-sm mt-1">다른 키워드로 검색해보세요</p>
+                <p className="text-slate-400 font-medium">{t(uiTexts.noResults)}</p>
+                <p className="text-slate-300 text-sm mt-1">{t(uiTexts.tryOther)}</p>
               </div>
             )}
           </div>

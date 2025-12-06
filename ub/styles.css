@@ -1,0 +1,416 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #1a1a1a;
+    color: #e0e0e0;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1f1f1f 100%);
+    padding: 12px 20px;
+    border-bottom: 2px solid #404040;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    position: relative;
+}
+
+.logo h1 {
+    font-size: 18px;
+    color: #4a9eff;
+    margin-right: 20px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.btn-icon {
+    background: #404040;
+    border: none;
+    color: #e0e0e0;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.btn-icon:hover {
+    background: #505050;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-icon:active {
+    transform: translateY(0);
+}
+
+.url-bar {
+    flex: 1;
+    background: #1a1a1a;
+    border: 2px solid #404040;
+    color: #e0e0e0;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.url-bar:focus {
+    outline: none;
+    border-color: #4a9eff;
+    box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+    background: #1f1f1f;
+}
+
+.content-area {
+    flex: 1;
+    overflow: hidden;
+}
+
+.browser-view {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+}
+
+.welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 40px;
+    text-align: center;
+}
+
+.welcome-screen h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #4a9eff;
+}
+
+.welcome-screen p {
+    font-size: 18px;
+    color: #a0a0a0;
+    margin-bottom: 40px;
+}
+
+.features {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-card {
+    background: #2d2d2d;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #404040;
+    min-width: 250px;
+}
+
+.feature-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #4a9eff;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: #a0a0a0;
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 99999 !important;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.modal.active {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid #404040;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    position: relative;
+    z-index: 99999 !important;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #404040;
+}
+
+.modal-header h2 {
+    color: #4a9eff;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+
+.modal-body {
+    padding: 20px;
+    pointer-events: auto;
+    position: relative;
+    z-index: 10003;
+}
+
+.settings-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #404040;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.settings-section:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.settings-section:last-child {
+    border-bottom: none;
+}
+
+.settings-section h3 {
+    color: #4a9eff;
+    margin-bottom: 15px;
+}
+
+.settings-section label {
+    display: block;
+    margin-bottom: 10px;
+    color: #e0e0e0;
+}
+
+.settings-section input[type="text"],
+.settings-section input[type="password"],
+.settings-section select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: #1a1a1a;
+    border: 2px solid #404040;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.settings-section input[type="text"]:focus,
+.settings-section input[type="password"]:focus,
+.settings-section select:focus {
+    outline: none;
+    border-color: #4a9eff;
+    box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+    background: #1f1f1f;
+}
+
+
+button.btn-primary,
+#saveProxy,
+#saveTor,
+#saveDns,
+#testConnection {
+    background: linear-gradient(135deg, #4a9eff 0%, #3a8eef 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s !important;
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 99999 !important;
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3) !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    display: inline-block !important;
+    text-align: center !important;
+    min-height: 44px !important;
+    line-height: 1.5 !important;
+}
+
+button.btn-primary:hover,
+#saveProxy:hover,
+#saveTor:hover,
+#saveDns:hover,
+#testConnection:hover {
+    background: linear-gradient(135deg, #3a8eef 0%, #2a7edf 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(74, 158, 255, 0.4) !important;
+}
+
+button.btn-primary:active,
+#saveProxy:active,
+#saveTor:active,
+#saveDns:active,
+#testConnection:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(74, 158, 255, 0.3) !important;
+}
+
+.test-result {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.test-result.success {
+    background: #2d5a2d;
+    color: #90ee90;
+}
+
+.test-result.error {
+    background: #5a2d2d;
+    color: #ee9090;
+}
+
+.error-message {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #5a2d2d;
+    color: #ee9090;
+    padding: 15px 25px;
+    border-radius: 6px;
+    border: 1px solid #ee9090;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    text-align: center;
+    font-size: 14px;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+.success-message {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2d5a2d;
+    color: #90ee90;
+    padding: 15px 25px;
+    border-radius: 6px;
+    border: 1px solid #90ee90;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    text-align: center;
+    font-size: 14px;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+.help-text {
+    font-size: 12px;
+    color: #a0a0a0;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.help-text a {
+    color: #4a9eff;
+    text-decoration: underline;
+}
+
+.status-indicator {
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.status-indicator.connected {
+    background: #2d5a2d;
+    color: #90ee90;
+}
+
+.status-indicator.disconnected {
+    background: #5a2d2d;
+    color: #ee9090;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+

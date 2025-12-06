@@ -1,56 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { PersonalityType } from "@/data/questions";
+import { PersonalityType, TraitType, traitNames, maxScores } from "@/data/questions";
+import { useLanguage, uiTexts } from "@/context/LanguageContext";
 import { useState, useEffect } from "react";
 
 interface ResultCardProps {
     type: PersonalityType;
+    traitScores: Record<TraitType, number>;
 }
 
-const descriptions = {
-    TETO: {
-        title: "강렬한 리더, 테토",
-        badge: "🔥 TETO TYPE",
-        subtitle: "도전을 즐기는 행동파",
-        emoji: "🔥",
-        tags: ["#추진력", "#리더십", "#솔직함", "#열정"],
-        description: "당신은 목표가 생기면 뒤돌아보지 않고 달리는 경주마입니다. 복잡하게 고민하기보다는 행동으로 증명하는 것을 선호하죠. 주변 사람들은 당신의 시원시원한 결단력에 매료됩니다.",
-        traits: [
-            { label: "추진력", value: 95 },
-            { label: "사교성", value: 88 },
-            { label: "결단력", value: 92 },
-        ],
-        color: {
-            gradient: "from-orange-500 via-red-500 to-pink-500",
-            bg: "bg-gradient-to-br from-orange-50 to-red-50",
-            accent: "text-red-500",
-            ring: "ring-red-200",
-        },
-    },
-    EGEN: {
-        title: "섬세한 감성, 에겐",
-        badge: "🔮 EGEN TYPE",
-        subtitle: "마음을 읽는 공감러",
-        emoji: "🔮",
-        tags: ["#배려", "#디테일", "#경청", "#공감"],
-        description: "당신은 타인의 감정을 기가 막히게 캐치하는 능력이 있습니다. 거친 세상 속에서도 부드러움을 잃지 않으며, 소수의 사람들과 깊은 관계를 맺는 것을 소중히 여깁니다.",
-        traits: [
-            { label: "공감력", value: 96 },
-            { label: "섬세함", value: 90 },
-            { label: "창의성", value: 85 },
-        ],
-        color: {
-            gradient: "from-purple-500 via-violet-500 to-indigo-500",
-            bg: "bg-gradient-to-br from-purple-50 to-violet-50",
-            accent: "text-purple-500",
-            ring: "ring-purple-200",
-        },
-    }
-};
-
-export default function ResultCard({ type }: ResultCardProps) {
-    const content = descriptions[type] || descriptions.TETO;
+export default function ResultCard({ type, traitScores }: ResultCardProps) {
+    const { t, lang } = useLanguage();
     const [copied, setCopied] = useState(false);
     const [showBars, setShowBars] = useState(false);
 
@@ -59,11 +20,57 @@ export default function ResultCard({ type }: ResultCardProps) {
         return () => clearTimeout(timer);
     }, []);
 
+    // 타입별 표시할 특성 선택
+    const displayTraits: TraitType[] = type === "TETO" 
+        ? ["drive", "social", "decision"] 
+        : ["empathy", "detail", "creativity"];
+
+    // 점수를 퍼센트로 변환 (최대 점수 기준)
+    const getPercentage = (trait: TraitType): number => {
+        const score = traitScores[trait];
+        const max = maxScores[trait];
+        const percentage = Math.round((score / max) * 100);
+        return Math.min(100, Math.max(20, percentage)); // 최소 20%, 최대 100%
+    };
+
+    const descriptions = {
+        TETO: {
+            title: t(uiTexts.tetoTitle),
+            badge: "🔥 TETO TYPE",
+            subtitle: t(uiTexts.tetoSubtitle),
+            emoji: "🔥",
+            tags: [t(uiTexts.tagDrive), t(uiTexts.tagLeadership), t(uiTexts.tagHonesty), t(uiTexts.tagPassion)],
+            description: t(uiTexts.tetoDesc),
+            color: {
+                gradient: "from-orange-500 via-red-500 to-pink-500",
+                bg: "bg-gradient-to-br from-orange-50 to-red-50",
+                accent: "text-red-500",
+                ring: "ring-red-200",
+            },
+        },
+        EGEN: {
+            title: t(uiTexts.egenTitle),
+            badge: "🔮 EGEN TYPE",
+            subtitle: t(uiTexts.egenSubtitle),
+            emoji: "🔮",
+            tags: [t(uiTexts.tagCare), t(uiTexts.tagDetail), t(uiTexts.tagListening), t(uiTexts.tagEmpathy)],
+            description: t(uiTexts.egenDesc),
+            color: {
+                gradient: "from-purple-500 via-violet-500 to-indigo-500",
+                bg: "bg-gradient-to-br from-purple-50 to-violet-50",
+                accent: "text-purple-500",
+                ring: "ring-purple-200",
+            },
+        }
+    };
+
+    const content = descriptions[type] || descriptions.TETO;
+
     const handleShare = async () => {
         const url = typeof window !== 'undefined' ? window.location.href : '';
         const shareData = {
-            title: '테토 vs 에겐 테스트',
-            text: `나의 유형은: ${content.title}`,
+            title: 'TETO vs EGEN Test',
+            text: `My type is: ${content.title}`,
             url: url,
         };
 
@@ -147,25 +154,32 @@ export default function ResultCard({ type }: ResultCardProps) {
                     ))}
                 </div>
 
-                {/* Trait Bars */}
+                {/* Trait Bars - 실제 점수 반영 */}
                 <div className="space-y-4 mb-8">
-                    {content.traits.map((trait, idx) => (
-                        <div key={trait.label} className="space-y-1">
-                            <div className="flex justify-between text-sm">
-                                <span className="font-semibold text-slate-600">{trait.label}</span>
-                                <span className={`font-bold ${content.color.accent}`}>{trait.value}%</span>
+                    {displayTraits.map((trait, idx) => {
+                        const percentage = getPercentage(trait);
+                        return (
+                            <div key={trait} className="space-y-1">
+                                <div className="flex justify-between text-sm">
+                                    <span className="font-semibold text-slate-600">
+                                        {traitNames[trait][lang] || traitNames[trait]["en"]}
+                                    </span>
+                                    <span className={`font-bold ${content.color.accent}`}>
+                                        {percentage}%
+                                    </span>
+                                </div>
+                                <div className="h-2 bg-white/50 rounded-full overflow-hidden">
+                                    <div
+                                        className={`h-full rounded-full bg-gradient-to-r ${content.color.gradient} transition-all duration-1000 ease-out`}
+                                        style={{ 
+                                            width: showBars ? `${percentage}%` : '0%',
+                                            transitionDelay: `${0.9 + idx * 0.1}s`
+                                        }}
+                                    />
+                                </div>
                             </div>
-                            <div className="h-2 bg-white/50 rounded-full overflow-hidden">
-                                <div
-                                    className={`h-full rounded-full bg-gradient-to-r ${content.color.gradient} transition-all duration-1000 ease-out`}
-                                    style={{ 
-                                        width: showBars ? `${trait.value}%` : '0%',
-                                        transitionDelay: `${0.9 + idx * 0.1}s`
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 {/* Description */}
@@ -191,11 +205,11 @@ export default function ResultCard({ type }: ResultCardProps) {
                         active:scale-[0.98] transition-transform
                     `}
                 >
-                    {copied ? "✅ 복사완료!" : "🔗 공유하기"}
+                    {copied ? t(uiTexts.copied) : t(uiTexts.share)}
                 </button>
                 <Link href="/">
                     <div className="flex items-center justify-center gap-2 glass text-slate-700 py-4 rounded-2xl font-bold h-full active:scale-[0.98] transition-transform">
-                        🏠 다른 테스트
+                        {t(uiTexts.otherTests)}
                     </div>
                 </Link>
             </div>
@@ -209,7 +223,7 @@ export default function ResultCard({ type }: ResultCardProps) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    다시 테스트하기
+                    {t(uiTexts.retake)}
                 </Link>
             </div>
         </div>
