@@ -158,7 +158,7 @@ export default function PrivacyPage() {
               </p>
               <div className="mt-3 p-4 bg-slate-100 dark:bg-slate-700/50 rounded-xl">
                 <p><strong>개인정보 보호책임자</strong></p>
-                <p>이메일: privacy@check-me.today</p>
+                <p>이메일: chreeoer@gmail.com</p>
               </div>
             </section>
 

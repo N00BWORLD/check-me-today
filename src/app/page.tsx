@@ -8,12 +8,16 @@ import SearchBar from "@/components/SearchBar";
 import AdUnit from "@/components/AdUnit";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useLanguage, uiTexts } from "@/context/LanguageContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { useAllTestStats } from "@/hooks/useTestStats";
 
 export default function Home() {
-  const { t, lang } = useLanguage();
+  const { lang } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Firebase에서 모든 테스트 통계 가져오기
+  const { allStats } = useAllTestStats();
 
   // 카테고리 + 검색 필터링
   const filteredTests = useMemo(() => {
@@ -118,7 +122,7 @@ export default function Home() {
             </h3>
             <div className="space-y-3">
               {hotTests.map(test => (
-                <TestCard key={test.id} test={test} />
+                <TestCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
             </div>
           </section>
@@ -133,7 +137,7 @@ export default function Home() {
             </h3>
             <div className="space-y-3">
               {newTests.slice(0, 3).map(test => (
-                <TestCard key={test.id} test={test} />
+                <TestCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
             </div>
           </section>
@@ -160,7 +164,7 @@ export default function Home() {
             {filteredTests.length > 0 ? (
               <div className="space-y-3">
                 {filteredTests.map(test => (
-                  <TestCard key={test.id} test={test} />
+                  <TestCard key={test.id} test={test} realStats={allStats[test.id]} />
                 ))}
               </div>
             ) : (
@@ -186,7 +190,7 @@ export default function Home() {
             </h3>
             <div className="space-y-3">
               {tests.map(test => (
-                <TestCard key={test.id} test={test} />
+                <TestCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
             </div>
           </section>

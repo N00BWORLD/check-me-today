@@ -3,16 +3,22 @@
 import Link from "next/link";
 import { TestData, formatPlayCount } from "@/data/tests";
 import { useLanguage } from "@/context/LanguageContext";
+import { TestStats } from "@/lib/firebase";
 
 interface TestCardProps {
     test: TestData;
+    realStats?: TestStats; // Firebase에서 가져온 실시간 통계
 }
 
-export default function TestCard({ test }: TestCardProps) {
+export default function TestCard({ test, realStats }: TestCardProps) {
     const { lang } = useLanguage();
 
     const name = test.name[lang] || test.name.en;
     const description = test.description[lang] || test.description.en;
+    
+    // 실시간 통계가 있으면 사용, 없으면 기본값
+    const playCount = realStats?.playCount ?? test.playCount;
+    const likeCount = realStats?.likeCount ?? test.likeCount;
 
     if (test.isComingSoon) {
         return (
@@ -105,13 +111,13 @@ export default function TestCard({ test }: TestCardProps) {
                                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
-                                {formatPlayCount(test.playCount)}
+                                {formatPlayCount(playCount)}
                             </span>
                             <span className="flex items-center gap-1">
                                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                                 </svg>
-                                {formatPlayCount(test.likeCount)}
+                                {formatPlayCount(likeCount)}
                             </span>
                         </div>
                     </div>

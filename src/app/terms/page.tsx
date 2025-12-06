@@ -156,7 +156,7 @@ export default function TermsPage() {
               </h2>
               <p>서비스 이용에 관한 문의사항은 아래로 연락해 주시기 바랍니다:</p>
               <div className="mt-3 p-4 bg-slate-100 dark:bg-slate-700/50 rounded-xl">
-                <p>이메일: support@check-me.today</p>
+                <p>이메일: chreeoer@gmail.com</p>
               </div>
             </section>
 

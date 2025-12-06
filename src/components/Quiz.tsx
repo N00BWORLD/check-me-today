@@ -4,12 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { questions, PersonalityType, TraitType } from "@/data/questions";
 import { useLanguage, uiTexts } from "@/context/LanguageContext";
+import { useIncrementPlay } from "@/hooks/useTestStats";
 import Link from "next/link";
 
 export default function Quiz() {
     const router = useRouter();
     const { t } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
+    
+    // 테스트 시작 시 조회수 증가
+    useIncrementPlay("teto-vs-egen");
     const [scores, setScores] = useState<Record<PersonalityType, number>>({
         TETO: 0,
         EGEN: 0,

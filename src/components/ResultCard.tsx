@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { PersonalityType, TraitType, traitNames, maxScores } from "@/data/questions";
 import { useLanguage, uiTexts } from "@/context/LanguageContext";
+import { useLike, useTestStats } from "@/hooks/useTestStats";
 import { useState, useEffect } from "react";
 
 interface ResultCardProps {
@@ -14,6 +15,10 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
     const { t, lang } = useLanguage();
     const [copied, setCopied] = useState(false);
     const [showBars, setShowBars] = useState(false);
+    
+    // 추천 기능
+    const { hasLiked, toggleLike, isLiking } = useLike("teto-vs-egen");
+    const { stats } = useTestStats("teto-vs-egen");
 
     useEffect(() => {
         const timer = setTimeout(() => setShowBars(true), 800);
@@ -180,6 +185,49 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
                         {content.description}
                     </p>
                 </div>
+            </div>
+
+            {/* 추천 버튼 */}
+            <div className="mb-6 animate-slide-up" style={{ animationDelay: "1.05s" }}>
+                <button
+                    onClick={toggleLike}
+                    disabled={hasLiked || isLiking}
+                    className={`
+                        w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-bold
+                        transition-all duration-300
+                        ${hasLiked 
+                            ? "bg-pink-100 dark:bg-pink-900/30 text-pink-500 dark:text-pink-400 border-2 border-pink-300 dark:border-pink-700" 
+                            : "glass dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-pink-50 dark:hover:bg-pink-900/20 hover:text-pink-500 dark:hover:text-pink-400 border-2 border-transparent hover:border-pink-200 dark:hover:border-pink-800"
+                        }
+                        active:scale-[0.98]
+                        disabled:cursor-not-allowed
+                    `}
+                >
+                    <svg 
+                        className={`w-6 h-6 transition-transform ${hasLiked ? "scale-110" : ""}`} 
+                        fill={hasLiked ? "currentColor" : "none"} 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                    >
+                        <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" 
+                        />
+                    </svg>
+                    <span>
+                        {hasLiked 
+                            ? (lang === 'ko' ? '추천했어요!' : lang === 'zh' ? '已推荐!' : lang === 'ja' ? 'おすすめ済み!' : 'Liked!')
+                            : (lang === 'ko' ? '이 테스트 추천하기' : lang === 'zh' ? '推荐此测试' : lang === 'ja' ? 'このテストをおすすめ' : 'Recommend this test')
+                        }
+                    </span>
+                    {stats.likeCount > 0 && (
+                        <span className="px-2 py-0.5 bg-pink-200 dark:bg-pink-800 rounded-full text-xs font-bold">
+                            {stats.likeCount.toLocaleString()}
+                        </span>
+                    )}
+                </button>
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-6 animate-slide-up" style={{ animationDelay: "1.1s" }}>
