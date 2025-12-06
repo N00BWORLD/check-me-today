@@ -105,6 +105,31 @@ export const tests: TestData[] = [
     createdAt: "2024-12-01",
   },
   {
+    id: "fortune",
+    slug: "fortune",
+    category: "fortune",
+    name: { 
+      ko: "오늘의 운세", 
+      en: "Daily Fortune", 
+      zh: "今日运势", 
+      ja: "今日の運勢" 
+    },
+    description: { 
+      ko: "이름과 생년월일로 보는 오늘의 운세 🧧", 
+      en: "Your daily fortune based on name & birth date 🧧", 
+      zh: "根据姓名和生日查看今日运势 🧧", 
+      ja: "名前と生年月日で見る今日の運勢 🧧" 
+    },
+    emoji: "🧧",
+    gradient: "from-red-500 via-orange-500 to-yellow-500",
+    bgGradient: "from-red-100 to-yellow-100 dark:from-red-900/30 dark:to-yellow-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2024-12-06",
+  },
+  {
     id: "love-type",
     slug: "love-test",
     category: "love",
