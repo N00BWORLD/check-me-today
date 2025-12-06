@@ -7,16 +7,6 @@ export default function AdUnit() {
         try {
             // @ts-ignore
             (window.adsbygoogle = window.adsbygoogle || []).push({});
-            ```javascript
-"use client";
-
-import { useEffect } from "react";
-
-export default function AdUnit() {
-    useEffect(() => {
-        try {
-            // @ts-ignore
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (err) {
             console.error("AdSense error", err);
         }
@@ -38,4 +28,3 @@ export default function AdUnit() {
         </div>
     );
 }
-```
