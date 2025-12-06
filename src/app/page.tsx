@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SearchBar from "@/components/SearchBar";
-import AppIcon from "@/components/AppIcon";
+import AppCard from "@/components/AppCard";
 import AdUnit from "@/components/AdUnit";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -15,25 +15,34 @@ export default function Home() {
     {
       id: "teto",
       title: t(uiTexts.tetoVsEgen),
-      iconSrc: "/icon-teto.png",
+      description: t(uiTexts.tetoVsEgenDesc),
+      emoji: "🔥",
+      gradient: "from-orange-500 via-red-500 to-pink-500",
+      bgGradient: "from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30",
       href: "/test",
-      tags: ["심리", "성격", "psychology", "personality"],
+      tags: ["심리", "성격", "psychology", "personality", "热情", "心理"],
       isComingSoon: false,
     },
     {
       id: "sleep",
       title: t(uiTexts.sleepAnalysis),
-      iconSrc: "/icon-sleep.png",
+      description: t(uiTexts.sleepAnalysisDesc),
+      emoji: "🌙",
+      gradient: "from-indigo-500 via-purple-500 to-blue-500",
+      bgGradient: "from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30",
       href: "#",
-      tags: ["건강", "수면", "health", "sleep"],
+      tags: ["건강", "수면", "health", "sleep", "睡眠", "健康"],
       isComingSoon: true,
     },
     {
       id: "color",
       title: t(uiTexts.personalColor),
-      iconSrc: "/icon-color.png",
+      description: t(uiTexts.personalColorDesc),
+      emoji: "🎨",
+      gradient: "from-pink-500 via-rose-500 to-amber-500",
+      bgGradient: "from-pink-100 to-amber-100 dark:from-pink-900/30 dark:to-amber-900/30",
       href: "#",
-      tags: ["뷰티", "색상", "beauty", "color"],
+      tags: ["뷰티", "색상", "beauty", "color", "色彩", "美容"],
       isComingSoon: true,
     },
   ];
@@ -60,6 +69,10 @@ export default function Home() {
     lang === 'ko' ? 'ko-KR' : lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : 'en-US', 
     dateOptions
   );
+
+  // 헤더 타이틀 분리
+  const todayWord = lang === 'ko' ? '투데이' : lang === 'zh' ? '今日' : lang === 'ja' ? '今日の' : "Today's";
+  const testWord = t(uiTexts.testWord);
 
   return (
     <main className="min-h-screen flex flex-col items-center pt-12 pb-24 px-4 sm:px-6">
@@ -96,7 +109,7 @@ export default function Home() {
             {dateString}
           </p>
           <h2 className="text-3xl font-black text-slate-800 dark:text-white mb-2">
-            {t(uiTexts.todayTest).split(" ")[0]} <span className="text-gradient">{t(uiTexts.todayTest).split(" ").slice(1).join(" ") || "테스트"}</span>
+            {todayWord} <span className="text-gradient">{testWord}</span>
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm">
             {t(uiTexts.discoverYourself)}
@@ -116,52 +129,36 @@ export default function Home() {
         </h3>
       </div>
 
-      {/* App Grid */}
-      <div className="w-full max-w-xl animate-slide-up stagger-3">
-        <div className="glass dark:bg-slate-800/80 rounded-3xl p-6">
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-6 gap-x-4">
-            {filteredApps.map((app, idx) => (
-              <div 
-                key={app.id} 
-                className="animate-scale-in"
-                style={{ animationDelay: `${0.1 + idx * 0.05}s` }}
-              >
-                <AppIcon
-                  title={app.title}
-                  iconSrc={app.iconSrc}
-                  href={app.href}
-                  isComingSoon={app.isComingSoon}
-                />
-              </div>
-            ))}
-
-            {filteredApps.length === 0 && (
-              <div className="col-span-full text-center py-12 animate-fade-in">
-                <div className="text-4xl mb-3">🔍</div>
-                <p className="text-slate-400 dark:text-slate-500 font-medium">{t(uiTexts.noResults)}</p>
-                <p className="text-slate-300 dark:text-slate-600 text-sm mt-1">{t(uiTexts.tryOther)}</p>
-              </div>
-            )}
+      {/* App Cards */}
+      <div className="w-full max-w-xl space-y-4 animate-slide-up stagger-3">
+        {filteredApps.map((app, idx) => (
+          <div 
+            key={app.id} 
+            className="animate-scale-in"
+            style={{ animationDelay: `${0.1 + idx * 0.1}s` }}
+          >
+            <AppCard
+              title={app.title}
+              description={app.description}
+              emoji={app.emoji}
+              gradient={app.gradient}
+              bgGradient={app.bgGradient}
+              href={app.href}
+              isComingSoon={app.isComingSoon}
+            />
           </div>
-        </div>
+        ))}
+
+        {filteredApps.length === 0 && (
+          <div className="text-center py-12 animate-fade-in glass dark:bg-slate-800/80 rounded-3xl">
+            <div className="text-4xl mb-3">🔍</div>
+            <p className="text-slate-400 dark:text-slate-500 font-medium">{t(uiTexts.noResults)}</p>
+            <p className="text-slate-300 dark:text-slate-600 text-sm mt-1">{t(uiTexts.tryOther)}</p>
+          </div>
+        )}
       </div>
 
-      {/* Popular Tags */}
-      <div className="w-full max-w-xl mt-6 animate-fade-in stagger-4">
-        <div className="flex flex-wrap gap-2 justify-center">
-          {["#심리", "#성격", "#연애", "#건강", "#뷰티"].map((tag, idx) => (
-            <span
-              key={tag}
-              className="px-3 py-1.5 bg-white/60 dark:bg-slate-700/60 backdrop-blur-sm rounded-full text-xs font-semibold text-slate-500 dark:text-slate-300 border border-white/50 dark:border-slate-600 hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-200 dark:hover:border-purple-700 transition-colors cursor-pointer animate-scale-in"
-              style={{ animationDelay: `${0.5 + idx * 0.05}s` }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom Ad - 축소됨 */}
+      {/* Bottom Ad */}
       <div className="fixed bottom-0 left-0 right-0 z-40">
         <AdUnit />
       </div>
