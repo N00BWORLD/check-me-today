@@ -1,0 +1,257 @@
+// 테스트 데이터 중앙 관리
+// 새 테스트 추가 시 이 파일만 수정하면 됨
+
+export type CategoryId = 
+  | "all" 
+  | "personality" 
+  | "love" 
+  | "animal" 
+  | "quiz" 
+  | "social" 
+  | "fun" 
+  | "fortune";
+
+export interface Category {
+  id: CategoryId;
+  name: Record<string, string>;
+  emoji: string;
+}
+
+export interface TestData {
+  id: string;
+  slug: string; // URL 경로
+  category: CategoryId;
+  name: Record<string, string>;
+  description: Record<string, string>;
+  emoji: string;
+  gradient: string;
+  bgGradient: string;
+  playCount: number;
+  likeCount: number;
+  badge?: "HOT" | "NEW" | null;
+  isComingSoon: boolean;
+  createdAt: string;
+}
+
+// 카테고리 정의
+export const categories: Category[] = [
+  { 
+    id: "all", 
+    name: { ko: "전체", en: "All", zh: "全部", ja: "すべて" },
+    emoji: "✨" 
+  },
+  { 
+    id: "personality", 
+    name: { ko: "성격·유형", en: "Personality", zh: "性格·类型", ja: "性格·タイプ" },
+    emoji: "🧠" 
+  },
+  { 
+    id: "love", 
+    name: { ko: "연애", en: "Love", zh: "恋爱", ja: "恋愛" },
+    emoji: "💕" 
+  },
+  { 
+    id: "animal", 
+    name: { ko: "동물", en: "Animal", zh: "动物", ja: "動物" },
+    emoji: "🐾" 
+  },
+  { 
+    id: "quiz", 
+    name: { ko: "퀴즈", en: "Quiz", zh: "问答", ja: "クイズ" },
+    emoji: "📝" 
+  },
+  { 
+    id: "social", 
+    name: { ko: "사회생활", en: "Social", zh: "社会", ja: "社会生活" },
+    emoji: "💼" 
+  },
+  { 
+    id: "fun", 
+    name: { ko: "재미", en: "Fun", zh: "趣味", ja: "おもしろ" },
+    emoji: "🎮" 
+  },
+  { 
+    id: "fortune", 
+    name: { ko: "운세", en: "Fortune", zh: "运势", ja: "占い" },
+    emoji: "🔮" 
+  },
+];
+
+// 테스트 목록
+export const tests: TestData[] = [
+  {
+    id: "teto-egen",
+    slug: "test", // /test 경로
+    category: "personality",
+    name: { 
+      ko: "테토 vs 에겐", 
+      en: "TETO vs EGEN", 
+      zh: "热情 vs 温柔", 
+      ja: "テト vs エゲン" 
+    },
+    description: { 
+      ko: "나는 불꽃형? 물결형? 7문제로 알아보는 나의 성향", 
+      en: "Am I fire or water? Find your type in 7 questions", 
+      zh: "我是火焰型还是水波型？7个问题测出你的性格", 
+      ja: "私は炎タイプ？波タイプ？7問でわかる性格診断" 
+    },
+    emoji: "🔥",
+    gradient: "from-orange-500 via-red-500 to-pink-500",
+    bgGradient: "from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30",
+    playCount: 12847,
+    likeCount: 1203,
+    badge: "HOT",
+    isComingSoon: false,
+    createdAt: "2024-12-01",
+  },
+  {
+    id: "love-type",
+    slug: "love-test",
+    category: "love",
+    name: { 
+      ko: "연애 유형 테스트", 
+      en: "Love Type Test", 
+      zh: "恋爱类型测试", 
+      ja: "恋愛タイプ診断" 
+    },
+    description: { 
+      ko: "나의 연애 스타일은? 이상형은 어떤 사람?", 
+      en: "What's my dating style? Who's my ideal type?", 
+      zh: "我的恋爱风格是什么？理想型是什么样的人？", 
+      ja: "私の恋愛スタイルは？理想のタイプは？" 
+    },
+    emoji: "💕",
+    gradient: "from-pink-500 via-rose-500 to-red-500",
+    bgGradient: "from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: true,
+    createdAt: "2024-12-06",
+  },
+  {
+    id: "animal-self",
+    slug: "animal-test",
+    category: "animal",
+    name: { 
+      ko: "나의 동물 자아", 
+      en: "My Animal Self", 
+      zh: "我的动物自我", 
+      ja: "私の動物キャラ" 
+    },
+    description: { 
+      ko: "내 안에 숨어있는 동물은? 귀여운 동물 테스트", 
+      en: "What animal lives inside you?", 
+      zh: "你内心深处住着什么动物？", 
+      ja: "あなたの中に隠れている動物は？" 
+    },
+    emoji: "🦊",
+    gradient: "from-amber-500 via-orange-500 to-yellow-500",
+    bgGradient: "from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: true,
+    createdAt: "2024-12-06",
+  },
+  {
+    id: "sleep-type",
+    slug: "sleep-test",
+    category: "personality",
+    name: { 
+      ko: "수면 유형 테스트", 
+      en: "Sleep Type Test", 
+      zh: "睡眠类型测试", 
+      ja: "睡眠タイプ診断" 
+    },
+    description: { 
+      ko: "나의 수면 패턴으로 알아보는 생활 습관", 
+      en: "Discover your lifestyle through sleep patterns", 
+      zh: "通过睡眠模式了解你的生活习惯", 
+      ja: "睡眠パターンでわかる生活習慣" 
+    },
+    emoji: "🌙",
+    gradient: "from-indigo-500 via-purple-500 to-blue-500",
+    bgGradient: "from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: null,
+    isComingSoon: true,
+    createdAt: "2024-12-06",
+  },
+  {
+    id: "personal-color",
+    slug: "color-test",
+    category: "fun",
+    name: { 
+      ko: "퍼스널 컬러", 
+      en: "Personal Color", 
+      zh: "个人色彩", 
+      ja: "パーソナルカラー" 
+    },
+    description: { 
+      ko: "나에게 어울리는 색은? 퍼스널 컬러 진단", 
+      en: "What colors suit you best?", 
+      zh: "什么颜色最适合你？", 
+      ja: "あなたに似合う色は？" 
+    },
+    emoji: "🎨",
+    gradient: "from-pink-500 via-purple-500 to-cyan-500",
+    bgGradient: "from-pink-100 to-cyan-100 dark:from-pink-900/30 dark:to-cyan-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: null,
+    isComingSoon: true,
+    createdAt: "2024-12-06",
+  },
+  {
+    id: "meme-test",
+    slug: "meme-test",
+    category: "quiz",
+    name: { 
+      ko: "밈 능력고사", 
+      en: "Meme Quiz", 
+      zh: "网络梗考试", 
+      ja: "ミーム検定" 
+    },
+    description: { 
+      ko: "2024 밈 얼마나 알아? 인터넷 고인물 테스트", 
+      en: "How well do you know 2024 memes?", 
+      zh: "你对2024年的网络梗了解多少？", 
+      ja: "2024年のミームどれくらい知ってる？" 
+    },
+    emoji: "😂",
+    gradient: "from-green-500 via-emerald-500 to-teal-500",
+    bgGradient: "from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: null,
+    isComingSoon: true,
+    createdAt: "2024-12-06",
+  },
+];
+
+// 유틸리티 함수들
+export function getTestsByCategory(categoryId: CategoryId): TestData[] {
+  if (categoryId === "all") return tests;
+  return tests.filter(test => test.category === categoryId);
+}
+
+export function getTestBySlug(slug: string): TestData | undefined {
+  return tests.find(test => test.slug === slug);
+}
+
+export function getActiveTests(): TestData[] {
+  return tests.filter(test => !test.isComingSoon);
+}
+
+export function formatPlayCount(count: number): string {
+  if (count >= 10000) {
+    return `${(count / 10000).toFixed(1)}만`;
+  }
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(1)}천`;
+  }
+  return count.toString();
+}
+
