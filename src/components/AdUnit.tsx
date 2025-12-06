@@ -7,14 +7,26 @@ export default function AdUnit() {
         try {
             // @ts-ignore
             (window.adsbygoogle = window.adsbygoogle || []).push({});
+            ```javascript
+"use client";
+
+import { useEffect } from "react";
+
+export default function AdUnit() {
+    useEffect(() => {
+        try {
+            // @ts-ignore
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (err) {
             console.error("AdSense error", err);
         }
     }, []);
 
     return (
-        <div className="w-full max-w-xl mx-auto my-8 min-h-[100px] bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-center overflow-hidden">
-            {/* Replace data-ad-client with your real ID */}
+        <div className="w-full max-w-xl mx-auto my-8 min-h-[100px] bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-center overflow-hidden text-center relative">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span className="text-xs text-slate-300">Google AdSense</span>
+            </div>
             <ins
                 className="adsbygoogle"
                 style={{ display: "block", width: "100%" }}
@@ -23,9 +35,7 @@ export default function AdUnit() {
                 data-ad-format="auto"
                 data-full-width-responsive="true"
             />
-            <span className="text-xs text-slate-300 absolute pointer-events-none">
-                Advertisement
-            </span>
         </div>
     );
 }
+```
