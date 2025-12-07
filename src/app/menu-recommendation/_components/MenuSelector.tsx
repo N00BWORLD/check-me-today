@@ -44,18 +44,11 @@ export default function MenuSelector({
                                 <button
                                     key={timeSlot}
                                     onClick={() => onSelectTimeSlot(timeSlot)}
-                                    className={`glass rounded-xl p-6 transition-all duration-300 hover:scale-105 ${
-                                        isCurrent && timeSlot !== 'random' ? 'ring-2 ring-orange-500 bg-orange-50 dark:bg-orange-900/20' : ''
-                                    }`}
+                                    className="glass rounded-xl p-6 transition-all duration-300 hover:scale-105"
                                 >
                                     <div className="flex flex-col items-center text-center">
                                         <div className="text-3xl mb-3">{slot.emoji}</div>
                                         <div className="font-bold text-lg mb-1">{slot.name.ko}</div>
-                                        {isCurrent && timeSlot !== 'random' && (
-                                            <div className="mt-2 px-2 py-1 bg-orange-500 text-white text-xs rounded-full">
-                                                현재 시간
-                                            </div>
-                                        )}
                                         {timeSlot === 'random' && (
                                             <div className="mt-2 px-2 py-1 bg-purple-500 text-white text-xs rounded-full">
                                                 무작위
