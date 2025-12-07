@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import html2canvas from "html2canvas";
 import { useLanguage } from "@/context/LanguageContext";
@@ -13,7 +13,31 @@ import {
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
 
-type PageState = "landing" | "quiz" | "analyzing" | "result";
+type PageState = "landing" | "upload" | "quiz" | "analyzing" | "result";
+
+// face-api.js 타입 정의
+type FaceApiModule = {
+  nets: {
+    tinyFaceDetector: { loadFromUri: (uri: string) => Promise<void> };
+    faceLandmark68Net: { loadFromUri: (uri: string) => Promise<void> };
+  };
+  detectSingleFace: (image: HTMLImageElement) => {
+    withFaceLandmarks: () => Promise<{
+      landmarks: {
+        positions: Array<{ x: number; y: number }>;
+        getJawOutline: () => Array<{ x: number; y: number }>;
+        getLeftEye: () => Array<{ x: number; y: number }>;
+        getRightEye: () => Array<{ x: number; y: number }>;
+        getNose: () => Array<{ x: number; y: number }>;
+        getMouth: () => Array<{ x: number; y: number }>;
+        getLeftEyeBrow: () => Array<{ x: number; y: number }>;
+        getRightEyeBrow: () => Array<{ x: number; y: number }>;
+      };
+      detection: { box: { x: number; y: number; width: number; height: number } };
+    } | undefined>;
+  };
+  TinyFaceDetectorOptions: new () => object;
+};
 
 export default function FaceReadingPage() {
   const { lang } = useLanguage();
@@ -22,6 +46,14 @@ export default function FaceReadingPage() {
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [result, setResult] = useState<FaceReadingResult | null>(null);
   const [copied, setCopied] = useState(false);
+  
+  // AI 분석을 위한 상태
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [isModelLoading, setIsModelLoading] = useState(false);
+  const [analysisProgress, setAnalysisProgress] = useState(0);
+  const [analysisMessage, setAnalysisMessage] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const faceApiRef = useRef<FaceApiModule | null>(null);
 
   // 조회수 증가
   useIncrementPlay("face-reading");
@@ -61,12 +93,268 @@ export default function FaceReadingPage() {
     saveImage: { ko: "이미지 저장", en: "Save Image", zh: "保存图片", ja: "画像保存" },
     copyLink: { ko: "링크 복사", en: "Copy Link", zh: "复制链接", ja: "リンクコピー" },
     copied: { ko: "복사됨!", en: "Copied!", zh: "已复制!", ja: "コピー!" },
+    // AI 분석 관련 텍스트
+    aiAnalyze: { ko: "AI로 분석하기", en: "AI Analysis", zh: "AI分析", ja: "AI分析" },
+    manualSelect: { ko: "직접 선택하기", en: "Manual Selection", zh: "手动选择", ja: "手動選択" },
+    uploadPhoto: { ko: "사진 업로드", en: "Upload Photo", zh: "上传照片", ja: "写真をアップロード" },
+    takePhoto: { ko: "사진 촬영", en: "Take Photo", zh: "拍照", ja: "写真を撮る" },
+    uploadDesc: { ko: "얼굴이 잘 보이는 정면 사진을 선택해주세요", en: "Please select a clear front-facing photo", zh: "请选择一张清晰的正面照片", ja: "顔がよく見える正面写真を選択してください" },
+    loadingModel: { ko: "AI 모델 로딩 중...", en: "Loading AI model...", zh: "正在加载AI模型...", ja: "AIモデルをロード中..." },
+    analyzingFace: { ko: "얼굴 특징 분석 중...", en: "Analyzing facial features...", zh: "正在分析面部特征...", ja: "顔の特徴を分析中..." },
+    noFaceDetected: { ko: "얼굴을 감지할 수 없습니다. 다른 사진을 시도해주세요.", en: "No face detected. Please try another photo.", zh: "无法检测到人脸，请尝试其他照片", ja: "顔が検出できません。別の写真をお試しください。" },
+    aiAnalyzeDesc: { ko: "📷 사진으로 얼굴 특징을 자동 분석", en: "📷 Auto-analyze facial features from photo", zh: "📷 通过照片自动分析面部特征", ja: "📷 写真から顔の特徴を自動分析" },
+    manualSelectDesc: { ko: "✍️ 직접 얼굴 특징을 선택하여 분석", en: "✍️ Select facial features manually", zh: "✍️ 手动选择面部特征进行分析", ja: "✍️ 顔の特徴を手動で選択" },
   };
 
   const t = (obj: Record<string, string>) => obj[lang] || obj.en;
 
   const currentFeature = faceFeatures[currentStep];
   const progress = ((currentStep + 1) / faceFeatures.length) * 100;
+
+  // face-api.js 모델 로드
+  const loadModel = useCallback(async () => {
+    if (faceApiRef.current) return faceApiRef.current;
+    
+    setIsModelLoading(true);
+    setAnalysisMessage(t(texts.loadingModel));
+    setAnalysisProgress(10);
+    
+    try {
+      // face-api.js 동적 임포트
+      const faceapi = await import('face-api.js');
+      setAnalysisProgress(30);
+      
+      // 모델 로드 (CDN에서)
+      const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
+      await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+      setAnalysisProgress(50);
+      await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+      setAnalysisProgress(70);
+      
+      faceApiRef.current = faceapi as unknown as FaceApiModule;
+      setIsModelLoading(false);
+      return faceApiRef.current;
+    } catch (error) {
+      console.error('모델 로드 실패:', error);
+      setIsModelLoading(false);
+      throw error;
+    }
+  }, []);
+
+  // face-api.js 68 랜드마크에서 특징 분석
+  const analyzeFacialFeatures = (landmarks: {
+    positions: Array<{ x: number; y: number }>;
+    getJawOutline: () => Array<{ x: number; y: number }>;
+    getLeftEye: () => Array<{ x: number; y: number }>;
+    getRightEye: () => Array<{ x: number; y: number }>;
+    getNose: () => Array<{ x: number; y: number }>;
+    getMouth: () => Array<{ x: number; y: number }>;
+    getLeftEyeBrow: () => Array<{ x: number; y: number }>;
+    getRightEyeBrow: () => Array<{ x: number; y: number }>;
+  }) => {
+    // face-api.js 68 랜드마크
+    // 턱선: 0-16, 눈썹: 17-26, 코: 27-35, 눈: 36-47, 입: 48-67
+    const positions = landmarks.positions;
+    const selections: Record<string, string> = {};
+    
+    // 1. 얼굴형 분석 (턱선 너비 vs 높이)
+    const jawOutline = landmarks.getJawOutline();
+    if (jawOutline.length > 0) {
+      const leftJaw = jawOutline[0];
+      const rightJaw = jawOutline[jawOutline.length - 1];
+      const chin = jawOutline[Math.floor(jawOutline.length / 2)];
+      const forehead = positions[27]; // 코 시작점 (이마 아래)
+      
+      const faceWidth = Math.abs(rightJaw.x - leftJaw.x);
+      const faceHeight = Math.abs(chin.y - forehead.y) * 1.3; // 이마 보정
+      const ratio = faceWidth / faceHeight;
+      
+      if (ratio > 0.9) {
+        selections['face-shape'] = 'round';
+      } else if (ratio > 0.8) {
+        selections['face-shape'] = 'square';
+      } else if (ratio > 0.7) {
+        selections['face-shape'] = 'oval';
+      } else {
+        selections['face-shape'] = 'long';
+      }
+    }
+    
+    // 2. 이마 분석 (눈썹 높이로 추정)
+    const leftBrow = landmarks.getLeftEyeBrow();
+    const rightBrow = landmarks.getRightEyeBrow();
+    if (leftBrow.length > 0 && rightBrow.length > 0) {
+      const browY = (leftBrow[2].y + rightBrow[2].y) / 2;
+      const noseTop = positions[27].y;
+      const browHeight = Math.abs(noseTop - browY);
+      
+      if (browHeight > 40) {
+        selections['forehead'] = 'high-wide';
+      } else if (browHeight > 30) {
+        selections['forehead'] = 'flat';
+      } else {
+        selections['forehead'] = 'narrow-low';
+      }
+    }
+    
+    // 3. 눈 분석
+    const leftEye = landmarks.getLeftEye();
+    const rightEye = landmarks.getRightEye();
+    if (leftEye.length >= 6) {
+      const eyeWidth = Math.abs(leftEye[3].x - leftEye[0].x);
+      const eyeHeight = Math.abs(leftEye[4].y - leftEye[1].y);
+      const eyeRatio = eyeHeight / eyeWidth;
+      
+      // 눈꼬리 기울기 (외측 - 내측)
+      const eyeSlope = (leftEye[3].y - leftEye[0].y) / (leftEye[3].x - leftEye[0].x);
+      
+      if (eyeRatio > 0.4) {
+        selections['eyes'] = 'big-round';
+      } else if (eyeSlope < -0.1) {
+        selections['eyes'] = 'upturned';
+      } else if (eyeSlope > 0.1) {
+        selections['eyes'] = 'downturned';
+      } else if (eyeRatio < 0.25) {
+        selections['eyes'] = 'phoenix';
+      } else {
+        selections['eyes'] = 'small-sharp';
+      }
+    }
+    
+    // 4. 코 분석
+    const nose = landmarks.getNose();
+    if (nose.length >= 9) {
+      const noseTop = nose[0];
+      const noseTip = nose[6];
+      const noseLeft = nose[4];
+      const noseRight = nose[8];
+      
+      const noseLength = Math.abs(noseTip.y - noseTop.y);
+      const noseWidth = Math.abs(noseRight.x - noseLeft.x);
+      const noseRatio = noseWidth / noseLength;
+      
+      if (noseRatio > 0.8) {
+        selections['nose'] = 'wide-sensual';
+      } else if (noseRatio < 0.5) {
+        selections['nose'] = 'high-straight';
+      } else {
+        selections['nose'] = 'small-cute';
+      }
+    }
+    
+    // 5. 입 분석
+    const mouth = landmarks.getMouth();
+    if (mouth.length >= 12) {
+      const mouthLeft = mouth[0];
+      const mouthRight = mouth[6];
+      const upperLip = mouth[3];
+      const lowerLip = mouth[9];
+      
+      const mouthWidth = Math.abs(mouthRight.x - mouthLeft.x);
+      const lipHeight = Math.abs(lowerLip.y - upperLip.y);
+      
+      // 입꼬리 기울기
+      const mouthSlope = (mouthRight.y - mouthLeft.y) / (mouthRight.x - mouthLeft.x);
+      
+      if (mouthSlope < -0.05) {
+        selections['mouth'] = 'upturned';
+      } else if (mouthSlope > 0.05) {
+        selections['mouth'] = 'downturned';
+      } else if (lipHeight > 15) {
+        selections['mouth'] = 'big-thick';
+      } else {
+        selections['mouth'] = 'small-thin';
+      }
+    }
+    
+    // 6. 턱 분석
+    const jawOutline2 = landmarks.getJawOutline();
+    if (jawOutline2.length >= 17) {
+      const jawLeft = jawOutline2[4];
+      const jawRight = jawOutline2[12];
+      const chinTip = jawOutline2[8];
+      
+      const jawWidth = Math.abs(jawRight.x - jawLeft.x);
+      const chinPointedness = Math.abs((jawLeft.y + jawRight.y) / 2 - chinTip.y);
+      
+      if (chinPointedness > jawWidth * 0.25) {
+        selections['chin'] = 'pointed';
+      } else if (jawWidth > 100) {
+        selections['chin'] = 'square';
+      } else {
+        selections['chin'] = 'round';
+      }
+    }
+    
+    return selections;
+  };
+
+  // 이미지 업로드 처리
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const imageUrl = e.target?.result as string;
+      setUploadedImage(imageUrl);
+      
+      // AI 분석 시작
+      await analyzeWithAI(imageUrl);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // AI로 얼굴 분석
+  const analyzeWithAI = async (imageUrl: string) => {
+    setState("analyzing");
+    setAnalysisProgress(0);
+    
+    try {
+      const faceapi = await loadModel();
+      
+      setAnalysisMessage(t(texts.analyzingFace));
+      setAnalysisProgress(80);
+      
+      // 이미지 로드
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = reject;
+        img.src = imageUrl;
+      });
+      
+      // 얼굴 감지 및 랜드마크
+      const detection = await faceapi.detectSingleFace(img).withFaceLandmarks();
+      
+      if (!detection) {
+        alert(t(texts.noFaceDetected));
+        setState("upload");
+        return;
+      }
+      
+      setAnalysisProgress(90);
+      
+      // 얼굴 특징 분석
+      const analyzedSelections = analyzeFacialFeatures(detection.landmarks);
+      setSelections(analyzedSelections);
+      
+      setAnalysisProgress(100);
+      
+      // 결과 계산
+      setTimeout(() => {
+        const calculatedResult = calculateFaceReading(analyzedSelections);
+        setResult(calculatedResult);
+        setState("result");
+      }, 1000);
+      
+    } catch (error) {
+      console.error('AI 분석 실패:', error);
+      alert('분석 중 오류가 발생했습니다. 직접 선택 모드를 이용해주세요.');
+      setState("landing");
+    }
+  };
 
   // 옵션 선택
   const handleSelect = (optionId: string) => {
@@ -335,13 +623,26 @@ export default function FaceReadingPage() {
             </div>
           </div>
 
-          {/* 시작 버튼 */}
-          <button
-            onClick={() => setState("quiz")}
-            className="w-full py-5 ink-button rounded-xl font-bold text-xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
-          >
-            {t(texts.start)} 🔮
-          </button>
+          {/* 시작 버튼 - 두 가지 옵션 */}
+          <div className="space-y-4">
+            {/* AI 분석 버튼 */}
+            <button
+              onClick={() => setState("upload")}
+              className="w-full py-5 ink-button rounded-xl font-bold text-xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex flex-col items-center gap-2"
+            >
+              <span>📷 {t(texts.aiAnalyze)}</span>
+              <span className="text-sm font-normal opacity-80">{t(texts.aiAnalyzeDesc)}</span>
+            </button>
+            
+            {/* 직접 선택 버튼 */}
+            <button
+              onClick={() => setState("quiz")}
+              className="w-full py-4 ink-card rounded-xl font-bold text-lg text-ink-700 dark:text-ink-200 hover:bg-ink-100 dark:hover:bg-ink-700 transition-all flex flex-col items-center gap-1"
+            >
+              <span>✍️ {t(texts.manualSelect)}</span>
+              <span className="text-sm font-normal text-ink-500">{t(texts.manualSelectDesc)}</span>
+            </button>
+          </div>
 
           {/* 면책 */}
           <p className="mt-6 text-center text-sm text-ink-400">
@@ -350,6 +651,107 @@ export default function FaceReadingPage() {
              lang === 'ja' ? '※ このテストは娯楽目的であり、実際の運命を決定するものではありません。' :
              '※ This test is for entertainment only and does not determine actual fate.'}
           </p>
+        </div>
+      </main>
+    );
+  }
+
+  // 업로드 페이지 (AI 분석)
+  if (state === "upload") {
+    return (
+      <main className="min-h-screen ink-bg py-10 px-4">
+        <div className="max-w-md mx-auto">
+          {/* 헤더 */}
+          <div className="flex items-center justify-between mb-6">
+            <button
+              onClick={() => {
+                setState("landing");
+                setUploadedImage(null);
+              }}
+              className="w-12 h-12 rounded-full ink-card flex items-center justify-center text-ink-600 hover:text-ink-800 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div className="text-base text-ink-500 font-serif">
+              {t(texts.aiAnalyze)}
+            </div>
+          </div>
+
+          {/* 한자 장식 */}
+          <div className="text-center mb-8">
+            <div className="text-ink-accent text-lg tracking-[6px] font-serif mb-2">面相識別</div>
+            <div className="text-ink-500 text-sm">
+              {lang === 'ko' ? 'AI 얼굴 분석' : lang === 'zh' ? 'AI面相识别' : lang === 'ja' ? 'AI顔分析' : 'AI Face Analysis'}
+            </div>
+          </div>
+
+          {/* 업로드 영역 */}
+          <div className="ink-card rounded-2xl p-8 mb-6">
+            {uploadedImage ? (
+              <div className="relative">
+                <img 
+                  src={uploadedImage} 
+                  alt="Uploaded face" 
+                  className="w-full rounded-xl"
+                />
+                <button
+                  onClick={() => setUploadedImage(null)}
+                  className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <div className="text-center">
+                <div className="w-32 h-32 mx-auto mb-6 rounded-full border-4 border-dashed border-ink-300 dark:border-ink-600 flex items-center justify-center">
+                  <span className="text-6xl">📷</span>
+                </div>
+                <p className="text-lg text-ink-700 dark:text-ink-200 mb-2 font-medium">
+                  {t(texts.uploadPhoto)}
+                </p>
+                <p className="text-base text-ink-500 mb-6">
+                  {t(texts.uploadDesc)}
+                </p>
+                
+                {/* 숨겨진 파일 입력 */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                
+                {/* 업로드 버튼 */}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full py-4 ink-button rounded-xl font-bold text-lg"
+                >
+                  📁 {t(texts.uploadPhoto)}
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* 안내 문구 */}
+          <div className="ink-card rounded-xl p-4 mb-6">
+            <h4 className="text-ink-accent font-bold mb-2">💡 {lang === 'ko' ? '촬영 팁' : 'Tips'}</h4>
+            <ul className="text-sm text-ink-500 space-y-1">
+              <li>• {lang === 'ko' ? '정면을 바라본 사진이 가장 정확합니다' : 'Front-facing photos work best'}</li>
+              <li>• {lang === 'ko' ? '얼굴 전체가 잘 보이는 사진을 선택하세요' : 'Choose a photo where your full face is visible'}</li>
+              <li>• {lang === 'ko' ? '밝은 조명에서 촬영된 사진을 권장합니다' : 'Well-lit photos are recommended'}</li>
+            </ul>
+          </div>
+
+          {/* 직접 선택 링크 */}
+          <button
+            onClick={() => setState("quiz")}
+            className="w-full py-3 text-ink-500 hover:text-ink-700 transition-colors text-sm"
+          >
+            ✍️ {t(texts.manualSelect)}
+          </button>
         </div>
       </main>
     );
@@ -464,7 +866,7 @@ export default function FaceReadingPage() {
             {/* 붓터치 효과 */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-36 h-36 ink-stamp rounded-lg animate-pulse flex items-center justify-center">
-                <span className="text-7xl">🔮</span>
+                <span className="text-7xl">{isModelLoading ? '🤖' : '🔮'}</span>
               </div>
             </div>
             {/* 한자 회전 */}
@@ -478,24 +880,36 @@ export default function FaceReadingPage() {
 
           {/* 분석 중 텍스트 */}
           <h2 className="text-3xl font-bold text-ink-800 dark:text-ink-100 mb-3 font-serif">
-            {t(texts.analyzing)}
+            {analysisMessage || t(texts.analyzing)}
           </h2>
           
           {/* 한자 + 번역 */}
           <p className="text-ink-accent text-lg mb-6">
-            {lang === 'ko' ? '觀相 (관상)' : 
-             lang === 'zh' ? '觀相 (面相)' : 
-             lang === 'ja' ? '觀相 (人相)' : 
-             '觀相 (Face Reading)'}
+            {isModelLoading 
+              ? (lang === 'ko' ? 'AI 모델 준비 중...' : 'Loading AI Model...')
+              : (lang === 'ko' ? '觀相 (관상)' : 
+                 lang === 'zh' ? '觀相 (面相)' : 
+                 lang === 'ja' ? '觀相 (人相)' : 
+                 '觀相 (Face Reading)')}
           </p>
 
           {/* 로딩 바 */}
           <div className="w-80 mx-auto h-2 bg-ink-200 dark:bg-ink-700 rounded-full overflow-hidden">
             <div
-              className="h-full ink-progress rounded-full"
-              style={{ animation: 'loading 3.5s ease-in-out forwards' }}
+              className="h-full ink-progress rounded-full transition-all duration-500"
+              style={{ 
+                width: analysisProgress > 0 ? `${analysisProgress}%` : undefined,
+                animation: analysisProgress === 0 ? 'loading 3.5s ease-in-out forwards' : undefined
+              }}
             />
           </div>
+          
+          {/* AI 분석 진행률 표시 */}
+          {analysisProgress > 0 && (
+            <p className="mt-3 text-ink-500 text-sm">
+              {analysisProgress}%
+            </p>
+          )}
 
           {/* 명언 */}
           <p className="mt-8 text-ink-500 dark:text-ink-400 text-lg font-serif italic max-w-sm mx-auto">
