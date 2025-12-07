@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTestStats } from "@/hooks/useTestStats";
 import Link from "next/link";
-import { menuRecommendations, timeSlots, type TimeSlot } from "@/data/menu-recommendation";
-import MenuSelector from "./_components/MenuSelector";
+import { timeSlots, type TimeSlot, getWeightedRandomMenu } from "@/data/menu-recommendation";
 import MenuResult from "./_components/MenuResult";
 
 export default function MenuRecommendationPage() {
@@ -29,29 +28,28 @@ export default function MenuRecommendationPage() {
     const [currentTimeSlot, setCurrentTimeSlot] = useState<TimeSlot>(getCurrentTimeSlot());
 
     useEffect(() => {
-        setCurrentTimeSlot(getCurrentTimeSlot());
+        const detectedTimeSlot = getCurrentTimeSlot();
+        setCurrentTimeSlot(detectedTimeSlot);
+        // 페이지 로드 시 자동으로 추천 시작
+        generateRecommendation(detectedTimeSlot);
     }, []);
 
-    // 메뉴 추천 함수
+    // 메뉴 추천 함수 (가중치 기반)
     const generateRecommendation = (timeSlot: TimeSlot) => {
         setIsGenerating(true);
         setSelectedTimeSlot(timeSlot);
 
-        // 해당 시간대의 메뉴들 필터링
-        const availableMenus = menuRecommendations.filter(menu => menu.category === timeSlot);
-
-        // 랜덤으로 메뉴 선택
-        const randomIndex = Math.floor(Math.random() * availableMenus.length);
-        const selectedMenu = availableMenus[randomIndex];
+        // 가중치 기반 랜덤 추천
+        const selectedMenu = getWeightedRandomMenu(timeSlot);
 
         // 통계 증가 (Firebase 설정 후 활성화)
         // incrementStats();
 
-        // 애니메이션 효과를 위해 약간의 딜레이
+        // 애니메이션 효과를 위한 딜레이
         setTimeout(() => {
             setRecommendedMenu(selectedMenu);
             setIsGenerating(false);
-        }, 500);
+        }, 1500);
     };
 
     // 다시하기
@@ -150,13 +148,41 @@ export default function MenuRecommendationPage() {
         );
     }
 
-    // 메뉴 선택 화면
+    // 기본적으로는 로딩 화면 (자동 추천 시작)
     return (
-        <MenuSelector
-            currentTimeSlot={currentTimeSlot}
-            onSelectTimeSlot={generateRecommendation}
-            pageInfo={info}
-            stats={stats}
-        />
+        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+            <div className="container mx-auto px-4 py-8">
+                <div className="max-w-2xl mx-auto text-center">
+                    <div className="mb-8">
+                        <h1 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                            {info.title}
+                        </h1>
+                        <p className="text-lg text-slate-600 dark:text-slate-300 mb-2">
+                            {info.subtitle}
+                        </p>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm">
+                            {info.description}
+                        </p>
+                    </div>
+
+                    <div className="glass rounded-2xl p-8 mb-6">
+                        <div className="flex items-center justify-center mb-6">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">맛있는 메뉴를 찾고 있어요... 🍽️</h3>
+                        <p className="text-slate-600 dark:text-slate-300">
+                            현재 시간대({timeSlots[currentTimeSlot].name.ko})에 맞는 최적의 메뉴를 추천해드릴게요!
+                        </p>
+                    </div>
+
+                    <div className="text-center text-sm text-slate-500 dark:text-slate-400">
+                        <div className="flex items-center justify-center gap-1">
+                            <span>{info.stats}:</span>
+                            <span className="font-bold">{stats.toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

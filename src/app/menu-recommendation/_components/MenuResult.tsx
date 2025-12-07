@@ -107,7 +107,7 @@ export default function MenuResult({
                             🍽️ {pageInfo.title}
                         </h1>
                         <p className="text-slate-600 dark:text-slate-300">
-                            {timeSlots[timeSlot].emoji} {timeSlots[timeSlot].name.ko} 메뉴 추천
+                            🍽️ 오늘의 메뉴 추천 결과
                         </p>
                     </div>
 
@@ -116,9 +116,9 @@ export default function MenuResult({
                         {/* 시간대 표시 */}
                         <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full mb-6">
                             <span className="text-2xl">{timeSlots[timeSlot].emoji}</span>
-                            <span className="font-bold">{timeSlots[timeSlot].name.ko}</span>
+                            <span className="font-bold">{timeSlots[timeSlot].name.ko} 메뉴</span>
                             <span className="text-sm text-orange-600 dark:text-orange-400">
-                                {timeSlots[timeSlot].timeRange}
+                                ({timeSlots[timeSlot].timeRange})
                             </span>
                         </div>
 
@@ -200,7 +200,7 @@ export default function MenuResult({
                             onClick={onReset}
                             className="px-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-bold transition-colors"
                         >
-                            🔄 {pageInfo.reset}
+                            🔄 다른 메뉴 추천받기
                         </button>
                     </div>
 
