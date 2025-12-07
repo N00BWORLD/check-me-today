@@ -33,19 +33,6 @@ export default function MenuSelector({
                         </p>
                     </div>
 
-                    {/* 현재 시간 표시 */}
-                    <div className="glass rounded-xl p-4 mb-6 text-center">
-                        <div className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-                            {pageInfo.currentTime}
-                        </div>
-                        <div className="flex items-center justify-center gap-2">
-                            <span className="text-2xl">{timeSlots[currentTimeSlot].emoji}</span>
-                            <span className="font-bold text-lg">{timeSlots[currentTimeSlot].name.ko}</span>
-                            <span className="text-sm text-slate-500 dark:text-slate-400">
-                                ({timeSlots[currentTimeSlot].timeRange})
-                            </span>
-                        </div>
-                    </div>
 
                     {/* 시간대 선택 */}
                     <div className="grid grid-cols-2 gap-4 mb-8">
