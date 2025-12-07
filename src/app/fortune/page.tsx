@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import html2canvas from "html2canvas";
 import { useLanguage } from "@/context/LanguageContext";
 import {
   generateFortuneWithLang,
@@ -24,6 +25,7 @@ export default function FortunePage() {
   const [birthMonth, setBirthMonth] = useState("");
   const [birthDay, setBirthDay] = useState("");
   const [fortune, setFortune] = useState<ReturnType<typeof generateFortuneWithLang> | null>(null);
+  const [copied, setCopied] = useState(false);
 
   // 조회수 증가
   useIncrementPlay("fortune");
@@ -33,6 +35,182 @@ export default function FortunePage() {
   const years = Array.from({ length: currentYear - 1919 }, (_, i) => currentYear - i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
+
+  // 공유 텍스트
+  const shareTexts = {
+    share: { ko: "공유하기", en: "Share", zh: "分享", ja: "シェア" },
+    saveImage: { ko: "이미지 저장", en: "Save Image", zh: "保存图片", ja: "画像保存" },
+    copyLink: { ko: "링크 복사", en: "Copy Link", zh: "复制链接", ja: "リンクコピー" },
+    copied: { ko: "복사됨!", en: "Copied!", zh: "已复制!", ja: "コピー!" },
+    kakao: { ko: "카카오톡", en: "KakaoTalk", zh: "KakaoTalk", ja: "カカオトーク" },
+  };
+
+  // 링크 복사
+  const handleCopyLink = async () => {
+    const url = window.location.href;
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // 트위터 공유
+  const handleTwitterShare = () => {
+    const url = window.location.href;
+    const overallStars = "★".repeat(fortune?.overall || 0) + "☆".repeat(5 - (fortune?.overall || 0));
+    const text = lang === 'ko' 
+      ? `🧧 오늘의 운세 (${overallStars})\n${name}님의 운세를 확인해보세요!`
+      : lang === 'zh'
+      ? `🧧 今日运势 (${overallStars})\n查看${name}的运势！`
+      : lang === 'ja'
+      ? `🧧 今日の運勢 (${overallStars})\n${name}さんの運勢をチェック！`
+      : `🧧 Daily Fortune (${overallStars})\nCheck ${name}'s fortune!`;
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+      '_blank'
+    );
+  };
+
+  // 카카오톡 공유 (링크 복사로 대체)
+  const handleKakaoShare = () => {
+    handleCopyLink();
+  };
+
+  // 네이티브 공유
+  const handleNativeShare = async () => {
+    const overallStars = "★".repeat(fortune?.overall || 0) + "☆".repeat(5 - (fortune?.overall || 0));
+    const shareData = {
+      title: lang === 'ko' ? '오늘의 운세' : lang === 'zh' ? '今日运势' : lang === 'ja' ? '今日の運勢' : 'Daily Fortune',
+      text: lang === 'ko' 
+        ? `🧧 ${name}님의 오늘의 운세 (${overallStars})`
+        : `🧧 ${name}'s Fortune (${overallStars})`,
+      url: window.location.href,
+    };
+    
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      handleCopyLink();
+    }
+  };
+
+  // 이미지 저장
+  const handleSaveImage = async () => {
+    if (!fortune) return;
+    
+    const isDark = document.documentElement.classList.contains('dark');
+    const bgColor = isDark ? '#1e293b' : '#fafafa';
+    const textColor = isDark ? '#f1f5f9' : '#1e293b';
+    const subTextColor = isDark ? '#94a3b8' : '#64748b';
+    
+    const overallDesc = overallDescriptions[fortune.overall];
+    const colorName = luckyColors[fortune.luckyColor];
+    const directionName = luckyDirections[fortune.luckyDirection];
+    const dateStr = new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+    
+    // 캡처용 div 생성
+    const captureDiv = document.createElement('div');
+    captureDiv.style.cssText = `
+      position: fixed; left: -9999px; top: 0;
+      width: 400px; padding: 40px;
+      background: linear-gradient(135deg, ${isDark ? '#0f172a' : '#fff7ed'} 0%, ${isDark ? '#1e293b' : '#fef3c7'} 50%, ${isDark ? '#0f172a' : '#fff7ed'} 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: ${textColor};
+    `;
+    
+    const renderStarsHTML = (count: number) => {
+      return Array(5).fill(0).map((_, i) => 
+        `<span style="color: ${i < count ? '#facc15' : (isDark ? '#475569' : '#cbd5e1')}; font-size: 18px;">★</span>`
+      ).join('');
+    };
+    
+    captureDiv.innerHTML = `
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="font-size: 64px; margin-bottom: 8px;">🧧</div>
+        <div style="font-size: 24px; font-weight: 800; color: ${textColor};">${lang === 'ko' ? '오늘의 운세' : 'Daily Fortune'}</div>
+        <div style="font-size: 14px; color: ${subTextColor}; margin-top: 4px;">${dateStr}</div>
+        <div style="font-size: 16px; color: ${subTextColor}; margin-top: 8px;">${name}</div>
+      </div>
+      
+      <div style="background: ${isDark ? 'rgba(30,41,59,0.8)' : 'rgba(255,255,255,0.8)'}; border-radius: 16px; padding: 20px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-weight: 700;">${lang === 'ko' ? '종합운' : 'Overall'}</span>
+          <div>${renderStarsHTML(fortune.overall)}</div>
+        </div>
+        <div style="font-size: 14px; color: ${subTextColor};">${overallDesc[lang as keyof typeof overallDesc] || overallDesc.en}</div>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        <div style="background: ${isDark ? 'rgba(234,179,8,0.2)' : 'rgba(254,249,195,1)'}; border-radius: 12px; padding: 16px; text-align: center;">
+          <div style="font-size: 24px;">💰</div>
+          <div style="font-size: 12px; color: ${subTextColor};">${lang === 'ko' ? '재물운' : 'Wealth'}</div>
+          <div style="margin: 8px 0;">${renderStarsHTML(fortune.wealth)}</div>
+          <div style="font-size: 11px; color: ${isDark ? '#fcd34d' : '#a16207'};">${fortuneComments.wealth[fortune.wealth as keyof typeof fortuneComments.wealth]?.[lang as 'ko' | 'en' | 'zh' | 'ja'] || ''}</div>
+        </div>
+        <div style="background: ${isDark ? 'rgba(236,72,153,0.2)' : 'rgba(252,231,243,1)'}; border-radius: 12px; padding: 16px; text-align: center;">
+          <div style="font-size: 24px;">💕</div>
+          <div style="font-size: 12px; color: ${subTextColor};">${lang === 'ko' ? '연애운' : 'Love'}</div>
+          <div style="margin: 8px 0;">${renderStarsHTML(fortune.love)}</div>
+          <div style="font-size: 11px; color: ${isDark ? '#f9a8d4' : '#9d174d'};">${fortuneComments.love[fortune.love as keyof typeof fortuneComments.love]?.[lang as 'ko' | 'en' | 'zh' | 'ja'] || ''}</div>
+        </div>
+        <div style="background: ${isDark ? 'rgba(34,197,94,0.2)' : 'rgba(220,252,231,1)'}; border-radius: 12px; padding: 16px; text-align: center;">
+          <div style="font-size: 24px;">💪</div>
+          <div style="font-size: 12px; color: ${subTextColor};">${lang === 'ko' ? '건강운' : 'Health'}</div>
+          <div style="margin: 8px 0;">${renderStarsHTML(fortune.health)}</div>
+          <div style="font-size: 11px; color: ${isDark ? '#86efac' : '#166534'};">${fortuneComments.health[fortune.health as keyof typeof fortuneComments.health]?.[lang as 'ko' | 'en' | 'zh' | 'ja'] || ''}</div>
+        </div>
+        <div style="background: ${isDark ? 'rgba(59,130,246,0.2)' : 'rgba(219,234,254,1)'}; border-radius: 12px; padding: 16px; text-align: center;">
+          <div style="font-size: 24px;">💼</div>
+          <div style="font-size: 12px; color: ${subTextColor};">${lang === 'ko' ? '직장/학업운' : 'Work'}</div>
+          <div style="margin: 8px 0;">${renderStarsHTML(fortune.work)}</div>
+          <div style="font-size: 11px; color: ${isDark ? '#93c5fd' : '#1e40af'};">${fortuneComments.work[fortune.work as keyof typeof fortuneComments.work]?.[lang as 'ko' | 'en' | 'zh' | 'ja'] || ''}</div>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: space-around; background: ${isDark ? 'rgba(30,41,59,0.8)' : 'rgba(255,255,255,0.8)'}; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+        <div style="text-align: center;">
+          <div style="font-size: 28px; font-weight: 800; color: #f97316;">${fortune.luckyNumber}</div>
+          <div style="font-size: 10px; color: ${subTextColor};">${lang === 'ko' ? '행운의 숫자' : 'Lucky #'}</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 20px;">🎨</div>
+          <div style="font-size: 12px; font-weight: 600;">${colorName[lang as keyof typeof colorName] || colorName.en}</div>
+          <div style="font-size: 10px; color: ${subTextColor};">${lang === 'ko' ? '행운의 색상' : 'Color'}</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 20px;">🧭</div>
+          <div style="font-size: 12px; font-weight: 600;">${directionName[lang as keyof typeof directionName] || directionName.en}</div>
+          <div style="font-size: 10px; color: ${subTextColor};">${lang === 'ko' ? '행운의 방향' : 'Direction'}</div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid ${isDark ? '#334155' : '#e2e8f0'};">
+        <div style="font-size: 12px; color: ${subTextColor};">Check Me Today</div>
+      </div>
+    `;
+    
+    document.body.appendChild(captureDiv);
+    
+    try {
+      const canvas = await html2canvas(captureDiv, {
+        scale: 3,
+        backgroundColor: bgColor,
+        useCORS: true,
+      });
+      
+      const link = document.createElement('a');
+      const today = new Date().toISOString().split('T')[0];
+      link.download = `fortune-${name}-${today}.png`;
+      link.href = canvas.toDataURL('image/png', 1.0);
+      link.click();
+    } catch (error) {
+      console.error('이미지 저장 실패:', error);
+      alert(lang === 'ko' ? '이미지 저장에 실패했습니다.' : 'Failed to save image.');
+    } finally {
+      document.body.removeChild(captureDiv);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -374,6 +552,49 @@ export default function FortunePage() {
                 </div>
                 <p className="text-slate-600 dark:text-slate-300 text-sm">{fortune.warningText}</p>
               </div>
+            </div>
+          </div>
+
+          {/* 공유 버튼 그룹 */}
+          <div className="mb-4">
+            {/* 메인 공유 버튼 */}
+            <button
+              onClick={handleNativeShare}
+              className="w-full py-3 mb-3 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+            >
+              {t(shareTexts.share)} 🎉
+            </button>
+
+            {/* 공유 옵션 그리드 (4열) */}
+            <div className="grid grid-cols-4 gap-2">
+              <button
+                onClick={handleSaveImage}
+                className="py-3 px-2 glass dark:bg-slate-800/80 rounded-xl text-center hover:bg-white/80 dark:hover:bg-slate-700 transition-colors"
+              >
+                <div className="text-xl mb-1">📷</div>
+                <div className="text-xs text-slate-600 dark:text-slate-300">{t(shareTexts.saveImage)}</div>
+              </button>
+              <button
+                onClick={handleCopyLink}
+                className="py-3 px-2 glass dark:bg-slate-800/80 rounded-xl text-center hover:bg-white/80 dark:hover:bg-slate-700 transition-colors"
+              >
+                <div className="text-xl mb-1">{copied ? "✅" : "🔗"}</div>
+                <div className="text-xs text-slate-600 dark:text-slate-300">{copied ? t(shareTexts.copied) : t(shareTexts.copyLink)}</div>
+              </button>
+              <button
+                onClick={handleTwitterShare}
+                className="py-3 px-2 glass dark:bg-slate-800/80 rounded-xl text-center hover:bg-white/80 dark:hover:bg-slate-700 transition-colors"
+              >
+                <div className="text-xl mb-1">𝕏</div>
+                <div className="text-xs text-slate-600 dark:text-slate-300">Twitter</div>
+              </button>
+              <button
+                onClick={handleKakaoShare}
+                className="py-3 px-2 glass dark:bg-slate-800/80 rounded-xl text-center hover:bg-white/80 dark:hover:bg-slate-700 transition-colors"
+              >
+                <div className="text-xl mb-1">💬</div>
+                <div className="text-xs text-slate-600 dark:text-slate-300">{t(shareTexts.kakao)}</div>
+              </button>
             </div>
           </div>
 

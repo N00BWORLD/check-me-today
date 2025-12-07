@@ -7,207 +7,200 @@
 - Firebase 통계 연동
 - Vercel 배포
 
+---
+
+## 프로젝트 구조
+
+### 폴더 구조
+```
+src/
+├── app/
+│   ├── page.tsx              # 홈 (테스트 목록)
+│   ├── layout.tsx            # 루트 레이아웃
+│   ├── globals.css
+│   │
+│   ├── test/                 # 에너지 밸런스 테스트
+│   │   ├── page.tsx          # 랜딩 + Quiz
+│   │   └── layout.tsx        # OG 메타태그
+│   │
+│   ├── fortune/              # 오늘의 운세
+│   │   └── page.tsx
+│   │
+│   ├── [new-test]/           # 새 테스트 (테스트별 독립 폴더)
+│   │   ├── page.tsx
+│   │   ├── layout.tsx
+│   │   └── _components/      # 테스트 전용 컴포넌트
+│   │
+│   ├── result/               # 결과 페이지
+│   │   ├── page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── analyzing/            # 분석 중 (광고 표시)
+│   │   └── page.tsx
+│   │
+│   ├── privacy/              # 개인정보처리방침
+│   └── terms/                # 이용약관
+│
+├── components/               # 공용 컴포넌트
+│   ├── AdUnit.tsx            # 광고
+│   ├── PosterCard.tsx        # 홈 테스트 카드
+│   ├── Quiz.tsx              # 에너지밸런스 Quiz (전용)
+│   ├── ResultCard.tsx        # 에너지밸런스 Result (전용)
+│   ├── LanguageSelector.tsx
+│   ├── ThemeToggle.tsx
+│   ├── SearchBar.tsx
+│   └── CategoryTabs.tsx
+│
+├── data/
+│   ├── tests.ts              # 테스트 목록 (홈용)
+│   ├── questions.ts          # 에너지밸런스 질문
+│   └── fortunes.ts           # 운세 데이터
+│
+├── context/
+│   ├── LanguageContext.tsx
+│   └── ThemeContext.tsx
+│
+├── hooks/
+│   └── useTestStats.ts       # Firebase 통계
+│
+└── lib/
+    └── firebase.ts           # Firebase 설정
+```
+
+### 현재 테스트 목록
+| 테스트 | slug | 상태 | 카테고리 |
+|--------|------|------|----------|
+| 에너지 밸런스 테스트 | `/test` | ✅ 활성 | 성격·유형 |
+| 오늘의 운세 | `/fortune` | ✅ 활성 | 운세 |
+| 연애 유형 테스트 | `/love-test` | 🔜 준비중 | 연애 |
+| 나의 동물 자아 | `/animal-test` | 🔜 준비중 | 동물 |
+| 수면 유형 테스트 | `/sleep-test` | 🔜 준비중 | 성격·유형 |
+| 퍼스널 컬러 | `/color-test` | 🔜 준비중 | 재미 |
+| 밈 능력고사 | `/meme-test` | 🔜 준비중 | 퀴즈 |
+
+### 카테고리
+- `personality` (성격·유형) 🧠
+- `love` (연애) 💕
+- `animal` (동물) 🐾
+- `quiz` (퀴즈) 📝
+- `social` (사회생활) 💼
+- `fun` (재미) 🎮
+- `fortune` (운세) 🔮
+
+---
+
+## 새 테스트 추가 가이드
+
+### 핵심 원칙: 테스트별 독립 컴포넌트
+각 테스트는 **고유한 UI/UX**를 가져야 함 (범용 Quiz 사용 X)
+→ 사용자가 매번 새로운 경험을 느끼도록!
+
+### 1단계: 폴더 생성
+```
+src/app/[test-slug]/
+├── page.tsx           # 랜딩 페이지 + Quiz
+├── layout.tsx         # OG 메타태그
+└── _components/       # 이 테스트 전용 컴포넌트
+    ├── Quiz.tsx       # 고유한 Quiz UI
+    └── ResultCard.tsx # 고유한 결과 카드
+```
+
+### 2단계: 데이터 파일 (선택)
+```
+src/data/[test-slug]/
+├── questions.ts       # 질문 데이터
+└── results.ts         # 결과 타입/설명
+```
+또는 `src/data/questions-[test-slug].ts` 형태
+
+### 3단계: tests.ts에 등록
+```typescript
+{
+  id: "new-test-id",      // Firebase ID
+  slug: "new-test",       // URL 경로
+  category: "personality",
+  name: { ko: "...", en: "...", zh: "...", ja: "..." },
+  description: { ko: "...", en: "...", zh: "...", ja: "..." },
+  emoji: "🎯",
+  gradient: "from-...",
+  bgGradient: "from-...",
+  badge: "NEW",           // "HOT" | "NEW" | null
+  isComingSoon: false,    // false로 변경하면 활성화
+  createdAt: "2024-12-07",
+}
+```
+
+### 4단계: 테스트별 독창성 부여
+| 테스트 | 고유 요소 예시 |
+|--------|---------------|
+| 에너지 밸런스 | ☀️🌙 태양/달 테마, 퍼센테이지 바 |
+| 연애 유형 | 💕 하트 애니메이션, 궁합 카드 |
+| 동물 자아 | 🦊 동물 일러스트, 성격 매칭 |
+| 수면 유형 | 🌙 밤하늘 테마, 수면 그래프 |
+| 퍼스널 컬러 | 🎨 컬러 팔레트, 색상 추천 |
+| 밈 능력고사 | 😂 밈 이미지, 점수제 퀴즈 |
+
+---
+
 ## 핵심 개발 지침
 
 ### 1. 광고 (Google AdSense)
-- **결과 페이지 진입 전**: 인터스티셜 광고 또는 로딩 화면에 광고 삽입
-- **결과 페이지 하단**: 배너 광고 삽입
+- **결과 페이지 진입 전**: `/analyzing` 페이지에서 광고 표시 (5초)
+- **결과 페이지 하단**: 배너 광고
+- **홈 하단**: 고정 배너 광고
 - AdSense Publisher ID: `ca-pub-9155498101026498`
 - 광고 컴포넌트: `src/components/AdUnit.tsx`
 
 ### 2. 결과 페이지 디자인 (스크린샷용)
-- 결과 카드는 **사진 찍기 좋은 비율**로 제작 (세로형, 인스타그램 스토리 비율 권장)
-- 브랜드 워터마크 포함: "Check Me Today" 로고
-- 깔끔한 배경 (그라데이션 또는 단색)
+- 결과 카드는 **세로형** (인스타그램 스토리 비율)
+- 브랜드 워터마크: "✨ check-me.today"
+- 깔끔한 배경 (그라데이션)
 - 결과 공유 시 URL에 결과 타입 포함
 
-### 3. 공유 기능 구현 규격
-
-#### 3-1. 공유 버튼 UI 구조
+### 3. 공유 기능
 ```tsx
-{/* 공유 버튼 그룹 */}
-<div className="mb-6">
-    {/* 메인 공유 버튼 (네이티브 공유 API) */}
-    <button onClick={handleNativeShare} className="w-full ...">
-        공유하기
-    </button>
-
-    {/* 공유 옵션 그리드 (4열) */}
-    <div className="grid grid-cols-4 gap-2">
-        <button>📷 이미지 저장</button>
-        <button>🔗 링크 복사</button>
-        <button>𝕏 Twitter</button>
-        <button>💬 카카오톡</button>
-    </div>
+// 공유 버튼 그룹 (4열)
+<div className="grid grid-cols-4 gap-2">
+  <button>📷 이미지 저장</button>  // html2canvas
+  <button>🔗 링크 복사</button>
+  <button>𝕏 Twitter</button>
+  <button>💬 카카오톡</button>
 </div>
-```
-
-#### 3-2. 이미지 저장 (html2canvas)
-- **라이브러리**: `html2canvas` 사용
-- **캡처 방식**: 글래스모피즘 효과가 깨지므로 **캡처용 div를 동적 생성**
-```tsx
-import html2canvas from "html2canvas";
-
-const handleSaveImage = async () => {
-    // 다크모드 확인
-    const isDark = document.documentElement.classList.contains('dark');
-    const bgColor = isDark ? '#1e293b' : '#fafafa';
-    
-    // 캡처용 임시 div 생성 (인라인 스타일로 깔끔하게)
-    const captureDiv = document.createElement('div');
-    captureDiv.style.cssText = `
-        position: fixed; left: -9999px; top: 0;
-        width: 400px; padding: 40px;
-        background: linear-gradient(135deg, ${bgColor} 0%, ...);
-        font-family: 'Pretendard Variable', sans-serif;
-    `;
-    captureDiv.innerHTML = `결과 카드 HTML (인라인 스타일)`;
-    document.body.appendChild(captureDiv);
-    
-    // 캡처
-    const canvas = await html2canvas(captureDiv, {
-        scale: 3,           // 고해상도
-        backgroundColor: bgColor,
-        useCORS: true,
-    });
-    
-    document.body.removeChild(captureDiv);
-    
-    // 다운로드
-    const link = document.createElement('a');
-    link.download = `check-me-today-${type}-${날짜}.png`;
-    link.href = canvas.toDataURL('image/png', 1.0);
-    link.click();
-};
-```
-
-#### 3-3. 링크 복사
-```tsx
-const handleCopyLink = async () => {
-    const url = window.location.href;
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-};
-```
-
-#### 3-4. 트위터/X 공유
-```tsx
-const handleTwitterShare = () => {
-    const url = window.location.href;
-    const text = lang === 'ko' 
-        ? `나의 결과는 ${title}! 🎉\n테스트 이름`
-        : `My result is ${title}! 🎉\nTest Name`;
-    window.open(
-        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
-        '_blank'
-    );
-};
-```
-
-#### 3-5. 카카오톡 공유
-- 카카오 SDK 없이 **링크 복사로 대체** (간단한 구현)
-```tsx
-const handleKakaoShare = () => {
-    handleCopyLink(); // 링크 복사 후 카톡에 붙여넣기 유도
-};
-```
-
-#### 3-6. 네이티브 공유 (모바일)
-```tsx
-const handleNativeShare = async () => {
-    const shareData = {
-        title: '테스트 결과',
-        text: `나의 결과는 ${title}! 🎉`,
-        url: window.location.href,
-    };
-    
-    if (navigator.share) {
-        await navigator.share(shareData);
-    } else {
-        handleCopyLink(); // 지원 안 하면 링크 복사
-    }
-};
-```
-
-#### 3-7. OG 메타태그 (layout.tsx)
-```tsx
-// src/app/result/layout.tsx
-export const metadata: Metadata = {
-    openGraph: {
-        title: "테스트 결과 🎉",
-        description: "나의 결과를 확인해보세요!",
-        images: [{ url: "/og-result.png", width: 1200, height: 630 }],
-    },
-    twitter: {
-        card: "summary_large_image",
-        title: "테스트 결과 🎉",
-        images: ["/og-result.png"],
-    },
-};
 ```
 
 ### 4. 테스트 플로우
 ```
-테스트 시작 → 질문들 → [광고 화면] → 결과 페이지 → 공유/다시하기
+홈 → 테스트 랜딩 → 질문들 → [분석/광고 5초] → 결과 → 공유/다시하기
 ```
 
 ### 5. 코드 스타일
 - 한국어 주석 사용
 - Tailwind CSS 사용 (인라인 스타일 지양)
-- 컴포넌트는 "use client" 지시어 필요 시 명시
-- 다국어 텍스트는 `useLanguage()` 훅 사용
+- "use client" 지시어 필요 시 명시
+- 다국어 텍스트: `useLanguage()` 훅 사용
 
 ### 6. 디자인 원칙
-- 글래스모피즘 (backdrop-blur, 반투명 배경)
+- 글래스모피즘 (`backdrop-blur`, 반투명 배경)
 - 부드러운 그라데이션
 - 이모지 활용
 - 다크 모드 최적화
 
-### 7. 텍스트 처리 규칙 (중요!)
-- **긴 텍스트 줄바꿈**: 제목, 이름 등이 한 줄을 넘어가면 잘리지 않도록 처리
-  - `break-keep` 클래스 사용 (한국어 단어 단위 줄바꿈)
-  - `line-clamp-2` 또는 `line-clamp-3` 사용 시 주의 (텍스트 잘림)
-  - 긴 텍스트는 `truncate` 대신 줄바꿈 허용
-- **다국어 텍스트 길이 차이 고려**: 
-  - 영어/중국어는 짧고, 한국어/일본어는 길 수 있음
-  - 고정 높이보다 `min-h-[]` 사용 권장
-- **카드/버튼 내 텍스트**:
-  - 제목: `line-clamp-2 break-keep` (2줄까지 허용)
-  - 설명: `line-clamp-3 break-keep` (3줄까지 허용)
-  - 버튼: 텍스트가 길면 `text-sm` 또는 `text-xs`로 축소
+### 7. 텍스트 처리 규칙
+- **긴 텍스트 줄바꿈**: `break-keep` 클래스 (한국어)
+- **카드 제목**: `line-clamp-2 break-keep` (2줄까지)
+- **설명**: `line-clamp-3 break-keep` (3줄까지)
+- **다국어 길이 차이**: 고정 높이 대신 `min-h-[]` 사용
 
-## 파일 구조
-```
-src/
-├── app/
-│   ├── page.tsx        # 메인 페이지 (테스트 목록)
-│   ├── test/           # 테토 vs 에겐 테스트
-│   ├── fortune/        # 오늘의 운세
-│   └── result/         # 결과 페이지
-├── components/
-│   ├── PosterCard.tsx  # 테스트 카드 (목록용)
-│   ├── ResultCard.tsx  # 결과 카드 (결과 페이지용)
-│   ├── Quiz.tsx        # 질문 컴포넌트
-│   └── AdUnit.tsx      # 광고 컴포넌트
-├── data/
-│   ├── tests.ts        # 테스트 데이터
-│   ├── questions.ts    # 질문 데이터
-│   └── fortunes.ts     # 운세 데이터
-└── context/
-    ├── LanguageContext.tsx
-    └── ThemeContext.tsx
-```
+---
 
 ## 자주 사용하는 명령어
 ```bash
-npm run dev      # 개발 서버 (포트 3000)
-npm run build    # 프로덕션 빌드
-git push origin main  # Vercel 자동 배포
+npm run dev          # 개발 서버 (localhost:3000)
+npm run build        # 프로덕션 빌드
+git push origin main # Vercel 자동 배포
 ```
 
 ## 참고 사항
-- 기본 테마: 다크 모드 선호
-- 결과 페이지 URL 형식: `/result?type=xxx&score=xxx`
+- 기본 테마: 다크 모드
 - Firebase 설정: `.env.local` 파일 참조
-
+- 결과 페이지 URL: `/result?type=xxx&score=xxx`
