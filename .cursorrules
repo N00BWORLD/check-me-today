@@ -1,0 +1,81 @@
+# Check Me Today - 프로젝트 개발 지침
+
+## 프로젝트 개요
+심리테스트/운세 웹사이트 (Next.js 16 + React 19 + Tailwind CSS)
+- 다국어 지원: 한국어, 영어, 중국어, 일본어
+- 다크/라이트 모드 지원
+- Firebase 통계 연동
+- Vercel 배포
+
+## 핵심 개발 지침
+
+### 1. 광고 (Google AdSense)
+- **결과 페이지 진입 전**: 인터스티셜 광고 또는 로딩 화면에 광고 삽입
+- **결과 페이지 하단**: 배너 광고 삽입
+- AdSense Publisher ID: `ca-pub-9155498101026498`
+- 광고 컴포넌트: `src/components/AdUnit.tsx`
+
+### 2. 결과 페이지 디자인 (스크린샷용)
+- 결과 카드는 **사진 찍기 좋은 비율**로 제작 (세로형, 인스타그램 스토리 비율 권장)
+- 브랜드 워터마크 포함: "Check Me Today" 로고
+- 깔끔한 배경 (그라데이션 또는 단색)
+- 결과 공유 시 URL에 결과 타입 포함
+
+### 3. 공유 기능
+- **링크 복사** 버튼 (필수)
+- **카카오톡 공유** (선택)
+- **트위터/X 공유** (선택)
+- **인스타그램 스토리용 이미지 저장** (선택)
+- 공유 시 OG 메타태그 최적화
+
+### 4. 테스트 플로우
+```
+테스트 시작 → 질문들 → [광고 화면] → 결과 페이지 → 공유/다시하기
+```
+
+### 5. 코드 스타일
+- 한국어 주석 사용
+- Tailwind CSS 사용 (인라인 스타일 지양)
+- 컴포넌트는 "use client" 지시어 필요 시 명시
+- 다국어 텍스트는 `useLanguage()` 훅 사용
+
+### 6. 디자인 원칙
+- 글래스모피즘 (backdrop-blur, 반투명 배경)
+- 부드러운 그라데이션
+- 이모지 활용
+- 다크 모드 최적화
+
+## 파일 구조
+```
+src/
+├── app/
+│   ├── page.tsx        # 메인 페이지 (테스트 목록)
+│   ├── test/           # 테토 vs 에겐 테스트
+│   ├── fortune/        # 오늘의 운세
+│   └── result/         # 결과 페이지
+├── components/
+│   ├── PosterCard.tsx  # 테스트 카드 (목록용)
+│   ├── ResultCard.tsx  # 결과 카드 (결과 페이지용)
+│   ├── Quiz.tsx        # 질문 컴포넌트
+│   └── AdUnit.tsx      # 광고 컴포넌트
+├── data/
+│   ├── tests.ts        # 테스트 데이터
+│   ├── questions.ts    # 질문 데이터
+│   └── fortunes.ts     # 운세 데이터
+└── context/
+    ├── LanguageContext.tsx
+    └── ThemeContext.tsx
+```
+
+## 자주 사용하는 명령어
+```bash
+npm run dev      # 개발 서버 (포트 3000)
+npm run build    # 프로덕션 빌드
+git push origin main  # Vercel 자동 배포
+```
+
+## 참고 사항
+- 기본 테마: 다크 모드 선호
+- 결과 페이지 URL 형식: `/result?type=xxx&score=xxx`
+- Firebase 설정: `.env.local` 파일 참조
+

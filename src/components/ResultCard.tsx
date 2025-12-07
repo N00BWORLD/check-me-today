@@ -4,7 +4,7 @@ import Link from "next/link";
 import { PersonalityType, TraitType, traitNames, maxScores } from "@/data/questions";
 import { useLanguage, uiTexts } from "@/context/LanguageContext";
 import { useLike, useTestStats } from "@/hooks/useTestStats";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface ResultCardProps {
     type: PersonalityType;
@@ -15,6 +15,8 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
     const { t, lang } = useLanguage();
     const [copied, setCopied] = useState(false);
     const [showBars, setShowBars] = useState(false);
+    const [showShareMenu, setShowShareMenu] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
     
     // 추천 기능
     const { hasLiked, toggleLike, isLiking } = useLike("teto-vs-egen");
@@ -69,11 +71,43 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
 
     const content = descriptions[type] || descriptions.TETO;
 
-    const handleShare = async () => {
+    // 링크 복사
+    const handleCopyLink = async () => {
+        const url = typeof window !== 'undefined' ? window.location.href : '';
+        try {
+            await navigator.clipboard.writeText(url);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    // 트위터/X 공유
+    const handleTwitterShare = () => {
+        const url = typeof window !== 'undefined' ? window.location.href : '';
+        const text = lang === 'ko' 
+            ? `나의 성향은 ${content.title}! 🎉\n테토 vs 에겐 테스트`
+            : `My type is ${content.title}! 🎉\nTETO vs EGEN Test`;
+        window.open(
+            `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+            '_blank'
+        );
+    };
+
+    // 카카오톡 공유 (URL만 복사)
+    const handleKakaoShare = () => {
+        handleCopyLink();
+    };
+
+    // 네이티브 공유 (모바일)
+    const handleNativeShare = async () => {
         const url = typeof window !== 'undefined' ? window.location.href : '';
         const shareData = {
             title: 'TETO vs EGEN Test',
-            text: `My type is: ${content.title}`,
+            text: lang === 'ko' 
+                ? `나의 성향은 ${content.title}! 🎉`
+                : `My type is: ${content.title}! 🎉`,
             url: url,
         };
 
@@ -81,9 +115,7 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
             if (navigator.share) {
                 await navigator.share(shareData);
             } else {
-                await navigator.clipboard.writeText(url);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
+                handleCopyLink();
             }
         } catch (err) {
             console.error(err);
@@ -92,12 +124,16 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
 
     return (
         <div className="w-full max-w-md mx-auto animate-slide-up">
-            {/* Result Card */}
-            <div className={`glass-strong dark:bg-slate-800/90 rounded-[2.5rem] p-8 relative overflow-hidden mb-6 ${content.color.bg}`}>
-                
+            {/* Result Card - 스크린샷용 디자인 */}
+            <div 
+                ref={cardRef}
+                className={`glass-strong dark:bg-slate-800/90 rounded-[2.5rem] p-8 relative overflow-hidden mb-6 ${content.color.bg}`}
+            >
+                {/* 배경 장식 */}
                 <div className={`absolute top-0 left-0 w-full h-40 bg-gradient-to-br ${content.color.gradient} opacity-10 blur-3xl`} />
                 <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gradient-to-br from-white/40 dark:from-white/10 to-transparent" />
                 
+                {/* 장식 이모지 */}
                 <div className="absolute top-4 right-6 text-3xl animate-scale-in" style={{ animationDelay: "0.3s" }}>
                     🎉
                 </div>
@@ -185,6 +221,14 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
                         {content.description}
                     </p>
                 </div>
+
+                {/* 워터마크 - 스크린샷용 */}
+                <div className="mt-6 pt-4 border-t border-white/30 dark:border-slate-600/50 animate-fade-in" style={{ animationDelay: "1.1s" }}>
+                    <div className="flex items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
+                        <span className="text-lg">✨</span>
+                        <span className="text-xs font-medium tracking-wide">check-me.today</span>
+                    </div>
+                </div>
             </div>
 
             {/* 추천 버튼 */}
@@ -230,21 +274,66 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
                 </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mb-6 animate-slide-up" style={{ animationDelay: "1.1s" }}>
+            {/* 공유 버튼 그룹 */}
+            <div className="mb-6 animate-slide-up" style={{ animationDelay: "1.1s" }}>
+                {/* 메인 공유 버튼 */}
                 <button
-                    onClick={handleShare}
+                    onClick={handleNativeShare}
                     className={`
-                        flex items-center justify-center gap-2 
+                        w-full flex items-center justify-center gap-2 
                         bg-gradient-to-r ${content.color.gradient}
-                        text-white py-4 rounded-2xl font-bold 
+                        text-white py-4 rounded-2xl font-bold mb-3
                         shadow-lg shadow-purple-500/20
                         active:scale-[0.98] transition-transform
                     `}
                 >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
                     {copied ? t(uiTexts.copied) : t(uiTexts.share)}
                 </button>
+
+                {/* 공유 옵션 그리드 */}
+                <div className="grid grid-cols-3 gap-2">
+                    {/* 링크 복사 */}
+                    <button
+                        onClick={handleCopyLink}
+                        className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 glass dark:bg-slate-800/80 rounded-xl hover:bg-white/80 dark:hover:bg-slate-700 transition-colors active:scale-[0.98]"
+                    >
+                        <span className="text-xl">🔗</span>
+                        <span className="text-[10px] font-medium text-slate-600 dark:text-slate-300">
+                            {lang === 'ko' ? '링크 복사' : lang === 'zh' ? '复制链接' : lang === 'ja' ? 'リンクコピー' : 'Copy Link'}
+                        </span>
+                    </button>
+
+                    {/* 트위터/X */}
+                    <button
+                        onClick={handleTwitterShare}
+                        className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 glass dark:bg-slate-800/80 rounded-xl hover:bg-white/80 dark:hover:bg-slate-700 transition-colors active:scale-[0.98]"
+                    >
+                        <span className="text-xl">𝕏</span>
+                        <span className="text-[10px] font-medium text-slate-600 dark:text-slate-300">
+                            Twitter
+                        </span>
+                    </button>
+
+                    {/* 카카오톡 */}
+                    <button
+                        onClick={handleKakaoShare}
+                        className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 glass dark:bg-slate-800/80 rounded-xl hover:bg-white/80 dark:hover:bg-slate-700 transition-colors active:scale-[0.98]"
+                    >
+                        <span className="text-xl">💬</span>
+                        <span className="text-[10px] font-medium text-slate-600 dark:text-slate-300">
+                            {lang === 'ko' ? '카카오톡' : 'KakaoTalk'}
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            {/* 다른 테스트 버튼 */}
+            <div className="mb-6 animate-slide-up" style={{ animationDelay: "1.15s" }}>
                 <Link href="/">
-                    <div className="flex items-center justify-center gap-2 glass dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 py-4 rounded-2xl font-bold h-full active:scale-[0.98] transition-transform">
+                    <div className="flex items-center justify-center gap-2 glass dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 py-4 rounded-2xl font-bold h-full active:scale-[0.98] transition-transform hover:bg-white/80 dark:hover:bg-slate-700">
                         {t(uiTexts.otherTests)}
                     </div>
                 </Link>

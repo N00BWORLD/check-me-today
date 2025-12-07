@@ -61,7 +61,8 @@ export default function Quiz() {
                     detail: newTraitScores.detail.toString(),
                     creativity: newTraitScores.creativity.toString(),
                 });
-                router.push(`/result?${params.toString()}`);
+                // 광고 로딩 페이지를 거쳐서 결과 페이지로 이동
+                router.push(`/analyzing?${params.toString()}`);
             }
         }, 300);
     };
