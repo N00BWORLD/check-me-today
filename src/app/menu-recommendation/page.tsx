@@ -1,21 +1,21 @@
-"use client";
+ "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTestStats } from "@/hooks/useTestStats";
-import { menuRecommendations, type TimeSlot } from "@/data/menu-recommendation";
+import { menuRecommendations } from "@/data/menu-recommendation";
 import MenuSelector from "./_components/MenuSelector";
 import MenuResult from "./_components/MenuResult";
 
 export default function MenuRecommendationPage() {
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<"random" | null>(null);
   const [recommendedMenu, setRecommendedMenu] = useState<any>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [rouletteItems, setRouletteItems] = useState(menuRecommendations.slice(0, 12));
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const { lang } = useLanguage();
-  const { stats } = useTestStats("menu-recommendation");
+  const { stats, incrementPlayCount } = useTestStats("menu-recommendation") as any;
 
   const TAG_LABELS: Record<string, Record<string, string>> = {
     korean: { ko: "한식", en: "Korean", zh: "韩餐", ja: "韓国料理" },
@@ -64,6 +64,86 @@ export default function MenuRecommendationPage() {
     noodle: { ko: "면", en: "Noodle", zh: "面", ja: "麺" },
     ramen: { ko: "라멘", en: "Ramen", zh: "拉面", ja: "ラーメン" },
     ricebowl: { ko: "덮밥", en: "Rice Bowl", zh: "盖饭", ja: "丼" },
+    crispy: { ko: "바삭", en: "Crispy", zh: "酥脆", ja: "サクサク" },
+    fresh: { ko: "신선", en: "Fresh", zh: "新鲜", ja: "新鮮" },
+    classic: { ko: "클래식", en: "Classic", zh: "经典", ja: "クラシック" },
+    bacon: { ko: "베이컨", en: "Bacon", zh: "培根", ja: "ベーコン" },
+    buttery: { ko: "버터향", en: "Buttery", zh: "黄油香", ja: "バター風味" },
+    american: { ko: "아메리칸", en: "American", zh: "美式", ja: "アメリカン" },
+    chewy: { ko: "쫄깃", en: "Chewy", zh: "有嚼劲", ja: "もちもち" },
+    smoked: { ko: "훈제", en: "Smoked", zh: "熏制", ja: "スモーク" },
+    "new-york": { ko: "뉴욕스타일", en: "New York Style", zh: "纽约风", ja: "ニューヨークスタイル" },
+    trendy: { ko: "트렌디", en: "Trendy", zh: "潮流", ja: "トレンディ" },
+    instagram: { ko: "인스타감성", en: "Instagrammable", zh: "出片", ja: "インスタ映え" },
+    luxurious: { ko: "고급", en: "Luxurious", zh: "高档", ja: "リッチ" },
+    "poached-egg": { ko: "수란", en: "Poached Egg", zh: "水波蛋", ja: "ポーチドエッグ" },
+    hollandaise: { ko: "홀랜데이즈", en: "Hollandaise", zh: "荷兰酱", ja: "オランデーズ" },
+    fragrant: { ko: "향긋", en: "Fragrant", zh: "香气", ja: "香り高い" },
+    comforting: { ko: "편안한", en: "Comforting", zh: "治愈", ja: "ホッとする" },
+    porridge: { ko: "죽/포리지", en: "Porridge", zh: "粥", ja: "おかゆ" },
+    quick: { ko: "빠른", en: "Quick", zh: "快捷", ja: "クイック" },
+    simple: { ko: "심플", en: "Simple", zh: "简单", ja: "シンプル" },
+    signature: { ko: "시그니처", en: "Signature", zh: "招牌", ja: "シグネチャー" },
+    mcdonalds: { ko: "맥도날드", en: "McDonald's", zh: "麦当劳", ja: "マクドナルド" },
+    filling: { ko: "배부른", en: "Filling", zh: "管饱", ja: "ボリューム" },
+    cheesy: { ko: "치즈가득", en: "Cheesy", zh: "奶酪味", ja: "チーズたっぷり" },
+    pepperoni: { ko: "페퍼로니", en: "Pepperoni", zh: "意大利辣香肠", ja: "ペパロニ" },
+    "sweet-salty": { ko: "단짠", en: "Sweet-Salty", zh: "甜咸", ja: "甘じょっぱい" },
+    "korean-chinese": { ko: "중화풍", en: "Korean-Chinese", zh: "韩中式", ja: "韓中" },
+    "street-food": { ko: "길거리음식", en: "Street Food", zh: "街头小吃", ja: "屋台風" },
+    popular: { ko: "인기", en: "Popular", zh: "人气", ja: "人気" },
+    tuna: { ko: "참치", en: "Tuna", zh: "金枪鱼", ja: "ツナ" },
+    convenient: { ko: "간편", en: "Convenient", zh: "方便", ja: "手軽" },
+    traditional: { ko: "전통", en: "Traditional", zh: "传统", ja: "伝統" },
+    nutritious: { ko: "영양가", en: "Nutritious", zh: "营养", ja: "栄養" },
+    hot: { ko: "뜨거운", en: "Hot", zh: "热", ja: "熱い" },
+    "rice-bowl": { ko: "덮밥", en: "Rice Bowl", zh: "盖饭", ja: "丼" },
+    "hot-stone": { ko: "돌솥", en: "Hot Stone", zh: "石锅", ja: "石鍋" },
+    "burger-king": { ko: "버거킹", en: "Burger King", zh: "汉堡王", ja: "バーガーキング" },
+    thick: { ko: "두툼한", en: "Thick", zh: "厚实", ja: "分厚い" },
+    dumpling: { ko: "만두", en: "Dumpling", zh: "饺子", ja: "餃子" },
+    cool: { ko: "시원한", en: "Cool", zh: "清凉", ja: "さっぱり" },
+    "stir-fry": { ko: "볶음", en: "Stir-fry", zh: "炒", ja: "炒め" },
+    hawaiian: { ko: "하와이안", en: "Hawaiian", zh: "夏威夷", ja: "ハワイアン" },
+    gyoza: { ko: "교자", en: "Gyoza", zh: "饺子", ja: "餃子" },
+    comfort: { ko: "위로", en: "Comfort", zh: "安慰", ja: "癒やし" },
+    salmon: { ko: "연어", en: "Salmon", zh: "三文鱼", ja: "サーモン" },
+    crunchy: { ko: "아삭한", en: "Crunchy", zh: "脆爽", ja: "カリカリ" },
+    premium: { ko: "프리미엄", en: "Premium", zh: "高端", ja: "プレミアム" },
+    juicy: { ko: "육즙가득", en: "Juicy", zh: "多汁", ja: "ジューシー" },
+    special: { ko: "특별", en: "Special", zh: "特别", ja: "スペシャル" },
+    "korean-style": { ko: "한식풍", en: "Korean Style", zh: "韩式", ja: "韓国風" },
+    "omega-3": { ko: "오메가3", en: "Omega-3", zh: "欧米伽3", ja: "オメガ3" },
+    mushroom: { ko: "버섯", en: "Mushroom", zh: "蘑菇", ja: "きのこ" },
+    spanish: { ko: "스페인식", en: "Spanish", zh: "西班牙风", ja: "スペイン風" },
+    flavorful: { ko: "풍미가득", en: "Flavorful", zh: "风味足", ja: "風味豊か" },
+    superfood: { ko: "슈퍼푸드", en: "Superfood", zh: "超级食物", ja: "スーパーフード" },
+    balanced: { ko: "균형", en: "Balanced", zh: "均衡", ja: "バランス" },
+    sharing: { ko: "함께먹기", en: "Sharing", zh: "分享", ja: "シェア" },
+    braised: { ko: "조림/찜", en: "Braised", zh: "焖/蒸", ja: "煮込み/蒸し" },
+    soy: { ko: "간장", en: "Soy", zh: "酱油", ja: "醤油" },
+    kimchi: { ko: "김치", en: "Kimchi", zh: "泡菜", ja: "キムチ" },
+    potato: { ko: "감자", en: "Potato", zh: "土豆", ja: "ポテト" },
+    ink: { ko: "먹물", en: "Ink", zh: "墨汁", ja: "イカスミ" },
+    steak: { ko: "스테이크", en: "Steak", zh: "牛排", ja: "ステーキ" },
+    luxury: { ko: "럭셔리", en: "Luxury", zh: "奢华", ja: "ラグジュアリー" },
+    custom: { ko: "커스텀", en: "Custom", zh: "自选", ja: "カスタム" },
+    share: { ko: "공유/나눔", en: "Share", zh: "分享", ja: "シェア" },
+    cutlet: { ko: "돈카츠", en: "Cutlet", zh: "炸猪排", ja: "カツ" },
+    kfc: { ko: "KFC", en: "KFC", zh: "肯德基", ja: "ケンタッキー" },
+    "fire-hot": { ko: "불맛매움", en: "Fire Hot", zh: "火辣", ja: "激辛" },
+    addictive: { ko: "중독성", en: "Addictive", zh: "上瘾", ja: "やみつき" },
+    brothy: { ko: "국물가득", en: "Brothy", zh: "汤多", ja: "スープ多め" },
+    essential: { ko: "기본", en: "Essential", zh: "基础", ja: "定番" },
+    wings: { ko: "윙", en: "Wings", zh: "鸡翅", ja: "ウィング" },
+    sausage: { ko: "소시지", en: "Sausage", zh: "香肠", ja: "ソーセージ" },
+    octopus: { ko: "문어", en: "Octopus", zh: "章鱼", ja: "タコ" },
+    fruity: { ko: "과일맛", en: "Fruity", zh: "果味", ja: "フルーティ" },
+    refreshing: { ko: "상큼/시원", en: "Refreshing", zh: "清爽", ja: "さっぱり" },
+    drink: { ko: "음료", en: "Drink", zh: "饮品", ja: "ドリンク" },
+    waffle: { ko: "와플", en: "Waffle", zh: "华夫", ja: "ワッフル" },
+    street: { ko: "길거리", en: "Street", zh: "街头", ja: "ストリート" },
+    fluffy: { ko: "폭신", en: "Fluffy", zh: "蓬松", ja: "ふわふわ" },
   };
 
   const TAG_OPTIONS = useMemo(() => {
@@ -100,6 +180,7 @@ export default function MenuRecommendationPage() {
     setTimeout(() => {
       setRecommendedMenu(selectedMenu);
       setIsGenerating(false);
+      if (incrementPlayCount) incrementPlayCount();
     }, 1200);
   };
 
@@ -126,6 +207,7 @@ export default function MenuRecommendationPage() {
       back: "← 돌아가기",
       reset: "다른 메뉴 추천받기",
       stats: "총 추천수",
+      filtered: "해당 메뉴",
     },
     en: {
       title: "Today's Menu Recommendation",
@@ -136,6 +218,7 @@ export default function MenuRecommendationPage() {
       back: "← Back",
       reset: "Get Another Recommendation",
       stats: "Total Recommendations",
+      filtered: "Matches",
     },
     zh: {
       title: "今日菜单推荐",
@@ -146,16 +229,18 @@ export default function MenuRecommendationPage() {
       back: "← 返回",
       reset: "再推荐一次",
       stats: "总推荐数",
+      filtered: "匹配",
     },
     ja: {
       title: "今日のメニューおすすめ",
       subtitle: "🍽️ タグで回すルーレット",
-      description: "時間帯はなし、タグだけでおすすめを回します。",
+      description: "時間帯なし、タグだけでおすすめします。",
       currentTime: "現在の時間",
       recommend: "おすすめを受ける",
       back: "← 戻る",
       reset: "もう一度おすすめ",
       stats: "総おすすめ数",
+      filtered: "該当",
     },
   };
 
@@ -210,7 +295,7 @@ export default function MenuRecommendationPage() {
         timeSlot={selectedTimeSlot}
         onReset={resetRecommendation}
         pageInfo={info}
-        stats={stats}
+        stats={stats?.playCount ?? 0}
       />
     );
   }
@@ -220,7 +305,7 @@ export default function MenuRecommendationPage() {
       currentTimeSlot={"random"}
       onSelectTimeSlot={generateRecommendation}
       pageInfo={info}
-      stats={stats}
+      stats={stats?.playCount ?? 0}
       tagOptions={TAG_OPTIONS}
       selectedTags={selectedTags}
       onToggleTag={(tag: string) => {

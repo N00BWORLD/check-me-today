@@ -47,9 +47,9 @@ export default function MenuSelector({
                     {/* 태그 필터 */}
                     <div className="mb-6">
                         <div className="flex items-center justify-between text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2">
-                            <span>태그 필터 (여러 개 선택 시 AND 매칭)</span>
+                            <span>태그 필터 (AND 매칭)</span>
                             <span className="text-xs text-slate-500 dark:text-slate-400">
-                                {filteredCount}개 선택됨
+                                {filteredCount} {pageInfo.filtered || 'matches'}
                             </span>
                         </div>
                         <div className="flex flex-wrap gap-2">
