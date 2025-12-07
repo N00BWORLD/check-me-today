@@ -132,9 +132,6 @@ export default function MenuResult({
                                 <>
                                     <span className="text-2xl">🎲</span>
                                     <span className="font-bold">랜덤 추천 메뉴</span>
-                                    <span className="text-sm text-orange-600 dark:text-orange-400">
-                                        (시간대 무관)
-                                    </span>
                                 </>
                             ) : (
                                 <>
