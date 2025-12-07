@@ -158,19 +158,19 @@ export const tests: TestData[] = [
       ja: "私の動物キャラ" 
     },
     description: { 
-      ko: "내 안에 숨어있는 동물은? 귀여운 동물 테스트", 
-      en: "What animal lives inside you?", 
-      zh: "你内心深处住着什么动物？",
-      ja: "あなたの中に隠れている動物は？"
+      ko: "동물 행동 습성으로 찾는 내 안의 동물 🐾", 
+      en: "Find your inner animal through behavior patterns 🐾", 
+      zh: "通过动物行为习性找到你内心的动物 🐾",
+      ja: "動物の行動習性で見つける内なる動物 🐾"
     },
     emoji: "🦊",
-    gradient: "from-amber-500 via-orange-500 to-yellow-500",
-    bgGradient: "from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30",
+    gradient: "from-amber-500 via-orange-500 to-emerald-500",
+    bgGradient: "from-amber-100 to-emerald-100 dark:from-amber-900/30 dark:to-emerald-900/30",
     playCount: 0,
     likeCount: 0,
     badge: "NEW",
-    isComingSoon: true,
-    createdAt: "2024-12-06",
+    isComingSoon: false,
+    createdAt: "2024-12-07",
   },
   {
     id: "sleep-type",

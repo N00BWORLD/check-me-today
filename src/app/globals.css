@@ -511,6 +511,16 @@ body {
   animation: spin-slow 8s linear infinite;
 }
 
+/* 역방향 느린 회전 */
+@keyframes spin-reverse-slow {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.animate-spin-reverse-slow {
+  animation: spin-reverse-slow 6s linear infinite;
+}
+
 /* 수묵화 붓터치 효과 (배경 장식용) */
 .ink-brush-stroke {
   background: linear-gradient(90deg, 
