@@ -304,3 +304,218 @@ body {
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
+
+/* ===== 관상 테스트 - 수묵화 스타일 ===== */
+
+/* 배경 */
+.ink-bg {
+  background: linear-gradient(180deg, #f5f0e6 0%, #ebe4d4 50%, #e0d6c2 100%);
+  min-height: 100vh;
+}
+
+.dark .ink-bg {
+  background: linear-gradient(180deg, #1a1814 0%, #252018 50%, #1a1814 100%);
+}
+
+/* 수묵화 카드 */
+.ink-card {
+  background: rgba(255, 251, 245, 0.9);
+  border: 1px solid rgba(139, 0, 0, 0.15);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.dark .ink-card {
+  background: rgba(42, 36, 28, 0.9);
+  border: 1px solid rgba(139, 90, 43, 0.3);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* 내부 카드 */
+.ink-inner-card {
+  background: rgba(245, 240, 230, 0.6);
+  border: 1px solid rgba(139, 0, 0, 0.1);
+}
+
+.dark .ink-inner-card {
+  background: rgba(35, 30, 22, 0.6);
+  border: 1px solid rgba(139, 90, 43, 0.2);
+}
+
+/* 도장 스타일 */
+.ink-stamp {
+  background: linear-gradient(135deg, #8B0000 0%, #6B0000 100%);
+  border: 3px solid #5a0000;
+  box-shadow: 
+    0 4px 12px rgba(139, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+/* 헤더 (결과 상단) */
+.ink-header {
+  background: linear-gradient(135deg, #8B0000 0%, #6B0000 50%, #4a0000 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ink-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255,215,0,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255,215,0,0.1) 0%, transparent 50%);
+}
+
+/* 버튼 스타일 */
+.ink-button {
+  background: linear-gradient(135deg, #8B0000 0%, #6B0000 100%);
+  color: #fff;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.ink-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.ink-button:hover::before {
+  left: 100%;
+}
+
+/* 프로그레스 바 */
+.ink-progress {
+  background: linear-gradient(90deg, #8B0000, #c53030, #8B0000);
+  background-size: 200% 100%;
+  animation: inkProgressGlow 2s ease infinite;
+}
+
+@keyframes inkProgressGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 선택 옵션 */
+.ink-option {
+  background: rgba(255, 251, 245, 0.7);
+  border: 2px solid rgba(139, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.dark .ink-option {
+  background: rgba(42, 36, 28, 0.7);
+  border: 2px solid rgba(139, 90, 43, 0.3);
+}
+
+.ink-option:hover {
+  background: rgba(255, 251, 245, 0.9);
+  border-color: rgba(139, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.dark .ink-option:hover {
+  background: rgba(52, 44, 34, 0.9);
+  border-color: rgba(197, 165, 114, 0.5);
+}
+
+.ink-option-selected {
+  background: rgba(139, 0, 0, 0.1);
+  border: 2px solid #8B0000;
+}
+
+.dark .ink-option-selected {
+  background: rgba(139, 90, 43, 0.2);
+  border: 2px solid #c5a572;
+}
+
+/* 태그 */
+.ink-tag {
+  background: rgba(139, 0, 0, 0.1);
+  color: #8B0000;
+  border: 1px solid rgba(139, 0, 0, 0.3);
+}
+
+.dark .ink-tag {
+  background: rgba(197, 165, 114, 0.15);
+  color: #c5a572;
+  border: 1px solid rgba(197, 165, 114, 0.3);
+}
+
+/* 조언 카드 */
+.ink-advice {
+  background: linear-gradient(135deg, rgba(255, 248, 220, 0.8) 0%, rgba(255, 245, 200, 0.6) 100%);
+  border: 1px solid rgba(139, 0, 0, 0.2);
+}
+
+.dark .ink-advice {
+  background: linear-gradient(135deg, rgba(60, 50, 35, 0.8) 0%, rgba(50, 42, 28, 0.6) 100%);
+  border: 1px solid rgba(197, 165, 114, 0.2);
+}
+
+/* 텍스트 색상 */
+.text-ink-100 { color: #faf8f5; }
+.text-ink-200 { color: #f0ebe0; }
+.text-ink-300 { color: #d4c9b8; }
+.text-ink-400 { color: #a89a85; }
+.text-ink-500 { color: #7a6c5a; }
+.text-ink-600 { color: #5a4d3d; }
+.text-ink-700 { color: #3d3328; }
+.text-ink-800 { color: #2d2318; }
+
+.dark .text-ink-100 { color: #faf8f5; }
+.dark .text-ink-200 { color: #e8dfd0; }
+.dark .text-ink-300 { color: #c5b8a5; }
+.dark .text-ink-400 { color: #9a8b78; }
+.dark .text-ink-500 { color: #7a6c5a; }
+
+/* 악센트 색상 (붉은색/금색) */
+.text-ink-accent { color: #8B0000; }
+.text-ink-accent-light { color: #c5a572; }
+.text-ink-accent-dark { color: #6B0000; }
+
+.dark .text-ink-accent { color: #c5a572; }
+.dark .text-ink-accent-light { color: #d4b896; }
+.dark .text-ink-accent-dark { color: #a68b5b; }
+
+/* 배경 색상 */
+.bg-ink-100 { background-color: rgba(245, 240, 230, 0.5); }
+.bg-ink-200 { background-color: rgba(228, 220, 205, 0.5); }
+.bg-ink-700 { background-color: rgba(42, 36, 28, 0.5); }
+
+/* 느린 회전 애니메이션 */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* 수묵화 붓터치 효과 (배경 장식용) */
+.ink-brush-stroke {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(45, 35, 24, 0.1) 20%, 
+    rgba(45, 35, 24, 0.2) 50%, 
+    rgba(45, 35, 24, 0.1) 80%, 
+    transparent 100%
+  );
+  filter: blur(1px);
+}

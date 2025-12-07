@@ -98,6 +98,31 @@ export const tests: TestData[] = [
     createdAt: "2024-12-06",
   },
   {
+    id: "face-reading",
+    slug: "face-reading",
+    category: "fortune",
+    name: { 
+      ko: "관상 분석", 
+      en: "Face Reading", 
+      zh: "面相分析", 
+      ja: "人相占い" 
+    },
+    description: { 
+      ko: "동양 전통 관상학으로 보는 나의 얼굴 🔮", 
+      en: "Your face through Eastern physiognomy 🔮", 
+      zh: "用东方传统面相学看你的脸 🔮",
+      ja: "東洋伝統の人相学で見るあなたの顔 🔮"
+    },
+    emoji: "🔮",
+    gradient: "from-amber-800 via-red-900 to-amber-900",
+    bgGradient: "from-amber-100 to-red-100 dark:from-amber-900/30 dark:to-red-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2024-12-07",
+  },
+  {
     id: "love-type",
     slug: "love-test",
     category: "love",
