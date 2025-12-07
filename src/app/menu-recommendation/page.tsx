@@ -13,7 +13,7 @@ export default function MenuRecommendationPage() {
     const [recommendedMenu, setRecommendedMenu] = useState<any>(null);
     const [isGenerating, setIsGenerating] = useState(false);
     const { lang, t } = useLanguage();
-    const { stats, incrementStats } = useTestStats("menu-recommendation");
+    const { stats } = useTestStats("menu-recommendation");
 
     // 현재 시간에 맞는 기본 시간대 추천
     const getCurrentTimeSlot = (): TimeSlot => {
@@ -37,18 +37,11 @@ export default function MenuRecommendationPage() {
         setIsGenerating(true);
         setSelectedTimeSlot(timeSlot);
 
-        let selectedMenu;
-        // 랜덤 선택지인 경우 랜덤 카테고리에서 추천
-        if (timeSlot === 'random') {
-            const randomMenus = menuRecommendations.filter(menu => menu.category === 'random');
-            selectedMenu = randomMenus[Math.floor(Math.random() * randomMenus.length)];
-        } else {
-            // 가중치 기반 랜덤 추천
-            selectedMenu = getWeightedRandomMenu(timeSlot);
-        }
+        // 가중치 기반 랜덤 추천
+        const selectedMenu = getWeightedRandomMenu(timeSlot);
 
         // 통계 증가 (Firebase 설정 후 활성화)
-        // incrementStats();
+        // TODO: incrementStats();
 
         // 애니메이션 효과를 위한 딜레이
         setTimeout(() => {

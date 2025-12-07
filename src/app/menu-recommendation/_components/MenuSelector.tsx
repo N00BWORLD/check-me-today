@@ -7,7 +7,7 @@ interface MenuSelectorProps {
     currentTimeSlot: TimeSlot;
     onSelectTimeSlot: (timeSlot: TimeSlot) => void;
     pageInfo: any;
-    stats: number;
+    stats: any;
 }
 
 export default function MenuSelector({

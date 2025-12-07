@@ -22,6 +22,7 @@ export interface MenuItem {
     lunch: number;
     dinner: number;
     snack: number;
+    random?: number;
   };
 }
 
@@ -857,6 +858,12 @@ export type TimeSlot = keyof typeof timeSlots | 'random';
 
 // 가중치 기반 메뉴 추천 함수
 export function getWeightedRandomMenu(timeSlot: TimeSlot): MenuItem {
+  // 랜덤 선택지인 경우 랜덤 카테고리에서 추천
+  if (timeSlot === 'random') {
+    const randomMenus = menuRecommendations.filter(menu => menu.category === 'random');
+    return randomMenus[Math.floor(Math.random() * randomMenus.length)];
+  }
+
   // 해당 시간대의 모든 메뉴 필터링
   const availableMenus = menuRecommendations.filter(menu => menu.category === timeSlot);
 

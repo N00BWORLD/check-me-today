@@ -9,7 +9,7 @@ interface MenuResultProps {
     timeSlot: TimeSlot;
     onReset: () => void;
     pageInfo: any;
-    stats: number;
+    stats: any;
 }
 
 export default function MenuResult({
