@@ -521,6 +521,12 @@ body {
   animation: spin-reverse-slow 6s linear infinite;
 }
 
+/* 프로그레스 바 shimmer 효과 */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 /* 수묵화 붓터치 효과 (배경 장식용) */
 .ink-brush-stroke {
   background: linear-gradient(90deg, 

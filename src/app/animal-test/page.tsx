@@ -26,19 +26,37 @@ export default function AnimalTestPage() {
   const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [progressAnimalIndex, setProgressAnimalIndex] = useState(0);
+  const [isAnimalFading, setIsAnimalFading] = useState(false);
   
-  // 프로그레스 바 동물 이모지 배열
-  const animalEmojis = ['🦊', '🐺', '🐱', '🐕', '🐻', '🐰', '🦉', '🐬'];
+  // 프로그레스 바 동물 이모지 & 색상 배열
+  const animalData = [
+    { emoji: '🦊', color: '#FF6B35', name: 'fox' },      // 여우 - 주황
+    { emoji: '🐺', color: '#607D8B', name: 'wolf' },     // 늑대 - 회색
+    { emoji: '🐱', color: '#9C27B0', name: 'cat' },      // 고양이 - 보라
+    { emoji: '🐕', color: '#8D6E63', name: 'dog' },      // 강아지 - 갈색
+    { emoji: '🐻', color: '#795548', name: 'bear' },     // 곰 - 진갈색
+    { emoji: '🐰', color: '#E91E63', name: 'rabbit' },   // 토끼 - 핑크
+    { emoji: '🦉', color: '#4A148C', name: 'owl' },      // 부엉이 - 진보라
+    { emoji: '🐬', color: '#00BCD4', name: 'dolphin' },  // 돌고래 - 청록
+  ];
 
-  // 프로그레스 바 동물 이모지 순환
+  // 프로그레스 바 동물 이모지 순환 (페이드 효과 포함)
   useEffect(() => {
     if (state === "quiz") {
       const interval = setInterval(() => {
-        setProgressAnimalIndex((prev) => (prev + 1) % animalEmojis.length);
-      }, 500); // 0.5초마다 변경
+        // 먼저 페이드 아웃
+        setIsAnimalFading(true);
+        
+        // 0.3초 후 동물 변경 & 페이드 인
+        setTimeout(() => {
+          setProgressAnimalIndex((prev) => (prev + 1) % animalData.length);
+          setIsAnimalFading(false);
+        }, 300);
+      }, 2000); // 2초마다 변경
+      
       return () => clearInterval(interval);
     }
-  }, [state, animalEmojis.length]);
+  }, [state, animalData.length]);
 
   // 조회수 증가
   useIncrementPlay("animal-self");
@@ -430,22 +448,41 @@ export default function AnimalTestPage() {
           </div>
 
           {/* 프로그레스 바 */}
-          <div className="relative h-5 bg-green-200/50 dark:bg-green-800/50 rounded-full mb-8 overflow-hidden shadow-inner">
+          <div className="relative h-6 bg-green-200/50 dark:bg-green-800/50 rounded-full mb-8 overflow-hidden shadow-inner">
             {/* 발자국 장식 */}
-            <div className="absolute inset-0 flex items-center justify-around opacity-30">
+            <div className="absolute inset-0 flex items-center justify-around opacity-20">
               {[...Array(6)].map((_, i) => (
                 <span key={i} className="text-xs">🐾</span>
               ))}
             </div>
+            {/* 프로그레스 바 - 색상이 서서히 변하는 효과 */}
             <div
-              className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-500 relative"
-              style={{ width: `${progress}%` }}
+              className="h-full rounded-full relative overflow-hidden"
+              style={{ 
+                width: `${progress}%`,
+                background: `linear-gradient(90deg, ${animalData[progressAnimalIndex].color}99 0%, ${animalData[progressAnimalIndex].color} 100%)`,
+                transition: 'width 0.5s ease, background 0.8s ease-in-out',
+                boxShadow: `0 0 10px ${animalData[progressAnimalIndex].color}66`
+              }}
             >
+              {/* 빛나는 효과 */}
+              <div 
+                className="absolute inset-0 opacity-40"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)',
+                  animation: 'shimmer 2s infinite'
+                }}
+              />
+              {/* 동물 이모지 - 페이드 인/아웃 효과 */}
               <span 
-                className="absolute right-0 top-1/2 -translate-y-1/2 text-base transition-all duration-300"
-                key={progressAnimalIndex}
+                className="absolute right-1 top-1/2 -translate-y-1/2 text-lg drop-shadow-md"
+                style={{
+                  opacity: isAnimalFading ? 0 : 1,
+                  transform: `translateY(-50%) scale(${isAnimalFading ? 0.5 : 1})`,
+                  transition: 'opacity 0.3s ease, transform 0.3s ease'
+                }}
               >
-                {animalEmojis[progressAnimalIndex]}
+                {animalData[progressAnimalIndex].emoji}
               </span>
             </div>
           </div>
