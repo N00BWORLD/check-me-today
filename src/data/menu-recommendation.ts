@@ -148,6 +148,46 @@ export const menuRecommendations: MenuItem[] = [
     tags: ['healthy', 'trendy', 'instagram'],
     weight: { breakfast: 8, lunch: 4, dinner: 3, snack: 2 }
   },
+  {
+    id: 'eggs-benedict-delivery',
+    name: {
+      ko: '에그 베네딕트',
+      en: 'Eggs Benedict',
+      zh: '班尼迪克蛋',
+      ja: 'エッグベネディクト'
+    },
+    description: {
+      ko: '잉글리시 머핀에 홀랜데이즈 소스와 푹신한 계란! 고급스러운 아침.',
+      en: 'English muffin with hollandaise sauce and poached egg! Luxurious breakfast.',
+      zh: '英式松饼配荷兰酱和水煮蛋！豪华早餐。',
+      ja: 'イングリッシュマフィンにオランデーズソースとポーチドエッグ！贅沢な朝食。'
+    },
+    emoji: '🍳',
+    category: 'breakfast',
+    calories: 520,
+    tags: ['luxurious', 'poached-egg', 'hollandaise'],
+    weight: { breakfast: 7, lunch: 2, dinner: 3, snack: 1 }
+  },
+  {
+    id: 'french-toast-delivery',
+    name: {
+      ko: '프렌치 토스트',
+      en: 'French Toast',
+      zh: '法式吐司',
+      ja: 'フレンチトースト'
+    },
+    description: {
+      ko: '달콤하게 구운 빵에 메이플 시럽! 향기로운 아침 식사.',
+      en: 'Sweetly baked bread with maple syrup! Fragrant morning meal.',
+      zh: '甜甜的烤面包配枫糖浆！香气扑鼻的早晨餐食。',
+      ja: '甘く焼いたパンにメープルシロップ！香り高い朝食。'
+    },
+    emoji: '🍞',
+    category: 'breakfast',
+    calories: 420,
+    tags: ['sweet', 'fragrant', 'comforting'],
+    weight: { breakfast: 8, lunch: 1, dinner: 2, snack: 3 }
+  },
   // 추가 아침 메뉴들
   // 확장된 아침 메뉴들
   {
@@ -832,6 +872,66 @@ export const menuRecommendations: MenuItem[] = [
     calories: 580,
     tags: ['sweet', 'rice-bowl', 'popular'],
     weight: { breakfast: 1, lunch: 9, dinner: 6, snack: 4 }
+  },
+  {
+    id: 'bibimbap-lunch-extended',
+    name: {
+      ko: '돌솥 제육 비빔밥',
+      en: 'Spicy Pork Bibimbap',
+      zh: '辣猪肉拌饭',
+      ja: '辛い豚肉ビビンバプ'
+    },
+    description: {
+      ko: '매콤한 제육볶음이 올라간 돌솥 비빔밥! 든든한 점심.',
+      en: 'Hot stone bibimbap with spicy pork! Hearty lunch.',
+      zh: '辣猪肉炒的热石锅拌饭！饱腹的午餐。',
+      ja: '辛い豚肉炒めのホットストーン・ビビンバプ！心を満たすランチ。'
+    },
+    emoji: '🍚',
+    category: 'lunch',
+    calories: 620,
+    tags: ['spicy', 'hot-stone', 'hearty'],
+    weight: { breakfast: 1, lunch: 8, dinner: 5, snack: 3 }
+  },
+  {
+    id: 'hamburger-lunch-extended',
+    name: {
+      ko: '와퍼 세트',
+      en: 'Whopper Combo',
+      zh: '皇堡套餐',
+      ja: 'ワッパーセット'
+    },
+    description: {
+      ko: '버거킹의 대표 메뉴 와퍼! 두툼한 패티가 특징.',
+      en: 'Burger King\'s signature Whopper! Thick patty is the key.',
+      zh: '汉堡王的代表菜单皇堡！厚实的肉饼是特色。',
+      ja: 'バーガーキングの代表メニュー・ワッパー！厚いパティが特徴。'
+    },
+    emoji: '🍔',
+    category: 'lunch',
+    calories: 650,
+    tags: ['signature', 'burger-king', 'thick'],
+    weight: { breakfast: 1, lunch: 8, dinner: 4, snack: 6 }
+  },
+  {
+    id: 'sandwich-lunch',
+    name: {
+      ko: '써브웨이 샌드위치',
+      en: 'Subway Sandwich',
+      zh: '赛百味三明治',
+      ja: 'サブウェイサンドイッチ'
+    },
+    description: {
+      ko: '신선한 야채와 빵으로 만든 건강한 샌드위치! 점심으로 최고.',
+      en: 'Healthy sandwich made with fresh vegetables and bread! Perfect for lunch.',
+      zh: '新鲜蔬菜和面包制作的健康三明治！午餐最佳选择。',
+      ja: '新鮮野菜とパンで作る健康サンドイッチ！ランチに最高。'
+    },
+    emoji: '🥪',
+    category: 'lunch',
+    calories: 380,
+    tags: ['healthy', 'fresh', 'subway'],
+    weight: { breakfast: 3, lunch: 9, dinner: 4, snack: 5 }
   },
   // 확장된 점심 메뉴들
   {
@@ -1998,6 +2098,66 @@ export const menuRecommendations: MenuItem[] = [
     tags: ['omega-3', 'grilled', 'healthy'],
     weight: { breakfast: 1, lunch: 3, dinner: 9, snack: 2 }
   },
+  {
+    id: 'mushroom-risotto-dinner',
+    name: {
+      ko: '버섯 리조또',
+      en: 'Mushroom Risotto',
+      zh: '蘑菇烩饭',
+      ja: 'マッシュルームリゾット'
+    },
+    description: {
+      ko: '크리미한 리조또에 향긋한 버섯! 이탈리아 대표 저녁 메뉴.',
+      en: 'Creamy risotto with aromatic mushrooms! Italian dinner classic.',
+      zh: '奶油烩饭配香浓蘑菇！意大利晚餐经典。',
+      ja: 'クリーミーリゾットに香ばしいきのこ！イタリアン夕食の定番。'
+    },
+    emoji: '🍄',
+    category: 'dinner',
+    calories: 480,
+    tags: ['creamy', 'mushroom', 'italian'],
+    weight: { breakfast: 1, lunch: 2, dinner: 8, snack: 2 }
+  },
+  {
+    id: 'paella-dinner',
+    name: {
+      ko: '해산물 빠에야',
+      en: 'Seafood Paella',
+      zh: '海鲜西班牙海鲜饭',
+      ja: 'シーフードパエリア'
+    },
+    description: {
+      ko: '신선한 해산물이 가득한 스페인 빠에야! 풍미 가득한 저녁.',
+      en: 'Spanish paella full of fresh seafood! Flavorful dinner.',
+      zh: '新鲜海鲜丰富的西班牙海鲜饭！风味十足的晚餐。',
+      ja: '新鮮海鮮がたっぷりのスペイン風パエリア！風味豊かな夕食。'
+    },
+    emoji: '🥘',
+    category: 'dinner',
+    calories: 550,
+    tags: ['seafood', 'spanish', 'flavorful'],
+    weight: { breakfast: 1, lunch: 3, dinner: 8, snack: 2 }
+  },
+  {
+    id: 'quinoa-bowl-dinner',
+    name: {
+      ko: '퀴노아 샐러드 볼',
+      en: 'Quinoa Salad Bowl',
+      zh: '藜麦沙拉碗',
+      ja: 'キヌアサラダボウル'
+    },
+    description: {
+      ko: '슈퍼푸드 퀴노아에 다양한 채소와 단백질! 건강 저녁.',
+      en: 'Superfood quinoa with various vegetables and protein! Healthy dinner.',
+      zh: '超级食品藜麦配各种蔬菜和蛋白质！健康晚餐。',
+      ja: 'スーパーフードきのに様々な野菜とタンパク質！健康夕食。'
+    },
+    emoji: '🥗',
+    category: 'dinner',
+    calories: 420,
+    tags: ['superfood', 'healthy', 'balanced'],
+    weight: { breakfast: 3, lunch: 5, dinner: 9, snack: 2 }
+  },
 
   // 야식 메뉴 (배달 앱 야식 베스트셀러)
   {
@@ -2661,9 +2821,88 @@ export const menuRecommendations: MenuItem[] = [
     calories: 520,
     tags: ['hot', 'brothy', 'essential'],
     weight: { breakfast: 1, lunch: 4, dinner: 5, snack: 10 }
+  },
+  {
+    id: 'chicken-wings',
+    name: {
+      ko: '치킨윙 세트',
+      en: 'Chicken Wings Set',
+      zh: '鸡翅套餐',
+      ja: 'チキンウィングセット'
+    },
+    description: {
+      ko: '바삭한 치킨윙에 매콤한 소스! 야식으로 딱 좋은 안주.',
+      en: 'Crispy chicken wings with spicy sauce! Perfect late-night snack.',
+      zh: '酥脆鸡翅配辣酱！适合宵夜的下酒菜。',
+      ja: 'サクサクのチキンウィングに辛いソース！夜食にぴったりのおつまみ。'
+    },
+    emoji: '🍗',
+    category: 'snack',
+    calories: 480,
+    tags: ['crispy', 'spicy', 'wings'],
+    weight: { breakfast: 1, lunch: 5, dinner: 6, snack: 9 }
+  },
+  {
+    id: 'zinger-burger',
+    name: {
+      ko: '징거버거',
+      en: 'Zinger Burger',
+      zh: '津格堡',
+      ja: 'ジンガーバーガー'
+    },
+    description: {
+      ko: 'KFC의 매콤한 치킨 패티 버거! 야식으로 강력 추천.',
+      en: 'KFC\'s spicy chicken patty burger! Highly recommended for late-night.',
+      zh: '肯德基的辣鸡肉饼堡！宵夜强烈推荐。',
+      ja: 'KFCの辛いチキンパティバーガー！夜食に強くおすすめ。'
+    },
+    emoji: '🍔',
+    category: 'snack',
+    calories: 580,
+    tags: ['kfc', 'spicy', 'chicken'],
+    weight: { breakfast: 1, lunch: 6, dinner: 4, snack: 8 }
+  },
+  {
+    id: 'hot-dog',
+    name: {
+      ko: '핫도그 세트',
+      en: 'Hot Dog Set',
+      zh: '热狗套餐',
+      ja: 'ホットドッグセット'
+    },
+    description: {
+      ko: '길게 뻗은 소시지에 머스터드와 케첩! 간단한 야식.',
+      en: 'Long sausage with mustard and ketchup! Simple late-night snack.',
+      zh: '长长的香肠配芥末酱和番茄酱！简单的宵夜。',
+      ja: '長く伸びたソーセージにマスタードとケチャップ！シンプルな夜食。'
+    },
+    emoji: '🌭',
+    category: 'snack',
+    calories: 420,
+    tags: ['simple', 'sausage', 'classic'],
+    weight: { breakfast: 2, lunch: 5, dinner: 3, snack: 8 }
+  },
+  {
+    id: 'taco-snack',
+    name: {
+      ko: '타코야키',
+      en: 'Takoyaki',
+      zh: '章鱼烧',
+      ja: 'たこ焼き'
+    },
+    description: {
+      ko: '달콤한 타코야키 소스에 문어! 일본식 야식 메뉴.',
+      en: 'Sweet takoyaki sauce with octopus! Japanese late-night menu.',
+      zh: '甜章鱼烧酱配章鱼！日式宵夜菜单。',
+      ja: '甘いたこ焼きソースにタコ！日本風夜食メニュー。'
+    },
+    emoji: '🦑',
+    category: 'snack',
+    calories: 380,
+    tags: ['octopus', 'japanese', 'sweet'],
+    weight: { breakfast: 1, lunch: 3, dinner: 4, snack: 7 }
   }
 ];
-    name: {
       ko: '돌솥비빔밥',
       en: 'Hot Stone Bibimbap',
       zh: '石锅拌饭',
@@ -2791,7 +3030,6 @@ export const timeSlots = {
       zh: '早餐',
       ja: '朝食'
     },
-    timeRange: '6:00 - 9:00',
     emoji: '🌅'
   },
   lunch: {
@@ -2801,7 +3039,6 @@ export const timeSlots = {
       zh: '午餐',
       ja: '昼食'
     },
-    timeRange: '11:00 - 14:00',
     emoji: '☀️'
   },
   dinner: {
@@ -2811,7 +3048,6 @@ export const timeSlots = {
       zh: '晚餐',
       ja: '夕食'
     },
-    timeRange: '17:00 - 20:00',
     emoji: '🌙'
   },
   snack: {
@@ -2821,7 +3057,6 @@ export const timeSlots = {
       zh: '宵夜',
       ja: '夜食'
     },
-    timeRange: '21:00 - 24:00',
     emoji: '🌃'
   },
   random: {
@@ -2831,7 +3066,6 @@ export const timeSlots = {
       zh: '随机',
       ja: 'ランダム'
     },
-    timeRange: '시간대 무관',
     emoji: '🎲'
   }
 };
