@@ -13,16 +13,15 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-    const [theme, setTheme] = useState<Theme>("light");
+    const [theme, setTheme] = useState<Theme>("dark"); // 기본값: 다크 모드
 
     useEffect(() => {
-        // 저장된 테마 또는 시스템 설정 확인
+        // 저장된 테마가 있으면 사용, 없으면 다크 모드 유지
         const saved = localStorage.getItem("theme") as Theme;
         if (saved) {
             setTheme(saved);
-        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            setTheme("dark");
         }
+        // 저장된 값이 없으면 기본값(dark) 유지
     }, []);
 
     useEffect(() => {

@@ -34,9 +34,9 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
             <span className="text-5xl opacity-50 grayscale">{test.emoji}</span>
           </div>
 
-          {/* SOON 배지 */}
-          <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-slate-600/80 backdrop-blur-sm rounded-full">
-            <span className="text-[11px] font-bold text-white">⏳ SOON</span>
+          {/* SOON 배지 - 작고 반투명하게 */}
+          <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-slate-500/70 backdrop-blur-sm rounded-full">
+            <span className="text-[9px] font-bold text-white/90">SOON</span>
           </div>
 
           {/* 하단: 정보 영역 (40%) */}
@@ -78,16 +78,16 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           </span>
         </div>
 
-        {/* 뱃지 */}
+        {/* 뱃지 - 작고 반투명하게 */}
         {test.badge && (
           <div className={`
-            absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white shadow-md
+            absolute top-2 right-2 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white/90 backdrop-blur-sm
             ${test.badge === "HOT" 
-              ? "bg-gradient-to-r from-orange-500 to-red-500" 
-              : "bg-gradient-to-r from-green-500 to-emerald-500"
+              ? "bg-gradient-to-r from-orange-500/80 to-red-500/80" 
+              : "bg-gradient-to-r from-green-500/80 to-emerald-500/80"
             }
           `}>
-            {test.badge === "HOT" ? "🔥 HOT" : "✨ NEW"}
+            {test.badge}
           </div>
         )}
 
