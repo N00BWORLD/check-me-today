@@ -8,6 +8,7 @@ import {
   animalQuestions, 
   calculateAnimalScores, 
   determineAnimalResult,
+  getOptionFeedback,
   AnimalResult 
 } from "@/data/animal-test";
 import { useIncrementPlay } from "@/hooks/useTestStats";
@@ -22,6 +23,8 @@ export default function AnimalTestPage() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<AnimalResult | null>(null);
   const [copied, setCopied] = useState(false);
+  const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // 조회수 증가
   useIncrementPlay("animal-self");
@@ -70,22 +73,35 @@ export default function AnimalTestPage() {
 
   // 옵션 선택
   const handleSelect = (optionId: string) => {
+    if (isTransitioning) return; // 연속 클릭 방지
+    
     const newAnswers = { ...answers, [currentQuestion.id]: optionId };
     setAnswers(newAnswers);
+    setIsTransitioning(true);
+    
+    // 피드백 표시
+    const feedback = getOptionFeedback(currentQuestion.id, optionId, lang);
+    setSelectedFeedback(feedback);
 
-    if (currentStep < animalQuestions.length - 1) {
-      // 다음 질문으로
-      setTimeout(() => setCurrentStep(currentStep + 1), 300);
-    } else {
-      // 분석 화면으로
-      setState("analyzing");
-      setTimeout(() => {
-        const scores = calculateAnimalScores(newAnswers);
-        const animalResult = determineAnimalResult(scores);
-        setResult(animalResult);
-        setState("result");
-      }, 3500);
-    }
+    // 피드백을 1.5초 보여준 후 다음으로 이동
+    setTimeout(() => {
+      setSelectedFeedback(null);
+      setIsTransitioning(false);
+      
+      if (currentStep < animalQuestions.length - 1) {
+        // 다음 질문으로
+        setCurrentStep(currentStep + 1);
+      } else {
+        // 분석 화면으로
+        setState("analyzing");
+        setTimeout(() => {
+          const scores = calculateAnimalScores(newAnswers);
+          const animalResult = determineAnimalResult(scores);
+          setResult(animalResult);
+          setState("result");
+        }, 3500);
+      }
+    }, 1500);
   };
 
   // 공유 기능들
@@ -442,31 +458,53 @@ export default function AnimalTestPage() {
 
             {/* 선택지들 */}
             <div className="space-y-3">
-              {currentQuestion.options.map((option) => (
+              {currentQuestion.options.map((option, index) => (
                 <button
                   key={option.id}
                   onClick={() => handleSelect(option.id)}
+                  disabled={isTransitioning}
                   className={`w-full p-4 rounded-xl text-left transition-all duration-200 border-2 ${
                     answers[currentQuestion.id] === option.id
-                      ? 'bg-amber-100 dark:bg-amber-900/40 border-amber-400 dark:border-amber-500 shadow-lg'
-                      : 'bg-white/50 dark:bg-green-800/30 border-green-200/50 dark:border-green-700/30 hover:border-amber-300 dark:hover:border-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20'
+                      ? 'bg-amber-100 dark:bg-amber-900/40 border-amber-400 dark:border-amber-500 shadow-lg scale-[1.02]'
+                      : isTransitioning 
+                        ? 'bg-white/30 dark:bg-green-800/20 border-green-200/30 dark:border-green-700/20 opacity-50'
+                        : 'bg-white/50 dark:bg-green-800/30 border-green-200/50 dark:border-green-700/30 hover:border-amber-300 dark:hover:border-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20'
                   }`}
                 >
-                  <div className="text-lg font-medium text-green-800 dark:text-green-100 break-keep">
-                    {option.text[lang] || option.text.en}
+                  <div className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 dark:bg-green-700/50 flex items-center justify-center text-green-700 dark:text-green-200 font-bold text-sm">
+                      {String.fromCharCode(65 + index)}
+                    </span>
+                    <div className="text-base font-medium text-green-800 dark:text-green-100 break-keep pt-1">
+                      {option.text[lang] || option.text.en}
+                    </div>
                   </div>
                 </button>
               ))}
             </div>
           </div>
 
+          {/* 피드백 메시지 */}
+          {selectedFeedback && (
+            <div className="bg-gradient-to-r from-amber-400 to-orange-500 rounded-2xl p-5 mb-4 shadow-lg animate-fade-in">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl animate-bounce">💭</span>
+                <p className="text-white font-medium text-lg break-keep">
+                  {selectedFeedback}
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* 힌트 */}
-          <p className="text-center text-sm text-green-500 dark:text-green-400">
-            {lang === 'ko' ? '✨ 직감적으로 선택해보세요!' :
-             lang === 'zh' ? '✨ 凭直觉选择吧！' :
-             lang === 'ja' ? '✨ 直感で選んでみてください！' :
-             '✨ Choose intuitively!'}
-          </p>
+          {!selectedFeedback && (
+            <p className="text-center text-sm text-green-500 dark:text-green-400">
+              {lang === 'ko' ? '✨ 직감적으로 선택해보세요!' :
+               lang === 'zh' ? '✨ 凭直觉选择吧！' :
+               lang === 'ja' ? '✨ 直感で選んでみてください！' :
+               '✨ Choose intuitively!'}
+            </p>
+          )}
         </div>
       </main>
     );
