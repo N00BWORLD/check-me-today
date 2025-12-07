@@ -176,6 +176,30 @@ export default function AnimalTestPage() {
     }
   };
 
+  const handleKakaoShare = () => {
+    // 카카오톡 공유 텍스트 생성
+    const title = lang === 'ko' 
+      ? `🦊 나의 동물 자아: ${result?.animal.ko} ${result?.emoji}`
+      : `🦊 My Animal Self: ${result?.animal.en} ${result?.emoji}`;
+    const description = result?.title[lang] || result?.title.en;
+    const url = window.location.href;
+
+    // 모바일에서 카카오톡 앱으로 공유 시도
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // 카카오톡 URL 스킴 (앱이 설치된 경우)
+      const kakaoText = `${title}\n${description}\n\n${url}`;
+      const kakaoUrl = `https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(kakaoText)}`;
+      window.open(kakaoUrl, '_blank');
+    } else {
+      // 데스크톱에서는 카카오스토리 공유 페이지로 이동
+      const kakaoText = `${title}\n${description}`;
+      const kakaoUrl = `https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(kakaoText)}`;
+      window.open(kakaoUrl, '_blank', 'width=600,height=400');
+    }
+  };
+
   const handleSaveImage = async () => {
     if (!result) return;
 
@@ -817,7 +841,7 @@ export default function AnimalTestPage() {
                 <div className="text-xs text-green-700 dark:text-green-300">Twitter</div>
               </button>
               <button
-                onClick={handleCopyLink}
+                onClick={handleKakaoShare}
                 className="py-4 px-2 bg-white/70 dark:bg-green-900/40 backdrop-blur-sm rounded-xl text-center hover:bg-white/90 dark:hover:bg-green-900/60 transition-colors shadow-lg"
               >
                 <div className="text-2xl mb-1">💬</div>

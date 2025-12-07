@@ -16,10 +16,17 @@ export interface MenuItem {
   category: 'breakfast' | 'lunch' | 'dinner' | 'snack';
   calories?: number;
   tags: string[];
+  // 시간대별 선호도 가중치 (높을수록 추천 확률 높음)
+  weight: {
+    breakfast: number;
+    lunch: number;
+    dinner: number;
+    snack: number;
+  };
 }
 
 export const menuRecommendations: MenuItem[] = [
-  // 아침 메뉴
+  // 아침 메뉴 (주로 국물 음식, 든든한 시작)
   {
     id: 'kimchi-jjigae',
     name: {
@@ -37,7 +44,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍲',
     category: 'breakfast',
     calories: 320,
-    tags: ['spicy', 'comforting', 'traditional']
+    tags: ['spicy', 'comforting', 'traditional'],
+    weight: { breakfast: 10, lunch: 8, dinner: 6, snack: 2 }
   },
   {
     id: 'bibimbap',
@@ -56,7 +64,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍚',
     category: 'breakfast',
     calories: 450,
-    tags: ['balanced', 'nutritious', 'colorful']
+    tags: ['balanced', 'nutritious', 'colorful'],
+    weight: { breakfast: 8, lunch: 9, dinner: 7, snack: 1 }
   },
   {
     id: 'tofu-jjigae',
@@ -75,7 +84,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍛',
     category: 'breakfast',
     calories: 280,
-    tags: ['comforting', 'healthy', 'traditional']
+    tags: ['comforting', 'healthy', 'traditional'],
+    weight: { breakfast: 9, lunch: 6, dinner: 8, snack: 3 }
   },
   {
     id: 'bulgogi',
@@ -94,10 +104,72 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🥩',
     category: 'breakfast',
     calories: 380,
-    tags: ['special', 'sweet', 'protein']
+    tags: ['special', 'sweet', 'protein'],
+    weight: { breakfast: 6, lunch: 10, dinner: 9, snack: 4 }
+  },
+  // 추가 아침 메뉴들
+  {
+    id: 'juk',
+    name: {
+      ko: '죽',
+      en: 'Rice Porridge',
+      zh: '粥',
+      ja: '粥'
+    },
+    description: {
+      ko: '부드러운 죽으로 시작하는 건강한 하루! 속을 편안하게 해줍니다.',
+      en: 'Start your day with gentle rice porridge! Comforts your stomach.',
+      zh: '用柔软的粥开启健康的一天！让你胃部舒适。',
+      ja: '柔らかい粥で健康的な一日を始めよう！胃を優しく癒します。'
+    },
+    emoji: '🥣',
+    category: 'breakfast',
+    calories: 180,
+    tags: ['gentle', 'healthy', 'comforting'],
+    weight: { breakfast: 10, lunch: 2, dinner: 3, snack: 1 }
+  },
+  {
+    id: 'toast',
+    name: {
+      ko: '토스트',
+      en: 'Toast',
+      zh: '吐司',
+      ja: 'トースト'
+    },
+    description: {
+      ko: '바삭한 토스트에 버터와 잼! 서양식 아침의 대표 메뉴.',
+      en: 'Crispy toast with butter and jam! Classic Western breakfast.',
+      zh: '酥脆的吐司配黄油和果酱！西方早餐的代表。',
+      ja: 'サクサクのトーストにバターとジャム！西洋風朝食の代表。'
+    },
+    emoji: '🍞',
+    category: 'breakfast',
+    calories: 220,
+    tags: ['crispy', 'western', 'simple'],
+    weight: { breakfast: 8, lunch: 3, dinner: 2, snack: 5 }
+  },
+  {
+    id: 'oatmeal',
+    name: {
+      ko: '오트밀',
+      en: 'Oatmeal',
+      zh: '燕麦粥',
+      ja: 'オートミール'
+    },
+    description: {
+      ko: '건강한 오트밀로 영양을 채워보세요! 다양한 토핑으로 맛있게.',
+      en: 'Fill up with healthy oatmeal! Delicious with various toppings.',
+      zh: '用健康的燕麦粥补充营养！配上各种配料更美味。',
+      ja: '健康的なオートミールで栄養をチャージ！様々なトッピングで美味しく。'
+    },
+    emoji: '🌾',
+    category: 'breakfast',
+    calories: 150,
+    tags: ['healthy', 'fiber', 'modern'],
+    weight: { breakfast: 7, lunch: 1, dinner: 1, snack: 2 }
   },
 
-  // 점심 메뉴
+  // 점심 메뉴 (가장 다양한 선택)
   {
     id: 'samgyeopsal',
     name: {
@@ -115,7 +187,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🥓',
     category: 'lunch',
     calories: 520,
-    tags: ['grilled', 'juicy', 'traditional']
+    tags: ['grilled', 'juicy', 'traditional'],
+    weight: { breakfast: 1, lunch: 10, dinner: 7, snack: 3 }
   },
   {
     id: 'dakgalbi',
@@ -134,7 +207,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍗',
     category: 'lunch',
     calories: 480,
-    tags: ['spicy', 'sweet', 'stir-fry']
+    tags: ['spicy', 'sweet', 'stir-fry'],
+    weight: { breakfast: 2, lunch: 9, dinner: 5, snack: 4 }
   },
   {
     id: 'japchae',
@@ -153,7 +227,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🥡',
     category: 'lunch',
     calories: 420,
-    tags: ['noodles', 'vegetables', 'balanced']
+    tags: ['noodles', 'vegetables', 'balanced'],
+    weight: { breakfast: 3, lunch: 8, dinner: 6, snack: 2 }
   },
   {
     id: 'mandu',
@@ -172,10 +247,112 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🥟',
     category: 'lunch',
     calories: 380,
-    tags: ['dumplings', 'crispy', 'comforting']
+    tags: ['dumplings', 'crispy', 'comforting'],
+    weight: { breakfast: 4, lunch: 7, dinner: 8, snack: 6 }
+  },
+  // 추가 점심 메뉴들
+  {
+    id: 'kimbap',
+    name: {
+      ko: '김밥',
+      en: 'Kimbap',
+      zh: '紫菜包饭',
+      ja: 'キンパプ'
+    },
+    description: {
+      ko: '신선한 야채와 햄, 계란이 어우러진 영양 김밥! 간단하면서 든든한 점심.',
+      en: 'Nutritious kimbap with fresh vegetables, ham, and egg! Simple yet satisfying lunch.',
+      zh: '新鲜蔬菜、火腿和鸡蛋搭配的营养紫菜包饭！简单又饱腹的午餐。',
+      ja: '新鮮な野菜とハム、卵が合わさった栄養キンパプ！シンプルで心を満たすランチ。'
+    },
+    emoji: '🍙',
+    category: 'lunch',
+    calories: 350,
+    tags: ['convenient', 'balanced', 'portable'],
+    weight: { breakfast: 5, lunch: 9, dinner: 3, snack: 7 }
+  },
+  {
+    id: 'bibim-naengmyeon',
+    name: {
+      ko: '물냉면',
+      en: 'Cold Wheat Noodles',
+      zh: '冷面',
+      ja: '冷麺'
+    },
+    description: {
+      ko: '시원한 육수에 쫄깃한 면! 여름 점심으로 최고의 메뉴.',
+      en: 'Chewy noodles in cold broth! The best summer lunch.',
+      zh: '筋道的面条配冰凉的汤汁！夏天午餐的最佳选择。',
+      ja: '冷たいスープにもちもちの麺！夏のランチに最高のメニュー。'
+    },
+    emoji: '🍜',
+    category: 'lunch',
+    calories: 320,
+    tags: ['cold', 'refreshing', 'traditional'],
+    weight: { breakfast: 1, lunch: 8, dinner: 10, snack: 1 }
+  },
+  {
+    id: 'samgyetang',
+    name: {
+      ko: '삼계탕',
+      en: 'Ginseng Chicken Soup',
+      zh: '参鸡汤',
+      ja: 'サムゲタン'
+    },
+    description: {
+      ko: '영양 만점 삼계탕! 뜨거운 국물로 든든한 점심 식사.',
+      en: 'Nutritious ginseng chicken soup! Hearty lunch with hot broth.',
+      zh: '营养满分的参鸡汤！热腾腾的汤汁让你饱腹的午餐。',
+      ja: '栄養満点のサムゲタン！熱いスープで心を満たすランチ。'
+    },
+    emoji: '🍗',
+    category: 'lunch',
+    calories: 450,
+    tags: ['nutritious', 'hearty', 'traditional'],
+    weight: { breakfast: 2, lunch: 6, dinner: 8, snack: 1 }
+  },
+  {
+    id: 'bossam',
+    name: {
+      ko: '보쌈',
+      en: 'Pork Wraps',
+      zh: '烤肉卷',
+      ja: 'ポッサム'
+    },
+    description: {
+      ko: '쫄깃한 보쌈김치에 싸서 먹는 부드러운 돼지고기! 특별한 점심 메뉴.',
+      en: 'Tender pork wrapped in crunchy kimchi! A special lunch treat.',
+      zh: '筋道的泡菜里包着嫩猪肉！特别的午餐菜品。',
+      ja: 'もちもちのポッサムキムチに包んだ柔らかい豚肉！特別なランチメニュー。'
+    },
+    emoji: '🥬',
+    category: 'lunch',
+    calories: 480,
+    tags: ['special', 'tender', 'traditional'],
+    weight: { breakfast: 1, lunch: 7, dinner: 9, snack: 2 }
+  },
+  {
+    id: 'hamburger',
+    name: {
+      ko: '햄버거',
+      en: 'Hamburger',
+      zh: '汉堡',
+      ja: 'ハンバーガー'
+    },
+    description: {
+      ko: '패티와 야채가 어우러진 맛있는 햄버거! 빠르고 간편한 점심.',
+      en: 'Delicious hamburger with patty and vegetables! Quick and easy lunch.',
+      zh: '肉饼和蔬菜搭配的美味汉堡！快速便捷的午餐。',
+      ja: 'パティと野菜が合わさった美味しいハンバーガー！速くて簡単なランチ。'
+    },
+    emoji: '🍔',
+    category: 'lunch',
+    calories: 550,
+    tags: ['fast', 'western', 'convenient'],
+    weight: { breakfast: 3, lunch: 8, dinner: 2, snack: 8 }
   },
 
-  // 저녁 메뉴
+  // 저녁 메뉴 (가벼운 식사 중심)
   {
     id: 'sundubu-jjigae',
     name: {
@@ -193,10 +370,11 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍜',
     category: 'dinner',
     calories: 350,
-    tags: ['spicy', 'soft', 'light']
+    tags: ['spicy', 'soft', 'light'],
+    weight: { breakfast: 3, lunch: 4, dinner: 9, snack: 2 }
   },
   {
-    id: 'bibim-naengmyeon',
+    id: 'bibim-naengmyeon-dinner',
     name: {
       ko: '비빔냉면',
       en: 'Spicy Cold Noodles',
@@ -212,7 +390,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍝',
     category: 'dinner',
     calories: 320,
-    tags: ['cold', 'spicy', 'refreshing']
+    tags: ['cold', 'spicy', 'refreshing'],
+    weight: { breakfast: 1, lunch: 6, dinner: 10, snack: 1 }
   },
   {
     id: 'galbitang',
@@ -231,10 +410,72 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🥣',
     category: 'dinner',
     calories: 450,
-    tags: ['soup', 'hearty', 'traditional']
+    tags: ['soup', 'hearty', 'traditional'],
+    weight: { breakfast: 2, lunch: 5, dinner: 8, snack: 1 }
+  },
+  // 추가 저녁 메뉴들
+  {
+    id: 'dakjjim',
+    name: {
+      ko: '닭찜',
+      en: 'Steamed Chicken',
+      zh: '蒸鸡',
+      ja: 'タクチム'
+    },
+    description: {
+      ko: '부드럽게 찐 닭고기에 달콤한 양념! 건강한 저녁 메뉴.',
+      en: 'Tender steamed chicken with sweet sauce! Healthy dinner option.',
+      zh: '嫩蒸鸡肉配甜酱！健康的晚餐选择。',
+      ja: '柔らかく蒸した鶏肉に甘いタレ！健康的な夕食メニュー。'
+    },
+    emoji: '🍗',
+    category: 'dinner',
+    calories: 380,
+    tags: ['steamed', 'healthy', 'sweet'],
+    weight: { breakfast: 1, lunch: 3, dinner: 9, snack: 2 }
+  },
+  {
+    id: 'salad',
+    name: {
+      ko: '샐러드',
+      en: 'Salad',
+      zh: '沙拉',
+      ja: 'サラダ'
+    },
+    description: {
+      ko: '신선한 채소와 드레싱의 조화! 가벼운 저녁 식사로 완벽.',
+      en: 'Fresh vegetables with dressing! Perfect for a light dinner.',
+      zh: '新鲜蔬菜配酱汁的和谐！轻便晚餐的完美选择。',
+      ja: '新鮮な野菜とドレッシングのハーモニー！軽めの夕食に完璧。'
+    },
+    emoji: '🥗',
+    category: 'dinner',
+    calories: 150,
+    tags: ['fresh', 'light', 'healthy'],
+    weight: { breakfast: 4, lunch: 5, dinner: 8, snack: 3 }
+  },
+  {
+    id: 'pasta',
+    name: {
+      ko: '파스타',
+      en: 'Pasta',
+      zh: '意大利面',
+      ja: 'パスタ'
+    },
+    description: {
+      ko: '다양한 소스와 면이 어우러진 이탈리아 요리! 특별한 저녁 메뉴.',
+      en: 'Italian dish with various sauces and noodles! Special dinner treat.',
+      zh: '各种酱汁和面条搭配的意大利菜！特别的晚餐菜品。',
+      ja: '様々なソースと麺が合わさったイタリアン！特別な夕食メニュー。'
+    },
+    emoji: '🍝',
+    category: 'dinner',
+    calories: 420,
+    tags: ['italian', 'special', 'varied'],
+    weight: { breakfast: 1, lunch: 4, dinner: 7, snack: 5 }
   },
 
-  // 야식 메뉴
+  // 야식 메뉴 (가장 인기 있는 시간대)
   {
     id: 'ramyeon',
     name: {
@@ -252,7 +493,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍜',
     category: 'snack',
     calories: 480,
-    tags: ['hot', 'comforting', 'quick']
+    tags: ['hot', 'comforting', 'quick'],
+    weight: { breakfast: 2, lunch: 3, dinner: 4, snack: 10 }
   },
   {
     id: 'tteokbokki',
@@ -271,7 +513,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍥',
     category: 'snack',
     calories: 380,
-    tags: ['spicy', 'sweet', 'street-food']
+    tags: ['spicy', 'sweet', 'street-food'],
+    weight: { breakfast: 1, lunch: 2, dinner: 3, snack: 10 }
   },
   {
     id: 'chicken',
@@ -290,7 +533,8 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🍗',
     category: 'snack',
     calories: 550,
-    tags: ['crispy', 'comforting', 'party']
+    tags: ['crispy', 'comforting', 'party'],
+    weight: { breakfast: 1, lunch: 4, dinner: 6, snack: 10 }
   },
   {
     id: 'mandu-guk',
@@ -309,7 +553,129 @@ export const menuRecommendations: MenuItem[] = [
     emoji: '🥟',
     category: 'snack',
     calories: 320,
-    tags: ['soup', 'light', 'comforting']
+    tags: ['soup', 'light', 'comforting'],
+    weight: { breakfast: 3, lunch: 5, dinner: 7, snack: 8 }
+  },
+  // 추가 야식 메뉴들 (한국인이 야식으로 자주 먹는 음식들)
+  {
+    id: 'pizza',
+    name: {
+      ko: '피자',
+      en: 'Pizza',
+      zh: '披萨',
+      ja: 'ピザ'
+    },
+    description: {
+      ko: '치즈와 토핑이 풍부한 피자! 친구들과 함께하는 야식의 정석.',
+      en: 'Cheesy pizza with rich toppings! The classic late-night meal with friends.',
+      zh: '奶酪丰富的披萨配配料！和朋友一起的宵夜经典。',
+      ja: 'チーズとトッピングたっぷりのピザ！友達と共に夜食の定番。'
+    },
+    emoji: '🍕',
+    category: 'snack',
+    calories: 600,
+    tags: ['cheesy', 'sharing', 'western'],
+    weight: { breakfast: 1, lunch: 6, dinner: 8, snack: 9 }
+  },
+  {
+    id: 'burger-night',
+    name: {
+      ko: '햄버거 세트',
+      en: 'Burger Combo',
+      zh: '汉堡套餐',
+      ja: 'バーガーセット'
+    },
+    description: {
+      ko: '햄버거에 감자튀김과 콜라! 든든한 야식 세트 메뉴.',
+      en: 'Burger with fries and cola! Hearty late-night combo.',
+      zh: '汉堡配薯条和可乐！饱腹的宵夜套餐。',
+      ja: 'ハンバーガーにフライドポテトとコーラ！心を満たす夜食セット。'
+    },
+    emoji: '🍔',
+    category: 'snack',
+    calories: 750,
+    tags: ['combo', 'filling', 'fast-food'],
+    weight: { breakfast: 2, lunch: 7, dinner: 3, snack: 9 }
+  },
+  {
+    id: 'samgyetang-night',
+    name: {
+      ko: '삼계탕',
+      en: 'Chicken Ginseng Soup',
+      zh: '参鸡汤',
+      ja: 'サムゲタン'
+    },
+    description: {
+      ko: '야식으로 삼계탕? 든든하고 영양가득한 야식 메뉴!',
+      en: 'Chicken ginseng soup for late-night? Nutritious and filling!',
+      zh: '宵夜吃参鸡汤？营养丰富又饱腹的宵夜菜单！',
+      ja: '夜食にサムゲタン？栄養満点で心を満たす夜食メニュー！'
+    },
+    emoji: '🐔',
+    category: 'snack',
+    calories: 450,
+    tags: ['nutritious', 'hearty', 'traditional'],
+    weight: { breakfast: 2, lunch: 6, dinner: 8, snack: 7 }
+  },
+  {
+    id: 'bibimbap-night',
+    name: {
+      ko: '야식 비빔밥',
+      en: 'Late-Night Bibimbap',
+      zh: '宵夜石锅拌饭',
+      ja: '夜食ビビンバプ'
+    },
+    description: {
+      ko: '야식으로 비빔밥! 고기와 계란이 든든한 늦은 저녁 식사.',
+      en: 'Bibimbap for late-night! Hearty meal with meat and egg.',
+      zh: '宵夜吃石锅拌饭！肉和鸡蛋让你饱腹的晚餐。',
+      ja: '夜食にビビンバプ！肉と卵で心を満たす遅い夕食。'
+    },
+    emoji: '🍚',
+    category: 'snack',
+    calories: 480,
+    tags: ['hearty', 'balanced', 'late-night'],
+    weight: { breakfast: 3, lunch: 8, dinner: 9, snack: 6 }
+  },
+  {
+    id: 'hotdog',
+    name: {
+      ko: '핫도그',
+      en: 'Hot Dog',
+      zh: '热狗',
+      ja: 'ホットドッグ'
+    },
+    description: {
+      ko: '길거리에서 쉽게 먹을 수 있는 핫도그! 간단한 야식으로 최고.',
+      en: 'Easy street food hot dog! Perfect for a quick late-night snack.',
+      zh: '街头容易买到的热狗！简单的宵夜最佳选择。',
+      ja: '街中で簡単に食べられるホットドッグ！簡単な夜食に最高。'
+    },
+    emoji: '🌭',
+    category: 'snack',
+    calories: 350,
+    tags: ['street-food', 'quick', 'convenient'],
+    weight: { breakfast: 1, lunch: 4, dinner: 2, snack: 8 }
+  },
+  {
+    id: 'cup-noodles',
+    name: {
+      ko: '컵라면',
+      en: 'Cup Noodles',
+      zh: '杯面',
+      ja: 'カップラーメン'
+    },
+    description: {
+      ko: '컵에 담긴 즉석 라면! 혼자 먹기 딱 좋은 야식 메뉴.',
+      en: 'Instant noodles in a cup! Perfect late-night snack for one.',
+      zh: '杯装的即食面！适合一个人吃的宵夜菜单。',
+      ja: 'カップに入った即席ラーメン！一人で食べるのにぴったりの夜食メニュー。'
+    },
+    emoji: '🥤',
+    category: 'snack',
+    calories: 320,
+    tags: ['instant', 'solo', 'quick'],
+    weight: { breakfast: 2, lunch: 2, dinner: 3, snack: 10 }
   }
 ];
 
@@ -357,3 +723,28 @@ export const timeSlots = {
 };
 
 export type TimeSlot = keyof typeof timeSlots;
+
+// 가중치 기반 메뉴 추천 함수
+export function getWeightedRandomMenu(timeSlot: TimeSlot): MenuItem {
+  // 해당 시간대의 모든 메뉴 필터링
+  const availableMenus = menuRecommendations.filter(menu => menu.category === timeSlot);
+
+  if (availableMenus.length === 0) {
+    // 기본적으로 첫 번째 메뉴 반환 (fallback)
+    return menuRecommendations[0];
+  }
+
+  // 각 메뉴의 가중치에 따른 확률 계산
+  const totalWeight = availableMenus.reduce((sum, menu) => sum + menu.weight[timeSlot], 0);
+  let random = Math.random() * totalWeight;
+
+  for (const menu of availableMenus) {
+    random -= menu.weight[timeSlot];
+    if (random <= 0) {
+      return menu;
+    }
+  }
+
+  // fallback (이론적으로 도달하지 않음)
+  return availableMenus[0];
+}
