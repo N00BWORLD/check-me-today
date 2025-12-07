@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import html2canvas from "html2canvas";
 import { useLanguage } from "@/context/LanguageContext";
@@ -140,6 +140,16 @@ export default function FaceReadingPage() {
       throw error;
     }
   }, []);
+
+  // 업로드 페이지 진입 시 모델 미리 로드 (백그라운드)
+  useEffect(() => {
+    if (state === "upload" && !faceApiRef.current) {
+      // 백그라운드에서 모델 프리로드
+      loadModel().catch(() => {
+        // 프리로드 실패해도 무시 (나중에 다시 시도)
+      });
+    }
+  }, [state, loadModel]);
 
   // face-api.js 68 랜드마크에서 특징 분석
   const analyzeFacialFeatures = (landmarks: {
@@ -289,32 +299,69 @@ export default function FaceReadingPage() {
     return selections;
   };
 
+  // 이미지 리사이징 함수 (처리 속도 향상)
+  const resizeImage = (imageUrl: string, maxSize: number = 640): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let { width, height } = img;
+        
+        // 최대 크기로 리사이징
+        if (width > height && width > maxSize) {
+          height = (height * maxSize) / width;
+          width = maxSize;
+        } else if (height > maxSize) {
+          width = (width * maxSize) / height;
+          height = maxSize;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', 0.8));
+      };
+      img.src = imageUrl;
+    });
+  };
+
   // 이미지 업로드 처리
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
     
+    // 즉시 분석 화면으로 전환 (사용자 피드백)
+    setState("analyzing");
+    setAnalysisProgress(5);
+    setAnalysisMessage(lang === 'ko' ? '이미지 처리 중...' : 'Processing image...');
+    
     const reader = new FileReader();
     reader.onload = async (e) => {
       const imageUrl = e.target?.result as string;
-      setUploadedImage(imageUrl);
+      
+      // 이미지 리사이징 (속도 향상)
+      setAnalysisProgress(10);
+      const resizedImage = await resizeImage(imageUrl);
+      setUploadedImage(resizedImage);
       
       // AI 분석 시작
-      await analyzeWithAI(imageUrl);
+      await analyzeWithAI(resizedImage);
     };
     reader.readAsDataURL(file);
   };
 
   // AI로 얼굴 분석
   const analyzeWithAI = async (imageUrl: string) => {
-    setState("analyzing");
-    setAnalysisProgress(0);
+    setAnalysisProgress(15);
     
     try {
+      // 모델 로드 (캐시되어 있으면 빠름)
+      setAnalysisMessage(t(texts.loadingModel));
       const faceapi = await loadModel();
       
       setAnalysisMessage(t(texts.analyzingFace));
-      setAnalysisProgress(80);
+      setAnalysisProgress(75);
       
       // 이미지 로드
       const img = new Image();
@@ -325,6 +372,8 @@ export default function FaceReadingPage() {
         img.src = imageUrl;
       });
       
+      setAnalysisProgress(85);
+      
       // 얼굴 감지 및 랜드마크
       const detection = await faceapi.detectSingleFace(img).withFaceLandmarks();
       
@@ -334,20 +383,21 @@ export default function FaceReadingPage() {
         return;
       }
       
-      setAnalysisProgress(90);
+      setAnalysisProgress(95);
       
       // 얼굴 특징 분석
       const analyzedSelections = analyzeFacialFeatures(detection.landmarks);
       setSelections(analyzedSelections);
       
       setAnalysisProgress(100);
+      setAnalysisMessage(lang === 'ko' ? '분석 완료!' : 'Analysis complete!');
       
       // 결과 계산
       setTimeout(() => {
         const calculatedResult = calculateFaceReading(analyzedSelections);
         setResult(calculatedResult);
         setState("result");
-      }, 1000);
+      }, 500);
       
     } catch (error) {
       console.error('AI 분석 실패:', error);
