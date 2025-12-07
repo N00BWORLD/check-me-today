@@ -482,7 +482,10 @@ body {
 .dark .text-ink-200 { color: #e8dfd0; }
 .dark .text-ink-300 { color: #c5b8a5; }
 .dark .text-ink-400 { color: #9a8b78; }
-.dark .text-ink-500 { color: #7a6c5a; }
+.dark .text-ink-500 { color: #a89a85; }
+.dark .text-ink-600 { color: #c5b8a5; }
+.dark .text-ink-700 { color: #e0d6c8; }
+.dark .text-ink-800 { color: #f5f0e6; }
 
 /* 악센트 색상 (붉은색/금색) */
 .text-ink-accent { color: #8B0000; }
