@@ -20,7 +20,7 @@ export default function PrivacyPage() {
           
           <div className="prose prose-slate dark:prose-invert max-w-none space-y-6 text-slate-600 dark:text-slate-300">
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              시행일: 2024년 1월 1일 | 최종 수정일: 2024년 12월 1일
+              시행일: 2025년 1월 1일 | 최종 수정일: 2025년 1월 1일
             </p>
 
             <section>

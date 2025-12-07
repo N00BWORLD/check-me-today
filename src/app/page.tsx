@@ -35,8 +35,16 @@ export default function Home() {
     return result;
   }, [selectedCategory, searchQuery, lang]);
 
-  // HOT 테스트 (배지가 HOT인 것들)
-  const hotTests = tests.filter(t => t.badge === "HOT" && !t.isComingSoon);
+  // HOT 테스트 (배지가 HOT인 것들) - 조회수 기준 정렬
+  const hotTests = useMemo(() => {
+    const hot = tests.filter(t => t.badge === "HOT" && !t.isComingSoon);
+    // 실시간 통계로 조회수 기준 정렬
+    return hot.sort((a, b) => {
+      const aPlays = allStats[a.id]?.playCount ?? a.playCount;
+      const bPlays = allStats[b.id]?.playCount ?? b.playCount;
+      return bPlays - aPlays; // 내림차순
+    });
+  }, [allStats]);
   
   // Coming Soon 테스트 (실제로 준비 중인 것들만)
   const comingSoonTests = tests.filter(t => t.isComingSoon);
@@ -237,7 +245,7 @@ export default function Home() {
             </a>
           </div>
           <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-2">
-            © 2024 Check Me Today. All rights reserved.
+            © 2025 Check Me Today. All rights reserved.
           </p>
         </div>
       </footer>

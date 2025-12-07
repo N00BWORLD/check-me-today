@@ -20,7 +20,7 @@ export default function TermsPage() {
           
           <div className="prose prose-slate dark:prose-invert max-w-none space-y-6 text-slate-600 dark:text-slate-300">
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              시행일: 2024년 1월 1일 | 최종 수정일: 2024년 12월 1일
+              시행일: 2025년 1월 1일 | 최종 수정일: 2025년 1월 1일
             </p>
 
             <section>
@@ -163,7 +163,7 @@ export default function TermsPage() {
             <section className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
               <p className="text-sm text-slate-500 dark:text-slate-400">
                 <strong>부칙</strong><br />
-                이 약관은 2024년 1월 1일부터 시행합니다.
+                이 약관은 2025년 1월 1일부터 시행합니다.
               </p>
             </section>
           </div>
