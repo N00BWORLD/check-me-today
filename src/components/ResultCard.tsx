@@ -108,25 +108,33 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
         
         setIsSaving(true);
         try {
-            // 카드를 캡처
+            // 다크모드 여부 확인
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            // 카드를 캡처 - 배경색 명시적 설정
             const canvas = await html2canvas(cardRef.current, {
-                scale: 2, // 고해상도
-                backgroundColor: null,
+                scale: 3, // 더 고해상도
+                backgroundColor: isDark ? '#1e293b' : '#ffffff', // 다크/라이트 모드 배경
                 useCORS: true,
                 logging: false,
+                allowTaint: true,
+                removeContainer: true,
             });
             
             // 이미지로 변환 및 다운로드
             const link = document.createElement('a');
-            link.download = `check-me-today-${type.toLowerCase()}-result.png`;
-            link.href = canvas.toDataURL('image/png');
+            const timestamp = new Date().toISOString().slice(0, 10);
+            link.download = `check-me-today-${type.toLowerCase()}-${timestamp}.png`;
+            link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         } catch (err) {
             console.error('이미지 저장 실패:', err);
+            // 실패 시 알림
+            alert(lang === 'ko' ? '이미지 저장에 실패했습니다.' : 'Failed to save image.');
         } finally {
             setIsSaving(false);
         }
-    }, [isSaving, type]);
+    }, [isSaving, type, lang]);
 
     // 네이티브 공유 (모바일)
     const handleNativeShare = async () => {
