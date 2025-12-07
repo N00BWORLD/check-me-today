@@ -840,6 +840,16 @@ export const timeSlots = {
     },
     timeRange: '21:00 - 24:00',
     emoji: '🌃'
+  },
+  random: {
+    name: {
+      ko: '랜덤',
+      en: 'Random',
+      zh: '随机',
+      ja: 'ランダム'
+    },
+    timeRange: '시간대 무관',
+    emoji: '🎲'
   }
 };
 

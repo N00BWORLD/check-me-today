@@ -34,10 +34,15 @@ export default function MenuResult({
             background: linear-gradient(135deg, ${isDark ? '#0f172a' : '#fff7ed'} 0%, ${bgColor} 100%);
             font-family: system-ui, -apple-system, sans-serif;
         `;
+
+        const timeSlotDisplay = timeSlot === 'random'
+            ? '랜덤 추천'
+            : timeSlots[timeSlot].name.ko;
+
         captureDiv.innerHTML = `
             <div style="text-align: center; color: ${isDark ? '#f1f5f9' : '#1e293b'}">
                 <div style="font-size: 24px; margin-bottom: 16px;">🍽️ 오늘의 메뉴추천</div>
-                <div style="font-size: 18px; margin-bottom: 8px;">${timeSlots[timeSlot].emoji} ${timeSlots[timeSlot].name.ko}</div>
+                <div style="font-size: 18px; margin-bottom: 8px;">${timeSlots[timeSlot].emoji} ${timeSlotDisplay}</div>
                 <div style="font-size: 32px; margin: 20px 0; font-weight: bold;">${menu.emoji} ${menu.name.ko}</div>
                 <div style="font-size: 14px; margin-bottom: 16px; line-height: 1.5;">${menu.description.ko}</div>
                 <div style="font-size: 12px; color: ${isDark ? '#94a3b8' : '#64748b'}; margin-top: 20px;">✨ check-me.today</div>
@@ -74,8 +79,12 @@ export default function MenuResult({
 
     // 트위터 공유 함수
     const handleTwitterShare = () => {
+        const timeSlotDisplay = timeSlot === 'random'
+            ? '랜덤 추천'
+            : `${timeSlots[timeSlot].name.ko}시간`;
+
         const url = window.location.href;
-        const text = `🍽️ 오늘 ${timeSlots[timeSlot].name.ko}시간에는 "${menu.name.ko}" 어떠세요?`;
+        const text = `🍽️ 오늘 ${timeSlotDisplay}에는 "${menu.name.ko}" 어떠세요?`;
         window.open(
             `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
             '_blank'
@@ -84,9 +93,13 @@ export default function MenuResult({
 
     // 네이티브 공유 함수
     const handleNativeShare = async () => {
+        const timeSlotDisplay = timeSlot === 'random'
+            ? '랜덤 추천'
+            : `${timeSlots[timeSlot].name.ko}시간`;
+
         const shareData = {
             title: '오늘의 메뉴추천',
-            text: `🍽️ 오늘 ${timeSlots[timeSlot].name.ko}시간에는 "${menu.name.ko}" 어떠세요?`,
+            text: `🍽️ 오늘 ${timeSlotDisplay}에는 "${menu.name.ko}" 어떠세요?`,
             url: window.location.href,
         };
 
