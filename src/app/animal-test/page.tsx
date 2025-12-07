@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import html2canvas from "html2canvas";
 import { useLanguage } from "@/context/LanguageContext";
@@ -25,6 +25,20 @@ export default function AnimalTestPage() {
   const [copied, setCopied] = useState(false);
   const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [progressAnimalIndex, setProgressAnimalIndex] = useState(0);
+  
+  // 프로그레스 바 동물 이모지 배열
+  const animalEmojis = ['🦊', '🐺', '🐱', '🐕', '🐻', '🐰', '🦉', '🐬'];
+
+  // 프로그레스 바 동물 이모지 순환
+  useEffect(() => {
+    if (state === "quiz") {
+      const interval = setInterval(() => {
+        setProgressAnimalIndex((prev) => (prev + 1) % animalEmojis.length);
+      }, 500); // 0.5초마다 변경
+      return () => clearInterval(interval);
+    }
+  }, [state, animalEmojis.length]);
 
   // 조회수 증가
   useIncrementPlay("animal-self");
@@ -416,7 +430,7 @@ export default function AnimalTestPage() {
           </div>
 
           {/* 프로그레스 바 */}
-          <div className="relative h-4 bg-green-200/50 dark:bg-green-800/50 rounded-full mb-8 overflow-hidden shadow-inner">
+          <div className="relative h-5 bg-green-200/50 dark:bg-green-800/50 rounded-full mb-8 overflow-hidden shadow-inner">
             {/* 발자국 장식 */}
             <div className="absolute inset-0 flex items-center justify-around opacity-30">
               {[...Array(6)].map((_, i) => (
@@ -427,7 +441,12 @@ export default function AnimalTestPage() {
               className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-500 relative"
               style={{ width: `${progress}%` }}
             >
-              <span className="absolute right-0 top-1/2 -translate-y-1/2 text-sm">🦊</span>
+              <span 
+                className="absolute right-0 top-1/2 -translate-y-1/2 text-base transition-all duration-300"
+                key={progressAnimalIndex}
+              >
+                {animalEmojis[progressAnimalIndex]}
+              </span>
             </div>
           </div>
 

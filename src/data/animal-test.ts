@@ -986,16 +986,36 @@ export function calculateAnimalScores(answers: Record<string, string>): AnimalSc
 
 // 결과 동물 결정 함수
 export function determineAnimalResult(scores: AnimalScores): AnimalResult {
-  // 가장 높은 점수의 동물 찾기
-  let maxScore = 0;
-  let resultAnimal = 'fox';
+  // 디버깅: 점수 출력
+  console.log("🐾 동물 점수:", scores);
+  
+  // 가장 높은 점수 찾기
+  let maxScore = -1;
+  const topAnimals: string[] = [];
 
   Object.entries(scores).forEach(([animal, score]) => {
     if (score > maxScore) {
       maxScore = score;
-      resultAnimal = animal;
+      topAnimals.length = 0; // 배열 초기화
+      topAnimals.push(animal);
+    } else if (score === maxScore && score > 0) {
+      topAnimals.push(animal); // 동점인 동물 추가
     }
   });
+
+  // 동점일 경우 랜덤 선택, 아니면 최고 점수 동물 선택
+  let resultAnimal: string;
+  if (topAnimals.length === 0) {
+    // 모든 점수가 0인 경우 (거의 발생하지 않음)
+    resultAnimal = animalResults[Math.floor(Math.random() * animalResults.length)].id;
+  } else if (topAnimals.length === 1) {
+    resultAnimal = topAnimals[0];
+  } else {
+    // 동점일 경우 랜덤 선택
+    resultAnimal = topAnimals[Math.floor(Math.random() * topAnimals.length)];
+  }
+  
+  console.log("🏆 선택된 동물:", resultAnimal, "(최고점:", maxScore, ")");
 
   // 결과 동물 반환
   const result = animalResults.find(r => r.id === resultAnimal);
