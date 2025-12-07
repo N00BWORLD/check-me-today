@@ -447,6 +447,171 @@ export const menuRecommendations: MenuItem[] = [
     tags: ['healthy', 'fresh', 'subway'],
     weight: { breakfast: 3, lunch: 9, dinner: 4, snack: 5 }
   },
+  {
+    id: 'dakgangjeong-lunch',
+    name: { ko: '닭강정', en: 'Sweet Crispy Chicken', zh: '糖酥鸡', ja: 'タッカンジョン' },
+    description: {
+      ko: '달콤바삭 닭강정! 직장인 점심 간식 베스트.',
+      en: 'Sweet crispy chicken bites, a lunch favorite.',
+      zh: '甜脆的糖酥鸡，午餐人气小吃。',
+      ja: '甘くてカリカリのタッカンジョン、ランチの定番おやつ。'
+    },
+    emoji: '🍗',
+    category: 'lunch',
+    calories: 620,
+    tags: ['sweet', 'crispy', 'korean'],
+    weight: { lunch: 9 }
+  },
+  {
+    id: 'mandu-lunch',
+    name: { ko: '만두세트', en: 'Dumpling Set', zh: '饺子套餐', ja: '餃子セット' },
+    description: {
+      ko: '군만두+물만두 한 세트! 가성비 점심.',
+      en: 'Fried and steamed dumpling combo, great value lunch.',
+      zh: '煎饺+水饺组合，性价比午餐。',
+      ja: '焼き餃子と水餃子のセット、お得なランチ。'
+    },
+    emoji: '🥟',
+    category: 'lunch',
+    calories: 520,
+    tags: ['dumpling', 'combo', 'value'],
+    weight: { lunch: 8 }
+  },
+  {
+    id: 'soba-lunch',
+    name: { ko: '메밀소바', en: 'Cold Soba', zh: '荞麦冷面', ja: 'ざるそば' },
+    description: {
+      ko: '시원한 메밀소바와 튀김 세트, 더위에 제격.',
+      en: 'Cold soba with tempura set, perfect for hot days.',
+      zh: '清爽荞麦面配天妇罗，夏日首选。',
+      ja: '冷たい蕎麦と天ぷらのセット、暑い日にぴったり。'
+    },
+    emoji: '🥢',
+    category: 'lunch',
+    calories: 480,
+    tags: ['noodles', 'japanese', 'cool'],
+    weight: { lunch: 7 }
+  },
+  {
+    id: 'pho-lunch',
+    name: { ko: '쌀국수', en: 'Beef Pho', zh: '越南粉', ja: 'フォー' },
+    description: {
+      ko: '진한 육수의 베트남 쌀국수, 담백한 점심.',
+      en: 'Vietnamese beef pho with rich broth.',
+      zh: '浓郁汤底的越南牛肉粉，清淡午餐。',
+      ja: 'コクのあるスープのベトナムフォー、あっさりランチ。'
+    },
+    emoji: '🍜',
+    category: 'lunch',
+    calories: 450,
+    tags: ['vietnamese', 'noodles', 'light'],
+    weight: { lunch: 8 }
+  },
+  {
+    id: 'pad-thai-lunch',
+    name: { ko: '팟타이', en: 'Pad Thai', zh: '泰式炒河粉', ja: 'パッタイ' },
+    description: {
+      ko: '땅콩과 새우가 들어간 태국식 볶음면.',
+      en: 'Thai stir-fried noodles with shrimp and peanuts.',
+      zh: '含花生和虾的泰式炒河粉。',
+      ja: 'エビとピーナッツ入りのタイ風焼きそば。'
+    },
+    emoji: '🍤',
+    category: 'lunch',
+    calories: 620,
+    tags: ['thai', 'noodles', 'stir-fry'],
+    weight: { lunch: 7 }
+  },
+  {
+    id: 'burrito-lunch',
+    name: { ko: '치킨 부리또', en: 'Chicken Burrito', zh: '鸡肉卷饼', ja: 'チキンブリトー' },
+    description: {
+      ko: '라이스와 치킨이 꽉 찬 멕시칸 부리또.',
+      en: 'Mexican burrito stuffed with rice and chicken.',
+      zh: '装满米饭和鸡肉的墨西哥卷饼。',
+      ja: 'ライスとチキンたっぷりのメキシカンブリトー。'
+    },
+    emoji: '🌯',
+    category: 'lunch',
+    calories: 680,
+    tags: ['mexican', 'hearty', 'wrap'],
+    weight: { lunch: 7 }
+  },
+  {
+    id: 'poke-lunch',
+    name: { ko: '포케 볼', en: 'Poke Bowl', zh: '夏威夷盖饭', ja: 'ポケボウル' },
+    description: {
+      ko: '연어와 아보카도가 들어간 하와이 포케 볼.',
+      en: 'Hawaiian poke bowl with salmon and avocado.',
+      zh: '含三文鱼和牛油果的夏威夷盖饭。',
+      ja: 'サーモンとアボカドのハワイアンポケボウル。'
+    },
+    emoji: '🥗',
+    category: 'lunch',
+    calories: 520,
+    tags: ['fresh', 'hawaiian', 'bowl'],
+    weight: { lunch: 6 }
+  },
+  {
+    id: 'taco-lunch',
+    name: { ko: '비프 타코 세트', en: 'Beef Taco Set', zh: '牛肉塔可套餐', ja: 'ビーフタコスセット' },
+    description: {
+      ko: '비프 타코 3피스와 살사, 라임이 함께.',
+      en: 'Three beef tacos served with salsa and lime.',
+      zh: '三份牛肉塔可配莎莎酱和青柠。',
+      ja: 'サルサとライム付きビーフタコス3ピース。'
+    },
+    emoji: '🌮',
+    category: 'lunch',
+    calories: 560,
+    tags: ['taco', 'mexican', 'beef'],
+    weight: { lunch: 6 }
+  },
+  {
+    id: 'gyoza-lunch',
+    name: { ko: '교자 라멘 세트', en: 'Ramen & Gyoza Set', zh: '拉面饺子套餐', ja: 'ラーメン餃子セット' },
+    description: {
+      ko: '간장 라멘과 교자 만두가 함께 나오는 든든한 세트.',
+      en: 'Soy ramen served with gyoza dumplings.',
+      zh: '酱油拉面配饺子，份量十足。',
+      ja: '醤油ラーメンと餃子がついたボリュームセット。'
+    },
+    emoji: '🥟',
+    category: 'lunch',
+    calories: 720,
+    tags: ['ramen', 'gyoza', 'set'],
+    weight: { lunch: 8 }
+  },
+  {
+    id: 'omurice-lunch',
+    name: { ko: '오므라이스', en: 'Omurice', zh: '蛋包饭', ja: 'オムライス' },
+    description: {
+      ko: '부드러운 달걀과 케첩 라이스, 추억의 맛.',
+      en: 'Fluffy omelet over ketchup rice, a nostalgic classic.',
+      zh: '松软蛋包裹番茄炒饭，充满回忆的味道。',
+      ja: 'ふわとろ卵とケチャップライス、懐かしの味。'
+    },
+    emoji: '🍳',
+    category: 'lunch',
+    calories: 640,
+    tags: ['japanese', 'comfort', 'rice'],
+    weight: { lunch: 7 }
+  },
+  {
+    id: 'salmon-steak-lunch',
+    name: { ko: '연어 스테이크 덮밥', en: 'Salmon Steak Rice Bowl', zh: '三文鱼排盖饭', ja: 'サーモンステーキ丼' },
+    description: {
+      ko: '구운 연어 스테이크가 올라간 든든한 덮밥.',
+      en: 'Hearty rice bowl topped with grilled salmon steak.',
+      zh: '盖着烤三文鱼排的饱腹盖饭。',
+      ja: '焼きサーモンステーキをのせたボリューム丼。'
+    },
+    emoji: '🐟',
+    category: 'lunch',
+    calories: 650,
+    tags: ['salmon', 'rice-bowl', 'hearty'],
+    weight: { lunch: 7 }
+  },
 
   // 저녁 메뉴 (배달 앱에서 인기 있는 저녁 메뉴)
   {
@@ -628,6 +793,171 @@ export const menuRecommendations: MenuItem[] = [
     calories: 420,
     tags: ['superfood', 'healthy', 'balanced'],
     weight: { breakfast: 3, lunch: 5, dinner: 9, snack: 2 }
+  },
+  {
+    id: 'jokbal-dinner',
+    name: { ko: '족발 보쌈 세트', en: 'Jokbal & Bossam Set', zh: '猪脚烤肉拼盘', ja: 'チョッパルとポッサムセット' },
+    description: {
+      ko: '족발과 보쌈이 함께 나오는 푸짐한 세트.',
+      en: 'Hearty set with braised pig’s feet and bossam.',
+      zh: '猪蹄与烤肉一起的丰盛拼盘。',
+      ja: 'チョッパルとポッサムが一緒のボリュームセット。'
+    },
+    emoji: '🍖',
+    category: 'dinner',
+    calories: 880,
+    tags: ['korean', 'hearty', 'sharing'],
+    weight: { dinner: 9 }
+  },
+  {
+    id: 'galbitang-dinner',
+    name: { ko: '갈비탕', en: 'Short Rib Soup', zh: '牛肋汤', ja: 'カルビタン' },
+    description: {
+      ko: '맑고 깊은 국물의 소갈비탕, 든든한 저녁 한 끼.',
+      en: 'Clear rich beef short rib soup for a filling dinner.',
+      zh: '清澈浓郁的牛肋汤，饱腹晚餐。',
+      ja: '澄んだコクのあるカルビタン、満足の夕食。'
+    },
+    emoji: '🥣',
+    category: 'dinner',
+    calories: 620,
+    tags: ['soup', 'beef', 'traditional'],
+    weight: { dinner: 8 }
+  },
+  {
+    id: 'haemuljjim-dinner',
+    name: { ko: '아구/해물찜', en: 'Spicy Steamed Seafood', zh: '辣蒸海鲜', ja: '海鮮チム' },
+    description: {
+      ko: '얼큰한 해물찜, 해산물 듬뿍 매운맛 한 판.',
+      en: 'Spicy steamed seafood packed with shellfish and fish.',
+      zh: '满满海鲜的辣蒸料理。',
+      ja: '魚介たっぷりのピリ辛海鮮チム。'
+    },
+    emoji: '🦐',
+    category: 'dinner',
+    calories: 710,
+    tags: ['seafood', 'spicy', 'korean'],
+    weight: { dinner: 8 }
+  },
+  {
+    id: 'jjimdak-dinner',
+    name: { ko: '안동찜닭', en: 'Braised Soy Chicken', zh: '安东炖鸡', ja: 'アンドンチムダク' },
+    description: {
+      ko: '달짝지근한 간장 베이스 찜닭, 당면 듬뿍.',
+      en: 'Sweet soy-braised chicken with lots of glass noodles.',
+      zh: '甜口酱油炖鸡，粉条满满。',
+      ja: '甘めの醤油ベースのチムダク、春雨たっぷり。'
+    },
+    emoji: '🍗',
+    category: 'dinner',
+    calories: 820,
+    tags: ['braised', 'soy', 'noodles'],
+    weight: { dinner: 8 }
+  },
+  {
+    id: 'kimchi-bossam-dinner',
+    name: { ko: '김치찜 & 보쌈', en: 'Braised Kimchi & Bossam', zh: '炖泡菜配烤肉', ja: 'キムチチムとポッサム' },
+    description: {
+      ko: '잘 익은 김치찜과 수육을 함께 즐기는 콤보.',
+      en: 'Combo of braised kimchi and tender boiled pork slices.',
+      zh: '炖熟的泡菜配上水煮猪肉的组合。',
+      ja: '熟成キムチチムと茹で豚を一緒に味わうコンボ。'
+    },
+    emoji: '🥬',
+    category: 'dinner',
+    calories: 760,
+    tags: ['kimchi', 'pork', 'combo'],
+    weight: { dinner: 7 }
+  },
+  {
+    id: 'gnocchi-dinner',
+    name: { ko: '크림 뇨끼', en: 'Creamy Gnocchi', zh: '奶油土豆团子', ja: 'クリームニョッキ' },
+    description: {
+      ko: '부드러운 감자 뇨끼에 크림소스, 서양식 저녁.',
+      en: 'Soft potato gnocchi in a rich cream sauce.',
+      zh: '柔软土豆团子配浓郁奶油酱。',
+      ja: 'やわらかいポテトニョッキにクリームソース。'
+    },
+    emoji: '🥔',
+    category: 'dinner',
+    calories: 700,
+    tags: ['italian', 'creamy', 'potato'],
+    weight: { dinner: 6 }
+  },
+  {
+    id: 'paella-black-dinner',
+    name: { ko: '먹물 빠에야', en: 'Squid Ink Paella', zh: '墨鱼汁海鲜饭', ja: 'イカスミパエリア' },
+    description: {
+      ko: '먹물로 풍미를 더한 스페인식 해산물 빠에야.',
+      en: 'Spanish seafood paella enhanced with squid ink.',
+      zh: '加入墨鱼汁增香的西班牙海鲜饭。',
+      ja: 'イカスミで風味を増したスペイン海鮮パエリア。'
+    },
+    emoji: '🦑',
+    category: 'dinner',
+    calories: 740,
+    tags: ['spanish', 'seafood', 'ink'],
+    weight: { dinner: 6 }
+  },
+  {
+    id: 'tomahawk-dinner',
+    name: { ko: '토마호크 스테이크', en: 'Tomahawk Steak', zh: '战斧牛排', ja: 'トマホークステーキ' },
+    description: {
+      ko: '두툼한 토마호크 스테이크로 럭셔리한 저녁.',
+      en: 'Thick-cut tomahawk steak for a luxurious dinner.',
+      zh: '厚切战斧牛排，奢华的晚餐。',
+      ja: '分厚いトマホークステーキで贅沢ディナー。'
+    },
+    emoji: '🥩',
+    category: 'dinner',
+    calories: 980,
+    tags: ['steak', 'luxury', 'sharing'],
+    weight: { dinner: 5 }
+  },
+  {
+    id: 'mala-xiangguo-dinner',
+    name: { ko: '마라샹궈', en: 'Mala Xiang Guo', zh: '麻辣香锅', ja: 'マーラーシャンゴー' },
+    description: {
+      ko: '중식 매운 볶음 냄비, 원하는 재료로 커스텀.',
+      en: 'Spicy Chinese stir-fry pot with customizable ingredients.',
+      zh: '可自选食材的麻辣干锅。',
+      ja: '具材カスタム可能な中華スパイシー炒め鍋。'
+    },
+    emoji: '🌶️',
+    category: 'dinner',
+    calories: 820,
+    tags: ['chinese', 'spicy', 'custom'],
+    weight: { dinner: 8 }
+  },
+  {
+    id: 'gimbap-platters-dinner',
+    name: { ko: '모둠 김밥 플래터', en: 'Assorted Gimbap Platter', zh: '什锦紫菜包饭拼盘', ja: '盛り合わせキンパプ' },
+    description: {
+      ko: '야채/참치/치즈 김밥을 한 번에 즐기는 플래터.',
+      en: 'Platter with veggie, tuna, and cheese gimbap rolls.',
+      zh: '蔬菜/金枪鱼/芝士紫菜包饭拼盘。',
+      ja: '野菜・ツナ・チーズのキンパプ盛り合わせ。'
+    },
+    emoji: '🍙',
+    category: 'dinner',
+    calories: 680,
+    tags: ['korean', 'platter', 'share'],
+    weight: { dinner: 6 }
+  },
+  {
+    id: 'pork-cutlet-dinner',
+    name: { ko: '수제 돈카츠', en: 'Handmade Pork Cutlet', zh: '手工猪排', ja: '手仕込みとんかつ' },
+    description: {
+      ko: '두툼한 등심 돈카츠와 캐비지 샐러드, 밥 세트.',
+      en: 'Thick loin cutlet with cabbage salad and rice.',
+      zh: '厚实里脊猪排配卷心菜沙拉与米饭。',
+      ja: '分厚いロースカツにキャベツサラダ、ご飯セット。'
+    },
+    emoji: '🥢',
+    category: 'dinner',
+    calories: 750,
+    tags: ['cutlet', 'japanese', 'crispy'],
+    weight: { dinner: 7 }
   },
 
   // 야식 메뉴 (배달 앱 야식 베스트셀러)
