@@ -179,6 +179,30 @@ src/data/[test-slug]/
 - "use client" 지시어 필요 시 명시
 - 다국어 텍스트: `useLanguage()` 훅 사용
 
+### 5-1. 다국어 처리 코드 예시
+```tsx
+const { t, lang } = useLanguage();
+
+// 방법 1: 객체로 정의 후 t() 사용
+const texts = {
+  ko: "한국어 텍스트",
+  en: "English text",
+  zh: "中文文本",
+  ja: "日本語テキスト"
+};
+<p>{t(texts)}</p>
+
+// 방법 2: 직접 lang으로 접근
+<p>{texts[lang] || texts.en}</p>
+
+// 방법 3: 인라인 조건부
+<span>
+  {lang === 'ko' ? '시작하기' : 
+   lang === 'zh' ? '开始' : 
+   lang === 'ja' ? '開始' : 'Start'}
+</span>
+```
+
 ### 6. 디자인 원칙
 - 글래스모피즘 (`backdrop-blur`, 반투명 배경)
 - 부드러운 그라데이션
