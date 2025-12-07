@@ -12,6 +12,7 @@ interface MenuSelectorProps {
     selectedTags: string[];
     onToggleTag: (tag: string) => void;
     tagLabels: (tag: string) => string;
+    filteredCount: number;
 }
 
 export default function MenuSelector({
@@ -22,7 +23,8 @@ export default function MenuSelector({
     tagOptions,
     selectedTags,
     onToggleTag,
-    tagLabels
+    tagLabels,
+    filteredCount
 }: MenuSelectorProps) {
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -42,36 +44,13 @@ export default function MenuSelector({
                     </div>
 
 
-                    {/* 시간대 선택 */}
-                    <div className="grid grid-cols-2 gap-4 mb-8">
-                        {(Object.keys(timeSlots) as TimeSlot[]).map((timeSlot) => {
-                            const slot = timeSlots[timeSlot];
-                            const isCurrent = timeSlot === currentTimeSlot;
-
-                            return (
-                                <button
-                                    key={timeSlot}
-                                    onClick={() => onSelectTimeSlot(timeSlot)}
-                                    className="glass rounded-xl p-6 transition-all duration-300 hover:scale-105"
-                                >
-                                    <div className="flex flex-col items-center text-center">
-                                        <div className="text-3xl mb-3">{slot.emoji}</div>
-                                        <div className="font-bold text-lg mb-1">{slot.name.ko}</div>
-                                        {timeSlot === 'random' && (
-                                            <div className="mt-2 px-2 py-1 bg-purple-500 text-white text-xs rounded-full">
-                                                무작위
-                                            </div>
-                                        )}
-                                    </div>
-                                </button>
-                            );
-                        })}
-                    </div>
-
                     {/* 태그 필터 */}
                     <div className="mb-6">
-                        <div className="text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2">
-                            태그 필터 (여러 개 선택 시 AND 매칭)
+                        <div className="flex items-center justify-between text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2">
+                            <span>태그 필터 (여러 개 선택 시 AND 매칭)</span>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">
+                                {filteredCount}개 선택됨
+                            </span>
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {tagOptions.map((tag) => {
