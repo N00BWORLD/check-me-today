@@ -48,7 +48,7 @@ export default function MenuSelector({
                     </div>
 
                     {/* 시간대 선택 */}
-                    <div className="grid grid-cols-2 gap-4 mb-8">
+                    <div className="grid grid-cols-2 gap-4 mb-6">
                         {(Object.keys(timeSlots) as TimeSlot[]).map((timeSlot) => {
                             const slot = timeSlots[timeSlot];
                             const isCurrent = timeSlot === currentTimeSlot;
@@ -69,13 +69,26 @@ export default function MenuSelector({
                                         </div>
                                         {isCurrent && (
                                             <div className="mt-2 px-2 py-1 bg-orange-500 text-white text-xs rounded-full">
-                                                추천
+                                                현재 시간
                                             </div>
                                         )}
                                     </div>
                                 </button>
                             );
                         })}
+                    </div>
+
+                    {/* 랜덤 추천 버튼 */}
+                    <div className="mb-8">
+                        <button
+                            onClick={() => onSelectTimeSlot('random' as TimeSlot)}
+                            className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                        >
+                            🎲 랜덤 메뉴 추천
+                        </button>
+                        <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-2">
+                            시간대 상관없이 다양한 한국 음식 추천
+                        </p>
                     </div>
 
                     {/* 추천 버튼 */}

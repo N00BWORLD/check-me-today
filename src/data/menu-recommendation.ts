@@ -13,7 +13,7 @@ export interface MenuItem {
     ja: string;
   };
   emoji: string;
-  category: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  category: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'random';
   calories?: number;
   tags: string[];
   // 시간대별 선호도 가중치 (높을수록 추천 확률 높음)
@@ -676,6 +676,127 @@ export const menuRecommendations: MenuItem[] = [
     calories: 320,
     tags: ['instant', 'solo', 'quick'],
     weight: { breakfast: 2, lunch: 2, dinner: 3, snack: 10 }
+  },
+  // 랜덤 추천 메뉴들 (모든 시간대에서 나올 수 있음)
+  {
+    id: 'random-bibimbap',
+    name: {
+      ko: '돌솥비빔밥',
+      en: 'Hot Stone Bibimbap',
+      zh: '石锅拌饭',
+      ja: 'ホットストーン・ビビンバプ'
+    },
+    description: {
+      ko: '뜨거운 돌솥에 비벼먹는 영양만점 비빔밥! 언제 먹어도 맛있는 국민 음식.',
+      en: 'Nutritious bibimbap mixed in a hot stone bowl! Delicious anytime.',
+      zh: '在热石锅里拌匀的营养拌饭！什么时候吃都美味的国民食物。',
+      ja: '熱い石鍋でかき混ぜる栄養満点のビビンバプ！いつ食べても美味しい国民食。'
+    },
+    emoji: '🍚',
+    category: 'random',
+    calories: 480,
+    tags: ['traditional', 'nutritious', 'hot'],
+    weight: { breakfast: 5, lunch: 8, dinner: 9, snack: 4 }
+  },
+  {
+    id: 'random-bulgogi',
+    name: {
+      ko: '소불고기',
+      en: 'Marinated Beef',
+      zh: '酱牛肉',
+      ja: 'カルビ'
+    },
+    description: {
+      ko: '달콤하게 양념된 부드러운 소고기! 밥에 비벼 먹으면 최고의 조합.',
+      en: 'Sweetly marinated tender beef! Perfect with rice.',
+      zh: '甜甜的腌制嫩牛肉！和饭拌在一起是最好的组合。',
+      ja: '甘くタレが染みた柔らかい牛肉！ご飯にかけて食べると最高の組み合わせ。'
+    },
+    emoji: '🥩',
+    category: 'random',
+    calories: 420,
+    tags: ['sweet', 'tender', 'popular'],
+    weight: { breakfast: 3, lunch: 9, dinner: 8, snack: 5 }
+  },
+  {
+    id: 'random-kimchi',
+    name: {
+      ko: '김치찌개',
+      en: 'Kimchi Stew',
+      zh: '泡菜汤',
+      ja: 'キムチチゲ'
+    },
+    description: {
+      ko: '얼큰하고 시원한 국물의 김치찌개! 한국인의 소울푸드.',
+      en: 'Spicy and refreshing kimchi stew! Korean soul food.',
+      zh: '辣味十足又清爽的泡菜汤！韩国人的灵魂食物。',
+      ja: '辛くてさっぱりしたキムチチゲ！韓国人のソウルフード。'
+    },
+    emoji: '🍲',
+    category: 'random',
+    calories: 380,
+    tags: ['spicy', 'comforting', 'soul-food'],
+    weight: { breakfast: 7, lunch: 8, dinner: 6, snack: 4 }
+  },
+  {
+    id: 'random-samgyetang',
+    name: {
+      ko: '닭볶음탕',
+      en: 'Spicy Chicken Stew',
+      zh: '辣炒鸡汤',
+      ja: 'タッカルビタン'
+    },
+    description: {
+      ko: '매콤달콤한 양념에 푹 고아진 닭고기! 든든한 한 끼 식사.',
+      en: 'Chicken slowly cooked in sweet and spicy sauce! Hearty meal.',
+      zh: '在甜辣酱汁中慢慢炖煮的鸡肉！饱腹的一餐。',
+      ja: '甘辛いタレでじっくり煮込んだ鶏肉！心を満たす一膳。'
+    },
+    emoji: '🍗',
+    category: 'random',
+    calories: 520,
+    tags: ['spicy', 'sweet', 'hearty'],
+    weight: { breakfast: 2, lunch: 7, dinner: 9, snack: 6 }
+  },
+  {
+    id: 'random-jjajangmyeon',
+    name: {
+      ko: '짜장면',
+      en: 'Black Bean Noodles',
+      zh: '炸酱面',
+      ja: 'チャジャンミョン'
+    },
+    description: {
+      ko: '달콤하고 짭짤한 춘장 소스의 면 요리! 한국식 중화요리의 대표.',
+      en: 'Noodles with sweet and salty black bean sauce! Korean-Chinese classic.',
+      zh: '甜咸黑豆酱的面条！韩式中餐的代表。',
+      ja: '甘くてしょっぱい甜麺醤の麺料理！韓国式中華料理の代表。'
+    },
+    emoji: '🍜',
+    category: 'random',
+    calories: 580,
+    tags: ['chinese-korean', 'noodles', 'comforting'],
+    weight: { breakfast: 1, lunch: 8, dinner: 7, snack: 9 }
+  },
+  {
+    id: 'random-tteokbokki',
+    name: {
+      ko: '어묵볶음',
+      en: 'Fish Cake Stir-fry',
+      zh: '炒鱼糕',
+      ja: 'オデン炒め'
+    },
+    description: {
+      ko: '달콤하고 매콤한 어묵볶음! 간단하면서도 맛있는 분식.',
+      en: 'Sweet and spicy fish cake stir-fry! Simple yet delicious snack.',
+      zh: '甜辣鱼糕炒！简单却美味的小吃。',
+      ja: '甘くて辛いオデン炒め！シンプルで美味しい分食。'
+    },
+    emoji: '🍥',
+    category: 'random',
+    calories: 350,
+    tags: ['spicy', 'sweet', 'street-food'],
+    weight: { breakfast: 2, lunch: 5, dinner: 4, snack: 10 }
   }
 ];
 
@@ -722,7 +843,7 @@ export const timeSlots = {
   }
 };
 
-export type TimeSlot = keyof typeof timeSlots;
+export type TimeSlot = keyof typeof timeSlots | 'random';
 
 // 가중치 기반 메뉴 추천 함수
 export function getWeightedRandomMenu(timeSlot: TimeSlot): MenuItem {

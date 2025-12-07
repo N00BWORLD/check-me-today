@@ -115,11 +115,23 @@ export default function MenuResult({
                     <div id="result-card" className="glass rounded-2xl p-8 mb-6 text-center">
                         {/* 시간대 표시 */}
                         <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full mb-6">
-                            <span className="text-2xl">{timeSlots[timeSlot].emoji}</span>
-                            <span className="font-bold">{timeSlots[timeSlot].name.ko} 메뉴</span>
-                            <span className="text-sm text-orange-600 dark:text-orange-400">
-                                ({timeSlots[timeSlot].timeRange})
-                            </span>
+                            {timeSlot === 'random' ? (
+                                <>
+                                    <span className="text-2xl">🎲</span>
+                                    <span className="font-bold">랜덤 추천 메뉴</span>
+                                    <span className="text-sm text-orange-600 dark:text-orange-400">
+                                        (시간대 무관)
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="text-2xl">{timeSlots[timeSlot].emoji}</span>
+                                    <span className="font-bold">{timeSlots[timeSlot].name.ko} 메뉴</span>
+                                    <span className="text-sm text-orange-600 dark:text-orange-400">
+                                        ({timeSlots[timeSlot].timeRange})
+                                    </span>
+                                </>
+                            )}
                         </div>
 
                         {/* 메뉴 추천 */}
