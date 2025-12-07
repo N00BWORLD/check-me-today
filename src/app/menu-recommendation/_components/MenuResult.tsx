@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { timeSlots, type TimeSlot, type MenuItem } from "@/data/menu-recommendation";
+import { useMemo, useState } from "react";
+import { timeSlots, type TimeSlot, type MenuItem, menuRecommendations } from "@/data/menu-recommendation";
 import html2canvas from "html2canvas";
 
 interface MenuResultProps {
@@ -20,6 +20,24 @@ export default function MenuResult({
     stats
 }: MenuResultProps) {
     const [copied, setCopied] = useState(false);
+
+    // 추가 추천 메뉴 (동일 시간대에서 랜덤 3개, 랜덤 선택 시 전체에서 3개)
+    const suggestedMenus = useMemo(() => {
+        const pool = menuRecommendations.filter((m) => {
+            if (m.id === menu.id) return false;
+            if (timeSlot === 'random') return m.category !== 'dessert'; // 랜덤이면 디저트 제외하고 전체
+            return m.category === timeSlot;
+        });
+        const shuffled = [...pool].sort(() => Math.random() - 0.5);
+        const picks = shuffled.slice(0, 3);
+        // 부족하면 전체에서 채우기
+        if (picks.length < 3) {
+            const fillPool = menuRecommendations.filter((m) => m.id !== menu.id);
+            const fill = [...fillPool].sort(() => Math.random() - 0.5).slice(0, 3 - picks.length);
+            return [...picks, ...fill];
+        }
+        return picks;
+    }, [menu.id, timeSlot]);
 
     // 이미지 저장 함수
     const handleSaveImage = async () => {
@@ -165,6 +183,26 @@ export default function MenuResult({
                                 <span>{menu.tags.join(', ')}</span>
                             </div>
                         </div>
+
+                        {/* 추가 추천 카드 */}
+                        {suggestedMenus.length > 0 && (
+                            <div className="mt-8 text-left">
+                                <div className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2">
+                                    이런 메뉴도 어때요?
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    {suggestedMenus.map((item) => (
+                                        <div key={item.id} className="glass rounded-xl p-3 flex flex-col gap-2">
+                                            <div className="text-2xl">{item.emoji}</div>
+                                            <div className="font-bold text-sm">{item.name.ko}</div>
+                                            <div className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                                                {item.description.ko}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {/* 브랜드 워터마크 */}
                         <div className="mt-8 text-slate-400 dark:text-slate-500 text-sm">
