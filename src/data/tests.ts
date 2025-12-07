@@ -226,15 +226,15 @@ export const tests: TestData[] = [
     id: "meme-test",
     slug: "meme-test",
     category: "quiz",
-    name: { 
-      ko: "밈 능력고사", 
-      en: "Meme Quiz", 
-      zh: "网络梗考试", 
-      ja: "ミーム検定" 
+    name: {
+      ko: "밈 능력고사",
+      en: "Meme Quiz",
+      zh: "网络梗考试",
+      ja: "ミーム検定"
     },
-    description: { 
-      ko: "2024 밈 얼마나 알아? 인터넷 고인물 테스트", 
-      en: "How well do you know 2024 memes?", 
+    description: {
+      ko: "2024 밈 얼마나 알아? 인터넷 고인물 테스트",
+      en: "How well do you know 2024 memes?",
       zh: "你对2024年的网络梗了解多少？",
       ja: "2024年のミームどれくらい知ってる？"
     },
@@ -246,6 +246,31 @@ export const tests: TestData[] = [
     badge: null,
     isComingSoon: true,
     createdAt: "2024-12-06",
+  },
+  {
+    id: "menu-recommendation",
+    slug: "menu-recommendation",
+    category: "fun",
+    name: {
+      ko: "오늘의 메뉴추천",
+      en: "Today's Menu",
+      zh: "今日菜单推荐",
+      ja: "今日のメニューおすすめ"
+    },
+    description: {
+      ko: "🍽️ 지금 시간에 맞는 최적의 메뉴! 아침·점심·저녁·야식 별 추천",
+      en: "🍽️ Perfect menu for your current time! Breakfast·Lunch·Dinner·Late-night",
+      zh: "🍽️ 适合当前时间的完美菜单！早餐·午餐·晚餐·宵夜推荐",
+      ja: "🍽️ 現在の時間にぴったりのメニュー！朝・昼・夕・夜食のおすすめ"
+    },
+    emoji: "🍽️",
+    gradient: "from-orange-500 via-red-500 to-yellow-500",
+    bgGradient: "from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2024-12-07",
   },
 ];
 
