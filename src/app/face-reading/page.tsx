@@ -124,8 +124,8 @@ export default function FaceReadingPage() {
       const faceapi = await import('face-api.js');
       setAnalysisProgress(30);
       
-      // 모델 로드 (CDN에서)
-      const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
+      // 모델 로드 (로컬 public/models에서 - 빠름!)
+      const MODEL_URL = '/models';
       await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
       setAnalysisProgress(50);
       await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
