@@ -374,8 +374,9 @@ export default function FaceReadingPage() {
       
       setAnalysisProgress(85);
       
-      // 얼굴 감지 및 랜드마크
-      const detection = await faceapi.detectSingleFace(img).withFaceLandmarks();
+      // 얼굴 감지 및 랜드마크 (TinyFaceDetector 사용)
+      const faceapiModule = await import('face-api.js');
+      const detection = await faceapiModule.detectSingleFace(img, new faceapiModule.TinyFaceDetectorOptions()).withFaceLandmarks();
       
       if (!detection) {
         alert(t(texts.noFaceDetected));
