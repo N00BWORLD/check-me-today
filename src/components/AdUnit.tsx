@@ -2,7 +2,19 @@
 
 import { useEffect } from "react";
 
-export default function AdUnit() {
+interface AdUnitProps {
+    slotId?: string;
+    format?: "auto" | "fluid" | "rectangle" | "horizontal" | "vertical";
+    className?: string;
+    responsive?: boolean;
+}
+
+export default function AdUnit({
+    slotId = "1234567890",
+    format = "horizontal",
+    className = "",
+    responsive = true
+}: AdUnitProps) {
     useEffect(() => {
         try {
             // @ts-ignore
@@ -13,20 +25,15 @@ export default function AdUnit() {
     }, []);
 
     return (
-        <div className="w-full glass-strong dark:bg-slate-900/90 border-t border-white/50 dark:border-slate-700 py-2 px-4">
-            <div className="max-w-xl mx-auto min-h-[50px] flex items-center justify-center overflow-hidden text-center relative">
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <span className="text-[10px] text-slate-300 dark:text-slate-600 font-medium">AD</span>
-                </div>
-                <ins
-                    className="adsbygoogle"
-                    style={{ display: "block", width: "100%", height: "50px" }}
-                    data-ad-client="ca-pub-8585338769159452"
-                    data-ad-slot="1234567890"
-                    data-ad-format="horizontal"
-                    data-full-width-responsive="false"
-                />
-            </div>
+        <div className={`w-full overflow-hidden ${className}`}>
+            <ins
+                className="adsbygoogle"
+                style={{ display: "block" }}
+                data-ad-client="ca-pub-8585338769159452"
+                data-ad-slot={slotId}
+                data-ad-format={format}
+                data-full-width-responsive={responsive ? "true" : "false"}
+            />
         </div>
     );
 }

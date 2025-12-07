@@ -1,14 +1,14 @@
 ﻿// 테스트 데이터 중앙 관리
 // 새 테스트 추가 시 이 파일만 수정하면 됨
 
-export type CategoryId = 
-  | "all" 
-  | "personality" 
-  | "love" 
-  | "animal" 
-  | "quiz" 
-  | "social" 
-  | "fun" 
+export type CategoryId =
+  | "all"
+  | "personality"
+  | "love"
+  | "animal"
+  | "quiz"
+  | "social"
+  | "fun"
   | "fortune";
 
 export interface Category {
@@ -51,15 +51,15 @@ export const tests: TestData[] = [
     id: "energy-balance", // Firebase에서 사용하는 ID - 새로운 테스트
     slug: "test", // /test 경로
     category: "personality",
-    name: { 
-      ko: "에너지 밸런스 테스트", 
-      en: "Energy Balance Test", 
-      zh: "能量平衡测试", 
-      ja: "エネルギーバランス診断" 
+    name: {
+      ko: "에너지 밸런스 테스트",
+      en: "Energy Balance Test",
+      zh: "能量平衡测试",
+      ja: "エネルギーバランス診断"
     },
-    description: { 
-      ko: "내 안의 태양과 달 ☀️🌙 심리학 기반 성향 테스트", 
-      en: "Sun & Moon within you ☀️🌙 Psychology-based personality test", 
+    description: {
+      ko: "내 안의 태양과 달 ☀️🌙 심리학 기반 성향 테스트",
+      en: "Sun & Moon within you ☀️🌙 Psychology-based personality test",
       zh: "你内心的太阳与月亮 ☀️🌙 基于心理学的性格测试",
       ja: "あなたの中の太陽と月 ☀️🌙 心理学に基づく性格診断"
     },
@@ -76,15 +76,15 @@ export const tests: TestData[] = [
     id: "fortune",
     slug: "fortune",
     category: "fortune",
-    name: { 
-      ko: "오늘의 운세", 
-      en: "Daily Fortune", 
-      zh: "今日运势", 
-      ja: "今日の運勢" 
+    name: {
+      ko: "오늘의 운세",
+      en: "Daily Fortune",
+      zh: "今日运势",
+      ja: "今日の運勢"
     },
-    description: { 
-      ko: "이름과 생년월일로 보는 오늘의 운세 🧧", 
-      en: "Your daily fortune based on name & birth date 🧧", 
+    description: {
+      ko: "이름과 생년월일로 보는 오늘의 운세 🧧",
+      en: "Your daily fortune based on name & birth date 🧧",
       zh: "根据姓名和生日查看今日运势 🧧",
       ja: "名前と生年月日で見る今日の運勢 🧧"
     },
@@ -101,15 +101,15 @@ export const tests: TestData[] = [
     id: "face-reading",
     slug: "face-reading",
     category: "fortune",
-    name: { 
-      ko: "관상 분석", 
-      en: "Face Reading", 
-      zh: "面相分析", 
-      ja: "人相占い" 
+    name: {
+      ko: "관상 분석",
+      en: "Face Reading",
+      zh: "面相分析",
+      ja: "人相占い"
     },
-    description: { 
-      ko: "동양 전통 관상학으로 보는 나의 얼굴 🔮", 
-      en: "Your face through Eastern physiognomy 🔮", 
+    description: {
+      ko: "동양 전통 관상학으로 보는 나의 얼굴 🔮",
+      en: "Your face through Eastern physiognomy 🔮",
       zh: "用东方传统面相学看你的脸 🔮",
       ja: "東洋伝統の人相学で見るあなたの顔 🔮"
     },
@@ -126,15 +126,15 @@ export const tests: TestData[] = [
     id: "love-type",
     slug: "love-test",
     category: "love",
-    name: { 
-      ko: "연애 유형 테스트", 
-      en: "Love Type Test", 
-      zh: "恋爱类型测试", 
-      ja: "恋愛タイプ診断" 
+    name: {
+      ko: "연애 유형 테스트",
+      en: "Love Type Test",
+      zh: "恋爱类型测试",
+      ja: "恋愛タイプ診断"
     },
-    description: { 
-      ko: "나의 연애 스타일은? 이상형은 어떤 사람?", 
-      en: "What's my dating style? Who's my ideal type?", 
+    description: {
+      ko: "나의 연애 스타일은? 이상형은 어떤 사람?",
+      en: "What's my dating style? Who's my ideal type?",
       zh: "我的恋爱风格是什么？理想型是什么样的人？",
       ja: "私の恋愛スタイルは？理想のタイプは？"
     },
@@ -151,15 +151,15 @@ export const tests: TestData[] = [
     id: "animal-self",
     slug: "animal-test",
     category: "animal",
-    name: { 
-      ko: "나의 동물 자아", 
-      en: "My Animal Self", 
-      zh: "我的动物自我", 
-      ja: "私の動物キャラ" 
+    name: {
+      ko: "나의 동물 자아",
+      en: "My Animal Self",
+      zh: "我的动物自我",
+      ja: "私の動物キャラ"
     },
-    description: { 
-      ko: "동물 행동 습성으로 찾는 내 안의 동물 🐾", 
-      en: "Find your inner animal through behavior patterns 🐾", 
+    description: {
+      ko: "동물 행동 습성으로 찾는 내 안의 동물 🐾",
+      en: "Find your inner animal through behavior patterns 🐾",
       zh: "通过动物行为习性找到你内心的动物 🐾",
       ja: "動物の行動習性で見つける内なる動物 🐾"
     },
@@ -196,6 +196,31 @@ export const tests: TestData[] = [
     badge: "NEW",
     isComingSoon: false,
     createdAt: "2024-12-07",
+  },
+  {
+    id: "spending-habits",
+    slug: "spending-test",
+    category: "personality",
+    name: {
+      ko: "숨겨진 소비성향 테스트",
+      en: "Hidden Spending Habits Test",
+      zh: "隐藏消费习惯测试",
+      ja: "隠された消費習慣テスト"
+    },
+    description: {
+      ko: "나는 짠돌이일까? 큰손일까? 💸 소비 스타일 진단",
+      en: "Minimalist or Big Spender? 💸 Diagnose your spending style",
+      zh: "我是吝啬鬼还是大手大脚？💸 消费风格诊断",
+      ja: "私はケチ？それとも浪費家？💸 消費スタイル診断"
+    },
+    emoji: "🪙",
+    gradient: "from-purple-600 via-pink-600 to-rose-600",
+    bgGradient: "from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2024-12-08",
   },
 ];
 
