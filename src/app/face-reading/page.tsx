@@ -120,49 +120,97 @@ export default function FaceReadingPage() {
   const handleSaveImage = async () => {
     if (!result) return;
 
-    const bgColor = '#f5f0e6';
-    const textColor = '#2d2d2d';
-    const accentColor = '#8B0000';
+    const isDark = document.documentElement.classList.contains('dark');
+    
+    // 수묵화 스타일 색상
+    const bgGradient = isDark 
+      ? 'linear-gradient(180deg, #1a1814 0%, #252018 100%)'
+      : 'linear-gradient(180deg, #f5f0e6 0%, #e8dfd0 100%)';
+    const bgColor = isDark ? '#1a1814' : '#f5f0e6';
+    const textColor = isDark ? '#f5f0e6' : '#2d2d2d';
+    const subTextColor = isDark ? '#c5b8a5' : '#5a4d3d';
+    const accentColor = isDark ? '#c5a572' : '#8B0000';
+    const cardBg = isDark ? 'rgba(42, 36, 28, 0.9)' : 'rgba(255, 251, 245, 0.9)';
+    const cardBorder = isDark ? 'rgba(139, 90, 43, 0.3)' : 'rgba(139, 0, 0, 0.2)';
+    const headerBg = 'linear-gradient(135deg, #8B0000 0%, #6B0000 50%, #4a0000 100%)';
+
+    // 강점 태그 HTML 생성
+    const strengthsHtml = (result.strengths[lang] || result.strengths.en)
+      .map(s => `<span style="display: inline-block; padding: 6px 14px; margin: 4px; background: ${isDark ? 'rgba(197, 165, 114, 0.15)' : 'rgba(139, 0, 0, 0.1)'}; color: ${accentColor}; border-radius: 20px; font-size: 13px; border: 1px solid ${isDark ? 'rgba(197, 165, 114, 0.3)' : 'rgba(139, 0, 0, 0.3)'};">${s}</span>`)
+      .join('');
 
     const captureDiv = document.createElement('div');
     captureDiv.style.cssText = `
       position: fixed; left: -9999px; top: 0;
-      width: 400px; padding: 40px;
-      background: linear-gradient(180deg, #f5f0e6 0%, #e8dfd0 100%);
-      font-family: 'Noto Serif KR', serif;
+      width: 420px;
+      background: ${bgGradient};
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       color: ${textColor};
     `;
 
     captureDiv.innerHTML = `
-      <div style="text-align: center; margin-bottom: 24px;">
-        <div style="font-size: 64px; margin-bottom: 12px;">${result.emoji}</div>
-        <div style="font-size: 14px; color: ${accentColor}; letter-spacing: 4px; margin-bottom: 8px;">觀相</div>
-        <div style="font-size: 28px; font-weight: 700; color: ${textColor};">${result.type[lang] || result.type.en}</div>
+      <!-- 상단 헤더 -->
+      <div style="background: ${headerBg}; padding: 28px 24px; text-align: center;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px;">
+          <span style="color: #c5a572; font-size: 14px; letter-spacing: 4px;">觀相結果</span>
+          <span style="color: rgba(197, 165, 114, 0.7); font-size: 12px;">(${lang === 'ko' ? '관상 결과' : lang === 'zh' ? '面相结果' : lang === 'ja' ? '人相結果' : 'Result'})</span>
+        </div>
+        <div style="font-size: 72px; margin: 16px 0;">${result.emoji}</div>
+        <div style="font-size: 32px; font-weight: 700; color: #faf8f5;">
+          ${result.type[lang] || result.type.en}
+        </div>
       </div>
       
-      <div style="background: rgba(255,255,255,0.6); border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid rgba(139,0,0,0.2);">
-        <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px; color: ${textColor};">
-          ${result.title[lang] || result.title.en}
+      <!-- 본문 -->
+      <div style="padding: 24px;">
+        <!-- 제목 & 부제 -->
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="font-size: 20px; font-weight: 700; color: ${textColor}; margin-bottom: 8px;">
+            ${result.title[lang] || result.title.en}
+          </div>
+          <div style="font-size: 14px; color: ${subTextColor};">
+            ${result.subtitle[lang] || result.subtitle.en}
+          </div>
         </div>
-        <div style="font-size: 13px; color: #666; line-height: 1.6;">
-          ${result.subtitle[lang] || result.subtitle.en}
-        </div>
-      </div>
 
-      <div style="display: flex; justify-content: space-around; background: rgba(255,255,255,0.6); border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid rgba(139,0,0,0.2);">
-        <div style="text-align: center;">
-          <div style="width: 24px; height: 24px; border-radius: 50%; background: ${result.luckyColor}; margin: 0 auto 8px;"></div>
-          <div style="font-size: 10px; color: #666;">${t(texts.luckyColor)}</div>
+        <!-- 강점 -->
+        <div style="margin-bottom: 20px;">
+          <div style="font-size: 14px; font-weight: 700; color: ${accentColor}; margin-bottom: 12px;">✦ ${t(texts.strengths)}</div>
+          <div style="text-align: center;">
+            ${strengthsHtml}
+          </div>
         </div>
-        <div style="text-align: center;">
-          <div style="font-size: 20px; margin-bottom: 4px;">🧭</div>
-          <div style="font-size: 12px; font-weight: 600;">${result.luckyDirection[lang] || result.luckyDirection.en}</div>
-          <div style="font-size: 10px; color: #666;">${t(texts.luckyDirection)}</div>
+
+        <!-- 행운 정보 -->
+        <div style="display: flex; justify-content: space-around; background: ${cardBg}; border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid ${cardBorder};">
+          <div style="text-align: center;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: ${result.luckyColor}; margin: 0 auto 8px;"></div>
+            <div style="font-size: 11px; color: ${subTextColor};">${t(texts.luckyColor)}</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 24px; margin-bottom: 4px;">🧭</div>
+            <div style="font-size: 14px; font-weight: 600; color: ${textColor};">${result.luckyDirection[lang] || result.luckyDirection.en}</div>
+            <div style="font-size: 11px; color: ${subTextColor};">${t(texts.luckyDirection)}</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 24px; margin-bottom: 4px;">💑</div>
+            <div style="font-size: 12px; font-weight: 600; color: ${textColor};">${result.compatibility[lang] || result.compatibility.en}</div>
+            <div style="font-size: 11px; color: ${subTextColor};">${t(texts.compatibility)}</div>
+          </div>
+        </div>
+
+        <!-- 조언 -->
+        <div style="background: ${isDark ? 'rgba(60, 50, 35, 0.8)' : 'rgba(255, 248, 220, 0.8)'}; border-radius: 12px; padding: 16px; border: 1px solid ${cardBorder};">
+          <div style="font-size: 13px; font-weight: 700; color: ${isDark ? '#a68b5b' : '#6B0000'}; margin-bottom: 8px;">📜 ${t(texts.advice)}</div>
+          <div style="font-size: 13px; color: ${isDark ? '#c5b8a5' : '#3d3328'}; line-height: 1.6; font-style: italic;">
+            "${result.advice[lang] || result.advice.en}"
+          </div>
         </div>
       </div>
       
-      <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(139,0,0,0.2);">
-        <div style="font-size: 11px; color: #888; letter-spacing: 2px;">✨ check-me.today</div>
+      <!-- 푸터 -->
+      <div style="text-align: center; padding: 16px; border-top: 1px solid ${cardBorder};">
+        <div style="font-size: 12px; color: ${subTextColor}; letter-spacing: 2px;">✨ check-me.today</div>
       </div>
     `;
 
@@ -177,7 +225,7 @@ export default function FaceReadingPage() {
 
       const link = document.createElement('a');
       const today = new Date().toISOString().split('T')[0];
-      link.download = `face-reading-${today}.png`;
+      link.download = `face-reading-${result.type[lang] || result.type.en}-${today}.png`;
       link.href = canvas.toDataURL('image/png', 1.0);
       link.click();
     } catch (error) {
