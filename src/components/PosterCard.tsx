@@ -29,23 +29,23 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           border border-white/20 dark:border-slate-700
           opacity-60 saturate-50
         `}>
-          {/* 상단: 이모지 영역 (70%) */}
-          <div className="absolute inset-x-0 top-0 h-[65%] flex items-center justify-center">
+          {/* 상단: 이모지 영역 (65%) */}
+          <div className="absolute inset-x-0 top-0 h-[60%] flex items-center justify-center">
             <span className="text-5xl opacity-50 grayscale">{test.emoji}</span>
           </div>
 
           {/* SOON 배지 */}
-          <div className="absolute top-2 right-2 px-2 py-0.5 bg-slate-600/80 backdrop-blur-sm rounded-full">
-            <span className="text-[9px] font-bold text-white">⏳ SOON</span>
+          <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-slate-600/80 backdrop-blur-sm rounded-full">
+            <span className="text-[11px] font-bold text-white">⏳ SOON</span>
           </div>
 
-          {/* 하단: 정보 영역 (30%) */}
-          <div className="absolute inset-x-0 bottom-0 h-[35%] bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-2 flex flex-col justify-center">
-            <h3 className="text-[11px] font-bold text-slate-500 dark:text-slate-400 text-center line-clamp-2 break-keep leading-tight">
+          {/* 하단: 정보 영역 (40%) */}
+          <div className="absolute inset-x-0 bottom-0 h-[40%] bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-3 flex flex-col justify-center">
+            <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 text-center line-clamp-2 break-keep leading-tight">
               {name}
             </h3>
-            <p className="text-[9px] text-slate-400 dark:text-slate-500 text-center mt-1">
-              {lang === 'ko' ? '준비 중' : 'Coming Soon'}
+            <p className="text-xs text-slate-400 dark:text-slate-500 text-center mt-1.5">
+              {lang === 'ko' ? '준비 중' : lang === 'zh' ? '准备中' : lang === 'ja' ? '準備中' : 'Coming Soon'}
             </p>
           </div>
         </div>
@@ -71,8 +71,8 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           <div className="absolute top-1/3 -left-8 w-20 h-20 bg-white/20 rounded-full blur-xl" />
         </div>
 
-        {/* 상단: 이모지 영역 (65%) */}
-        <div className="absolute inset-x-0 top-0 h-[65%] flex items-center justify-center">
+        {/* 상단: 이모지 영역 (60%) */}
+        <div className="absolute inset-x-0 top-0 h-[60%] flex items-center justify-center">
           <span className="text-5xl drop-shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
             {test.emoji}
           </span>
@@ -81,7 +81,7 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
         {/* 뱃지 */}
         {test.badge && (
           <div className={`
-            absolute top-2 right-2 px-2 py-0.5 rounded-full text-[9px] font-bold text-white shadow-md
+            absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white shadow-md
             ${test.badge === "HOT" 
               ? "bg-gradient-to-r from-orange-500 to-red-500" 
               : "bg-gradient-to-r from-green-500 to-emerald-500"
@@ -91,23 +91,23 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           </div>
         )}
 
-        {/* 하단: 정보 영역 (35%) */}
-        <div className="absolute inset-x-0 bottom-0 h-[35%] bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
-          <div className="h-full flex flex-col justify-center px-2 py-1.5">
+        {/* 하단: 정보 영역 (40%) */}
+        <div className="absolute inset-x-0 bottom-0 h-[40%] bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+          <div className="h-full flex flex-col justify-center px-3 py-2">
             {/* 제목 */}
-            <h3 className="text-[11px] font-bold text-slate-800 dark:text-white text-center line-clamp-2 break-keep leading-tight">
+            <h3 className="text-sm font-bold text-slate-800 dark:text-white text-center line-clamp-2 break-keep leading-tight">
               {name}
             </h3>
 
             {/* 통계 & 호버 시 시작 버튼 */}
-            <div className="relative mt-1 h-4">
+            <div className="relative mt-2 h-5">
               {/* 기본: 통계 표시 */}
-              <div className="absolute inset-0 flex items-center justify-center gap-3 transition-opacity duration-200 group-hover:opacity-0">
-                <div className="flex items-center gap-0.5 text-[9px] text-slate-500 dark:text-slate-400 font-medium">
+              <div className="absolute inset-0 flex items-center justify-center gap-4 transition-opacity duration-200 group-hover:opacity-0">
+                <div className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 font-semibold">
                   <span>▶</span>
                   <span>{formatPlayCount(playCount)}</span>
                 </div>
-                <div className="flex items-center gap-0.5 text-[9px] text-pink-500 dark:text-pink-400 font-medium">
+                <div className="flex items-center gap-1 text-[11px] text-pink-500 dark:text-pink-400 font-semibold">
                   <span>❤️</span>
                   <span>{formatPlayCount(likeCount)}</span>
                 </div>
@@ -115,7 +115,7 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
               
               {/* 호버: 시작 버튼 */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <div className="flex items-center gap-1 px-3 py-0.5 bg-purple-500 dark:bg-purple-600 rounded-full text-[9px] font-bold text-white shadow-md">
+                <div className="flex items-center gap-1.5 px-4 py-1 bg-purple-500 dark:bg-purple-600 rounded-full text-[11px] font-bold text-white shadow-md">
                   <span>▶</span>
                   <span>{lang === 'ko' ? '시작하기' : lang === 'zh' ? '开始' : lang === 'ja' ? '開始' : 'Start'}</span>
                 </div>
