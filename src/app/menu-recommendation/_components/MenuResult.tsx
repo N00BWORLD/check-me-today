@@ -140,9 +140,6 @@ export default function MenuResult({
                                 <>
                                     <span className="text-2xl">{timeSlots[timeSlot].emoji}</span>
                                     <span className="font-bold">{timeSlots[timeSlot].name.ko} 메뉴</span>
-                                    <span className="text-sm text-orange-600 dark:text-orange-400">
-                                        ({timeSlots[timeSlot].timeRange})
-                                    </span>
                                 </>
                             )}
                         </div>
