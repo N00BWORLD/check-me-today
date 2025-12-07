@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTestStats } from "@/hooks/useTestStats";
 import Link from "next/link";
@@ -12,6 +12,8 @@ export default function MenuRecommendationPage() {
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null);
     const [recommendedMenu, setRecommendedMenu] = useState<any>(null);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [rouletteItems, setRouletteItems] = useState(menuRecommendations.slice(0, 12));
+    const [highlightIndex, setHighlightIndex] = useState(0);
     const { lang, t } = useLanguage();
     const { stats } = useTestStats("menu-recommendation");
 
@@ -32,10 +34,24 @@ export default function MenuRecommendationPage() {
         setCurrentTimeSlot(getCurrentTimeSlot());
     }, []);
 
+    // 룰렛 풀 생성 함수
+    const buildPool = (slot: TimeSlot) => {
+        let pool = slot === 'random'
+            ? menuRecommendations.filter((m) => m.category !== 'dessert')
+            : menuRecommendations.filter((m) => m.category === slot);
+        if (pool.length === 0) pool = menuRecommendations;
+        const shuffled = [...pool].sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, Math.min(18, shuffled.length));
+    };
+
     // 메뉴 추천 함수 (가중치 기반)
     const generateRecommendation = (timeSlot: TimeSlot) => {
         setIsGenerating(true);
         setSelectedTimeSlot(timeSlot);
+
+        // 룰렛 풀 세팅
+        setRouletteItems(buildPool(timeSlot));
+        setHighlightIndex(0);
 
         // 가중치 기반 랜덤 추천
         const selectedMenu = getWeightedRandomMenu(timeSlot);
@@ -56,6 +72,15 @@ export default function MenuRecommendationPage() {
         setRecommendedMenu(null);
         setCurrentTimeSlot(getCurrentTimeSlot());
     };
+
+    // 룰렛 애니메이션
+    useEffect(() => {
+        if (!isGenerating || rouletteItems.length === 0) return;
+        const interval = setInterval(() => {
+            setHighlightIndex((prev) => (prev + 1) % rouletteItems.length);
+        }, 80);
+        return () => clearInterval(interval);
+    }, [isGenerating, rouletteItems.length]);
 
     // 테스트 정보 (다국어)
     const pageInfo = {
@@ -123,9 +148,22 @@ export default function MenuRecommendationPage() {
                                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
                             </div>
                             <h3 className="text-xl font-bold mb-2">맛있는 메뉴를 찾고 있어요... 🍽️</h3>
-                            <p className="text-slate-600 dark:text-slate-300">
-                                현재 시간대에 맞는 최적의 메뉴를 추천해드릴게요!
+                            <p className="text-slate-600 dark:text-slate-300 mb-4">
+                                룰렛이 돌아가는 동안 잠시만 기다려주세요!
                             </p>
+                            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                                {rouletteItems.map((item, idx) => (
+                                    <div
+                                        key={item.id}
+                                        className={`glass p-2 rounded-lg text-center transition transform ${
+                                            idx === highlightIndex ? 'ring-2 ring-orange-500 scale-105' : 'opacity-80'
+                                        }`}
+                                    >
+                                        <div className="text-2xl">{item.emoji}</div>
+                                        <div className="text-xs font-semibold line-clamp-1">{item.name.ko}</div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
