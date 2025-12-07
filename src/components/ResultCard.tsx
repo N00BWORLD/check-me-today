@@ -101,27 +101,155 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
         handleCopyLink();
     };
 
-    // 이미지로 저장
+    // 이미지로 저장 - 캡처용 div를 동적 생성
     const [isSaving, setIsSaving] = useState(false);
     const handleSaveImage = useCallback(async () => {
-        if (!cardRef.current || isSaving) return;
+        if (isSaving) return;
         
         setIsSaving(true);
         try {
             // 다크모드 여부 확인
             const isDark = document.documentElement.classList.contains('dark');
+            const bgColor = isDark ? '#1e293b' : '#fafafa';
+            const textColor = isDark ? '#f1f5f9' : '#1e293b';
+            const accentColor = type === 'TETO' ? '#ef4444' : '#8b5cf6';
+            const gradientStart = type === 'TETO' ? '#f97316' : '#8b5cf6';
+            const gradientEnd = type === 'TETO' ? '#ec4899' : '#6366f1';
             
-            // 카드를 캡처 - 배경색 명시적 설정
-            const canvas = await html2canvas(cardRef.current, {
-                scale: 3, // 더 고해상도
-                backgroundColor: isDark ? '#1e293b' : '#ffffff', // 다크/라이트 모드 배경
+            // 캡처용 임시 div 생성 (깔끔한 스타일)
+            const captureDiv = document.createElement('div');
+            captureDiv.style.cssText = `
+                position: fixed;
+                left: -9999px;
+                top: 0;
+                width: 400px;
+                padding: 40px;
+                background: linear-gradient(135deg, ${bgColor} 0%, ${isDark ? '#334155' : '#f0f0f0'} 100%);
+                border-radius: 32px;
+                font-family: 'Pretendard Variable', -apple-system, sans-serif;
+            `;
+            
+            // 태그 HTML 생성
+            const tagsHtml = content.tags.map(tag => 
+                `<span style="
+                    display: inline-block;
+                    padding: 6px 14px;
+                    background: ${isDark ? '#475569' : '#ffffff'};
+                    border-radius: 20px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: ${isDark ? '#cbd5e1' : '#475569'};
+                    margin: 4px;
+                ">${tag}</span>`
+            ).join('');
+            
+            // 특성 바 HTML 생성
+            const traitsHtml = displayTraits.map(trait => {
+                const percentage = getPercentage(trait);
+                const traitName = traitNames[trait][lang] || traitNames[trait]["en"];
+                return `
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 13px;">
+                            <span style="font-weight: 600; color: ${isDark ? '#cbd5e1' : '#475569'};">${traitName}</span>
+                            <span style="font-weight: 700; color: ${accentColor};">${percentage}%</span>
+                        </div>
+                        <div style="height: 8px; background: ${isDark ? '#475569' : '#e2e8f0'}; border-radius: 4px; overflow: hidden;">
+                            <div style="height: 100%; width: ${percentage}%; background: linear-gradient(90deg, ${gradientStart}, ${gradientEnd}); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            captureDiv.innerHTML = `
+                <div style="text-align: center;">
+                    <!-- 이모지 아이콘 -->
+                    <div style="
+                        width: 100px;
+                        height: 100px;
+                        margin: 0 auto 20px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, ${gradientStart}, ${gradientEnd});
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 50px;
+                        box-shadow: 0 10px 30px ${accentColor}40;
+                    ">${content.emoji}</div>
+                    
+                    <!-- 배지 -->
+                    <div style="
+                        display: inline-block;
+                        padding: 8px 20px;
+                        background: linear-gradient(90deg, ${gradientStart}, ${gradientEnd});
+                        border-radius: 20px;
+                        color: white;
+                        font-size: 12px;
+                        font-weight: 700;
+                        margin-bottom: 16px;
+                        letter-spacing: 1px;
+                    ">${content.badge}</div>
+                    
+                    <!-- 제목 -->
+                    <h1 style="
+                        font-size: 28px;
+                        font-weight: 900;
+                        color: ${textColor};
+                        margin: 0 0 8px 0;
+                    ">${content.title}</h1>
+                    
+                    <!-- 부제목 -->
+                    <p style="
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: ${accentColor};
+                        margin: 0 0 20px 0;
+                    ">"${content.subtitle}"</p>
+                    
+                    <!-- 태그 -->
+                    <div style="margin-bottom: 24px;">${tagsHtml}</div>
+                    
+                    <!-- 특성 바 -->
+                    <div style="text-align: left; margin-bottom: 24px;">${traitsHtml}</div>
+                    
+                    <!-- 설명 -->
+                    <div style="
+                        background: ${isDark ? '#475569' : '#ffffff'};
+                        border-radius: 16px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                    ">
+                        <p style="
+                            font-size: 13px;
+                            line-height: 1.7;
+                            color: ${isDark ? '#cbd5e1' : '#475569'};
+                            margin: 0;
+                        ">${content.description}</p>
+                    </div>
+                    
+                    <!-- 워터마크 -->
+                    <div style="
+                        padding-top: 16px;
+                        border-top: 1px solid ${isDark ? '#475569' : '#e2e8f0'};
+                        color: ${isDark ? '#64748b' : '#94a3b8'};
+                        font-size: 12px;
+                    ">✨ check-me.today</div>
+                </div>
+            `;
+            
+            document.body.appendChild(captureDiv);
+            
+            // 캡처
+            const canvas = await html2canvas(captureDiv, {
+                scale: 3,
+                backgroundColor: bgColor,
                 useCORS: true,
                 logging: false,
-                allowTaint: true,
-                removeContainer: true,
             });
             
-            // 이미지로 변환 및 다운로드
+            // 임시 div 제거
+            document.body.removeChild(captureDiv);
+            
+            // 다운로드
             const link = document.createElement('a');
             const timestamp = new Date().toISOString().slice(0, 10);
             link.download = `check-me-today-${type.toLowerCase()}-${timestamp}.png`;
@@ -129,12 +257,11 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
             link.click();
         } catch (err) {
             console.error('이미지 저장 실패:', err);
-            // 실패 시 알림
             alert(lang === 'ko' ? '이미지 저장에 실패했습니다.' : 'Failed to save image.');
         } finally {
             setIsSaving(false);
         }
-    }, [isSaving, type, lang]);
+    }, [isSaving, type, lang, content, displayTraits, getPercentage]);
 
     // 네이티브 공유 (모바일)
     const handleNativeShare = async () => {
