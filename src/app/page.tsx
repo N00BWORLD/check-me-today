@@ -38,8 +38,24 @@ export default function Home() {
   // HOT 테스트 (배지가 HOT인 것들)
   const hotTests = tests.filter(t => t.badge === "HOT" && !t.isComingSoon);
   
-  // NEW 테스트
-  const newTests = tests.filter(t => t.badge === "NEW");
+  // Coming Soon 테스트 (실제로 준비 중인 것들만)
+  const comingSoonTests = tests.filter(t => t.isComingSoon);
+
+  // 오늘의 추천 - 인기 테스트 중 랜덤 또는 가장 인기 있는 것
+  const recommendedTest = useMemo(() => {
+    const activeTests = tests.filter(t => !t.isComingSoon);
+    if (activeTests.length === 0) return null;
+    
+    // 통계가 있으면 플레이 수 기준 정렬, 없으면 랜덤
+    const testsWithStats = activeTests.map(t => ({
+      ...t,
+      realPlayCount: allStats[t.id]?.playCount ?? t.playCount
+    }));
+    
+    // 가장 인기 있는 테스트 반환 (플레이 수 기준)
+    testsWithStats.sort((a, b) => b.realPlayCount - a.realPlayCount);
+    return testsWithStats[0];
+  }, [allStats]);
 
   // 날짜
   const today = new Date();
@@ -82,28 +98,39 @@ export default function Home() {
       </header>
 
       <div className="max-w-xl mx-auto px-4 pt-4">
-        {/* Hero Banner */}
-        <div className="relative overflow-hidden rounded-2xl mb-6 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 p-5 text-white">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl translate-y-1/2 -translate-x-1/2" />
-          
-          <div className="relative">
-            <p className="text-white/80 text-xs font-semibold mb-1">
-              {lang === 'ko' ? '오늘의 추천' : lang === 'zh' ? '今日推荐' : lang === 'ja' ? '今日のおすすめ' : "Today's Pick"}
-            </p>
-            <h2 className="text-xl font-black mb-2 leading-tight">
-              {lang === 'ko' ? '심리 테스트로' : lang === 'zh' ? '通过心理测试' : lang === 'ja' ? '心理テストで' : 'Discover'}
-              <br />
-              {lang === 'ko' ? '진짜 나를 발견해봐! 🔮' : lang === 'zh' ? '发现真正的自己！🔮' : lang === 'ja' ? '本当の自分を見つけよう！🔮' : 'the real you! 🔮'}
-            </h2>
-            <p className="text-white/70 text-xs">
-              {lang === 'ko' ? `${tests.filter(t => !t.isComingSoon).length}개 테스트 · 4개 언어 지원` 
-                : lang === 'zh' ? `${tests.filter(t => !t.isComingSoon).length}个测试 · 支持4种语言`
-                : lang === 'ja' ? `${tests.filter(t => !t.isComingSoon).length}個のテスト · 4言語対応`
-                : `${tests.filter(t => !t.isComingSoon).length} tests · 4 languages`}
-            </p>
-          </div>
-        </div>
+        {/* Hero Banner - 오늘의 추천 테스트 */}
+        {recommendedTest && (
+          <a href={`/${recommendedTest.slug}`} className="block">
+            <div className={`relative overflow-hidden rounded-2xl mb-6 bg-gradient-to-br ${recommendedTest.bgGradient} p-5 border border-white/30 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-shadow`}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl translate-y-1/2 -translate-x-1/2" />
+              
+              <div className="relative flex items-center gap-4">
+                {/* 이모지 아이콘 */}
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${recommendedTest.gradient} flex items-center justify-center shadow-lg ring-2 ring-white/40`}>
+                  <span className="text-3xl">{recommendedTest.emoji}</span>
+                </div>
+                
+                <div className="flex-1">
+                  <p className="text-slate-600 dark:text-slate-300 text-xs font-semibold mb-0.5">
+                    {lang === 'ko' ? '✨ 오늘의 추천' : lang === 'zh' ? '✨ 今日推荐' : lang === 'ja' ? '✨ 今日のおすすめ' : "✨ Today's Pick"}
+                  </p>
+                  <h2 className="text-lg font-black text-slate-800 dark:text-white leading-tight mb-1">
+                    {recommendedTest.name[lang] || recommendedTest.name.en}
+                  </h2>
+                  <p className="text-slate-500 dark:text-slate-400 text-xs line-clamp-1">
+                    {recommendedTest.description[lang] || recommendedTest.description.en}
+                  </p>
+                </div>
+
+                {/* 화살표 */}
+                <div className="w-8 h-8 rounded-full bg-white/60 dark:bg-slate-800/60 flex items-center justify-center">
+                  <span className="text-slate-600 dark:text-slate-300">→</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        )}
 
         {/* Search */}
         <SearchBar onSearch={setSearchQuery} />
@@ -128,15 +155,15 @@ export default function Home() {
           </section>
         )}
 
-        {/* New Section (카테고리가 전체일 때만) */}
-        {selectedCategory === "all" && !searchQuery && newTests.length > 0 && (
+        {/* Coming Soon Section (카테고리가 전체일 때만) */}
+        {selectedCategory === "all" && !searchQuery && comingSoonTests.length > 0 && (
           <section className="mb-6">
             <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-1.5">
               <span className="text-base">🆕</span>
-              {lang === 'ko' ? '곧 출시' : lang === 'zh' ? '即将上线' : lang === 'ja' ? 'まもなく登場' : 'Coming Soon'}
+              {lang === 'ko' ? '곧 출시 예정' : lang === 'zh' ? '即将上线' : lang === 'ja' ? 'まもなく登場' : 'Coming Soon'}
             </h3>
             <div className="grid grid-cols-3 gap-2">
-              {newTests.slice(0, 6).map(test => (
+              {comingSoonTests.slice(0, 6).map(test => (
                 <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
             </div>

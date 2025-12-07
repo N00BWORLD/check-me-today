@@ -50,7 +50,7 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
               </div>
             </div>
             
-            <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 text-center line-clamp-2 px-1 break-keep">
+            <h3 className="text-xs font-semibold text-slate-500 dark:text-slate-400 text-center line-clamp-2 px-1 break-keep">
               {name}
             </h3>
           </div>
@@ -107,17 +107,17 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           </div>
 
           {/* 제목 */}
-          <h3 className="text-[11px] font-bold text-slate-800 dark:text-white text-center line-clamp-2 px-1 leading-tight break-keep">
+          <h3 className="text-xs font-bold text-slate-800 dark:text-white text-center line-clamp-2 px-1 leading-tight break-keep">
             {name}
           </h3>
 
           {/* 통계 */}
           <div className="flex items-center gap-2 mt-1.5">
-            <div className="flex items-center gap-0.5 text-[9px] text-slate-600 dark:text-slate-300 font-medium">
+            <div className="flex items-center gap-0.5 text-[10px] text-slate-600 dark:text-slate-300 font-medium">
               <span>👁️</span>
               <span>{formatPlayCount(playCount)}</span>
             </div>
-            <div className="flex items-center gap-0.5 text-[9px] text-pink-500 dark:text-pink-400 font-medium">
+            <div className="flex items-center gap-0.5 text-[10px] text-pink-500 dark:text-pink-400 font-medium">
               <span>❤️</span>
               <span>{formatPlayCount(likeCount)}</span>
             </div>

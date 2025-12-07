@@ -93,7 +93,7 @@ export const tests: TestData[] = [
     bgGradient: "from-red-100 to-yellow-100 dark:from-red-900/30 dark:to-yellow-900/30",
     playCount: 0,
     likeCount: 0,
-    badge: "NEW",
+    badge: "HOT",
     isComingSoon: false,
     createdAt: "2024-12-06",
   },
