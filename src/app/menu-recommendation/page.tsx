@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTestStats } from "@/hooks/useTestStats";
 import Link from "next/link";
-import { menuRecommendations, timeSlots, type TimeSlot, getWeightedRandomMenu } from "@/data/menu-recommendation";
+import { menuRecommendations, timeSlots, type TimeSlot } from "@/data/menu-recommendation";
 import MenuSelector from "./_components/MenuSelector";
 import MenuResult from "./_components/MenuResult";
 
@@ -14,8 +14,18 @@ export default function MenuRecommendationPage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [rouletteItems, setRouletteItems] = useState(menuRecommendations.slice(0, 12));
     const [highlightIndex, setHighlightIndex] = useState(0);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const { lang, t } = useLanguage();
     const { stats } = useTestStats("menu-recommendation");
+
+    // 태그 프리셋 (상위/하위 혼합)
+    const TAG_OPTIONS = [
+        'korean', 'chinese', 'japanese', 'western', 'mexican', 'thai', 'vietnamese',
+        'rice', 'noodles', 'soup', 'stew', 'spicy', 'mild', 'fried', 'grilled', 'bowl',
+        'seafood', 'salad', 'meat', 'chicken', 'beef', 'pork', 'fish',
+        'veggie', 'healthy', 'light', 'hearty', 'sweet', 'dessert', 'coffee', 'tea',
+        'bread', 'wrap', 'burger', 'pizza'
+    ];
 
     // 현재 시간에 맞는 기본 시간대 추천
     const getCurrentTimeSlot = (): TimeSlot => {
@@ -34,13 +44,20 @@ export default function MenuRecommendationPage() {
         setCurrentTimeSlot(getCurrentTimeSlot());
     }, []);
 
+    const filterByTags = (pool: typeof menuRecommendations) => {
+        if (selectedTags.length === 0) return pool;
+        return pool.filter((m) => selectedTags.every((tag) => m.tags?.includes(tag)));
+    };
+
     // 룰렛 풀 생성 함수
     const buildPool = (slot: TimeSlot) => {
         let pool = slot === 'random'
             ? menuRecommendations.filter((m) => m.category !== 'dessert')
             : menuRecommendations.filter((m) => m.category === slot);
         if (pool.length === 0) pool = menuRecommendations;
-        const shuffled = [...pool].sort(() => Math.random() - 0.5);
+        const filtered = filterByTags(pool);
+        const effectivePool = filtered.length > 0 ? filtered : filterByTags(menuRecommendations);
+        const shuffled = [...effectivePool].sort(() => Math.random() - 0.5);
         return shuffled.slice(0, Math.min(18, shuffled.length));
     };
 
@@ -53,8 +70,13 @@ export default function MenuRecommendationPage() {
         setRouletteItems(buildPool(timeSlot));
         setHighlightIndex(0);
 
-        // 가중치 기반 랜덤 추천
-        const selectedMenu = getWeightedRandomMenu(timeSlot);
+        const pool = buildPool(timeSlot);
+        if (pool.length === 0) {
+            setIsGenerating(false);
+            return;
+        }
+        // 균등 랜덤 선택
+        const selectedMenu = pool[Math.floor(Math.random() * pool.length)];
 
         // 통계 증가 (Firebase 설정 후 활성화)
         // TODO: incrementStats();
@@ -191,6 +213,13 @@ export default function MenuRecommendationPage() {
             onSelectTimeSlot={generateRecommendation}
             pageInfo={info}
             stats={stats}
+            tagOptions={TAG_OPTIONS}
+            selectedTags={selectedTags}
+            onToggleTag={(tag: string) => {
+                setSelectedTags((prev) =>
+                    prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+                );
+            }}
         />
     );
 }

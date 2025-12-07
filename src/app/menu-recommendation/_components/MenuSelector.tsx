@@ -8,13 +8,19 @@ interface MenuSelectorProps {
     onSelectTimeSlot: (timeSlot: TimeSlot) => void;
     pageInfo: any;
     stats: any;
+    tagOptions: string[];
+    selectedTags: string[];
+    onToggleTag: (tag: string) => void;
 }
 
 export default function MenuSelector({
     currentTimeSlot,
     onSelectTimeSlot,
     pageInfo,
-    stats
+    stats,
+    tagOptions,
+    selectedTags,
+    onToggleTag
 }: MenuSelectorProps) {
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -58,6 +64,31 @@ export default function MenuSelector({
                                 </button>
                             );
                         })}
+                    </div>
+
+                    {/* 태그 필터 */}
+                    <div className="mb-6">
+                        <div className="text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2">
+                            태그 필터 (여러 개 선택 시 AND 매칭)
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            {tagOptions.map((tag) => {
+                                const active = selectedTags.includes(tag);
+                                return (
+                                    <button
+                                        key={tag}
+                                        onClick={() => onToggleTag(tag)}
+                                        className={`px-3 py-1 rounded-full text-xs border transition ${
+                                            active
+                                                ? 'bg-orange-500 text-white border-orange-500'
+                                                : 'bg-white/60 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                                        }`}
+                                    >
+                                        #{tag}
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
 
                     {/* 추천 버튼 */}
