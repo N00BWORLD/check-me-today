@@ -14,18 +14,14 @@ export interface MenuItem {
     ja: string;
   };
   emoji: string;
-  category: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  category: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert';
   calories: number;
   tags: string[];
-  weight: {
-    breakfast: number;
-    lunch: number;
-    dinner: number;
-    snack: number;
-  };
+  // 가중치는 더 이상 사용하지 않지만, 과거 필드를 유지 (옵셔널)
+  weight?: Partial<Record<TimeSlot, number>>;
 }
 
-export type TimeSlot = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'random';
+export type TimeSlot = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert' | 'random';
 
 export const menuRecommendations: MenuItem[] = [
   // 아침 메뉴 (배달 아침 인기템)
@@ -188,6 +184,46 @@ export const menuRecommendations: MenuItem[] = [
     calories: 420,
     tags: ['sweet', 'fragrant', 'comforting'],
     weight: { breakfast: 8, lunch: 1, dinner: 2, snack: 3 }
+  },
+  {
+    id: 'juk-breakfast',
+    name: {
+      ko: '전복죽',
+      en: 'Abalone Porridge',
+      zh: '鲍鱼粥',
+      ja: 'アワビ粥'
+    },
+    description: {
+      ko: '부드러운 전복죽으로 속 편한 아침을 시작하세요.',
+      en: 'Start the morning with gentle abalone porridge for a comfy stomach.',
+      zh: '用柔软的鲍鱼粥开启舒服的早晨。',
+      ja: 'やさしいアワビ粥で胃にやさしい朝を始めよう。'
+    },
+    emoji: '🥣',
+    category: 'breakfast',
+    calories: 320,
+    tags: ['light', 'comforting', 'porridge'],
+    weight: { breakfast: 10, lunch: 2, dinner: 2, snack: 1 }
+  },
+  {
+    id: 'cereal-breakfast',
+    name: {
+      ko: '시리얼 & 우유',
+      en: 'Cereal & Milk',
+      zh: '麦片牛奶',
+      ja: 'シリアルとミルク'
+    },
+    description: {
+      ko: '빠르고 간편한 시리얼과 차가운 우유 한 잔.',
+      en: 'Quick and easy cereal with a cold glass of milk.',
+      zh: '快捷方便的麦片配一杯冰牛奶。',
+      ja: '手軽なシリアルと冷たいミルクの一杯。'
+    },
+    emoji: '🥛',
+    category: 'breakfast',
+    calories: 280,
+    tags: ['quick', 'light', 'simple'],
+    weight: { breakfast: 9, lunch: 1, dinner: 1, snack: 2 }
   },
 
   // 점심 메뉴 (배달 앱 베스트셀러)
@@ -794,6 +830,217 @@ export const menuRecommendations: MenuItem[] = [
     calories: 380,
     tags: ['octopus', 'japanese', 'sweet'],
     weight: { breakfast: 1, lunch: 3, dinner: 4, snack: 7 }
+  },
+
+  // 디저트 메뉴 (별도 추천)
+  {
+    id: 'ice-cream',
+    name: {
+      ko: '아이스크림 파인트',
+      en: 'Ice Cream Pint',
+      zh: '冰淇淋品脱',
+      ja: 'アイスクリームパイント'
+    },
+    description: {
+      ko: '시원한 아이스크림 한 파인트! 야식 후 달콤한 마무리.',
+      en: 'A cold pint of ice cream for a sweet finish after a meal.',
+      zh: '一品脱冰淇淋，饭后的甜蜜收尾。',
+      ja: '食後の甘い締めにぴったりのアイスクリームパイント。'
+    },
+    emoji: '🍨',
+    category: 'dessert',
+    calories: 520,
+    tags: ['cold', 'sweet', 'classic']
+  },
+  {
+    id: 'tiramisu',
+    name: {
+      ko: '티라미수',
+      en: 'Tiramisu',
+      zh: '提拉米苏',
+      ja: 'ティラミス'
+    },
+    description: {
+      ko: '에스프레소와 마스카포네가 어우러진 이탈리안 디저트.',
+      en: 'Italian dessert with espresso and mascarpone layers.',
+      zh: '浓缩咖啡与马斯卡彭融合的意式甜点。',
+      ja: 'エスプレッソとマスカルポーネのイタリアンデザート。'
+    },
+    emoji: '🍰',
+    category: 'dessert',
+    calories: 450,
+    tags: ['coffee', 'creamy', 'italian']
+  },
+  {
+    id: 'cheesecake',
+    name: {
+      ko: '뉴욕 치즈케이크',
+      en: 'New York Cheesecake',
+      zh: '纽约芝士蛋糕',
+      ja: 'ニューヨークチーズケーキ'
+    },
+    description: {
+      ko: '꾸덕한 치즈의 풍미가 가득한 클래식 케이크.',
+      en: 'Rich and dense classic cheesecake.',
+      zh: '浓郁绵密的经典芝士蛋糕。',
+      ja: '濃厚でもっちりとしたクラシックチーズケーキ。'
+    },
+    emoji: '🍰',
+    category: 'dessert',
+    calories: 420,
+    tags: ['rich', 'creamy', 'classic']
+  },
+  {
+    id: 'brownie',
+    name: {
+      ko: '초코 브라우니',
+      en: 'Chocolate Brownie',
+      zh: '巧克力布朗尼',
+      ja: 'チョコブラウニー'
+    },
+    description: {
+      ko: '진한 초콜릿 브라우니 한 조각! 아이스크림과 곁들이면 최고.',
+      en: 'A rich chocolate brownie slice; perfect with ice cream.',
+      zh: '浓郁的巧克力布朗尼，配冰淇淋更佳。',
+      ja: '濃厚なチョコブラウニー。アイスを添えると最高。'
+    },
+    emoji: '🍫',
+    category: 'dessert',
+    calories: 360,
+    tags: ['chocolate', 'rich', 'slice']
+  },
+  {
+    id: 'macaron',
+    name: {
+      ko: '마카롱 세트',
+      en: 'Macaron Set',
+      zh: '马卡龙套装',
+      ja: 'マカロンセット'
+    },
+    description: {
+      ko: '다양한 색과 맛의 마카롱 6종 세트.',
+      en: 'Assorted six-piece macaron set in various flavors.',
+      zh: '多种口味的六件马卡龙套装。',
+      ja: '色とりどりのマカロン6種セット。'
+    },
+    emoji: '🍬',
+    category: 'dessert',
+    calories: 300,
+    tags: ['colorful', 'sweet', 'assorted']
+  },
+  {
+    id: 'churros',
+    name: {
+      ko: '츄러스 & 딥핑',
+      en: 'Churros with Dip',
+      zh: '吉拿棒蘸酱',
+      ja: 'チュロスとディップ'
+    },
+    description: {
+      ko: '따끈한 츄러스와 초코/시나몬 딥핑 소스.',
+      en: 'Warm churros with chocolate or cinnamon dipping sauces.',
+      zh: '热吉拿棒配巧克力或肉桂蘸酱。',
+      ja: '温かいチュロスとチョコ/シナモンディップ。'
+    },
+    emoji: '🥖',
+    category: 'dessert',
+    calories: 380,
+    tags: ['fried', 'sweet', 'snack']
+  },
+  {
+    id: 'bubble-tea',
+    name: {
+      ko: '버블티',
+      en: 'Bubble Tea',
+      zh: '珍珠奶茶',
+      ja: 'タピオカミルクティー'
+    },
+    description: {
+      ko: '쫀득한 타피오카 펄이 가득한 버블티.',
+      en: 'Bubble tea filled with chewy tapioca pearls.',
+      zh: '满满Q弹珍珠的奶茶。',
+      ja: 'もちもちタピオカがたっぷりのミルクティー。'
+    },
+    emoji: '🧋',
+    category: 'dessert',
+    calories: 320,
+    tags: ['drink', 'sweet', 'tapioca']
+  },
+  {
+    id: 'croffle',
+    name: {
+      ko: '크로플',
+      en: 'Croffle',
+      zh: '可颂华夫饼',
+      ja: 'クロッフル'
+    },
+    description: {
+      ko: '겉바속촉 크로와상 와플에 아이스크림 추가 가능.',
+      en: 'Crispy croissant waffle; add ice cream on top.',
+      zh: '外脆里嫩的可颂华夫饼，可加冰淇淋。',
+      ja: '外カリ中ふわのクロワッサンワッフル。アイスの追加もOK。'
+    },
+    emoji: '🧇',
+    category: 'dessert',
+    calories: 430,
+    tags: ['crispy', 'waffle', 'buttery']
+  },
+  {
+    id: 'bingsu',
+    name: {
+      ko: '딸기 빙수',
+      en: 'Strawberry Bingsu',
+      zh: '草莓刨冰',
+      ja: 'いちごかき氷'
+    },
+    description: {
+      ko: '달콤한 연유와 신선한 딸기가 올라간 시원한 빙수.',
+      en: 'Shaved ice topped with fresh strawberries and condensed milk.',
+      zh: '加上鲜草莓与炼乳的清凉刨冰。',
+      ja: '練乳と新鮮いちごをのせたさっぱりかき氷。'
+    },
+    emoji: '🍧',
+    category: 'dessert',
+    calories: 310,
+    tags: ['cold', 'fruity', 'refreshing']
+  },
+  {
+    id: 'donut',
+    name: {
+      ko: '글레이즈드 도넛',
+      en: 'Glazed Donut',
+      zh: '糖霜甜甜圈',
+      ja: 'グレーズドドーナツ'
+    },
+    description: {
+      ko: '달콤한 글레이즈가 입혀진 클래식 도넛.',
+      en: 'Classic donut coated with sweet glaze.',
+      zh: '裹着糖霜的经典甜甜圈。',
+      ja: '甘いグレーズがかかったクラシックドーナツ。'
+    },
+    emoji: '🍩',
+    category: 'dessert',
+    calories: 280,
+    tags: ['classic', 'sweet', 'snack']
+  },
+  {
+    id: 'hotteok',
+    name: {
+      ko: '꿀호떡',
+      en: 'Honey Hotteok',
+      zh: '蜂蜜糖饼',
+      ja: 'ホットク'
+    },
+    description: {
+      ko: '따끈한 꿀 시럽이 가득한 한국 길거리 디저트.',
+      en: 'Warm Korean street dessert filled with honey syrup.',
+      zh: '充满蜂蜜糖浆的热韩国街头甜点。',
+      ja: '蜂蜜シロップがたっぷりの韓国屋台デザート。'
+    },
+    emoji: '🥞',
+    category: 'dessert',
+    calories: 340,
+    tags: ['korean', 'sweet', 'street-food']
   }
 ];
 
@@ -834,6 +1081,15 @@ export const timeSlots = {
     },
     emoji: '🌃'
   },
+  dessert: {
+    name: {
+      ko: '디저트',
+      en: 'Dessert',
+      zh: '甜点',
+      ja: 'デザート'
+    },
+    emoji: '🍨'
+  },
   random: {
     name: {
       ko: '랜덤',
@@ -845,11 +1101,12 @@ export const timeSlots = {
   }
 };
 
-// 가중치 기반 메뉴 추천 함수
+// 가중치 없는 균등 랜덤 추천 함수
 export function getWeightedRandomMenu(timeSlot: TimeSlot): MenuItem {
-  // 랜덤 선택지인 경우 모든 카테고리의 메뉴에서 골고루 추천
+  // 랜덤 선택지인 경우 디저트를 제외한 전체 메뉴에서 균등 추천
   if (timeSlot === 'random') {
-    return menuRecommendations[Math.floor(Math.random() * menuRecommendations.length)];
+    const nonDessert = menuRecommendations.filter(menu => menu.category !== 'dessert');
+    return nonDessert[Math.floor(Math.random() * nonDessert.length)];
   }
 
   // 해당 시간대의 모든 메뉴 필터링
@@ -860,17 +1117,6 @@ export function getWeightedRandomMenu(timeSlot: TimeSlot): MenuItem {
     return menuRecommendations[0];
   }
 
-  // 각 메뉴의 가중치에 따른 확률 계산
-  const totalWeight = availableMenus.reduce((sum, menu) => sum + menu.weight[timeSlot], 0);
-  let random = Math.random() * totalWeight;
-
-  for (const menu of availableMenus) {
-    random -= menu.weight[timeSlot];
-    if (random <= 0) {
-      return menu;
-    }
-  }
-
-  // fallback (이론적으로 도달하지 않음)
-  return availableMenus[0];
+  // 가중치 없이 균등 랜덤 선택
+  return availableMenus[Math.floor(Math.random() * availableMenus.length)];
 }
