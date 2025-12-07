@@ -46,8 +46,6 @@ export default function Home() {
     });
   }, [allStats]);
   
-  // Coming Soon 테스트 (실제로 준비 중인 것들만)
-  const comingSoonTests = tests.filter(t => t.isComingSoon);
 
   // 오늘의 추천 - 인기 테스트 중 랜덤 또는 가장 인기 있는 것
   const recommendedTest = useMemo(() => {
@@ -163,20 +161,6 @@ export default function Home() {
           </section>
         )}
 
-        {/* Coming Soon Section (카테고리가 전체일 때만) */}
-        {selectedCategory === "all" && !searchQuery && comingSoonTests.length > 0 && (
-          <section className="mb-6">
-            <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-1.5">
-              <span className="text-base">🆕</span>
-              {lang === 'ko' ? '곧 출시 예정' : lang === 'zh' ? '即将上线' : lang === 'ja' ? 'まもなく登場' : 'Coming Soon'}
-            </h3>
-            <div className="grid grid-cols-3 gap-2">
-              {comingSoonTests.slice(0, 6).map(test => (
-                <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* All Tests (필터링된 결과) */}
         {(selectedCategory !== "all" || searchQuery) && (
