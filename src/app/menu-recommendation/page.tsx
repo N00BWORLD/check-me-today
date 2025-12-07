@@ -18,14 +18,62 @@ export default function MenuRecommendationPage() {
     const { lang, t } = useLanguage();
     const { stats } = useTestStats("menu-recommendation");
 
-    // 태그 프리셋 (상위/하위 혼합)
-    const TAG_OPTIONS = [
-        'korean', 'chinese', 'japanese', 'western', 'mexican', 'thai', 'vietnamese',
-        'rice', 'noodles', 'soup', 'stew', 'spicy', 'mild', 'fried', 'grilled', 'bowl',
-        'seafood', 'salad', 'meat', 'chicken', 'beef', 'pork', 'fish',
-        'veggie', 'healthy', 'light', 'hearty', 'sweet', 'dessert', 'coffee', 'tea',
-        'bread', 'wrap', 'burger', 'pizza'
-    ];
+    // 태그 i18n (누락 시 원문 표시)
+    const TAG_LABELS: Record<string, Record<string, string>> = {
+        korean: { ko: '한식', en: 'Korean', zh: '韩餐', ja: '韓国料理' },
+        chinese: { ko: '중식', en: 'Chinese', zh: '中餐', ja: '中華' },
+        japanese: { ko: '일식', en: 'Japanese', zh: '日餐', ja: '和食' },
+        western: { ko: '양식', en: 'Western', zh: '西餐', ja: '洋食' },
+        mexican: { ko: '멕시칸', en: 'Mexican', zh: '墨西哥', ja: 'メキシカン' },
+        thai: { ko: '태국', en: 'Thai', zh: '泰国', ja: 'タイ' },
+        vietnamese: { ko: '베트남', en: 'Vietnamese', zh: '越南', ja: 'ベトナム' },
+        rice: { ko: '쌀밥', en: 'Rice', zh: '米饭', ja: 'ご飯' },
+        noodles: { ko: '면/누들', en: 'Noodles', zh: '面', ja: '麺' },
+        soup: { ko: '국/수프', en: 'Soup', zh: '汤', ja: 'スープ' },
+        stew: { ko: '찌개/스튜', en: 'Stew', zh: '炖菜', ja: 'シチュー' },
+        spicy: { ko: '매운맛', en: 'Spicy', zh: '辣', ja: '辛い' },
+        mild: { ko: '순한맛', en: 'Mild', zh: '清淡', ja: 'マイルド' },
+        fried: { ko: '튀김', en: 'Fried', zh: '油炸', ja: '揚げ物' },
+        grilled: { ko: '구이', en: 'Grilled', zh: '烤', ja: 'グリル' },
+        bowl: { ko: '덮밥/볼', en: 'Bowl', zh: '盖饭/碗餐', ja: '丼/ボウル' },
+        seafood: { ko: '해산물', en: 'Seafood', zh: '海鲜', ja: '海鮮' },
+        salad: { ko: '샐러드', en: 'Salad', zh: '沙拉', ja: 'サラダ' },
+        meat: { ko: '고기', en: 'Meat', zh: '肉类', ja: '肉料理' },
+        chicken: { ko: '치킨', en: 'Chicken', zh: '鸡肉', ja: 'チキン' },
+        beef: { ko: '소고기', en: 'Beef', zh: '牛肉', ja: '牛肉' },
+        pork: { ko: '돼지고기', en: 'Pork', zh: '猪肉', ja: '豚肉' },
+        fish: { ko: '생선', en: 'Fish', zh: '鱼', ja: '魚' },
+        veggie: { ko: '채식', en: 'Veggie', zh: '素食', ja: 'ベジ' },
+        healthy: { ko: '건강식', en: 'Healthy', zh: '健康', ja: 'ヘルシー' },
+        light: { ko: '라이트', en: 'Light', zh: '清爽', ja: 'ライト' },
+        hearty: { ko: '든든한', en: 'Hearty', zh: '饱腹', ja: 'ボリューム' },
+        sweet: { ko: '달콤', en: 'Sweet', zh: '甜', ja: 'スイート' },
+        dessert: { ko: '디저트', en: 'Dessert', zh: '甜点', ja: 'デザート' },
+        coffee: { ko: '커피', en: 'Coffee', zh: '咖啡', ja: 'コーヒー' },
+        tea: { ko: '차/티', en: 'Tea', zh: '茶', ja: 'ティー' },
+        bread: { ko: '빵/베이커리', en: 'Bakery', zh: '面包', ja: 'ベーカリー' },
+        wrap: { ko: '랩/또띠아', en: 'Wrap', zh: '卷饼', ja: 'ラップ' },
+        burger: { ko: '버거', en: 'Burger', zh: '汉堡', ja: 'バーガー' },
+        pizza: { ko: '피자', en: 'Pizza', zh: '披萨', ja: 'ピザ' },
+        taco: { ko: '타코', en: 'Taco', zh: '墨西哥卷', ja: 'タコス' },
+        set: { ko: '세트', en: 'Set', zh: '套餐', ja: 'セット' },
+        platter: { ko: '플래터', en: 'Platter', zh: '拼盘', ja: 'プレート' },
+        combo: { ko: '콤보', en: 'Combo', zh: '组合', ja: 'コンボ' },
+        value: { ko: '가성비', en: 'Value', zh: '性价比', ja: 'コスパ' },
+        rich: { ko: '진한맛', en: 'Rich', zh: '浓郁', ja: 'リッチ' },
+        creamy: { ko: '크리미', en: 'Creamy', zh: '奶香', ja: 'クリーミー' },
+        cheese: { ko: '치즈', en: 'Cheesy', zh: '奶酪', ja: 'チーズ' },
+        noodle: { ko: '면', en: 'Noodle', zh: '面', ja: '麺' },
+        ramen: { ko: '라멘', en: 'Ramen', zh: '拉面', ja: 'ラーメン' },
+        ricebowl: { ko: '덮밥', en: 'Rice Bowl', zh: '盖饭', ja: '丼' },
+    };
+
+    // 메뉴에서 모든 태그 수집
+    const TAG_OPTIONS = useMemo(() => {
+        const set = new Set<string>();
+        menuRecommendations.forEach((m) => m.tags?.forEach((t) => set.add(t)));
+        return Array.from(set).sort();
+    }, []);
 
     // 현재 시간에 맞는 기본 시간대 추천
     const getCurrentTimeSlot = (): TimeSlot => {
@@ -220,6 +268,7 @@ export default function MenuRecommendationPage() {
                     prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
                 );
             }}
+            tagLabels={(tag: string) => TAG_LABELS[tag]?.[lang] || TAG_LABELS[tag]?.ko || tag}
         />
     );
 }

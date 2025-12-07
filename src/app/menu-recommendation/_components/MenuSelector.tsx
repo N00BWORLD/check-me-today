@@ -11,6 +11,7 @@ interface MenuSelectorProps {
     tagOptions: string[];
     selectedTags: string[];
     onToggleTag: (tag: string) => void;
+    tagLabels: (tag: string) => string;
 }
 
 export default function MenuSelector({
@@ -20,7 +21,8 @@ export default function MenuSelector({
     stats,
     tagOptions,
     selectedTags,
-    onToggleTag
+    onToggleTag,
+    tagLabels
 }: MenuSelectorProps) {
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -84,7 +86,7 @@ export default function MenuSelector({
                                                 : 'bg-white/60 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
                                         }`}
                                     >
-                                        #{tag}
+                                        #{tagLabels(tag)}
                                     </button>
                                 );
                             })}
