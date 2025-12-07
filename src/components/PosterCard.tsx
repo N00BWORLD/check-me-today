@@ -111,24 +111,27 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
             {name}
           </h3>
 
-          {/* 통계 */}
-          <div className="flex items-center gap-2 mt-1.5">
-            <div className="flex items-center gap-0.5 text-[10px] text-slate-600 dark:text-slate-300 font-medium">
-              <span>👁️</span>
-              <span>{formatPlayCount(playCount)}</span>
+          {/* 통계 & 호버 시 시작 버튼 (같은 위치, 호버 시 교체) */}
+          <div className="relative mt-1.5 h-5">
+            {/* 기본: 통계 표시 */}
+            <div className="absolute inset-0 flex items-center justify-center gap-2 transition-opacity duration-200 group-hover:opacity-0">
+              <div className="flex items-center gap-0.5 text-[10px] text-slate-600 dark:text-slate-300 font-medium">
+                <span>▶</span>
+                <span>{formatPlayCount(playCount)}</span>
+              </div>
+              <div className="flex items-center gap-0.5 text-[10px] text-pink-500 dark:text-pink-400 font-medium">
+                <span>❤️</span>
+                <span>{formatPlayCount(likeCount)}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-0.5 text-[10px] text-pink-500 dark:text-pink-400 font-medium">
-              <span>❤️</span>
-              <span>{formatPlayCount(likeCount)}</span>
+            
+            {/* 호버: 시작 버튼 */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="flex items-center gap-1 px-3 py-1 bg-purple-500 dark:bg-purple-600 rounded-full text-[10px] font-bold text-white shadow-md">
+                <span>▶</span>
+                <span>{lang === 'ko' ? '시작' : lang === 'zh' ? '开始' : lang === 'ja' ? '開始' : 'Start'}</span>
+              </div>
             </div>
-          </div>
-        </div>
-
-        {/* 하단 플레이 인디케이터 */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200">
-          <div className="flex items-center gap-1 px-2 py-1 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg text-[10px] font-bold text-purple-600 dark:text-purple-400">
-            <span>▶</span>
-            <span>{lang === 'ko' ? '시작' : lang === 'zh' ? '开始' : lang === 'ja' ? '開始' : 'Start'}</span>
           </div>
         </div>
       </div>
