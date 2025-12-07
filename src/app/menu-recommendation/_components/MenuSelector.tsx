@@ -64,9 +64,6 @@ export default function MenuSelector({
                                     <div className="flex flex-col items-center text-center">
                                         <div className="text-3xl mb-3">{slot.emoji}</div>
                                         <div className="font-bold text-lg mb-1">{slot.name.ko}</div>
-                                        <div className="text-sm text-slate-500 dark:text-slate-400">
-                                            {slot.timeRange}
-                                        </div>
                                         {isCurrent && (
                                             <div className="mt-2 px-2 py-1 bg-orange-500 text-white text-xs rounded-full">
                                                 현재 시간
