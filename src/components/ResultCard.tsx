@@ -4,7 +4,8 @@ import Link from "next/link";
 import { PersonalityType, TraitType, traitNames, maxScores } from "@/data/questions";
 import { useLanguage, uiTexts } from "@/context/LanguageContext";
 import { useLike, useTestStats } from "@/hooks/useTestStats";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import html2canvas from "html2canvas";
 
 interface ResultCardProps {
     type: PersonalityType;
@@ -99,6 +100,33 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
     const handleKakaoShare = () => {
         handleCopyLink();
     };
+
+    // 이미지로 저장
+    const [isSaving, setIsSaving] = useState(false);
+    const handleSaveImage = useCallback(async () => {
+        if (!cardRef.current || isSaving) return;
+        
+        setIsSaving(true);
+        try {
+            // 카드를 캡처
+            const canvas = await html2canvas(cardRef.current, {
+                scale: 2, // 고해상도
+                backgroundColor: null,
+                useCORS: true,
+                logging: false,
+            });
+            
+            // 이미지로 변환 및 다운로드
+            const link = document.createElement('a');
+            link.download = `check-me-today-${type.toLowerCase()}-result.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        } catch (err) {
+            console.error('이미지 저장 실패:', err);
+        } finally {
+            setIsSaving(false);
+        }
+    }, [isSaving, type]);
 
     // 네이티브 공유 (모바일)
     const handleNativeShare = async () => {
@@ -294,7 +322,19 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
                 </button>
 
                 {/* 공유 옵션 그리드 */}
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-4 gap-2">
+                    {/* 이미지 저장 */}
+                    <button
+                        onClick={handleSaveImage}
+                        disabled={isSaving}
+                        className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 glass dark:bg-slate-800/80 rounded-xl hover:bg-white/80 dark:hover:bg-slate-700 transition-colors active:scale-[0.98] disabled:opacity-50"
+                    >
+                        <span className="text-xl">{isSaving ? '⏳' : '📷'}</span>
+                        <span className="text-[10px] font-medium text-slate-600 dark:text-slate-300">
+                            {lang === 'ko' ? '이미지 저장' : lang === 'zh' ? '保存图片' : lang === 'ja' ? '画像保存' : 'Save Image'}
+                        </span>
+                    </button>
+
                     {/* 링크 복사 */}
                     <button
                         onClick={handleCopyLink}
@@ -302,7 +342,7 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
                     >
                         <span className="text-xl">🔗</span>
                         <span className="text-[10px] font-medium text-slate-600 dark:text-slate-300">
-                            {lang === 'ko' ? '링크 복사' : lang === 'zh' ? '复制链接' : lang === 'ja' ? 'リンクコピー' : 'Copy Link'}
+                            {lang === 'ko' ? '링크 복사' : lang === 'zh' ? '复制链接' : lang === 'ja' ? 'リンク' : 'Link'}
                         </span>
                     </button>
 
@@ -324,7 +364,7 @@ export default function ResultCard({ type, traitScores }: ResultCardProps) {
                     >
                         <span className="text-xl">💬</span>
                         <span className="text-[10px] font-medium text-slate-600 dark:text-slate-300">
-                            {lang === 'ko' ? '카카오톡' : 'KakaoTalk'}
+                            {lang === 'ko' ? '카톡' : 'Kakao'}
                         </span>
                     </button>
                 </div>
