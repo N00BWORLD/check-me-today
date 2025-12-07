@@ -48,24 +48,24 @@ export const categories: Category[] = [
 // 테스트 목록
 export const tests: TestData[] = [
   {
-    id: "teto-vs-egen", // Firebase에서 사용하는 ID와 일치
+    id: "energy-balance", // Firebase에서 사용하는 ID - 새로운 테스트
     slug: "test", // /test 경로
     category: "personality",
     name: { 
-      ko: "테토 vs 에겐", 
-      en: "TETO vs EGEN", 
-      zh: "热情 vs 温柔", 
-      ja: "テト vs エゲン" 
+      ko: "에너지 밸런스 테스트", 
+      en: "Energy Balance Test", 
+      zh: "能量平衡测试", 
+      ja: "エネルギーバランス診断" 
     },
     description: { 
-      ko: "나는 불꽃형? 물결형? 7문제로 알아보는 나의 성향", 
-      en: "Am I fire or water? Find your type in 7 questions", 
-      zh: "我是火焰型还是水波型？7个问题测出你的性格",
-      ja: "私は炎タイプ？波タイプ？7問でわかる性格診断"
+      ko: "내 안의 태양과 달 ☀️🌙 심리학 기반 성향 테스트", 
+      en: "Sun & Moon within you ☀️🌙 Psychology-based personality test", 
+      zh: "你内心的太阳与月亮 ☀️🌙 基于心理学的性格测试",
+      ja: "あなたの中の太陽と月 ☀️🌙 心理学に基づく性格診断"
     },
-    emoji: "🔥",
-    gradient: "from-orange-500 via-red-500 to-pink-500",
-    bgGradient: "from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30",
+    emoji: "⚖️",
+    gradient: "from-amber-500 via-orange-500 to-indigo-500",
+    bgGradient: "from-amber-100 to-indigo-100 dark:from-amber-900/30 dark:to-indigo-900/30",
     playCount: 0, // Firebase에서 실시간으로 가져옴
     likeCount: 0, // Firebase에서 실시간으로 가져옴
     badge: "HOT",
@@ -250,4 +250,3 @@ export function formatPlayCount(count: number): string {
   }
   return count.toString();
 }
-

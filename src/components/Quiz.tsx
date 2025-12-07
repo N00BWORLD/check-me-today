@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { questions, PersonalityType, TraitType } from "@/data/questions";
+import { questions, TraitType, solarTraits, lunarTraits } from "@/data/questions";
 import { useLanguage, uiTexts } from "@/context/LanguageContext";
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import Link from "next/link";
@@ -13,34 +13,31 @@ export default function Quiz() {
     const [currentIndex, setCurrentIndex] = useState(0);
     
     // 테스트 시작 시 조회수 증가
-    useIncrementPlay("teto-vs-egen");
-    const [scores, setScores] = useState<Record<PersonalityType, number>>({
-        TETO: 0,
-        EGEN: 0,
-    });
+    useIncrementPlay("energy-balance");
+    
+    // 각 특성별 점수 (0부터 시작)
     const [traitScores, setTraitScores] = useState<Record<TraitType, number>>({
-        drive: 0,
-        social: 0,
-        decision: 0,
+        assertiveness: 0,
+        achievement: 0,
+        independence: 0,
         empathy: 0,
-        detail: 0,
-        creativity: 0,
+        collaboration: 0,
+        intuition: 0,
     });
+    
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isAnimating, setIsAnimating] = useState(false);
 
-    const handleAnswer = (type: PersonalityType, optionId: number, traits: { trait: TraitType; score: number }[]) => {
+    const handleAnswer = (optionId: number, scores: { trait: TraitType; score: number }[]) => {
         if (isAnimating) return;
         
         setSelectedOption(optionId);
         setIsAnimating(true);
         
         setTimeout(() => {
-            const newScores = { ...scores, [type]: scores[type] + 1 };
-            setScores(newScores);
-
+            // 특성 점수 업데이트
             const newTraitScores = { ...traitScores };
-            traits.forEach(({ trait, score }) => {
+            scores.forEach(({ trait, score }) => {
                 newTraitScores[trait] += score;
             });
             setTraitScores(newTraitScores);
@@ -51,16 +48,34 @@ export default function Quiz() {
                 setCurrentIndex(currentIndex + 1);
                 setIsAnimating(false);
             } else {
-                const resultType = newScores.TETO > newScores.EGEN ? "TETO" : "EGEN";
+                // Solar/Lunar 점수 계산
+                let solarScore = 0;
+                let lunarScore = 0;
+                
+                solarTraits.forEach(trait => {
+                    solarScore += newTraitScores[trait];
+                });
+                
+                lunarTraits.forEach(trait => {
+                    lunarScore += newTraitScores[trait];
+                });
+                
+                // 결과 타입 결정
+                const resultType = solarScore >= lunarScore ? "SOLAR" : "LUNAR";
+                
+                // URL 파라미터 생성
                 const params = new URLSearchParams({
                     type: resultType,
-                    drive: newTraitScores.drive.toString(),
-                    social: newTraitScores.social.toString(),
-                    decision: newTraitScores.decision.toString(),
+                    solar: solarScore.toString(),
+                    lunar: lunarScore.toString(),
+                    assertiveness: newTraitScores.assertiveness.toString(),
+                    achievement: newTraitScores.achievement.toString(),
+                    independence: newTraitScores.independence.toString(),
                     empathy: newTraitScores.empathy.toString(),
-                    detail: newTraitScores.detail.toString(),
-                    creativity: newTraitScores.creativity.toString(),
+                    collaboration: newTraitScores.collaboration.toString(),
+                    intuition: newTraitScores.intuition.toString(),
                 });
+                
                 // 광고 로딩 페이지를 거쳐서 결과 페이지로 이동
                 router.push(`/analyzing?${params.toString()}`);
             }
@@ -70,12 +85,15 @@ export default function Quiz() {
     const currentQuestion = questions[currentIndex];
     const progressPercent = ((currentIndex + 1) / questions.length) * 100;
 
+    // 선택지 라벨 (A, B, C, D)
+    const optionLabels = ['A', 'B', 'C', 'D'];
+
     return (
         <div className="w-full max-w-md mx-auto px-4 py-6 flex flex-col min-h-[85vh] justify-between">
             
             {/* Header */}
-            <div className="mb-8 animate-fade-in">
-                <div className="flex items-center justify-between mb-6">
+            <div className="mb-6 animate-fade-in">
+                <div className="flex items-center justify-between mb-4">
                     <Link
                         href="/"
                         className="w-10 h-10 rounded-full glass dark:bg-slate-800/80 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors"
@@ -85,7 +103,7 @@ export default function Quiz() {
                         </svg>
                     </Link>
                     <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-purple-600 dark:text-purple-400">
+                        <span className="text-sm font-bold text-amber-600 dark:text-amber-400">
                             {currentIndex + 1}
                         </span>
                         <span className="text-sm text-slate-400">/</span>
@@ -99,7 +117,7 @@ export default function Quiz() {
                 <div className="relative">
                     <div className="w-full bg-white/50 dark:bg-slate-700/50 rounded-full h-3 overflow-hidden backdrop-blur-sm border border-white/50 dark:border-slate-600">
                         <div
-                            className="progress-bar h-full rounded-full transition-all duration-500 ease-out"
+                            className="h-full rounded-full transition-all duration-500 ease-out bg-gradient-to-r from-amber-400 via-orange-500 to-indigo-500"
                             style={{ width: `${progressPercent}%` }}
                         />
                     </div>
@@ -107,7 +125,7 @@ export default function Quiz() {
                         {questions.map((_, idx) => (
                             <div
                                 key={idx}
-                                className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                                className={`w-1 h-1 rounded-full transition-colors ${
                                     idx <= currentIndex ? "bg-white" : "bg-white/30 dark:bg-slate-600"
                                 }`}
                             />
@@ -123,55 +141,57 @@ export default function Quiz() {
                     className="h-full flex flex-col animate-slide-up"
                 >
                     {/* Question Card */}
-                    <div className="glass-strong dark:bg-slate-800/90 rounded-3xl p-8 mb-6 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+                    <div className="glass-strong dark:bg-slate-800/90 rounded-3xl p-6 mb-4 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-400/20 to-indigo-400/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                         
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-5">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-amber-500 to-indigo-500 rounded-full mb-4">
                             <span className="text-white text-xs font-bold tracking-wider">
                                 {t(uiTexts.question)} {currentIndex + 1}
                             </span>
                         </div>
 
-                        <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white leading-snug break-keep relative z-10">
+                        <h2 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white leading-snug break-keep relative z-10">
                             {t(currentQuestion.text)}
                         </h2>
                     </div>
 
-                    {/* Answer Options */}
-                    <div className="space-y-3 flex-1">
+                    {/* Answer Options - 4개 */}
+                    <div className="space-y-2 flex-1">
                         {currentQuestion.options.map((option, idx) => (
                             <button
                                 key={option.id}
-                                onClick={() => handleAnswer(option.type, option.id, option.traits)}
+                                onClick={() => handleAnswer(option.id, option.scores)}
                                 disabled={selectedOption !== null}
                                 className={`
-                                    w-full text-left p-5 rounded-2xl transition-all duration-300 relative overflow-hidden
+                                    w-full text-left p-4 rounded-2xl transition-all duration-300 relative overflow-hidden
                                     animate-slide-up
                                     ${selectedOption === option.id 
-                                        ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 scale-[0.98]" 
-                                        : "glass dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 hover:shadow-lg hover:scale-[1.02]"
+                                        ? "bg-gradient-to-r from-amber-500 to-indigo-500 text-white shadow-lg shadow-amber-500/30 scale-[0.98]" 
+                                        : "glass dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 hover:shadow-lg hover:scale-[1.01]"
                                     }
                                     disabled:cursor-not-allowed
                                     active:scale-[0.98]
                                 `}
-                                style={{ animationDelay: `${idx * 0.1 + 0.2}s` }}
+                                style={{ animationDelay: `${idx * 0.08 + 0.15}s` }}
                             >
-                                <span className={`
-                                    inline-flex items-center justify-center w-8 h-8 rounded-full mr-3 text-sm font-bold
-                                    ${selectedOption === option.id 
-                                        ? "bg-white/20 text-white" 
-                                        : "bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400"
-                                    }
-                                `}>
-                                    {idx === 0 ? "A" : "B"}
-                                </span>
-                                <span className="font-semibold text-lg">
-                                    {t(option.text)}
-                                </span>
+                                <div className="flex items-start gap-3">
+                                    <span className={`
+                                        inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold flex-shrink-0 mt-0.5
+                                        ${selectedOption === option.id 
+                                            ? "bg-white/20 text-white" 
+                                            : "bg-gradient-to-br from-amber-100 to-indigo-100 dark:from-amber-900/50 dark:to-indigo-900/50 text-amber-700 dark:text-amber-300"
+                                        }
+                                    `}>
+                                        {optionLabels[idx]}
+                                    </span>
+                                    <span className="font-medium text-base leading-snug break-keep">
+                                        {t(option.text)}
+                                    </span>
+                                </div>
                                 
                                 {selectedOption === option.id && (
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 animate-scale-in">
-                                        <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 animate-scale-in">
+                                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                         </svg>
                                     </span>
@@ -183,7 +203,7 @@ export default function Quiz() {
             </div>
 
             {/* Footer Hint */}
-            <div className="mt-6 text-center animate-fade-in" style={{ animationDelay: "0.5s" }}>
+            <div className="mt-4 text-center animate-fade-in" style={{ animationDelay: "0.5s" }}>
                 <p className="text-slate-400 dark:text-slate-500 text-sm">
                     {t(uiTexts.selectIntuitively)}
                 </p>

@@ -16,27 +16,31 @@ function AnalyzingContent() {
     const messages = {
         ko: [
             "답변을 분석하고 있어요...",
-            "당신의 성향을 파악 중...",
+            "에너지 밸런스를 측정 중...",
+            "당신의 내면을 탐색 중...",
             "결과를 준비하고 있어요...",
-            "거의 다 됐어요! 🎉"
+            "거의 다 됐어요! ⚖️"
         ],
         en: [
             "Analyzing your answers...",
-            "Identifying your personality...",
+            "Measuring energy balance...",
+            "Exploring your inner self...",
             "Preparing your results...",
-            "Almost done! 🎉"
+            "Almost done! ⚖️"
         ],
         zh: [
             "正在分析你的答案...",
-            "正在识别你的性格...",
+            "正在测量能量平衡...",
+            "正在探索你的内在...",
             "正在准备你的结果...",
-            "马上就好！🎉"
+            "马上就好！⚖️"
         ],
         ja: [
             "回答を分析中...",
-            "あなたの性格を把握中...",
+            "エネルギーバランスを測定中...",
+            "あなたの内面を探索中...",
             "結果を準備中...",
-            "もうすぐ完了！🎉"
+            "もうすぐ完了！⚖️"
         ]
     };
 
@@ -58,7 +62,7 @@ function AnalyzingContent() {
             });
         }, interval);
 
-        // 메시지 변경 (1.25초마다)
+        // 메시지 변경 (1초마다)
         const messageTimer = setInterval(() => {
             setCurrentMessage(prev => {
                 if (prev >= currentMessages.length - 1) {
@@ -67,7 +71,7 @@ function AnalyzingContent() {
                 }
                 return prev + 1;
             });
-        }, 1250);
+        }, 1000);
 
         // 5초 후 결과 페이지로 이동
         const redirectTimer = setTimeout(() => {
@@ -82,11 +86,14 @@ function AnalyzingContent() {
         };
     }, [searchParams, router, currentMessages.length]);
 
-    const type = searchParams.get("type") || "TETO";
-    const emoji = type === "TETO" ? "🔥" : "🔮";
-    const gradient = type === "TETO" 
-        ? "from-orange-500 via-red-500 to-pink-500" 
-        : "from-purple-500 via-violet-500 to-indigo-500";
+    const type = searchParams.get("type") || "SOLAR";
+    const isSolar = type === "SOLAR";
+    const emoji = "⚖️";
+    const primaryEmoji = isSolar ? "☀️" : "🌙";
+    const gradient = isSolar 
+        ? "from-amber-500 via-orange-500 to-red-500" 
+        : "from-indigo-500 via-purple-500 to-violet-500";
+    const shadowColor = isSolar ? "shadow-orange-500/30" : "shadow-indigo-500/30";
 
     return (
         <main className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -98,16 +105,24 @@ function AnalyzingContent() {
                         w-32 h-32 mx-auto rounded-full 
                         bg-gradient-to-br ${gradient}
                         flex items-center justify-center
-                        animate-pulse shadow-2xl shadow-purple-500/30
+                        animate-pulse shadow-2xl ${shadowColor}
+                        relative overflow-hidden
                     `}>
                         <span className="text-6xl animate-bounce">{emoji}</span>
+                        {/* 태양/달 장식 */}
+                        <div className="absolute -left-2 top-2 text-2xl animate-pulse" style={{ animationDelay: "0.5s" }}>
+                            ☀️
+                        </div>
+                        <div className="absolute -right-2 bottom-2 text-2xl animate-pulse" style={{ animationDelay: "0.8s" }}>
+                            🌙
+                        </div>
                     </div>
                     
                     {/* 회전하는 링 */}
                     <div className="absolute inset-0 flex items-center justify-center">
                         <div className={`
                             w-40 h-40 rounded-full border-4 border-transparent
-                            border-t-purple-500 border-r-pink-500
+                            ${isSolar ? "border-t-amber-500 border-r-orange-500" : "border-t-indigo-500 border-r-purple-500"}
                             animate-spin
                         `} style={{ animationDuration: "1.5s" }} />
                     </div>
@@ -120,15 +135,21 @@ function AnalyzingContent() {
 
                 {/* 프로그레스 바 */}
                 <div className="w-full max-w-xs mx-auto mb-8">
-                    <div className="h-2 bg-white/30 dark:bg-slate-700 rounded-full overflow-hidden backdrop-blur-sm">
+                    <div className="h-3 bg-white/30 dark:bg-slate-700 rounded-full overflow-hidden backdrop-blur-sm flex">
                         <div 
-                            className={`h-full rounded-full bg-gradient-to-r ${gradient} transition-all duration-100`}
-                            style={{ width: `${progress}%` }}
+                            className="h-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-100"
+                            style={{ width: `${progress / 2}%` }}
+                        />
+                        <div 
+                            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-100"
+                            style={{ width: `${progress / 2}%` }}
                         />
                     </div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                        {Math.round(progress)}%
-                    </p>
+                    <div className="flex justify-between text-xs mt-2 text-slate-400 dark:text-slate-500">
+                        <span>☀️ Solar</span>
+                        <span className="font-bold">{Math.round(progress)}%</span>
+                        <span>Lunar 🌙</span>
+                    </div>
                 </div>
 
                 {/* 광고 영역 */}
@@ -149,7 +170,7 @@ function AnalyzingContent() {
                             const params = new URLSearchParams(searchParams.toString());
                             router.push(`/result?${params.toString()}`);
                         }}
-                        className="text-sm text-slate-400 dark:text-slate-500 hover:text-purple-500 dark:hover:text-purple-400 transition-colors animate-fade-in"
+                        className={`text-sm text-slate-400 dark:text-slate-500 hover:${isSolar ? 'text-amber-500' : 'text-indigo-500'} dark:hover:${isSolar ? 'text-amber-400' : 'text-indigo-400'} transition-colors animate-fade-in`}
                     >
                         {lang === 'ko' ? '결과 보기 →' : 
                          lang === 'zh' ? '查看结果 →' : 
@@ -165,7 +186,9 @@ function AnalyzingContent() {
 function LoadingFallback() {
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 animate-pulse" />
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-indigo-500 animate-pulse flex items-center justify-center">
+                <span className="text-2xl">⚖️</span>
+            </div>
         </div>
     );
 }
@@ -177,4 +200,3 @@ export default function AnalyzingPage() {
         </Suspense>
     );
 }
-
