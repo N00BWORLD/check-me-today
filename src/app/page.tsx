@@ -15,23 +15,23 @@ export default function Home() {
   const { lang } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("all");
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // Firebase에서 모든 테스트 통계 가져오기
   const { allStats } = useAllTestStats();
 
   // 카테고리 + 검색 필터링
   const filteredTests = useMemo(() => {
     let result = getTestsByCategory(selectedCategory);
-    
+
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      result = result.filter(test => 
+      result = result.filter(test =>
         test.name[lang]?.toLowerCase().includes(query) ||
         test.name.en?.toLowerCase().includes(query) ||
         test.description[lang]?.toLowerCase().includes(query)
       );
     }
-    
+
     return result;
   }, [selectedCategory, searchQuery, lang]);
 
@@ -45,19 +45,19 @@ export default function Home() {
       return bPlays - aPlays; // 내림차순
     });
   }, [allStats]);
-  
+
 
   // 오늘의 추천 - 인기 테스트 중 랜덤 또는 가장 인기 있는 것
   const recommendedTest = useMemo(() => {
     const activeTests = tests.filter(t => !t.isComingSoon);
     if (activeTests.length === 0) return null;
-    
+
     // 통계가 있으면 플레이 수 기준 정렬, 없으면 랜덤
     const testsWithStats = activeTests.map(t => ({
       ...t,
       realPlayCount: allStats[t.id]?.playCount ?? t.playCount
     }));
-    
+
     // 가장 인기 있는 테스트 반환 (플레이 수 기준)
     testsWithStats.sort((a, b) => b.realPlayCount - a.realPlayCount);
     return testsWithStats[0];
@@ -67,7 +67,7 @@ export default function Home() {
   const today = new Date();
   const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric' };
   const dateString = today.toLocaleDateString(
-    lang === 'ko' ? 'ko-KR' : lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : 'en-US', 
+    lang === 'ko' ? 'ko-KR' : lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : 'en-US',
     dateOptions
   );
 
@@ -93,7 +93,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            
+
             {/* Controls */}
             <div className="flex items-center gap-1.5">
               <ThemeToggle />
@@ -110,13 +110,13 @@ export default function Home() {
             <div className={`relative overflow-hidden rounded-2xl mb-6 bg-gradient-to-br ${recommendedTest.bgGradient} p-5 border border-white/30 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-shadow`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl translate-y-1/2 -translate-x-1/2" />
-              
+
               <div className="relative flex items-center gap-4">
                 {/* 이모지 아이콘 */}
                 <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${recommendedTest.gradient} flex items-center justify-center shadow-lg ring-2 ring-white/40`}>
                   <span className="text-3xl">{recommendedTest.emoji}</span>
                 </div>
-                
+
                 <div className="flex-1">
                   <p className="text-slate-600 dark:text-slate-300 text-xs font-semibold mb-0.5">
                     {lang === 'ko' ? '✨ 오늘의 추천' : lang === 'zh' ? '✨ 今日推荐' : lang === 'ja' ? '✨ 今日のおすすめ' : "✨ Today's Pick"}
@@ -153,7 +153,7 @@ export default function Home() {
               <span className="text-base">🔥</span>
               {lang === 'ko' ? '인기 테스트' : lang === 'zh' ? '热门测试' : lang === 'ja' ? '人気テスト' : 'Popular'}
             </h3>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {hotTests.map(test => (
                 <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
@@ -171,7 +171,7 @@ export default function Home() {
                   {categories.find(c => c.id === selectedCategory)?.emoji}
                 </span>
               )}
-              {searchQuery 
+              {searchQuery
                 ? (lang === 'ko' ? '검색 결과' : lang === 'zh' ? '搜索结果' : lang === 'ja' ? '検索結果' : 'Results')
                 : (categories.find(c => c.id === selectedCategory)?.name[lang] || 'Tests')
               }
@@ -179,9 +179,9 @@ export default function Home() {
                 ({filteredTests.length})
               </span>
             </h3>
-            
+
             {filteredTests.length > 0 ? (
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {filteredTests.map(test => (
                   <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
                 ))}
@@ -207,7 +207,7 @@ export default function Home() {
               <span className="text-base">📋</span>
               {lang === 'ko' ? '모든 테스트' : lang === 'zh' ? '所有测试' : lang === 'ja' ? 'すべてのテスト' : 'All Tests'}
             </h3>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {tests.map(test => (
                 <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
