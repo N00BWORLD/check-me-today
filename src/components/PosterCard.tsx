@@ -29,8 +29,8 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           border border-white/20 dark:border-slate-700
           opacity-60 saturate-50
         `}>
-          {/* 상단: 이모지 영역 (65%) */}
-          <div className="absolute inset-x-0 top-0 h-[60%] flex items-center justify-center">
+          {/* 상단: 이모지 영역 (55%) */}
+          <div className="absolute inset-x-0 top-0 h-[55%] flex items-center justify-center">
             <span className="text-5xl opacity-50 grayscale">{test.emoji}</span>
           </div>
 
@@ -39,9 +39,9 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
             <span className="text-[9px] font-bold text-white/90">SOON</span>
           </div>
 
-          {/* 하단: 정보 영역 (40%) */}
-          <div className="absolute inset-x-0 bottom-0 h-[40%] bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-3 flex flex-col justify-center">
-            <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 text-center line-clamp-2 break-keep leading-tight">
+          {/* 하단: 정보 영역 (45%) */}
+          <div className="absolute inset-x-0 bottom-0 h-[45%] bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-3 flex flex-col justify-center">
+            <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 text-center line-clamp-2 break-keep leading-snug">
               {name}
             </h3>
             <p className="text-xs text-slate-400 dark:text-slate-500 text-center mt-1.5">
@@ -71,8 +71,8 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           <div className="absolute top-1/3 -left-8 w-20 h-20 bg-white/20 rounded-full blur-xl" />
         </div>
 
-        {/* 상단: 이모지 영역 (60%) */}
-        <div className="absolute inset-x-0 top-0 h-[60%] flex items-center justify-center">
+        {/* 상단: 이모지 영역 (55%) */}
+        <div className="absolute inset-x-0 top-0 h-[55%] flex items-center justify-center">
           <span className="text-5xl drop-shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
             {test.emoji}
           </span>
@@ -91,11 +91,11 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           </div>
         )}
 
-        {/* 하단: 정보 영역 (40%) */}
-        <div className="absolute inset-x-0 bottom-0 h-[40%] bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+        {/* 하단: 정보 영역 (45%) */}
+        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
           <div className="h-full flex flex-col justify-center px-3 py-2">
-            {/* 제목 */}
-            <h3 className="text-sm font-bold text-slate-800 dark:text-white text-center line-clamp-2 break-keep leading-tight">
+            {/* 제목 - 긴 텍스트도 2줄까지 표시 */}
+            <h3 className="text-xs font-bold text-slate-800 dark:text-white text-center line-clamp-2 break-keep leading-snug min-h-[2.5em]">
               {name}
             </h3>
 

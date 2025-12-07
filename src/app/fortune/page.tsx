@@ -8,6 +8,7 @@ import {
   luckyColors,
   luckyDirections,
   overallDescriptions,
+  fortuneComments,
 } from "@/data/fortunes";
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
@@ -18,18 +19,30 @@ export default function FortunePage() {
   const { lang } = useLanguage();
   const [state, setState] = useState<FortuneState>("input");
   const [name, setName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  // 생년월일 - 년/월/일 분리
+  const [birthYear, setBirthYear] = useState("");
+  const [birthMonth, setBirthMonth] = useState("");
+  const [birthDay, setBirthDay] = useState("");
   const [fortune, setFortune] = useState<ReturnType<typeof generateFortuneWithLang> | null>(null);
 
   // 조회수 증가
   useIncrementPlay("fortune");
+  
+  // 년도 옵션 생성 (1920~현재년도)
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 1919 }, (_, i) => currentYear - i);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !birthDate) return;
+    if (!name || !birthYear || !birthMonth || !birthDay) return;
     
     // 복주머니 애니메이션 시작
     setState("opening");
+    
+    // 생년월일 조합 (YYYY-MM-DD)
+    const birthDate = `${birthYear}-${birthMonth.padStart(2, '0')}-${birthDay.padStart(2, '0')}`;
     
     // 3초 후 결과 표시
     setTimeout(() => {
@@ -124,18 +137,49 @@ export default function FortunePage() {
                 />
               </div>
 
-              {/* 생년월일 */}
+              {/* 생년월일 - 년/월/일 선택 */}
               <div>
                 <label className="block text-sm font-bold text-slate-600 dark:text-slate-300 mb-2">
                   {t(texts.birthDate)}
                 </label>
-                <input
-                  type="date"
-                  value={birthDate}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-700/50 border border-white/50 dark:border-slate-600 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-400"
-                  required
-                />
+                <div className="grid grid-cols-3 gap-2">
+                  {/* 년도 */}
+                  <select
+                    value={birthYear}
+                    onChange={(e) => setBirthYear(e.target.value)}
+                    className="px-3 py-3 rounded-xl bg-white/50 dark:bg-slate-700/50 border border-white/50 dark:border-slate-600 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-400 text-center"
+                    required
+                  >
+                    <option value="">{lang === 'ko' ? '년' : lang === 'zh' ? '年' : lang === 'ja' ? '年' : 'Year'}</option>
+                    {years.map((y) => (
+                      <option key={y} value={y.toString()}>{y}</option>
+                    ))}
+                  </select>
+                  {/* 월 */}
+                  <select
+                    value={birthMonth}
+                    onChange={(e) => setBirthMonth(e.target.value)}
+                    className="px-3 py-3 rounded-xl bg-white/50 dark:bg-slate-700/50 border border-white/50 dark:border-slate-600 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-400 text-center"
+                    required
+                  >
+                    <option value="">{lang === 'ko' ? '월' : lang === 'zh' ? '月' : lang === 'ja' ? '月' : 'Mon'}</option>
+                    {months.map((m) => (
+                      <option key={m} value={m.toString()}>{m}</option>
+                    ))}
+                  </select>
+                  {/* 일 */}
+                  <select
+                    value={birthDay}
+                    onChange={(e) => setBirthDay(e.target.value)}
+                    className="px-3 py-3 rounded-xl bg-white/50 dark:bg-slate-700/50 border border-white/50 dark:border-slate-600 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-400 text-center"
+                    required
+                  >
+                    <option value="">{lang === 'ko' ? '일' : lang === 'zh' ? '日' : lang === 'ja' ? '日' : 'Day'}</option>
+                    {days.map((d) => (
+                      <option key={d} value={d.toString()}>{d}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -256,25 +300,37 @@ export default function FortunePage() {
 
             {/* 세부 운세 */}
             <div className="p-6 grid grid-cols-2 gap-4">
-              <div className="text-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl">
+              <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl">
                 <div className="text-2xl mb-1">💰</div>
                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">{t(texts.wealth)}</div>
                 {renderStars(fortune.wealth)}
+                <div className="mt-2 text-xs font-medium text-yellow-700 dark:text-yellow-300">
+                  {fortuneComments.wealth[fortune.wealth as keyof typeof fortuneComments.wealth]?.[lang as 'ko' | 'en' | 'zh' | 'ja'] || fortuneComments.wealth[fortune.wealth as keyof typeof fortuneComments.wealth]?.en}
+                </div>
               </div>
-              <div className="text-center p-3 bg-pink-50 dark:bg-pink-900/20 rounded-xl">
+              <div className="text-center p-4 bg-pink-50 dark:bg-pink-900/20 rounded-xl">
                 <div className="text-2xl mb-1">💕</div>
                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">{t(texts.love)}</div>
                 {renderStars(fortune.love)}
+                <div className="mt-2 text-xs font-medium text-pink-700 dark:text-pink-300">
+                  {fortuneComments.love[fortune.love as keyof typeof fortuneComments.love]?.[lang as 'ko' | 'en' | 'zh' | 'ja'] || fortuneComments.love[fortune.love as keyof typeof fortuneComments.love]?.en}
+                </div>
               </div>
-              <div className="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
+              <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-xl">
                 <div className="text-2xl mb-1">💪</div>
                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">{t(texts.health)}</div>
                 {renderStars(fortune.health)}
+                <div className="mt-2 text-xs font-medium text-green-700 dark:text-green-300">
+                  {fortuneComments.health[fortune.health as keyof typeof fortuneComments.health]?.[lang as 'ko' | 'en' | 'zh' | 'ja'] || fortuneComments.health[fortune.health as keyof typeof fortuneComments.health]?.en}
+                </div>
               </div>
-              <div className="text-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+              <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
                 <div className="text-2xl mb-1">💼</div>
                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">{t(texts.work)}</div>
                 {renderStars(fortune.work)}
+                <div className="mt-2 text-xs font-medium text-blue-700 dark:text-blue-300">
+                  {fortuneComments.work[fortune.work as keyof typeof fortuneComments.work]?.[lang as 'ko' | 'en' | 'zh' | 'ja'] || fortuneComments.work[fortune.work as keyof typeof fortuneComments.work]?.en}
+                </div>
               </div>
             </div>
 

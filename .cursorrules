@@ -21,12 +21,131 @@
 - 깔끔한 배경 (그라데이션 또는 단색)
 - 결과 공유 시 URL에 결과 타입 포함
 
-### 3. 공유 기능
-- **링크 복사** 버튼 (필수)
-- **카카오톡 공유** (선택)
-- **트위터/X 공유** (선택)
-- **인스타그램 스토리용 이미지 저장** (선택)
-- 공유 시 OG 메타태그 최적화
+### 3. 공유 기능 구현 규격
+
+#### 3-1. 공유 버튼 UI 구조
+```tsx
+{/* 공유 버튼 그룹 */}
+<div className="mb-6">
+    {/* 메인 공유 버튼 (네이티브 공유 API) */}
+    <button onClick={handleNativeShare} className="w-full ...">
+        공유하기
+    </button>
+
+    {/* 공유 옵션 그리드 (4열) */}
+    <div className="grid grid-cols-4 gap-2">
+        <button>📷 이미지 저장</button>
+        <button>🔗 링크 복사</button>
+        <button>𝕏 Twitter</button>
+        <button>💬 카카오톡</button>
+    </div>
+</div>
+```
+
+#### 3-2. 이미지 저장 (html2canvas)
+- **라이브러리**: `html2canvas` 사용
+- **캡처 방식**: 글래스모피즘 효과가 깨지므로 **캡처용 div를 동적 생성**
+```tsx
+import html2canvas from "html2canvas";
+
+const handleSaveImage = async () => {
+    // 다크모드 확인
+    const isDark = document.documentElement.classList.contains('dark');
+    const bgColor = isDark ? '#1e293b' : '#fafafa';
+    
+    // 캡처용 임시 div 생성 (인라인 스타일로 깔끔하게)
+    const captureDiv = document.createElement('div');
+    captureDiv.style.cssText = `
+        position: fixed; left: -9999px; top: 0;
+        width: 400px; padding: 40px;
+        background: linear-gradient(135deg, ${bgColor} 0%, ...);
+        font-family: 'Pretendard Variable', sans-serif;
+    `;
+    captureDiv.innerHTML = `결과 카드 HTML (인라인 스타일)`;
+    document.body.appendChild(captureDiv);
+    
+    // 캡처
+    const canvas = await html2canvas(captureDiv, {
+        scale: 3,           // 고해상도
+        backgroundColor: bgColor,
+        useCORS: true,
+    });
+    
+    document.body.removeChild(captureDiv);
+    
+    // 다운로드
+    const link = document.createElement('a');
+    link.download = `check-me-today-${type}-${날짜}.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+};
+```
+
+#### 3-3. 링크 복사
+```tsx
+const handleCopyLink = async () => {
+    const url = window.location.href;
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+};
+```
+
+#### 3-4. 트위터/X 공유
+```tsx
+const handleTwitterShare = () => {
+    const url = window.location.href;
+    const text = lang === 'ko' 
+        ? `나의 결과는 ${title}! 🎉\n테스트 이름`
+        : `My result is ${title}! 🎉\nTest Name`;
+    window.open(
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+        '_blank'
+    );
+};
+```
+
+#### 3-5. 카카오톡 공유
+- 카카오 SDK 없이 **링크 복사로 대체** (간단한 구현)
+```tsx
+const handleKakaoShare = () => {
+    handleCopyLink(); // 링크 복사 후 카톡에 붙여넣기 유도
+};
+```
+
+#### 3-6. 네이티브 공유 (모바일)
+```tsx
+const handleNativeShare = async () => {
+    const shareData = {
+        title: '테스트 결과',
+        text: `나의 결과는 ${title}! 🎉`,
+        url: window.location.href,
+    };
+    
+    if (navigator.share) {
+        await navigator.share(shareData);
+    } else {
+        handleCopyLink(); // 지원 안 하면 링크 복사
+    }
+};
+```
+
+#### 3-7. OG 메타태그 (layout.tsx)
+```tsx
+// src/app/result/layout.tsx
+export const metadata: Metadata = {
+    openGraph: {
+        title: "테스트 결과 🎉",
+        description: "나의 결과를 확인해보세요!",
+        images: [{ url: "/og-result.png", width: 1200, height: 630 }],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "테스트 결과 🎉",
+        images: ["/og-result.png"],
+    },
+};
+```
 
 ### 4. 테스트 플로우
 ```
