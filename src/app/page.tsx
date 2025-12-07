@@ -120,7 +120,7 @@ export default function Home() {
               <span className="text-base">🔥</span>
               {lang === 'ko' ? '인기 테스트' : lang === 'zh' ? '热门测试' : lang === 'ja' ? '人気テスト' : 'Popular'}
             </h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-2">
               {hotTests.map(test => (
                 <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
@@ -135,8 +135,8 @@ export default function Home() {
               <span className="text-base">🆕</span>
               {lang === 'ko' ? '곧 출시' : lang === 'zh' ? '即将上线' : lang === 'ja' ? 'まもなく登場' : 'Coming Soon'}
             </h3>
-            <div className="grid grid-cols-2 gap-3">
-              {newTests.slice(0, 4).map(test => (
+            <div className="grid grid-cols-3 gap-2">
+              {newTests.slice(0, 6).map(test => (
                 <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}
             </div>
@@ -162,7 +162,7 @@ export default function Home() {
             </h3>
             
             {filteredTests.length > 0 ? (
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-2">
                 {filteredTests.map(test => (
                   <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
                 ))}
@@ -188,7 +188,7 @@ export default function Home() {
               <span className="text-base">📋</span>
               {lang === 'ko' ? '모든 테스트' : lang === 'zh' ? '所有测试' : lang === 'ja' ? 'すべてのテスト' : 'All Tests'}
             </h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-2">
               {tests.map(test => (
                 <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
               ))}

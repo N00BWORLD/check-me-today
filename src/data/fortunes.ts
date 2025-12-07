@@ -1,16 +1,16 @@
-// 오늘의 운세 데이터
+﻿// 오늘의 운세 데이터
 
 export interface FortuneResult {
-  overall: number;      // 종합운 1-5
-  wealth: number;       // 재물운 1-5
-  love: number;         // 연애운 1-5
-  health: number;       // 건강운 1-5
-  work: number;         // 직장/학업운 1-5
-  luckyNumber: number;  // 행운의 숫자
-  luckyColor: string;   // 행운의 색상
+  overall: number;       // 종합운 1-5
+  wealth: number;        // 재물운 1-5
+  love: number;          // 연애운 1-5
+  health: number;        // 건강운 1-5
+  work: number;          // 직장/학업운 1-5
+  luckyNumber: number;   // 행운의 숫자
+  luckyColor: string;    // 행운의 색상
   luckyDirection: string; // 행운의 방향
-  advice: string;       // 오늘의 조언
-  warning: string;      // 주의할 점
+  advice: string;        // 오늘의 조언
+  warning: string;       // 주의할 점
 }
 
 // 행운의 색상
@@ -177,4 +177,3 @@ export function generateFortuneWithLang(name: string, birthDate: string, lang: s
     warningText: warnings[warningIndex][langKey] || warnings[warningIndex].en,
   };
 }
-

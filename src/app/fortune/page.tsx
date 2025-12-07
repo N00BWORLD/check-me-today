@@ -1,9 +1,14 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { generateFortuneWithLang, luckyColors, luckyDirections, overallDescriptions } from "@/data/fortunes";
+import {
+  generateFortuneWithLang,
+  luckyColors,
+  luckyDirections,
+  overallDescriptions,
+} from "@/data/fortunes";
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
 
@@ -15,7 +20,7 @@ export default function FortunePage() {
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [fortune, setFortune] = useState<ReturnType<typeof generateFortuneWithLang> | null>(null);
-  
+
   // 조회수 증가
   useIncrementPlay("fortune");
 
@@ -163,14 +168,12 @@ export default function FortunePage() {
             <div className="absolute inset-0 animate-ping opacity-30">
               <div className="w-full h-full rounded-full bg-gradient-to-r from-yellow-400 to-red-400 blur-xl" />
             </div>
-            
             {/* 복주머니 */}
             <div className="relative w-full h-full flex items-center justify-center animate-pulse">
               <span className="text-[120px] animate-bounce drop-shadow-2xl" style={{ animationDuration: '0.5s' }}>
                 🧧
               </span>
             </div>
-
             {/* 반짝이 효과 */}
             <div className="absolute top-0 left-1/4 text-2xl animate-ping" style={{ animationDelay: '0.2s' }}>✨</div>
             <div className="absolute top-1/4 right-0 text-xl animate-ping" style={{ animationDelay: '0.5s' }}>⭐</div>
@@ -184,7 +187,7 @@ export default function FortunePage() {
 
           {/* 로딩 바 */}
           <div className="mt-6 w-64 mx-auto h-2 bg-white/30 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-full animate-loading-bar"
               style={{ animation: 'loading 3s ease-in-out forwards' }}
             />
@@ -232,10 +235,10 @@ export default function FortunePage() {
               <div className="text-5xl mb-2">🧧</div>
               <h1 className="text-2xl font-black">{t(texts.title)}</h1>
               <p className="text-white/80 text-sm mt-1">
-                {new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : 'en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                {new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : 'en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
                 })}
               </p>
             </div>
@@ -347,4 +350,3 @@ export default function FortunePage() {
 
   return null;
 }
-
