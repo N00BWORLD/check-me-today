@@ -5,6 +5,8 @@ import { timeSlots, type TimeSlot, type MenuItem, menuRecommendations } from "@/
 import { getActiveTests } from "@/data/tests";
 import TestCard from "@/components/TestCard";
 import html2canvas from "html2canvas";
+import ResultActions from "@/components/ResultActions";
+import { useLike, useTestStats } from "@/hooks/useTestStats";
 
 interface MenuResultProps {
     menu: MenuItem;
@@ -22,6 +24,8 @@ export default function MenuResult({
     stats
 }: MenuResultProps) {
     const [copied, setCopied] = useState(false);
+    const { hasLiked, toggleLike, isLiking } = useLike("menu-recommendation");
+    const { stats: likeStats } = useTestStats("menu-recommendation");
 
     // 추가 추천 메뉴 (동일 시간대에서 랜덤 3개, 랜덤 선택 시 전체에서 3개)
     const suggestedMenus = useMemo(() => {
@@ -180,10 +184,6 @@ export default function MenuResult({
                                     <span>{menu.calories}kcal</span>
                                 </div>
                             )}
-                            <div className="flex items-center gap-1">
-                                <span>🏷️</span>
-                                <span>{menu.tags.join(', ')}</span>
-                            </div>
                         </div>
 
                         {/* 추가 추천 카드 */}
@@ -212,79 +212,20 @@ export default function MenuResult({
                         </div>
                     </div>
 
-                    {/* 공유 버튼 */}
-                    <div className="mb-6">
-                        <button
-                            onClick={handleNativeShare}
-                            className="w-full py-3 mb-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg"
-                        >
-                            공유하기 🎉
-                        </button>
-
-                        <div className="grid grid-cols-4 gap-2">
-                            <button
-                                onClick={handleSaveImage}
-                                className="py-3 px-2 glass rounded-xl text-center hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                            >
-                                <div className="text-xl mb-1">📷</div>
-                                <div className="text-xs">이미지 저장</div>
-                            </button>
-                            <button
-                                onClick={handleCopyLink}
-                                className="py-3 px-2 glass rounded-xl text-center hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                            >
-                                <div className="text-xl mb-1">{copied ? "✅" : "🔗"}</div>
-                                <div className="text-xs">{copied ? "복사됨!" : "링크 복사"}</div>
-                            </button>
-                            <button
-                                onClick={handleTwitterShare}
-                                className="py-3 px-2 glass rounded-xl text-center hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                            >
-                                <div className="text-xl mb-1">𝕏</div>
-                                <div className="text-xs">Twitter</div>
-                            </button>
-                            <button
-                                onClick={handleCopyLink}
-                                className="py-3 px-2 glass rounded-xl text-center hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                            >
-                                <div className="text-xl mb-1">💬</div>
-                                <div className="text-xs">카카오톡</div>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* 다시하기 버튼 */}
-                    <div className="text-center mb-6">
-                        <button
-                            onClick={onReset}
-                            className="px-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-bold transition-colors"
-                        >
-                            🔄 다른 메뉴 추천받기
-                        </button>
-                    </div>
-
-                    {/* 통계 */}
-                    <div className="text-center text-sm text-slate-500 dark:text-slate-400">
-                        <div className="flex items-center justify-center gap-1">
-                            <span>{pageInfo.stats}:</span>
-                            <span className="font-bold">{stats.toLocaleString()}</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 인기 테스트 추천 */}
-                <div className="mt-12">
-                    <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 mb-4 text-center">
-                        👀 다른 테스트도 해보세요!
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {useMemo(() => {
-                            const others = getActiveTests().filter(t => t.id !== 'menu-recommendation');
-                            return others.sort(() => Math.random() - 0.5).slice(0, 2);
-                        }, []).map((test) => (
-                            <TestCard key={test.id} test={test} />
-                        ))}
-                    </div>
+                    {/* Actions using Standardized Component */}
+                    <ResultActions
+                        hasLiked={hasLiked}
+                        isLiking={isLiking}
+                        likeCount={likeStats?.likeCount || 0}
+                        onToggleLike={toggleLike}
+                        onSaveImage={handleSaveImage}
+                        onCopyLink={handleCopyLink}
+                        onNativeShare={handleNativeShare}
+                        onTwitterShare={handleTwitterShare}
+                        onKakaoShare={handleCopyLink}
+                        retakeLink="/"
+                        excludeTestId="menu-recommendation"
+                    />
                 </div>
             </div>
         </div>

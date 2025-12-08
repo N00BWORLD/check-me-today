@@ -1,4 +1,4 @@
-// 메뉴 추천 데이터
+// 메뉴 추천 ?�이??
 export interface MenuItem {
   id: string;
   name: {
@@ -16,682 +16,681 @@ export interface MenuItem {
   emoji: string;
   category: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert';
   calories: number;
-  tags: string[];
-  // 가중치는 더 이상 사용하지 않지만, 과거 필드를 유지 (옵셔널)
+  // 가중치?????�상 ?�용?��? ?��?�? 과거 ?�드�??��? (?�셔??
   weight?: Partial<Record<TimeSlot, number>>;
 }
 
 export type TimeSlot = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert' | 'random';
 
 export const menuRecommendations: MenuItem[] = [
-  // 아침 메뉴 (배달 아침 인기템)
+  // ?�침 메뉴 (배달 ?�침 ?�기??
   {
     id: 'toast-delivery',
     name: {
-      ko: '바삭한 토스트 세트',
+      ko: '바삭???�스???�트',
       en: 'Crispy Toast Set',
-      zh: '酥脆吐司套餐',
-      ja: 'サクサクトーストセット'
+      zh: '?�脆?�司套餐',
+      ja: '?�ク?�ク?�ー?�ト?�ッ??
     },
     description: {
-      ko: '갓 구운 바삭한 토스트에 버터와 잼! 커피와 함께하는 완벽한 아침.',
+      ko: '�?구운 바삭???�스?�에 버터?� ?? 커피?� ?�께?�는 ?�벽???�침.',
       en: 'Freshly baked crispy toast with butter and jam! Perfect morning with coffee.',
-      zh: '新鲜烤制的酥脆吐司配黄油和果酱！和咖啡搭配的完美早晨。',
-      ja: '焼き立てのサクサクトーストにバターとジャム！コーヒーと一緒に完璧な朝。'
+      zh: '?�鲜?�制?�酥?�吐?�配黄油?�果?�！?�咖?�搭?�的完美?�晨??,
+      ja: '?�き立て??��??��??��?�ス?�に?�タ?�と?�ャ?�！?�ー?�ー?��?緒に完璧?�朝??
     },
-    emoji: '🍞',
+    emoji: '?��',
     category: 'breakfast',
     calories: 380,
-    tags: ['crispy', 'fresh', 'classic'],
+
     weight: { breakfast: 10, lunch: 3, dinner: 1, snack: 5 }
   },
   {
     id: 'sandwich-breakfast',
     name: {
-      ko: 'BLT 샌드위치',
+      ko: 'BLT ?�드?�치',
       en: 'BLT Sandwich',
-      zh: '培根生菜番茄三明治',
-      ja: 'BLTサンドイッチ'
+      zh: '?�根?�菜?�茄三明�?,
+      ja: 'BLT?�ン?�イ?�チ'
     },
     description: {
-      ko: '바삭한 베이컨과 신선한 채소의 조합! 든든한 아침 식사.',
+      ko: '바삭??베이컨과 ?�선??채소??조합! ?�든???�침 ?�사.',
       en: 'Crispy bacon with fresh vegetables! Hearty breakfast meal.',
-      zh: '酥脆培根配新鲜蔬菜！饱腹的早餐。',
-      ja: 'サクサクのベーコンと新鮮野菜の組み合わせ！心を満たす朝食。'
+      zh: '?�脆?�根?�新鲜蔬?�！饱腹?�早餐�?,
+      ja: '?�ク?�ク??��?�コ?�と?��??�菜??��?�合?�せ！心?��??�す?�食??
     },
-    emoji: '🥪',
+    emoji: '?��',
     category: 'breakfast',
     calories: 420,
-    tags: ['bacon', 'fresh', 'hearty'],
+
     weight: { breakfast: 9, lunch: 7, dinner: 2, snack: 6 }
   },
   {
     id: 'croissant-delivery',
     name: {
-      ko: '갓 구운 크루아상',
+      ko: '�?구운 ?�루?�상',
       en: 'Fresh Croissant',
-      zh: '新鲜牛角面包',
-      ja: '焼き立てクロワッサン'
+      zh: '?�鲜?�角?�包',
+      ja: '?�き立て??��??��?�ン'
     },
     description: {
-      ko: '갓 구운 크루아상의 버터 향! 커피와 함께하는 프랑스식 아침.',
+      ko: '�?구운 ?�루?�상??버터 ?? 커피?� ?�께?�는 ?�랑?�식 ?�침.',
       en: 'Buttery aroma of freshly baked croissant! French morning with coffee.',
-      zh: '新鲜烤制的牛角面包的黄油香气！和咖啡搭配的法国式早晨。',
-      ja: '焼き立てクロワッサンのバターの香り！コーヒーと一緒にフランス風朝食。'
+      zh: '?�鲜?�制?�牛角面?�的黄油香气！和?�啡??��?�法?�式?�晨??,
+      ja: '?�き立て??��??��?�ン??��?�ー??��?�！?�ー?�ー?��?緒に?�ラ?�ス風朝食�?
     },
-    emoji: '🥐',
+    emoji: '?��',
     category: 'breakfast',
     calories: 320,
-    tags: ['buttery', 'fresh', 'french'],
+
     weight: { breakfast: 8, lunch: 2, dinner: 1, snack: 4 }
   },
   {
     id: 'pancake-delivery',
     name: {
-      ko: '팬케이크 세트',
+      ko: '?��??�크 ?�트',
       en: 'Pancake Set',
-      zh: '煎饼套餐',
-      ja: 'パンケーキセット'
+      zh: '?��?套餐',
+      ja: '?�ン?�ー??��?�ト'
     },
     description: {
-      ko: '폭신폭신 팬케이크에 메이플 시럽! 달콤한 아침 식사.',
+      ko: '??��??�� ?��??�크??메이???�럽! ?�콤???�침 ?�사.',
       en: 'Fluffy pancakes with maple syrup! Sweet breakfast meal.',
-      zh: '蓬松煎饼配枫糖浆！甜蜜的早餐。',
-      ja: 'ふわふわパンケーキにメープルシロップ！甘い朝食。'
+      zh: '?�松?��??�枫糖浆！甜?�的?�餐??,
+      ja: '?�わ?�わ?�ン?�ー??��?�ー?�ル?�ロ?�プ！甘?�朝食�?
     },
-    emoji: '🥞',
+    emoji: '?��',
     category: 'breakfast',
     calories: 480,
-    tags: ['fluffy', 'sweet', 'american'],
+
     weight: { breakfast: 9, lunch: 1, dinner: 1, snack: 3 }
   },
   {
     id: 'bagel-delivery',
     name: {
-      ko: '베이글 샌드위치',
+      ko: '베이글 ?�드?�치',
       en: 'Bagel Sandwich',
-      zh: '百吉饼三明治',
-      ja: 'ベーグルサンドイッチ'
+      zh: '?�吉饼三?�治',
+      ja: '?�ー?�ル?�ン?�イ?�チ'
     },
     description: {
-      ko: '쫄깃한 베이글에 크림치즈와 훈제 연어! 뉴욕식 아침.',
+      ko: '쫄깃??베이글???�림치즈?� ?�제 ?�어! ?�욕???�침.',
       en: 'Chewy bagel with cream cheese and smoked salmon! New York morning.',
-      zh: '筋道的百吉饼配奶油芝士和熏鲑鱼！纽约式早晨。',
-      ja: 'もちもちのベーグルにクリームチーズとスモークサーモン！ニューヨーク風朝食。'
+      zh: '筋道?�百?��??�奶油芝士和?�鲑鱼！纽约式早?��?,
+      ja: '?�ち?�ち??��?�グ?�に??��?�ム?�ー?�と?�モ?�ク?�ー?�ン！ニ?�ー?�ー??��?�食??
     },
-    emoji: '🥯',
+    emoji: '??',
     category: 'breakfast',
     calories: 450,
-    tags: ['chewy', 'smoked', 'new-york'],
+
     weight: { breakfast: 7, lunch: 5, dinner: 2, snack: 4 }
   },
   {
     id: 'smoothie-bowl-delivery',
     name: {
-      ko: '아보카도 토스트',
+      ko: '?�보카도 ?�스??,
       en: 'Avocado Toast',
-      zh: '鳄梨吐司',
-      ja: 'アボカドトースト'
+      zh: '鳄梨?�司',
+      ja: '?�ボ?�ド?�ー?�ト'
     },
     description: {
-      ko: '바삭한 토스트에 신선한 아보카도! 건강한 인스타그램 아침.',
+      ko: '바삭???�스?�에 ?�선???�보카도! 건강???�스?�그램 ?�침.',
       en: 'Crispy toast with fresh avocado! Healthy Instagram breakfast.',
-      zh: '酥脆吐司配新鲜鳄梨！健康的Instagram早餐。',
-      ja: 'サクサクのトーストに新鮮アボカド！健康的なインスタ朝食。'
+      zh: '?�脆?�司?�新鲜鳄梨！?�康?�Instagram?�餐??,
+      ja: '?�ク?�ク??��?�ス?�に?��??�ボ?�ド！健康的?�イ?�ス?�朝食�?
     },
-    emoji: '🥑',
+    emoji: '?��',
     category: 'breakfast',
     calories: 380,
-    tags: ['healthy', 'trendy', 'instagram'],
+
     weight: { breakfast: 8, lunch: 4, dinner: 3, snack: 2 }
   },
   {
     id: 'eggs-benedict-delivery',
     name: {
-      ko: '에그 베네딕트',
+      ko: '?�그 베네?�트',
       en: 'Eggs Benedict',
-      zh: '班尼迪克蛋',
-      ja: 'エッグベネディクト'
+      zh: '??��迪克??,
+      ja: '?�ッ?�ベ?�デ?�ク??
     },
     description: {
-      ko: '잉글리시 머핀에 홀랜데이즈 소스와 푹신한 계란! 고급스러운 아침.',
+      ko: '?��?리시 머�????�?�데?�즈 ?�스?� ?�신??계�?! 고급?�러???�침.',
       en: 'English muffin with hollandaise sauce and poached egg! Luxurious breakfast.',
-      zh: '英式松饼配荷兰酱和水煮蛋！豪华早餐。',
-      ja: 'イングリッシュマフィンにオランデーズソースとポーチドエッグ！贅沢な朝食。'
+      zh: '?�式?��??�荷?�酱?�水??��！豪?�早餐�?,
+      ja: '?�ン?�リ?�シ?�マ?�ィ?�に?�ラ?�デ?�ズ?�ー?�と?�ー?�ド?�ッ?�！贅沢?�朝食�?
     },
-    emoji: '🍳',
+    emoji: '?��',
     category: 'breakfast',
     calories: 520,
-    tags: ['luxurious', 'poached-egg', 'hollandaise'],
+
     weight: { breakfast: 7, lunch: 2, dinner: 3, snack: 1 }
   },
   {
     id: 'french-toast-delivery',
     name: {
-      ko: '프렌치 토스트',
+      ko: '?�렌�??�스??,
       en: 'French Toast',
-      zh: '法式吐司',
-      ja: 'フレンチトースト'
+      zh: '法式?�司',
+      ja: '?�レ?�チ?�ー?�ト'
     },
     description: {
-      ko: '달콤하게 구운 빵에 메이플 시럽! 향기로운 아침 식사.',
+      ko: '?�콤?�게 구운 빵에 메이???�럽! ?�기로운 ?�침 ?�사.',
       en: 'Sweetly baked bread with maple syrup! Fragrant morning meal.',
-      zh: '甜甜的烤面包配枫糖浆！香气扑鼻的早晨餐食。',
-      ja: '甘く焼いたパンにメープルシロップ！香り高い朝食。'
+      zh: '?�甜?�烤?�包?�枫糖浆！香气扑鼻的?�晨餐食??,
+      ja: '?�く?�い?�パ?�に?�ー?�ル?�ロ?�プ！香?�高?�朝食�?
     },
-    emoji: '🍞',
+    emoji: '?��',
     category: 'breakfast',
     calories: 420,
-    tags: ['sweet', 'fragrant', 'comforting'],
+
     weight: { breakfast: 8, lunch: 1, dinner: 2, snack: 3 }
   },
   {
     id: 'juk-breakfast',
     name: {
-      ko: '전복죽',
+      ko: '?�복�?,
       en: 'Abalone Porridge',
-      zh: '鲍鱼粥',
-      ja: 'アワビ粥'
+      zh: '鲍鱼�?,
+      ja: '?�ワ?�粥'
     },
     description: {
-      ko: '부드러운 전복죽으로 속 편한 아침을 시작하세요.',
+      ko: '부?�러???�복죽으�????�한 ?�침???�작?�세??',
       en: 'Start the morning with gentle abalone porridge for a comfy stomach.',
-      zh: '用柔软的鲍鱼粥开启舒服的早晨。',
-      ja: 'やさしいアワビ粥で胃にやさしい朝を始めよう。'
+      zh: '?�柔�?��鲍鱼粥�???��?�的?�晨??,
+      ja: '?�さ?�い?�ワ?�粥?�胃?�や?�し?�朝?�始?�よ?��?
     },
-    emoji: '🥣',
+    emoji: '?��',
     category: 'breakfast',
     calories: 320,
-    tags: ['light', 'comforting', 'porridge'],
+
     weight: { breakfast: 10, lunch: 2, dinner: 2, snack: 1 }
   },
   {
     id: 'cereal-breakfast',
     name: {
-      ko: '시리얼 & 우유',
+      ko: '?�리??& ?�유',
       en: 'Cereal & Milk',
-      zh: '麦片牛奶',
-      ja: 'シリアルとミルク'
+      zh: '�?��?�奶',
+      ja: '?�リ?�ル?�ミ?�ク'
     },
     description: {
-      ko: '빠르고 간편한 시리얼과 차가운 우유 한 잔.',
+      ko: '빠르�?간편???�리?�과 차�????�유 ????',
       en: 'Quick and easy cereal with a cold glass of milk.',
-      zh: '快捷方便的麦片配一杯冰牛奶。',
-      ja: '手軽なシリアルと冷たいミルクの一杯。'
+      zh: '快捷?�便?�麦?�配一??��?�奶??,
+      ja: '?�軽?�シ?�ア?�と?�た?�ミ?�ク?????�?
     },
-    emoji: '🥛',
+    emoji: '?��',
     category: 'breakfast',
     calories: 280,
-    tags: ['quick', 'light', 'simple'],
+
     weight: { breakfast: 9, lunch: 1, dinner: 1, snack: 2 }
   },
 
-  // 점심 메뉴 (배달 앱 베스트셀러)
+  // ?�심 메뉴 (배달 ??베스?��???
   {
     id: 'chicken-lunch',
     name: {
-      ko: '후라이드 치킨',
+      ko: '?�라?�드 치킨',
       en: 'Fried Chicken',
-      zh: '炸鸡',
-      ja: 'フライドチキン'
+      zh: '?�鸡',
+      ja: '?�ラ?�ド?�キ??
     },
     description: {
-      ko: '바삭바삭한 후라이드 치킨! 한국인의 국민 간식.',
+      ko: '바삭바삭???�라?�드 치킨! ?�국?�의 �?? 간식.',
       en: 'Crispy fried chicken! Korean national snack.',
-      zh: '酥脆的炸鸡！韩国人的国民零食。',
-      ja: 'サクサクのフライドチキン！韓国人の国民的おやつ。'
+      zh: '?�脆?�炸鸡！?�国人的?�民?�食??,
+      ja: '?�ク?�ク??��?�イ?�チ??��！韓?�人??��民的?�や?��?
     },
-    emoji: '🍗',
+    emoji: '?��',
     category: 'lunch',
     calories: 580,
-    tags: ['crispy', 'popular', 'korean'],
+
     weight: { breakfast: 1, lunch: 10, dinner: 6, snack: 8 }
   },
   {
     id: 'hamburger-lunch',
     name: {
-      ko: '빅맥 세트',
+      ko: '빅맥 ?�트',
       en: 'Big Mac Combo',
-      zh: '巨无霸套餐',
-      ja: 'ビッグマックセット'
+      zh: '巨无?�套�?,
+      ja: '?�ッ?�マ?�ク?�ッ??
     },
     description: {
-      ko: '두 장의 패티가 들어간 빅맥! 맥도날드의 대표 메뉴.',
+      ko: '???�의 ?�티가 ?�어�?빅맥! 맥도?�드???�??메뉴.',
       en: 'Big Mac with two patties! McDonald\'s signature menu.',
-      zh: '两片肉饼的巨无霸！麦当劳的代表菜单。',
-      ja: '二枚のパティが入ったビッグマック！マクドナルドの代表メニュー。'
+      zh: '两片?��??�巨?�霸！麦当劳?�代表菜?��?,
+      ja: '二枚??��?�ィ?�入?�た?�ッ?�マ?�ク！マ??��?�ル?�の代表?�ニ?�ー??
     },
-    emoji: '🍔',
+    emoji: '?��',
     category: 'lunch',
     calories: 580,
-    tags: ['signature', 'mcdonalds', 'filling'],
+
     weight: { breakfast: 2, lunch: 9, dinner: 3, snack: 7 }
   },
   {
     id: 'pizza-lunch',
     name: {
-      ko: '페퍼로니 피자',
+      ko: '?�퍼로니 ?�자',
       en: 'Pepperoni Pizza',
-      zh: '意大利辣香肠披萨',
-      ja: 'ペパロニピザ'
+      zh: '?�大?�辣香肠?�萨',
+      ja: '?�パ??��?�ザ'
     },
     description: {
-      ko: '고소한 페퍼로니와 치즈가 듬뿍! 피자의 왕도.',
+      ko: '고소???�퍼로니?� 치즈가 ?�뿍! ?�자???�도.',
       en: 'Plenty of savory pepperoni and cheese! King of pizzas.',
-      zh: '丰富的香肠和奶酪！披萨之王。',
-      ja: '香ばしいペパロニとチーズがたっぷり！ピザの王様。'
+      zh: '丰富?�香?�和奶酪！披?�之?��?,
+      ja: '香ば?�い?�パ??��?�チ?�ズ?�た?�ぷ?�！?�ザ??��様�?
     },
-    emoji: '🍕',
+    emoji: '?��',
     category: 'lunch',
     calories: 650,
-    tags: ['cheesy', 'pepperoni', 'classic'],
+
     weight: { breakfast: 1, lunch: 8, dinner: 5, snack: 6 }
   },
   {
     id: 'jjamppong-lunch',
     name: {
-      ko: '짜장면',
+      ko: '짜장�?,
       en: 'Jjamppong',
-      zh: '炒码面',
-      ja: 'チャジャンミョン'
+      zh: '?�码??,
+      ja: '?�ャ?�ャ?�ミ?�ン'
     },
     description: {
-      ko: '달콤짭짤한 춘장 소스에 해물이 풍부! 한국식 중화요리.',
+      ko: '?�콤�?��??춘장 ?�스???�물???��?! ?�국??중화?�리.',
       en: 'Sweet and salty sauce with plenty of seafood! Korean-Chinese cuisine.',
-      zh: '甜咸酱汁配丰富的海鲜！韩式中餐。',
-      ja: '甘くてしょっぱいソースに海鮮がたっぷり！韓国風中華料理。'
+      zh: '?�咸?�汁?�丰富的海鲜！韩式中餐�?,
+      ja: '?�く?�し?�っ?�い?�ー?�に海�??�た?�ぷ?�！?�国風中??��?��?
     },
-    emoji: '🍜',
+    emoji: '?��',
     category: 'lunch',
     calories: 550,
-    tags: ['seafood', 'sweet-salty', 'korean-chinese'],
+
     weight: { breakfast: 1, lunch: 9, dinner: 4, snack: 5 }
   },
   {
     id: 'tteokbokki-lunch',
     name: {
-      ko: '떡볶이',
+      ko: '?�볶??,
       en: 'Tteokbokki',
-      zh: '炒年糕',
-      ja: 'トックポッキ'
+      zh: '?�年�?,
+      ja: '?�ッ??��?�キ'
     },
     description: {
-      ko: '달콤매콤한 떡볶이에 어묵까지! 길거리 대표 메뉴.',
+      ko: '?�콤매콤???�볶?�에 ?�묵까�?! 길거�??�??메뉴.',
       en: 'Sweet and spicy rice cakes with fish cakes! Street food classic.',
-      zh: '甜辣年糕配鱼糕！街头代表菜单。',
-      ja: '甘辛いトックポッキにオデンまで！ストリートフードの代表。'
+      zh: '?�辣年糕?�鱼糕！街头代表?�单??,
+      ja: '?�辛?�ト?�ク?�ッ??��?�デ?�ま?�！?�ト?�ー?�フ?�ド??��表�?
     },
-    emoji: '🍥',
+    emoji: '?��',
     category: 'lunch',
     calories: 450,
-    tags: ['spicy', 'street-food', 'popular'],
+
     weight: { breakfast: 1, lunch: 8, dinner: 3, snack: 9 }
   },
   {
     id: 'kimbap-lunch',
     name: {
-      ko: '참치김밥',
+      ko: '참치김�?,
       en: 'Tuna Kimbap',
-      zh: '金枪鱼紫菜包饭',
-      ja: 'ツナキンパプ'
+      zh: '?�枪鱼紫?�包�?,
+      ja: '?�ナ??��?�プ'
     },
     description: {
-      ko: '신선한 참치와 야채가 듬뿍! 한국의 대표 간식.',
+      ko: '?�선??참치?� ?�채가 ?�뿍! ?�국???�??간식.',
       en: 'Plenty of fresh tuna and vegetables! Korean representative snack.',
-      zh: '新鲜金枪鱼和蔬菜丰富！韩国的代表零食。',
-      ja: '新鮮ツナと野菜がたっぷり！韓国の代表おやつ。'
+      zh: '?�鲜?�枪鱼和?�菜丰富！韩?�的代表?�食??,
+      ja: '?��??�ナ?�野?�が?�っ?�り！韓?�の代表?�や?��?
     },
-    emoji: '🍙',
+    emoji: '?��',
     category: 'lunch',
     calories: 380,
-    tags: ['tuna', 'fresh', 'convenient'],
+
     weight: { breakfast: 3, lunch: 9, dinner: 2, snack: 8 }
   },
   {
     id: 'bibimbap-lunch',
     name: {
-      ko: '돌솥비빔밥',
+      ko: '?�솥비빔�?,
       en: 'Hot Stone Bibimbap',
-      zh: '石锅拌饭',
-      ja: 'ホットストーン・ビビンバプ'
+      zh: '?�锅?��?',
+      ja: '?�ッ?�ス?�ー?�・?�ビ?�バ??
     },
     description: {
-      ko: '뜨거운 돌솥에 비벼 먹는 영양밥! 한국 전통 음식.',
+      ko: '?�거???�솥??비벼 먹는 ?�양�? ?�국 ?�통 ?�식.',
       en: 'Nutritious rice mixed in hot stone bowl! Korean traditional food.',
-      zh: '热石锅中拌匀的营养饭！韩国传统食物。',
-      ja: '熱い石鍋でかき混ぜる栄養ご飯！韓国伝統料理。'
+      zh: '??��?�中?��??�营?��?！韩?�传统食?��?,
+      ja: '?�い?�鍋?�か?�混?�る?�養?�飯！韓?�伝統料?��?
     },
-    emoji: '🍚',
+    emoji: '?��',
     category: 'lunch',
     calories: 520,
-    tags: ['traditional', 'nutritious', 'hot'],
+
     weight: { breakfast: 2, lunch: 7, dinner: 8, snack: 1 }
   },
   {
     id: 'bulgogi-lunch',
     name: {
-      ko: '소불고기 덮밥',
+      ko: '?�불고기 ??��',
       en: 'Bulgogi Rice Bowl',
-      zh: '烤肉盖饭',
-      ja: 'プルコギ丼'
+      zh: '?�肉?��?',
+      ja: '?�ル?�ギ�?
     },
     description: {
-      ko: '달콤한 불고기가 듬뿍 올라간 덮밥! 밥도둑 메뉴.',
+      ko: '?�콤??불고기�? ?�뿍 ?�라�???��! 밥도??메뉴.',
       en: 'Rice bowl topped with sweet bulgogi! Rice thief menu.',
-      zh: '甜美的烤肉丰富的盖饭！饭小偷菜单。',
-      ja: '甘いプルコギがたっぷり乗った丼！飯泥棒メニュー。'
+      zh: '?�美?�烤?�丰富的?��?！�?小偷?�单??,
+      ja: '?�い?�ル?�ギ?�た?�ぷ?�乗?�た丼！�?��棒メ?�ュ?��?
     },
-    emoji: '🍚',
+    emoji: '?��',
     category: 'lunch',
     calories: 580,
-    tags: ['sweet', 'rice-bowl', 'popular'],
+
     weight: { breakfast: 1, lunch: 9, dinner: 6, snack: 4 }
   },
   {
     id: 'bibimbap-lunch-extended',
     name: {
-      ko: '돌솥 제육 비빔밥',
+      ko: '?�솥 ?�육 비빔�?,
       en: 'Spicy Pork Bibimbap',
-      zh: '辣猪肉拌饭',
-      ja: '辛い豚肉ビビンバプ'
+      zh: '辣猪?�拌�?,
+      ja: '辛い豚肉?�ビ?�バ??
     },
     description: {
-      ko: '매콤한 제육볶음이 올라간 돌솥 비빔밥! 든든한 점심.',
+      ko: '매콤???�육볶음???�라�??�솥 비빔�? ?�든???�심.',
       en: 'Hot stone bibimbap with spicy pork! Hearty lunch.',
-      zh: '辣猪肉炒的热石锅拌饭！饱腹的午餐。',
-      ja: '辛い豚肉炒めのホットストーン・ビビンバプ！心を満たすランチ。'
+      zh: '辣猪?�炒?�热?�锅?��?！饱?�的?�餐??,
+      ja: '辛い豚肉?�め??��?�ト?�ト?�ン?�ビ?�ン?�プ！心?��??�す?�ン?��?
     },
-    emoji: '🍚',
+    emoji: '?��',
     category: 'lunch',
     calories: 620,
-    tags: ['spicy', 'hot-stone', 'hearty'],
+
     weight: { breakfast: 1, lunch: 8, dinner: 5, snack: 3 }
   },
   {
     id: 'hamburger-lunch-extended',
     name: {
-      ko: '와퍼 세트',
+      ko: '?�???�트',
       en: 'Whopper Combo',
-      zh: '皇堡套餐',
-      ja: 'ワッパーセット'
+      zh: '?�堡套餐',
+      ja: '??��?�ー?�ッ??
     },
     description: {
-      ko: '버거킹의 대표 메뉴 와퍼! 두툼한 패티가 특징.',
+      ko: '버거?�의 ?�??메뉴 ?�?? ?�툼???�티가 ?�징.',
       en: 'Burger King\'s signature Whopper! Thick patty is the key.',
-      zh: '汉堡王的代表菜单皇堡！厚实的肉饼是特色。',
-      ja: 'バーガーキングの代表メニュー・ワッパー！厚いパティが特徴。'
+      zh: '汉堡?�的代表?�单?�堡！厚实的?��???��?��?,
+      ja: '?�ー?�ー??��?�の代表?�ニ?�ー?�ワ?�パ?�！?�い?�テ?�が?�徴??
     },
-    emoji: '🍔',
+    emoji: '?��',
     category: 'lunch',
     calories: 650,
-    tags: ['signature', 'burger-king', 'thick'],
+
     weight: { breakfast: 1, lunch: 8, dinner: 4, snack: 6 }
   },
   {
     id: 'sandwich-lunch',
     name: {
-      ko: '써브웨이 샌드위치',
+      ko: '?�브?�이 ?�드?�치',
       en: 'Subway Sandwich',
-      zh: '赛百味三明治',
-      ja: 'サブウェイサンドイッチ'
+      zh: '赛百?�三?�治',
+      ja: '?�ブ?�ェ?�サ?�ド?�ッ??
     },
     description: {
-      ko: '신선한 야채와 빵으로 만든 건강한 샌드위치! 점심으로 최고.',
+      ko: '?�선???�채?� 빵으�?만든 건강???�드?�치! ?�심?�로 최고.',
       en: 'Healthy sandwich made with fresh vegetables and bread! Perfect for lunch.',
-      zh: '新鲜蔬菜和面包制作的健康三明治！午餐最佳选择。',
-      ja: '新鮮野菜とパンで作る健康サンドイッチ！ランチに最高。'
+      zh: '?�鲜?�菜?�面?�制作的?�康三明治！?�餐?�佳选择??,
+      ja: '?��??�菜?�パ?�で作る?�康?�ン?�イ?�チ！ラ?�チ?��?高�?
     },
-    emoji: '🥪',
+    emoji: '?��',
     category: 'lunch',
     calories: 380,
-    tags: ['healthy', 'fresh', 'subway'],
+
     weight: { breakfast: 3, lunch: 9, dinner: 4, snack: 5 }
   },
   {
     id: 'dakgangjeong-lunch',
-    name: { ko: '닭강정', en: 'Sweet Crispy Chicken', zh: '糖酥鸡', ja: 'タッカンジョン' },
+    name: { ko: '??��??, en: 'Sweet Crispy Chicken', zh: '糖酥�?, ja: '?�ッ?�ン?�ョ?? },
     description: {
-      ko: '달콤바삭 닭강정! 직장인 점심 간식 베스트.',
+      ko: '?�콤바삭 ??��?? 직장???�심 간식 베스??',
       en: 'Sweet crispy chicken bites, a lunch favorite.',
-      zh: '甜脆的糖酥鸡，午餐人气小吃。',
-      ja: '甘くてカリカリのタッカンジョン、ランチの定番おやつ。'
+      zh: '?�脆?�糖?�鸡，午餐人气小?��?,
+      ja: '?�く?�カ?�カ?�の?�ッ?�ン?�ョ?�、ラ?�チ??��?�お?�つ??
     },
-    emoji: '🍗',
+    emoji: '?��',
     category: 'lunch',
     calories: 620,
-    tags: ['sweet', 'crispy', 'korean'],
+
     weight: { lunch: 9 }
   },
   {
     id: 'mandu-lunch',
-    name: { ko: '만두세트', en: 'Dumpling Set', zh: '饺子套餐', ja: '餃子セット' },
+    name: { ko: '만두?�트', en: 'Dumpling Set', zh: '饺子套餐', ja: '餃子?�ッ?? },
     description: {
-      ko: '군만두+물만두 한 세트! 가성비 점심.',
+      ko: '군만??물만?????�트! 가?�비 ?�심.',
       en: 'Fried and steamed dumpling combo, great value lunch.',
-      zh: '煎饺+水饺组合，性价比午餐。',
-      ja: '焼き餃子と水餃子のセット、お得なランチ。'
+      zh: '?��?+水�?组合，性价比午餐�?,
+      ja: '?�き餃子?�水餃子??��?�ト?�お得な?�ン?��?
     },
-    emoji: '🥟',
+    emoji: '?��',
     category: 'lunch',
     calories: 520,
-    tags: ['dumpling', 'combo', 'value'],
+
     weight: { lunch: 8 }
   },
   {
     id: 'soba-lunch',
-    name: { ko: '메밀소바', en: 'Cold Soba', zh: '荞麦冷面', ja: 'ざるそば' },
+    name: { ko: '메�??�바', en: 'Cold Soba', zh: '?�麦?�面', ja: '?�る?�ば' },
     description: {
-      ko: '시원한 메밀소바와 튀김 세트, 더위에 제격.',
+      ko: '?�원??메�??�바?� ?�김 ?�트, ?�위???�격.',
       en: 'Cold soba with tempura set, perfect for hot days.',
-      zh: '清爽荞麦面配天妇罗，夏日首选。',
-      ja: '冷たい蕎麦と天ぷらのセット、暑い日にぴったり。'
+      zh: '清爽?�麦??��天妇罗，夏日首选�?,
+      ja: '?�た?�蕎麦と天ぷ?�の?�ッ?�、暑?�日?�ぴ?�た?��?
     },
-    emoji: '🥢',
+    emoji: '?��',
     category: 'lunch',
     calories: 480,
-    tags: ['noodles', 'japanese', 'cool'],
+
     weight: { lunch: 7 }
   },
   {
     id: 'pho-lunch',
-    name: { ko: '쌀국수', en: 'Beef Pho', zh: '越南粉', ja: 'フォー' },
+    name: { ko: '?��?��', en: 'Beef Pho', zh: '越南�?, ja: '?�ォ?? },
     description: {
-      ko: '진한 육수의 베트남 쌀국수, 담백한 점심.',
+      ko: '진한 ?�수??베트???��?��, ?�백???�심.',
       en: 'Vietnamese beef pho with rich broth.',
-      zh: '浓郁汤底的越南牛肉粉，清淡午餐。',
-      ja: 'コクのあるスープのベトナムフォー、あっさりランチ。'
+      zh: '浓郁汤底?�越?�牛?�粉，清淡午餐�?,
+      ja: '?�ク??��?�ス?�プ??��?�ナ?�フ?�ー?�あ?�さ?�ラ?�チ??
     },
-    emoji: '🍜',
+    emoji: '?��',
     category: 'lunch',
     calories: 450,
-    tags: ['vietnamese', 'noodles', 'light'],
+
     weight: { lunch: 8 }
   },
   {
     id: 'pad-thai-lunch',
-    name: { ko: '팟타이', en: 'Pad Thai', zh: '泰式炒河粉', ja: 'パッタイ' },
+    name: { ko: '?��???, en: 'Pad Thai', zh: '泰式?�河�?, ja: '?�ッ?�イ' },
     description: {
-      ko: '땅콩과 새우가 들어간 태국식 볶음면.',
+      ko: '?�콩�??�우가 ?�어�??�국??볶음�?',
       en: 'Thai stir-fried noodles with shrimp and peanuts.',
-      zh: '含花生和虾的泰式炒河粉。',
-      ja: 'エビとピーナッツ入りのタイ風焼きそば。'
+      zh: '?�花?�和?�的泰式?�河粉�?,
+      ja: '?�ビ?�ピ?�ナ?�ツ?�り??��?�風?�き?�ば??
     },
-    emoji: '🍤',
+    emoji: '?��',
     category: 'lunch',
     calories: 620,
-    tags: ['thai', 'noodles', 'stir-fry'],
+
     weight: { lunch: 7 }
   },
   {
     id: 'burrito-lunch',
-    name: { ko: '치킨 부리또', en: 'Chicken Burrito', zh: '鸡肉卷饼', ja: 'チキンブリトー' },
+    name: { ko: '치킨 부리또', en: 'Chicken Burrito', zh: '鸡肉?��?', ja: '?�キ?�ブ?�ト?? },
     description: {
-      ko: '라이스와 치킨이 꽉 찬 멕시칸 부리또.',
+      ko: '?�이?��? 치킨??�?�?멕시�?부리또.',
       en: 'Mexican burrito stuffed with rice and chicken.',
-      zh: '装满米饭和鸡肉的墨西哥卷饼。',
-      ja: 'ライスとチキンたっぷりのメキシカンブリトー。'
+      zh: '装满米�??�鸡?�的墨�??�卷饼�?,
+      ja: '?�イ?�と?�キ?�た?�ぷ?�の?�キ?�カ?�ブ?�ト?��?
     },
-    emoji: '🌯',
+    emoji: '?��',
     category: 'lunch',
     calories: 680,
-    tags: ['mexican', 'hearty', 'wrap'],
+
     weight: { lunch: 7 }
   },
   {
     id: 'poke-lunch',
-    name: { ko: '포케 볼', en: 'Poke Bowl', zh: '夏威夷盖饭', ja: 'ポケボウル' },
+    name: { ko: '?��? �?, en: 'Poke Bowl', zh: '夏威夷盖�?, ja: '?�ケ?�ウ?? },
     description: {
-      ko: '연어와 아보카도가 들어간 하와이 포케 볼.',
+      ko: '?�어?� ?�보카도가 ?�어�??��????��? �?',
       en: 'Hawaiian poke bowl with salmon and avocado.',
-      zh: '含三文鱼和牛油果的夏威夷盖饭。',
-      ja: 'サーモンとアボカドのハワイアンポケボウル。'
+      zh: '?�三?�鱼?�牛油果?�夏威夷?��???,
+      ja: '?�ー?�ン?�ア?�カ?�の?�ワ?�ア?�ポ?�ボ?�ル??
     },
-    emoji: '🥗',
+    emoji: '?��',
     category: 'lunch',
     calories: 520,
-    tags: ['fresh', 'hawaiian', 'bowl'],
+
     weight: { lunch: 6 }
   },
   {
     id: 'taco-lunch',
-    name: { ko: '비프 타코 세트', en: 'Beef Taco Set', zh: '牛肉塔可套餐', ja: 'ビーフタコスセット' },
+    name: { ko: '비프 ?��??�트', en: 'Beef Taco Set', zh: '?�肉塔可套餐', ja: '?�ー?�タ?�ス?�ッ?? },
     description: {
-      ko: '비프 타코 3피스와 살사, 라임이 함께.',
+      ko: '비프 ?��?3?�스?� ?�사, ?�임???�께.',
       en: 'Three beef tacos served with salsa and lime.',
-      zh: '三份牛肉塔可配莎莎酱和青柠。',
-      ja: 'サルサとライム付きビーフタコス3ピース。'
+      zh: '三份?�肉塔可?�莎?�酱?�青?��?,
+      ja: '?�ル?�と?�イ?�付?�ビ?�フ?�コ???�ー?��?
     },
-    emoji: '🌮',
+    emoji: '?��',
     category: 'lunch',
     calories: 560,
-    tags: ['taco', 'mexican', 'beef'],
+
     weight: { lunch: 6 }
   },
   {
     id: 'gyoza-lunch',
-    name: { ko: '교자 라멘 세트', en: 'Ramen & Gyoza Set', zh: '拉面饺子套餐', ja: 'ラーメン餃子セット' },
+    name: { ko: '교자 ?�멘 ?�트', en: 'Ramen & Gyoza Set', zh: '?�面饺子套餐', ja: '?�ー?�ン餃子?�ッ?? },
     description: {
-      ko: '간장 라멘과 교자 만두가 함께 나오는 든든한 세트.',
+      ko: '간장 ?�멘�?교자 만두가 ?�께 ?�오???�든???�트.',
       en: 'Soy ramen served with gyoza dumplings.',
-      zh: '酱油拉面配饺子，份量十足。',
-      ja: '醤油ラーメンと餃子がついたボリュームセット。'
+      zh: '?�油?�面?��?子，份量?�足??,
+      ja: '?�油?�ー?�ン?�餃子が?�い?�ボ?�ュ?�ム?�ッ?��?
     },
-    emoji: '🥟',
+    emoji: '?��',
     category: 'lunch',
     calories: 720,
-    tags: ['ramen', 'gyoza', 'set'],
+
     weight: { lunch: 8 }
   },
   {
     id: 'omurice-lunch',
-    name: { ko: '오므라이스', en: 'Omurice', zh: '蛋包饭', ja: 'オムライス' },
+    name: { ko: '?��??�이??, en: 'Omurice', zh: '?�包�?, ja: '?�ム?�イ?? },
     description: {
-      ko: '부드러운 달걀과 케첩 라이스, 추억의 맛.',
+      ko: '부?�러???��?�?케�??�이?? 추억??�?',
       en: 'Fluffy omelet over ketchup rice, a nostalgic classic.',
-      zh: '松软蛋包裹番茄炒饭，充满回忆的味道。',
-      ja: 'ふわとろ卵とケチャップライス、懐かしの味。'
+      zh: '?�软?�包裹番?�炒�?��?�满?�忆?�味?��?,
+      ja: '?�わ?�ろ?�と?�チ?�ッ?�ラ?�ス?�懐?�し??��??
     },
-    emoji: '🍳',
+    emoji: '?��',
     category: 'lunch',
     calories: 640,
-    tags: ['japanese', 'comfort', 'rice'],
+
     weight: { lunch: 7 }
   },
   {
     id: 'salmon-steak-lunch',
-    name: { ko: '연어 스테이크 덮밥', en: 'Salmon Steak Rice Bowl', zh: '三文鱼排盖饭', ja: 'サーモンステーキ丼' },
+    name: { ko: '?�어 ?�테?�크 ??��', en: 'Salmon Steak Rice Bowl', zh: '三文鱼排?��?', ja: '?�ー?�ン?�テ?�キ�? },
     description: {
-      ko: '구운 연어 스테이크가 올라간 든든한 덮밥.',
+      ko: '구운 ?�어 ?�테?�크가 ?�라�??�든????��.',
       en: 'Hearty rice bowl topped with grilled salmon steak.',
-      zh: '盖着烤三文鱼排的饱腹盖饭。',
-      ja: '焼きサーモンステーキをのせたボリューム丼。'
+      zh: '?��??�三?�鱼?�的饱腹?��???,
+      ja: '?�き?�ー?�ン?�テ?�キ?�の?�た?�リ?�ー?�丼??
     },
-    emoji: '🐟',
+    emoji: '?��',
     category: 'lunch',
     calories: 650,
-    tags: ['salmon', 'rice-bowl', 'hearty'],
+
     weight: { lunch: 7 }
   },
 
-  // 저녁 메뉴 (배달 앱에서 인기 있는 저녁 메뉴)
+  // ?�??메뉴 (배달 ?�에???�기 ?�는 ?�??메뉴)
   {
     id: 'salad-dinner',
     name: {
-      ko: '시저 샐러드',
+      ko: '?��? ?�러??,
       en: 'Caesar Salad',
-      zh: '凯撒沙拉',
-      ja: 'シーザーサラダ'
+      zh: '??��沙拉',
+      ja: '?�ー?�ー?�ラ?�'
     },
     description: {
-      ko: '신선한 로메인 상추에 크루통과 파마산 치즈! 가벼운 저녁 식사.',
+      ko: '?�선??로메???�추???�루?�과 ?�마??치즈! 가벼운 ?�???�사.',
       en: 'Fresh romaine lettuce with croutons and parmesan cheese! Light dinner.',
-      zh: '新鲜罗马生菜配面包丁和帕玛森芝士！轻便的晚餐。',
-      ja: '新鮮ロメインレタスにクルートンとパルメザンチーズ！軽い夕食。'
+      zh: '?�鲜罗马?�菜?�面?�丁?�帕?�森?�士！轻便的?�餐??,
+      ja: '?��???��?�ン?�タ?�に??��?�ト?�と?�ル?�ザ?�チ?�ズ！軽?�夕食�?
     },
-    emoji: '🥗',
+    emoji: '?��',
     category: 'dinner',
     calories: 280,
-    tags: ['fresh', 'crunchy', 'light'],
+
     weight: { breakfast: 4, lunch: 6, dinner: 9, snack: 3 }
   },
   {
     id: 'pasta-dinner',
     name: {
-      ko: '까르보나라 파스타',
+      ko: '까르보나???�스?�',
       en: 'Carbonara Pasta',
-      zh: '培根奶油意大利面',
-      ja: 'カルボナーラパスタ'
+      zh: '?�根奶油?�大?�面',
+      ja: '?�ル?�ナ?�ラ?�ス??
     },
     description: {
-      ko: '크리미한 크림 소스에 베이컨과 파슬리! 이탈리아 대표 파스타.',
+      ko: '?�리미한 ?�림 ?�스??베이컨과 ?�슬�? ?�탈리아 ?�???�스?�.',
       en: 'Creamy sauce with bacon and parsley! Italian representative pasta.',
-      zh: '奶油酱配培根和香菜！意大利代表意面。',
-      ja: 'クリーミーソースにベーコンとパセリ！イタリア代表パスタ。'
+      zh: '奶油?�配?�根?�香?�！?�大?�代表意?��?,
+      ja: '??��?�ミ?�ソ?�ス?�ベ?�コ?�と?�セ?�！?�タ?�ア代表?�ス?��?
     },
-    emoji: '🍝',
+    emoji: '?��',
     category: 'dinner',
     calories: 580,
-    tags: ['creamy', 'italian', 'bacon'],
+
     weight: { breakfast: 1, lunch: 5, dinner: 9, snack: 4 }
   },
   {
     id: 'steak-dinner',
     name: {
-      ko: '립아이 스테이크',
+      ko: '립아???�테?�크',
       en: 'Ribeye Steak',
-      zh: '肋眼牛排',
-      ja: 'リブアイステーキ'
+      zh: '?�眼?�排',
+      ja: '?�ブ?�イ?�テ?�キ'
     },
     description: {
-      ko: '최고급 마블링의 립아이 스테이크! 육즙이 풍부한 특별 저녁.',
+      ko: '최고�?마블링의 립아???�테?�크! ?�즙???��????�별 ?�??',
       en: 'Premium marbled ribeye steak! Juicy special dinner.',
-      zh: '顶级大理石纹理的肋眼牛排！多汁的特别晚餐。',
-      ja: '最高級マーブリングのリブアイステーキ！ジューシーな特別夕食。'
+      zh: '顶级大理?�纹?�的?�眼?�排！多汁的?�别?�餐??,
+      ja: '?�高級?�ー?�リ?�グ??��?�ア?�ス?�ー??��?�ュ?�シ?�な?�別夕食??
     },
-    emoji: '🥩',
+    emoji: '?��',
     category: 'dinner',
     calories: 650,
-    tags: ['premium', 'juicy', 'special'],
+
     weight: { breakfast: 1, lunch: 3, dinner: 8, snack: 2 }
   },
   {
     id: 'sushi-dinner',
     name: {
-      ko: '연어 초밥 세트',
+      ko: '?�어 초밥 ?�트',
       en: 'Salmon Sushi Set',
-      zh: '三文鱼寿司套餐',
-      ja: 'サーモン寿司セット'
+      zh: '三文鱼�??�套�?,
+      ja: '?�ー?�ン寿司?�ッ??
     },
     description: {
-      ko: '신선한 연어 초밥과 다양한 롤! 건강한 저녁 식사.',
+      ko: '?�선???�어 초밥�??�양??�? 건강???�???�사.',
       en: 'Fresh salmon sushi and various rolls! Healthy dinner.',
-      zh: '新鲜三文鱼寿司和各种手卷！健康的晚餐。',
-      ja: '新鮮サーモン寿司と様々なロール！健康的な夕食。'
+      zh: '?�鲜三文鱼�??�和?�种?�卷！健康的?�餐??,
+      ja: '?��??�ー?�ン寿司?�様?�な??��?�！?�康?�な夕食??
     },
-    emoji: '🍣',
+    emoji: '?��',
     category: 'dinner',
     calories: 420,
-    tags: ['fresh', 'salmon', 'japanese'],
+
     weight: { breakfast: 1, lunch: 4, dinner: 9, snack: 3 }
   },
   {
@@ -699,286 +698,286 @@ export const menuRecommendations: MenuItem[] = [
     name: {
       ko: '치킨 카레',
       en: 'Chicken Curry',
-      zh: '鸡肉咖喱',
-      ja: 'チキンカレー'
+      zh: '鸡肉?�喱',
+      ja: '?�キ?�カ?�ー'
     },
     description: {
-      ko: '부드러운 치킨과 향긋한 카레! 한국식 단맛 나는 카레.',
+      ko: '부?�러??치킨�??�긋??카레! ?�국???�맛 ?�는 카레.',
       en: 'Tender chicken and fragrant curry! Korean style mildly sweet curry.',
-      zh: '嫩鸡肉和香浓咖喱！韩国式微甜的咖喱。',
-      ja: '柔らかいチキンと香ばしいカレー！韓国風甘めの辛口カレー。'
+      zh: '嫩鸡?�和香浓?�喱！韩?�式�?��?�咖?��?,
+      ja: '?�ら?�い?�キ?�と香ば?�い?�レ?�！?�国風甘?�の辛口?�レ?��?
     },
-    emoji: '🍛',
+    emoji: '?��',
     category: 'dinner',
     calories: 520,
-    tags: ['chicken', 'fragrant', 'korean-style'],
+
     weight: { breakfast: 2, lunch: 7, dinner: 8, snack: 5 }
   },
   {
     id: 'grilled-salmon-dinner',
     name: {
-      ko: '구운 연어 스테이크',
+      ko: '구운 ?�어 ?�테?�크',
       en: 'Grilled Salmon Steak',
-      zh: '烤三文鱼排',
-      ja: 'グリルサーモンステーキ'
+      zh: '?�三?�鱼??,
+      ja: '?�リ?�サ?�モ?�ス?�ー??
     },
     description: {
-      ko: '오메가3가 풍부한 구운 연어! 건강한 저녁 메뉴.',
+      ko: '?�메가3가 ?��???구운 ?�어! 건강???�??메뉴.',
       en: 'Grilled salmon rich in omega-3! Healthy dinner menu.',
-      zh: '富含Omega-3的烤三文鱼！健康的晚餐菜单。',
-      ja: 'オメガ3が豊富なグリルサーモン！健康的な夕食メニュー。'
+      zh: '富含Omega-3?�烤三文鱼！?�康?�晚餐菜?��?,
+      ja: '?�メ???�豊富な?�リ?�サ?�モ?�！?�康?�な夕食?�ニ?�ー??
     },
-    emoji: '🐟',
+    emoji: '?��',
     category: 'dinner',
     calories: 380,
-    tags: ['omega-3', 'grilled', 'healthy'],
+
     weight: { breakfast: 1, lunch: 3, dinner: 9, snack: 2 }
   },
   {
     id: 'mushroom-risotto-dinner',
     name: {
-      ko: '버섯 리조또',
+      ko: '버섯 리조??,
       en: 'Mushroom Risotto',
-      zh: '蘑菇烩饭',
-      ja: 'マッシュルームリゾット'
+      zh: '?�菇?��?',
+      ja: '?�ッ?�ュ?�ー?�リ?�ッ??
     },
     description: {
-      ko: '크리미한 리조또에 향긋한 버섯! 이탈리아 대표 저녁 메뉴.',
+      ko: '?�리미한 리조?�에 ?�긋??버섯! ?�탈리아 ?�???�??메뉴.',
       en: 'Creamy risotto with aromatic mushrooms! Italian dinner classic.',
-      zh: '奶油烩饭配香浓蘑菇！意大利晚餐经典。',
-      ja: 'クリーミーリゾットに香ばしいきのこ！イタリアン夕食の定番。'
+      zh: '奶油?��??�香浓蘑?�！?�大?�晚餐经?��?,
+      ja: '??��?�ミ?�リ?�ッ?�に香ば?�い?�の?�！?�タ?�ア?�夕食の定番??
     },
-    emoji: '🍄',
+    emoji: '?��',
     category: 'dinner',
     calories: 480,
-    tags: ['creamy', 'mushroom', 'italian'],
+
     weight: { breakfast: 1, lunch: 2, dinner: 8, snack: 2 }
   },
   {
     id: 'paella-dinner',
     name: {
-      ko: '해산물 빠에야',
+      ko: '?�산�?빠에??,
       en: 'Seafood Paella',
-      zh: '海鲜西班牙海鲜饭',
-      ja: 'シーフードパエリア'
+      zh: '海鲜西班?�海鲜�?',
+      ja: '?�ー?�ー?�パ?�リ??
     },
     description: {
-      ko: '신선한 해산물이 가득한 스페인 빠에야! 풍미 가득한 저녁.',
+      ko: '?�선???�산물이 가?�한 ?�페??빠에?? ?��? 가?�한 ?�??',
       en: 'Spanish paella full of fresh seafood! Flavorful dinner.',
-      zh: '新鲜海鲜丰富的西班牙海鲜饭！风味十足的晚餐。',
-      ja: '新鮮海鮮がたっぷりのスペイン風パエリア！風味豊かな夕食。'
+      zh: '?�鲜海鲜丰富?��???��海鲜�?��风味?�足?�晚餐�?,
+      ja: '?��?海�??�た?�ぷ?�の?�ペ?�ン風パ?�リ??��風味豊か?�夕食�?
     },
-    emoji: '🥘',
+    emoji: '?��',
     category: 'dinner',
     calories: 550,
-    tags: ['seafood', 'spanish', 'flavorful'],
+
     weight: { breakfast: 1, lunch: 3, dinner: 8, snack: 2 }
   },
   {
     id: 'quinoa-bowl-dinner',
     name: {
-      ko: '퀴노아 샐러드 볼',
+      ko: '?�노???�러??�?,
       en: 'Quinoa Salad Bowl',
-      zh: '藜麦沙拉碗',
-      ja: 'キヌアサラダボウル'
+      zh: '?�麦沙拉�?,
+      ja: '??��?�サ?��??�ウ??
     },
     description: {
-      ko: '슈퍼푸드 퀴노아에 다양한 채소와 단백질! 건강 저녁.',
+      ko: '?�퍼?�드 ?�노?�에 ?�양??채소?� ?�백�? 건강 ?�??',
       en: 'Superfood quinoa with various vegetables and protein! Healthy dinner.',
-      zh: '超级食品藜麦配各种蔬菜和蛋白质！健康晚餐。',
-      ja: 'スーパーフードきのに様々な野菜とタンパク質！健康夕食。'
+      zh: '超级食品?�麦?�各种蔬?�和?�白质！?�康?�餐??,
+      ja: '?�ー?�ー?�ー?�き??��様々な?�菜?�タ?�パ??��！健康夕食�?
     },
-    emoji: '🥗',
+    emoji: '?��',
     category: 'dinner',
     calories: 420,
-    tags: ['superfood', 'healthy', 'balanced'],
+
     weight: { breakfast: 3, lunch: 5, dinner: 9, snack: 2 }
   },
   {
     id: 'jokbal-dinner',
-    name: { ko: '족발 보쌈 세트', en: 'Jokbal & Bossam Set', zh: '猪脚烤肉拼盘', ja: 'チョッパルとポッサムセット' },
+    name: { ko: '족발 보쌈 ?�트', en: 'Jokbal & Bossam Set', zh: '?�脚?�肉?�盘', ja: '?�ョ?�パ?�と?�ッ?�ム?�ッ?? },
     description: {
-      ko: '족발과 보쌈이 함께 나오는 푸짐한 세트.',
-      en: 'Hearty set with braised pig’s feet and bossam.',
-      zh: '猪蹄与烤肉一起的丰盛拼盘。',
-      ja: 'チョッパルとポッサムが一緒のボリュームセット。'
+      ko: '족발�?보쌈???�께 ?�오???�짐???�트.',
+      en: 'Hearty set with braised pig?�s feet and bossam.',
+      zh: '?�蹄与烤?��?起的丰盛?�盘??,
+      ja: '?�ョ?�パ?�と?�ッ?�ム?��?緒の?�リ?�ー?�セ?�ト??
     },
-    emoji: '🍖',
+    emoji: '?��',
     category: 'dinner',
     calories: 880,
-    tags: ['korean', 'hearty', 'sharing'],
+
     weight: { dinner: 9 }
   },
   {
     id: 'galbitang-dinner',
-    name: { ko: '갈비탕', en: 'Short Rib Soup', zh: '牛肋汤', ja: 'カルビタン' },
+    name: { ko: '갈비??, en: 'Short Rib Soup', zh: '?�肋�?, ja: '?�ル?�タ?? },
     description: {
-      ko: '맑고 깊은 국물의 소갈비탕, 든든한 저녁 한 끼.',
+      ko: '맑고 깊�? �?��???�갈비탕, ?�든???�??????',
       en: 'Clear rich beef short rib soup for a filling dinner.',
-      zh: '清澈浓郁的牛肋汤，饱腹晚餐。',
-      ja: '澄んだコクのあるカルビタン、満足の夕食。'
+      zh: '清澈浓郁?�牛?�汤，饱?�晚餐�?,
+      ja: '澄ん?�コ??��?�る?�ル?�タ?�、�?足の夕食??
     },
-    emoji: '🥣',
+    emoji: '?��',
     category: 'dinner',
     calories: 620,
-    tags: ['soup', 'beef', 'traditional'],
+
     weight: { dinner: 8 }
   },
   {
     id: 'haemuljjim-dinner',
-    name: { ko: '아구/해물찜', en: 'Spicy Steamed Seafood', zh: '辣蒸海鲜', ja: '海鮮チム' },
+    name: { ko: '?�구/?�물�?, en: 'Spicy Steamed Seafood', zh: '辣蒸海鲜', ja: '海�??�ム' },
     description: {
-      ko: '얼큰한 해물찜, 해산물 듬뿍 매운맛 한 판.',
+      ko: '?�큰???�물�? ?�산�??�뿍 매운�?????',
       en: 'Spicy steamed seafood packed with shellfish and fish.',
-      zh: '满满海鲜的辣蒸料理。',
-      ja: '魚介たっぷりのピリ辛海鮮チム。'
+      zh: '满满海鲜?�辣?�料?��?,
+      ja: '魚介?�っ?�り??��?�辛海�??�ム??
     },
-    emoji: '🦐',
+    emoji: '?��',
     category: 'dinner',
     calories: 710,
-    tags: ['seafood', 'spicy', 'korean'],
+
     weight: { dinner: 8 }
   },
   {
     id: 'jjimdak-dinner',
-    name: { ko: '안동찜닭', en: 'Braised Soy Chicken', zh: '安东炖鸡', ja: 'アンドンチムダク' },
+    name: { ko: '?�동찜닭', en: 'Braised Soy Chicken', zh: '安东?�鸡', ja: '?�ン?�ン?�ム?�?? },
     description: {
-      ko: '달짝지근한 간장 베이스 찜닭, 당면 듬뿍.',
+      ko: '?�짝지근한 간장 베이??찜닭, ?�면 ?�뿍.',
       en: 'Sweet soy-braised chicken with lots of glass noodles.',
-      zh: '甜口酱油炖鸡，粉条满满。',
-      ja: '甘めの醤油ベースのチムダク、春雨たっぷり。'
+      zh: '?�口?�油?�鸡，粉?�满满�?,
+      ja: '?�め??��油ベ?�ス??��?��???��春?�た?�ぷ?��?
     },
-    emoji: '🍗',
+    emoji: '?��',
     category: 'dinner',
     calories: 820,
-    tags: ['braised', 'soy', 'noodles'],
+
     weight: { dinner: 8 }
   },
   {
     id: 'kimchi-bossam-dinner',
-    name: { ko: '김치찜 & 보쌈', en: 'Braised Kimchi & Bossam', zh: '炖泡菜配烤肉', ja: 'キムチチムとポッサム' },
+    name: { ko: '김치찜 & 보쌈', en: 'Braised Kimchi & Bossam', zh: '?�泡?�配?�肉', ja: '??��?�チ?�と?�ッ?�ム' },
     description: {
-      ko: '잘 익은 김치찜과 수육을 함께 즐기는 콤보.',
+      ko: '???��? 김치찜�??�육???�께 즐기??콤보.',
       en: 'Combo of braised kimchi and tender boiled pork slices.',
-      zh: '炖熟的泡菜配上水煮猪肉的组合。',
-      ja: '熟成キムチチムと茹で豚を一緒に味わうコンボ。'
+      zh: '?�熟?�泡?�配上水??��?�的组合??,
+      ja: '?�成??��?�チ?�と?�で豚を一緒に?�わ?�コ?�ボ??
     },
-    emoji: '🥬',
+    emoji: '??',
     category: 'dinner',
     calories: 760,
-    tags: ['kimchi', 'pork', 'combo'],
+
     weight: { dinner: 7 }
   },
   {
     id: 'gnocchi-dinner',
-    name: { ko: '크림 뇨끼', en: 'Creamy Gnocchi', zh: '奶油土豆团子', ja: 'クリームニョッキ' },
+    name: { ko: '?�림 ?�끼', en: 'Creamy Gnocchi', zh: '奶油?�豆?�子', ja: '??��?�ム?�ョ?�キ' },
     description: {
-      ko: '부드러운 감자 뇨끼에 크림소스, 서양식 저녁.',
+      ko: '부?�러??감자 ?�끼???�림?�스, ?�양???�??',
       en: 'Soft potato gnocchi in a rich cream sauce.',
-      zh: '柔软土豆团子配浓郁奶油酱。',
-      ja: 'やわらかいポテトニョッキにクリームソース。'
+      zh: '?�软?�豆?�子?�浓?�奶油酱??,
+      ja: '?�わ?�か?�ポ?�ト?�ョ?�キ?�ク?�ー?�ソ?�ス??
     },
-    emoji: '🥔',
+    emoji: '?��',
     category: 'dinner',
     calories: 700,
-    tags: ['italian', 'creamy', 'potato'],
+
     weight: { dinner: 6 }
   },
   {
     id: 'paella-black-dinner',
-    name: { ko: '먹물 빠에야', en: 'Squid Ink Paella', zh: '墨鱼汁海鲜饭', ja: 'イカスミパエリア' },
+    name: { ko: '먹물 빠에??, en: 'Squid Ink Paella', zh: '墨鱼汁海鲜�?', ja: '?�カ?�ミ?�エ?�ア' },
     description: {
-      ko: '먹물로 풍미를 더한 스페인식 해산물 빠에야.',
+      ko: '먹물�??��?�??�한 ?�페?�식 ?�산�?빠에??',
       en: 'Spanish seafood paella enhanced with squid ink.',
-      zh: '加入墨鱼汁增香的西班牙海鲜饭。',
-      ja: 'イカスミで風味を増したスペイン海鮮パエリア。'
+      zh: '?�入墨鱼汁增香的西班?�海鲜�???,
+      ja: '?�カ?�ミ?�風?�を増し?�ス?�イ?�海�?��?�リ?��?
     },
-    emoji: '🦑',
+    emoji: '?��',
     category: 'dinner',
     calories: 740,
-    tags: ['spanish', 'seafood', 'ink'],
+
     weight: { dinner: 6 }
   },
   {
     id: 'tomahawk-dinner',
-    name: { ko: '토마호크 스테이크', en: 'Tomahawk Steak', zh: '战斧牛排', ja: 'トマホークステーキ' },
+    name: { ko: '?�마?�크 ?�테?�크', en: 'Tomahawk Steak', zh: '?�斧?�排', ja: '?�マ?�ー??��?�ー?? },
     description: {
-      ko: '두툼한 토마호크 스테이크로 럭셔리한 저녁.',
+      ko: '?�툼???�마?�크 ?�테?�크�???��리한 ?�??',
       en: 'Thick-cut tomahawk steak for a luxurious dinner.',
-      zh: '厚切战斧牛排，奢华的晚餐。',
-      ja: '分厚いトマホークステーキで贅沢ディナー。'
+      zh: '?�切?�斧?�排，奢?�的?�餐??,
+      ja: '?�厚?�ト?�ホ?�ク?�テ?�キ?�贅沢デ?�ナ?��?
     },
-    emoji: '🥩',
+    emoji: '?��',
     category: 'dinner',
     calories: 980,
-    tags: ['steak', 'luxury', 'sharing'],
+
     weight: { dinner: 5 }
   },
   {
     id: 'mala-xiangguo-dinner',
-    name: { ko: '마라샹궈', en: 'Mala Xiang Guo', zh: '麻辣香锅', ja: 'マーラーシャンゴー' },
+    name: { ko: '마라?�궈', en: 'Mala Xiang Guo', zh: '麻辣香锅', ja: '?�ー?�ー?�ャ?�ゴ?? },
     description: {
-      ko: '중식 매운 볶음 냄비, 원하는 재료로 커스텀.',
+      ko: '중식 매운 볶음 ?�비, ?�하???�료�?커스?�.',
       en: 'Spicy Chinese stir-fry pot with customizable ingredients.',
-      zh: '可自选食材的麻辣干锅。',
-      ja: '具材カスタム可能な中華スパイシー炒め鍋。'
+      zh: '??��?�食?�的麻辣干锅??,
+      ja: '?�材?�ス?�ム??��?�中??��?�イ?�ー?�め?��?
     },
-    emoji: '🌶️',
+    emoji: '?���?,
     category: 'dinner',
     calories: 820,
-    tags: ['chinese', 'spicy', 'custom'],
+
     weight: { dinner: 8 }
   },
   {
     id: 'gimbap-platters-dinner',
-    name: { ko: '모둠 김밥 플래터', en: 'Assorted Gimbap Platter', zh: '什锦紫菜包饭拼盘', ja: '盛り合わせキンパプ' },
+    name: { ko: '모둠 김�??�래??, en: 'Assorted Gimbap Platter', zh: '什??��?�包�?��??, ja: '?�り?�わ?�キ?�パ?? },
     description: {
-      ko: '야채/참치/치즈 김밥을 한 번에 즐기는 플래터.',
+      ko: '?�채/참치/치즈 김밥을 ??번에 즐기???�래??',
       en: 'Platter with veggie, tuna, and cheese gimbap rolls.',
-      zh: '蔬菜/金枪鱼/芝士紫菜包饭拼盘。',
-      ja: '野菜・ツナ・チーズのキンパプ盛り合わせ。'
+      zh: '?�菜/?�枪�??�士紫菜?��??�盘??,
+      ja: '?�菜?�ツ?�・?�ー?�の??��?�プ?�り?�わ?��?
     },
-    emoji: '🍙',
+    emoji: '?��',
     category: 'dinner',
     calories: 680,
-    tags: ['korean', 'platter', 'share'],
+
     weight: { dinner: 6 }
   },
   {
     id: 'pork-cutlet-dinner',
-    name: { ko: '수제 돈카츠', en: 'Handmade Pork Cutlet', zh: '手工猪排', ja: '手仕込みとんかつ' },
+    name: { ko: '?�제 ?�카�?, en: 'Handmade Pork Cutlet', zh: '?�工?�排', ja: '?�仕込み?�ん?�つ' },
     description: {
-      ko: '두툼한 등심 돈카츠와 캐비지 샐러드, 밥 세트.',
+      ko: '?�툼???�심 ?�카츠�? 캐비지 ?�러?? �??�트.',
       en: 'Thick loin cutlet with cabbage salad and rice.',
-      zh: '厚实里脊猪排配卷心菜沙拉与米饭。',
-      ja: '分厚いロースカツにキャベツサラダ、ご飯セット。'
+      zh: '?�实?�脊?�排?�卷心菜沙拉与米�?�?,
+      ja: '?�厚?�ロ?�ス?�ツ?�キ?�ベ?�サ?��??�ご�?��?�ト??
     },
-    emoji: '🥢',
+    emoji: '?��',
     category: 'dinner',
     calories: 750,
-    tags: ['cutlet', 'japanese', 'crispy'],
+
     weight: { dinner: 7 }
   },
 
-  // 야식 메뉴 (배달 앱 야식 베스트셀러)
+  // ?�식 메뉴 (배달 ???�식 베스?��???
   {
     id: 'fried-chicken',
     name: {
-      ko: '양념 치킨',
+      ko: '?�념 치킨',
       en: 'Seasoned Fried Chicken',
-      zh: '酱料炸鸡',
-      ja: 'ヤンニョムチキン'
+      zh: '?�料?�鸡',
+      ja: '?�ン?�ョ?�チ??��'
     },
     description: {
-      ko: '달콤매콤한 양념이 듬뿍 밴 치킨! 야식의 절대 강자.',
+      ko: '?�콤매콤???�념???�뿍 �?치킨! ?�식???��? 강자.',
       en: 'Chicken coated in sweet and spicy sauce! Absolute late-night champion.',
-      zh: '甜辣酱料丰富的鸡肉！宵夜的绝对强者。',
-      ja: '甘辛いタレがたっぷり絡んだチキン！夜食の絶対王者。'
+      zh: '?�辣?�料丰富?�鸡?�！宵夜?�绝对强?��?,
+      ja: '?�辛?�タ?�が?�っ?�り絡ん?�チ??��！夜食の絶�??�者�?
     },
-    emoji: '🍗',
+    emoji: '?��',
     category: 'snack',
     calories: 620,
-    tags: ['spicy', 'sweet', 'popular'],
+
     weight: { breakfast: 1, lunch: 5, dinner: 7, snack: 10 }
   },
   {
@@ -986,119 +985,119 @@ export const menuRecommendations: MenuItem[] = [
     name: {
       ko: '불닭 치킨',
       en: 'Fire Chicken',
-      zh: '火鸡',
-      ja: 'プルダクチキン'
+      zh: '?�鸡',
+      ja: '?�ル?�??��??��'
     },
     description: {
-      ko: '불처럼 매운 치킨! 매운 음식 좋아하는 사람들의 야식 필수품.',
+      ko: '불처??매운 치킨! 매운 ?�식 좋아?�는 ?�람?�의 ?�식 ?�수??',
       en: 'Chicken as spicy as fire! Essential late-night food for spice lovers.',
-      zh: '像火一样辣的鸡肉！喜欢辣食的人的宵夜必需品。',
-      ja: '火のように辛いチキン！辛い食べ物好きの夜食必需品。'
+      zh: '?�火一?�辣?�鸡?�！?�欢辣食?�人?��?夜必?�?��?,
+      ja: '?�の?�う?�辛?�チ??��！辛?�食?�物好き??��食必?�?��?
     },
-    emoji: '🌶️',
+    emoji: '?���?,
     category: 'snack',
     calories: 650,
-    tags: ['spicy', 'fire-hot', 'addictive'],
+
     weight: { breakfast: 1, lunch: 4, dinner: 6, snack: 9 }
   },
   {
     id: 'pizza-pepperoni',
     name: {
-      ko: '야식 페퍼로니 피자',
+      ko: '?�식 ?�퍼로니 ?�자',
       en: 'Late-night Pepperoni Pizza',
-      zh: '宵夜意大利辣香肠披萨',
-      ja: '夜食ペパロニピザ'
+      zh: '宵夜?�大?�辣香肠?�萨',
+      ja: '夜食?�パ??��?�ザ'
     },
     description: {
-      ko: '치즈와 페퍼로니가 풍부한 피자! 야식으로 먹는 최고의 선택.',
+      ko: '치즈?� ?�퍼로니가 ?��????�자! ?�식?�로 먹는 최고???�택.',
       en: 'Pizza rich with cheese and pepperoni! Best choice for late-night eating.',
-      zh: '奶酪和意大利辣香肠丰富的披萨！宵夜的最佳选择。',
-      ja: 'チーズとペパロニが豊富なピザ！夜食に食べる最高の選択。'
+      zh: '奶酪?�意大利辣香?�丰富的?�萨！�?夜的?�佳选择??,
+      ja: '?�ー?�と?�パ??��?�豊富な?�ザ！夜食に食べ?��?高の?�択??
     },
-    emoji: '🍕',
+    emoji: '?��',
     category: 'snack',
     calories: 680,
-    tags: ['cheesy', 'pepperoni', 'satisfying'],
+
     weight: { breakfast: 1, lunch: 6, dinner: 8, snack: 9 }
   },
   {
     id: 'tteokbokki-rose',
     name: {
-      ko: '로제 떡볶이',
+      ko: '로제 ?�볶??,
       en: 'Rose Tteokbokki',
-      zh: '玫瑰炒年糕',
-      ja: 'ロゼトックポッキ'
+      zh: '?�瑰?�年�?,
+      ja: '??��?�ッ??��?�キ'
     },
     description: {
-      ko: '크림과 토마토 소스의 떡볶이! 달콤하고 부드러운 인기 메뉴.',
+      ko: '?�림�??�마???�스???�볶?? ?�콤?�고 부?�러???�기 메뉴.',
       en: 'Tteokbokki with cream and tomato sauce! Sweet and soft popular menu.',
-      zh: '奶油和番茄酱的年糕炒！甜美柔软的热门菜单。',
-      ja: 'クリームとトマトソースのトックポッキ！甘くて柔らかい人気メニュー。'
+      zh: '奶油?�番?�酱?�年糕炒！甜美柔�?��??��?�单??,
+      ja: '??��?�ム?�ト?�ト?�ー?�の?�ッ??��?�キ！甘?�て?�ら?�い人気?�ニ?�ー??
     },
-    emoji: '🍥',
+    emoji: '?��',
     category: 'snack',
     calories: 480,
-    tags: ['creamy', 'sweet', 'trendy'],
+
     weight: { breakfast: 1, lunch: 3, dinner: 4, snack: 10 }
   },
   {
     id: 'chicken-feet',
     name: {
-      ko: '맵닭발',
+      ko: '맵닭�?,
       en: 'Spicy Chicken Feet',
-      zh: '辣鸡爪',
-      ja: 'マプタル'
+      zh: '辣鸡??,
+      ja: '?�プ?�ル'
     },
     description: {
-      ko: '불처럼 매운 닭발! 야식으로 먹는 한국 대표 안주.',
+      ko: '불처??매운 ??��! ?�식?�로 먹는 ?�국 ?�???�주.',
       en: 'Chicken feet as spicy as fire! Korean representative late-night snack.',
-      zh: '像火一样辣的鸡爪！宵夜吃的韩国代表下酒菜。',
-      ja: '火のように辛い鶏足！夜食に食べる韓国代表おつまみ。'
+      zh: '?�火一?�辣?�鸡?�！宵夜?�的?�国代表下酒?��?,
+      ja: '?�の?�う?�辛?�鶏足！夜食?�食?�る?�国代表?�つ?�み??
     },
-    emoji: '🐔',
+    emoji: '?��',
     category: 'snack',
     calories: 380,
-    tags: ['spicy', 'chicken-feet', 'korean'],
+
     weight: { breakfast: 1, lunch: 2, dinner: 3, snack: 10 }
   },
   {
     id: 'ramen-snack',
     name: {
-      ko: '야식 라면',
+      ko: '?�식 ?�면',
       en: 'Late-night Ramen',
-      zh: '宵夜拉面',
-      ja: '夜食ラーメン'
+      zh: '宵夜?�面',
+      ja: '夜食?�ー?�ン'
     },
     description: {
-      ko: '뜨끈한 국물 라면! 야식의 기본 중의 기본.',
+      ko: '?�끈??�?�� ?�면! ?�식??기본 중의 기본.',
       en: 'Hot broth ramen! The basic of late-night eating.',
-      zh: '热汤拉面！宵夜的基本中的基本。',
-      ja: '熱いスープラーメン！夜食の基本中の基本。'
+      zh: '??��?�面！�?夜的?�本�?��?�本??,
+      ja: '?�い?�ー?�ラ?�メ?�！夜食??��?�中??��?��?
     },
-    emoji: '🍜',
+    emoji: '?��',
     category: 'snack',
     calories: 520,
-    tags: ['hot', 'brothy', 'essential'],
+
     weight: { breakfast: 1, lunch: 4, dinner: 5, snack: 10 }
   },
   {
     id: 'chicken-wings',
     name: {
-      ko: '치킨윙 세트',
+      ko: '치킨???�트',
       en: 'Chicken Wings Set',
       zh: '鸡翅套餐',
-      ja: 'チキンウィングセット'
+      ja: '?�キ?�ウ?�ン?�セ?�ト'
     },
     description: {
-      ko: '바삭한 치킨윙에 매콤한 소스! 야식으로 먹는 안주.',
+      ko: '바삭??치킨?�에 매콤???�스! ?�식?�로 먹는 ?�주.',
       en: 'Crispy chicken wings with spicy sauce! Perfect late-night snack.',
-      zh: '酥脆鸡翅配辣酱！适合宵夜的下酒菜。',
-      ja: 'サクサクのチキンウィングに辛いソース！夜食にぴったりのおつまみ。'
+      zh: '?�脆鸡翅?�辣?�！?�合宵夜?�下?�菜??,
+      ja: '?�ク?�ク??��??��?�ィ?�グ?�辛?�ソ?�ス！夜食に?�っ?�り??��?�ま?��?
     },
-    emoji: '🍗',
+    emoji: '?��',
     category: 'snack',
     calories: 480,
-    tags: ['crispy', 'spicy', 'wings'],
+
     weight: { breakfast: 1, lunch: 5, dinner: 6, snack: 9 }
   },
   {
@@ -1106,347 +1105,347 @@ export const menuRecommendations: MenuItem[] = [
     name: {
       ko: '징거버거',
       en: 'Zinger Burger',
-      zh: '津格堡',
-      ja: 'ジンガーバーガー'
+      zh: '津格??,
+      ja: '?�ン?�ー?�ー?�ー'
     },
     description: {
-      ko: 'KFC의 매콤한 치킨 패티 버거! 야식으로 강력 추천.',
+      ko: 'KFC??매콤??치킨 ?�티 버거! ?�식?�로 강력 추천.',
       en: 'KFC\'s spicy chicken patty burger! Highly recommended for late-night.',
-      zh: '肯德基的辣鸡肉饼堡！宵夜强烈推荐。',
-      ja: 'KFCの辛いチキンパティバーガー！夜食に強くおすすめ。'
+      zh: '??��?�的辣鸡?��??�！宵夜强烈?�荐??,
+      ja: 'KFC??��?�チ??��?�テ?�バ?�ガ?�！夜食?�強?�お?�す?��?
     },
-    emoji: '🍔',
+    emoji: '?��',
     category: 'snack',
     calories: 580,
-    tags: ['kfc', 'spicy', 'chicken'],
+
     weight: { breakfast: 1, lunch: 6, dinner: 4, snack: 8 }
   },
   {
     id: 'hot-dog',
     name: {
-      ko: '핫도그 세트',
+      ko: '?�도�??�트',
       en: 'Hot Dog Set',
-      zh: '热狗套餐',
-      ja: 'ホットドッグセット'
+      zh: '??��套餐',
+      ja: '?�ッ?�ド?�グ?�ッ??
     },
     description: {
-      ko: '길게 뻗은 소시지에 머스터드와 케첩! 간단한 야식.',
+      ko: '길게 뻗�? ?�시지??머스?�드?� 케�? 간단???�식.',
       en: 'Long sausage with mustard and ketchup! Simple late-night snack.',
-      zh: '长长的香肠配芥末酱和番茄酱！简单的宵夜。',
-      ja: '長く伸びたソーセージにマスタードとケチャップ！シンプルな夜食。'
+      zh: '?�长?�香?�配?�末?�和?�茄?�！简?�的宵夜??,
+      ja: '?�く伸び?�ソ?�セ?�ジ?�マ?�タ?�ド?�ケ?�ャ?�プ！シ?�プ?�な夜食??
     },
-    emoji: '🌭',
+    emoji: '?��',
     category: 'snack',
     calories: 420,
-    tags: ['simple', 'sausage', 'classic'],
+
     weight: { breakfast: 2, lunch: 5, dinner: 3, snack: 8 }
   },
   {
     id: 'taco-snack',
     name: {
-      ko: '타코야키',
+      ko: '?�코야??,
       en: 'Takoyaki',
-      zh: '章鱼烧',
-      ja: 'たこ焼き'
+      zh: '章鱼??,
+      ja: '?�こ?�き'
     },
     description: {
-      ko: '달콤한 타코야키 소스에 문어! 일본식 야식 메뉴.',
+      ko: '?�콤???�코야???�스??문어! ?�본???�식 메뉴.',
       en: 'Sweet takoyaki sauce with octopus! Japanese late-night menu.',
-      zh: '甜章鱼烧酱配章鱼！日式宵夜菜单。',
-      ja: '甘いたこ焼きソースにタコ！日本風夜食メニュー。'
+      zh: '?�章鱼烧?�配章鱼！日式�?夜菜?��?,
+      ja: '?�い?�こ?�き?�ー?�に?�コ！日?�風夜食?�ニ?�ー??
     },
-    emoji: '🦑',
+    emoji: '?��',
     category: 'snack',
     calories: 380,
-    tags: ['octopus', 'japanese', 'sweet'],
+
     weight: { breakfast: 1, lunch: 3, dinner: 4, snack: 7 }
   },
 
-  // 디저트 메뉴 (별도 추천)
+  // ?��???메뉴 (별도 추천)
   {
     id: 'ice-cream',
     name: {
-      ko: '아이스크림 파인트',
+      ko: '?�이?�크�??�인??,
       en: 'Ice Cream Pint',
-      zh: '冰淇淋品脱',
-      ja: 'アイスクリームパイント'
+      zh: '?�淇淋品??,
+      ja: '?�イ?�ク?�ー?�パ?�ン??
     },
     description: {
-      ko: '시원한 아이스크림 한 파인트! 야식 후 달콤한 마무리.',
+      ko: '?�원???�이?�크�????�인?? ?�식 ???�콤??마무�?',
       en: 'A cold pint of ice cream for a sweet finish after a meal.',
-      zh: '一品脱冰淇淋，饭后的甜蜜收尾。',
-      ja: '食後の甘い締めにぴったりのアイスクリームパイント。'
+      zh: '一?�脱?�淇淋，�?��?�甜?�收尾�?,
+      ja: '食後??��?�締?�に?�っ?�り??��?�ス??��?�ム?�イ?�ト??
     },
-    emoji: '🍨',
+    emoji: '?��',
     category: 'dessert',
     calories: 520,
-    tags: ['cold', 'sweet', 'classic']
+
   },
   {
     id: 'tiramisu',
     name: {
-      ko: '티라미수',
+      ko: '?�라미수',
       en: 'Tiramisu',
-      zh: '提拉米苏',
-      ja: 'ティラミス'
+      zh: '?�拉米苏',
+      ja: '?�ィ?�ミ??
     },
     description: {
-      ko: '에스프레소와 마스카포네가 어우러진 이탈리안 디저트.',
+      ko: '?�스?�레?��? 마스카포?��? ?�우?�진 ?�탈리안 ?��???',
       en: 'Italian dessert with espresso and mascarpone layers.',
-      zh: '浓缩咖啡与马斯卡彭融合的意式甜点。',
-      ja: 'エスプレッソとマスカルポーネのイタリアンデザート。'
+      zh: '浓缩?�啡与马??���?��?�的?�式?�点??,
+      ja: '?�ス?�レ?�ソ?�マ?�カ?�ポ?�ネ??��?�リ?�ン?�ザ?�ト??
     },
-    emoji: '🍰',
+    emoji: '?��',
     category: 'dessert',
     calories: 450,
-    tags: ['coffee', 'creamy', 'italian']
+
   },
   {
     id: 'cheesecake',
     name: {
-      ko: '뉴욕 치즈케이크',
+      ko: '?�욕 치즈케?�크',
       en: 'New York Cheesecake',
-      zh: '纽约芝士蛋糕',
-      ja: 'ニューヨークチーズケーキ'
+      zh: '纽约?�士?�糕',
+      ja: '?�ュ?�ヨ?�ク?�ー?�ケ?�キ'
     },
     description: {
-      ko: '꾸덕한 치즈의 풍미가 가득한 클래식 케이크.',
+      ko: '꾸덕??치즈???��?가 가?�한 ?�래??케?�크.',
       en: 'Rich and dense classic cheesecake.',
-      zh: '浓郁绵密的经典芝士蛋糕。',
-      ja: '濃厚でもっちりとしたクラシックチーズケーキ。'
+      zh: '浓郁绵密?�经?�芝士蛋糕�?,
+      ja: '濃厚?�も?�ち?�と?�た??��?�ッ??��?�ズ?�ー??�?
     },
-    emoji: '🍰',
+    emoji: '?��',
     category: 'dessert',
     calories: 420,
-    tags: ['rich', 'creamy', 'classic']
+
   },
   {
     id: 'brownie',
     name: {
-      ko: '초코 브라우니',
+      ko: '초코 브라?�니',
       en: 'Chocolate Brownie',
-      zh: '巧克力布朗尼',
-      ja: 'チョコブラウニー'
+      zh: '巧克?�布?�尼',
+      ja: '?�ョ?�ブ?�ウ?�ー'
     },
     description: {
-      ko: '진한 초콜릿 브라우니 한 조각! 아이스크림과 곁들이면 최고.',
+      ko: '진한 초콜�?브라?�니 ??조각! ?�이?�크림과 곁들?�면 최고.',
       en: 'A rich chocolate brownie slice; perfect with ice cream.',
-      zh: '浓郁的巧克力布朗尼，配冰淇淋更佳。',
-      ja: '濃厚なチョコブラウニー。アイスを添えると最高。'
+      zh: '浓郁?�巧?�力布朗尼，?�冰淇淋?�佳??,
+      ja: '濃厚?�チ?�コ?�ラ?�ニ?�。ア?�ス?�添?�る?��?高�?
     },
-    emoji: '🍫',
+    emoji: '?��',
     category: 'dessert',
     calories: 360,
-    tags: ['chocolate', 'rich', 'slice']
+
   },
   {
     id: 'macaron',
     name: {
-      ko: '마카롱 세트',
+      ko: '마카�??�트',
       en: 'Macaron Set',
-      zh: '马卡龙套装',
-      ja: 'マカロンセット'
+      zh: '马卡龙套�?,
+      ja: '?�カ??��?�ッ??
     },
     description: {
-      ko: '다양한 색과 맛의 마카롱 6종 세트.',
+      ko: '?�양???�과 맛의 마카�?6�??�트.',
       en: 'Assorted six-piece macaron set in various flavors.',
-      zh: '多种口味的六件马卡龙套装。',
-      ja: '色とりどりのマカロン6種セット。'
+      zh: '多种?�味?�六件马?�龙套装??,
+      ja: '?�と?�ど?�の?�カ??��6�?��?�ト??
     },
-    emoji: '🍬',
+    emoji: '?��',
     category: 'dessert',
     calories: 300,
-    tags: ['colorful', 'sweet', 'assorted']
+
   },
   {
     id: 'churros',
     name: {
-      ko: '츄러스 & 딥핑',
+      ko: '츄러??& ?�핑',
       en: 'Churros with Dip',
-      zh: '吉拿棒蘸酱',
-      ja: 'チュロスとディップ'
+      zh: '?�拿棒蘸??,
+      ja: '?�ュ??��?�デ?�ッ??
     },
     description: {
-      ko: '따끈한 츄러스와 초코/시나몬 딥핑 소스.',
+      ko: '?�끈??츄러?��? 초코/?�나�??�핑 ?�스.',
       en: 'Warm churros with chocolate or cinnamon dipping sauces.',
-      zh: '热吉拿棒配巧克力或肉桂蘸酱。',
-      ja: '温かいチュロスとチョコ/シナモンディップ。'
+      zh: '??��?�棒?�巧?�力?�肉桂蘸?��?,
+      ja: '温か?�チ?�ロ?�と?�ョ???�ナ?�ン?�ィ?�プ??
     },
-    emoji: '🥖',
+    emoji: '?��',
     category: 'dessert',
     calories: 380,
-    tags: ['fried', 'sweet', 'snack']
+
   },
   {
     id: 'bubble-tea',
     name: {
-      ko: '버블티',
+      ko: '버블??,
       en: 'Bubble Tea',
-      zh: '珍珠奶茶',
-      ja: 'タピオカミルクティー'
+      zh: '?�珠奶茶',
+      ja: '?�ピ?�カ?�ル??��?�ー'
     },
     description: {
-      ko: '쫀득한 타피오카 펄이 가득한 버블티.',
+      ko: '쫀?�한 ?�?�오�??�이 가?�한 버블??',
       en: 'Bubble tea filled with chewy tapioca pearls.',
-      zh: '满满Q弹珍珠的奶茶。',
-      ja: 'もちもちタピオカがたっぷりのミルクティー。'
+      zh: '满满Q弹珍?�的奶茶??,
+      ja: '?�ち?�ち?�ピ?�カ?�た?�ぷ?�の?�ル??��?�ー??
     },
-    emoji: '🧋',
+    emoji: '?��',
     category: 'dessert',
     calories: 320,
-    tags: ['drink', 'sweet', 'tapioca']
+
   },
   {
     id: 'croffle',
     name: {
-      ko: '크로플',
+      ko: '?�로??,
       en: 'Croffle',
-      zh: '可颂华夫饼',
-      ja: 'クロッフル'
+      zh: '??��?�夫�?,
+      ja: '??��?�フ??
     },
     description: {
-      ko: '겉바속촉 크로와상 와플에 아이스크림 추가 가능.',
+      ko: '겉바?�촉 ?�로?�???�?�에 ?�이?�크�?추�? 가??',
       en: 'Crispy croissant waffle; add ice cream on top.',
-      zh: '外脆里嫩的可颂华夫饼，可加冰淇淋。',
-      ja: '外カリ中ふわのクロワッサンワッフル。アイスの追加もOK。'
+      zh: '外脆?�嫩?�可颂华夫�?，可?�冰淇淋??,
+      ja: '外カ?�中?�わ??��??��?�サ?�ワ?�フ?�。ア?�ス??��?�もOK??
     },
-    emoji: '🧇',
+    emoji: '?��',
     category: 'dessert',
     calories: 430,
-    tags: ['crispy', 'waffle', 'buttery']
+
   },
   {
     id: 'bingsu',
     name: {
-      ko: '딸기 빙수',
+      ko: '?�기 빙수',
       en: 'Strawberry Bingsu',
-      zh: '草莓刨冰',
-      ja: 'いちごかき氷'
+      zh: '?�莓?�冰',
+      ja: '?�ち?�か?�氷'
     },
     description: {
-      ko: '달콤한 연유와 신선한 딸기가 올라간 시원한 빙수.',
+      ko: '?�콤???�유?� ?�선???�기가 ?�라�??�원??빙수.',
       en: 'Shaved ice topped with fresh strawberries and condensed milk.',
-      zh: '加上鲜草莓与炼乳的清凉刨冰。',
-      ja: '練乳と新鮮いちごをのせたさっぱりかき氷。'
+      zh: '?�上鲜草?�与?�乳?�清?�刨?��?,
+      ja: '練乳?�新�?��?�ご?�の?�た?�っ?�り?�き氷�?
     },
-    emoji: '🍧',
+    emoji: '?��',
     category: 'dessert',
     calories: 310,
-    tags: ['cold', 'fruity', 'refreshing']
+
   },
   {
     id: 'donut',
     name: {
-      ko: '글레이즈드 도넛',
+      ko: '글?�이즈드 ?�넛',
       en: 'Glazed Donut',
-      zh: '糖霜甜甜圈',
-      ja: 'グレーズドドーナツ'
+      zh: '糖霜?�甜??,
+      ja: '?�レ?�ズ?�ド?�ナ??
     },
     description: {
-      ko: '달콤한 글레이즈가 입혀진 클래식 도넛.',
+      ko: '?�콤??글?�이즈�? ?��?�??�래???�넛.',
       en: 'Classic donut coated with sweet glaze.',
-      zh: '裹着糖霜的经典甜甜圈。',
-      ja: '甘いグレーズがかかったクラシックドーナツ。'
+      zh: '裹�?糖霜?�经?�甜?�圈??,
+      ja: '?�い?�レ?�ズ?�か?�っ?�ク?�シ?�ク?�ー?�ツ??
     },
-    emoji: '🍩',
+    emoji: '?��',
     category: 'dessert',
     calories: 280,
-    tags: ['classic', 'sweet', 'snack']
+
   },
   {
     id: 'hotteok',
     name: {
-      ko: '꿀호떡',
+      ko: '꿀?�떡',
       en: 'Honey Hotteok',
-      zh: '蜂蜜糖饼',
-      ja: 'ホットク'
+      zh: '?�蜜糖�?',
+      ja: '?�ッ?�ク'
     },
     description: {
-      ko: '따끈한 꿀 시럽이 가득한 한국 길거리 디저트.',
+      ko: '?�끈??꿀 ?�럽??가?�한 ?�국 길거�??��???',
       en: 'Warm Korean street dessert filled with honey syrup.',
-      zh: '充满蜂蜜糖浆的热韩国街头甜点。',
-      ja: '蜂蜜シロップがたっぷりの韓国屋台デザート。'
+      zh: '?�满?�蜜糖浆?�热?�国街头?�点??,
+      ja: '?�蜜?�ロ?�プ?�た?�ぷ?�の?�国屋台?�ザ?�ト??
     },
-    emoji: '🥞',
+    emoji: '?��',
     category: 'dessert',
     calories: 340,
-    tags: ['korean', 'sweet', 'street-food']
+
   }
 ];
 
 export const timeSlots = {
   breakfast: {
     name: {
-      ko: '아침',
+      ko: '?�침',
       en: 'Breakfast',
-      zh: '早餐',
-      ja: '朝食'
+      zh: '?�餐',
+      ja: '?�食'
     },
-    emoji: '🌅'
+    emoji: '?��'
   },
   lunch: {
     name: {
-      ko: '점심',
+      ko: '?�심',
       en: 'Lunch',
-      zh: '午餐',
-      ja: '昼食'
+      zh: '?�餐',
+      ja: '?�食'
     },
-    emoji: '☀️'
+    emoji: '?��?
   },
   dinner: {
     name: {
-      ko: '저녁',
+      ko: '?�??,
       en: 'Dinner',
-      zh: '晚餐',
+      zh: '?�餐',
       ja: '夕食'
     },
-    emoji: '🌙'
+    emoji: '?��'
   },
   snack: {
     name: {
-      ko: '야식',
+      ko: '?�식',
       en: 'Late-night Snack',
-      zh: '夜宵',
+      zh: '夜�?',
       ja: '夜食'
     },
-    emoji: '🌃'
+    emoji: '?��'
   },
   dessert: {
     name: {
-      ko: '디저트',
+      ko: '?��???,
       en: 'Dessert',
-      zh: '甜点',
-      ja: 'デザート'
+      zh: '?�点',
+      ja: '?�ザ?�ト'
     },
-    emoji: '🍨'
+    emoji: '?��'
   },
   random: {
     name: {
-      ko: '랜덤',
+      ko: '?�덤',
       en: 'Random',
-      zh: '随机',
-      ja: 'ランダム'
+      zh: '?�机',
+      ja: '?�ン?�??
     },
-    emoji: '🎲'
+    emoji: '?��'
   }
 };
 
-// 가중치 없는 균등 랜덤 추천 함수
+// 가중치 ?�는 균등 ?�덤 추천 ?�수
 export function getWeightedRandomMenu(timeSlot: TimeSlot): MenuItem {
-  // 랜덤 선택지인 경우 디저트를 제외한 전체 메뉴에서 균등 추천
+  // ?�덤 ?�택지??경우 ?��??��? ?�외???�체 메뉴?�서 균등 추천
   if (timeSlot === 'random') {
     const nonDessert = menuRecommendations.filter(menu => menu.category !== 'dessert');
     return nonDessert[Math.floor(Math.random() * nonDessert.length)];
   }
 
-  // 해당 시간대의 모든 메뉴 필터링
+  // ?�당 ?�간?�??모든 메뉴 ?�터�?
   const availableMenus = menuRecommendations.filter(menu => menu.category === timeSlot);
 
   if (availableMenus.length === 0) {
-    // 기본적으로 첫 번째 메뉴 반환 (fallback)
+    // 기본?�으�?�?번째 메뉴 반환 (fallback)
     return menuRecommendations[0];
   }
 
-  // 가중치 없이 균등 랜덤 선택
+  // 가중치 ?�이 균등 ?�덤 ?�택
   return availableMenus[Math.floor(Math.random() * availableMenus.length)];
 }
