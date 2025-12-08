@@ -14,17 +14,17 @@
   --primary-500: #d946ef;
   --primary-600: #c026d3;
   --primary-700: #a21caf;
-  
+
   /* Accent Colors - Cyber Cyan */
   --accent-base: #06b6d4;
   --accent-glow: rgba(6, 182, 212, 0.5);
-  
+
   /* Glass Effects - Light */
   --glass-bg: rgba(255, 255, 255, 0.65);
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-highlight: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
-  
+
   /* Background */
   --bg-gradient: radial-gradient(circle at 0% 0%, #fdf4ff 0%, #f5f3ff 50%, #f0f9ff 100%);
   --text-primary: #1e293b;
@@ -37,7 +37,7 @@
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-highlight: rgba(255, 255, 255, 0.05);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  
+
   --bg-gradient: radial-gradient(circle at 50% 50%, #0f172a 0%, #1e1b4b 100%);
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
@@ -65,7 +65,7 @@ body {
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--glass-border);
-  box-shadow: 
+  box-shadow:
     var(--glass-shadow),
     inset 0 0 0 1px var(--glass-highlight);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -73,7 +73,7 @@ body {
 
 .glass:hover {
   background: rgba(255, 255, 255, 0.75);
-  box-shadow: 
+  box-shadow:
     0 12px 40px rgba(31, 38, 135, 0.12),
     inset 0 0 0 1px rgba(255, 255, 255, 0.4);
   transform: translateY(-2px);
@@ -81,7 +81,7 @@ body {
 
 .dark .glass:hover {
   background: rgba(30, 41, 59, 0.75);
-  box-shadow: 
+  box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.4),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
@@ -102,13 +102,29 @@ body {
 
 /* ===== 🪄 Animations ===== */
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(2deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.05); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
 }
 
 .floating-shape {
@@ -127,7 +143,7 @@ body {
   font-weight: 700;
   padding: 1rem 2rem;
   border-radius: 1rem;
-  box-shadow: 
+  box-shadow:
     0 4px 12px rgba(217, 70, 239, 0.4),
     inset 0 2px 4px rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
@@ -142,7 +158,7 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
   transform: scale(0);
   transition: transform 0.6s ease-out;
 }
@@ -158,8 +174,13 @@ body {
 }
 
 /* Utility */
-.text-balance { text-wrap: balance; }
-.break-keep { word-break: keep-all; }
+.text-balance {
+  text-wrap: balance;
+}
+
+.break-keep {
+  word-break: keep-all;
+}
 
 /* Keep existing utilities below if needed, or replace if duplicate */
 @layer utilities {
@@ -182,18 +203,37 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* ===== 관상 테스트 - 수묵화 스타일 (Preserving existing ink styles) ===== */
@@ -211,7 +251,7 @@ body {
 .ink-card {
   background: rgba(255, 251, 245, 0.9);
   border: 1px solid rgba(139, 0, 0, 0.15);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
@@ -220,7 +260,7 @@ body {
 .dark .ink-card {
   background: rgba(42, 36, 28, 0.9);
   border: 1px solid rgba(139, 90, 43, 0.3);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
@@ -240,7 +280,7 @@ body {
 .ink-stamp {
   background: linear-gradient(135deg, #8B0000 0%, #6B0000 100%);
   border: 3px solid #5a0000;
-  box-shadow: 
+  box-shadow:
     0 4px 12px rgba(139, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.2);
 }
@@ -259,9 +299,9 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255,215,0,0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255,215,0,0.1) 0%, transparent 50%);
+  background:
+    radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
 }
 
 /* 버튼 스타일 */
@@ -280,7 +320,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left 0.5s ease;
 }
 
@@ -296,9 +336,17 @@ body {
 }
 
 @keyframes inkProgressGlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* 선택 옵션 */
@@ -359,42 +407,117 @@ body {
 }
 
 /* 텍스트 색상 */
-.text-ink-100 { color: #faf8f5; }
-.text-ink-200 { color: #f0ebe0; }
-.text-ink-300 { color: #d4c9b8; }
-.text-ink-400 { color: #a89a85; }
-.text-ink-500 { color: #7a6c5a; }
-.text-ink-600 { color: #5a4d3d; }
-.text-ink-700 { color: #3d3328; }
-.text-ink-800 { color: #2d2318; }
+.text-ink-100 {
+  color: #faf8f5;
+}
 
-.dark .text-ink-100 { color: #faf8f5; }
-.dark .text-ink-200 { color: #e8dfd0; }
-.dark .text-ink-300 { color: #c5b8a5; }
-.dark .text-ink-400 { color: #9a8b78; }
-.dark .text-ink-500 { color: #a89a85; }
-.dark .text-ink-600 { color: #c5b8a5; }
-.dark .text-ink-700 { color: #e0d6c8; }
-.dark .text-ink-800 { color: #f5f0e6; }
+.text-ink-200 {
+  color: #f0ebe0;
+}
+
+.text-ink-300 {
+  color: #d4c9b8;
+}
+
+.text-ink-400 {
+  color: #a89a85;
+}
+
+.text-ink-500 {
+  color: #7a6c5a;
+}
+
+.text-ink-600 {
+  color: #5a4d3d;
+}
+
+.text-ink-700 {
+  color: #3d3328;
+}
+
+.text-ink-800 {
+  color: #2d2318;
+}
+
+.dark .text-ink-100 {
+  color: #faf8f5;
+}
+
+.dark .text-ink-200 {
+  color: #e8dfd0;
+}
+
+.dark .text-ink-300 {
+  color: #c5b8a5;
+}
+
+.dark .text-ink-400 {
+  color: #9a8b78;
+}
+
+.dark .text-ink-500 {
+  color: #a89a85;
+}
+
+.dark .text-ink-600 {
+  color: #c5b8a5;
+}
+
+.dark .text-ink-700 {
+  color: #e0d6c8;
+}
+
+.dark .text-ink-800 {
+  color: #f5f0e6;
+}
 
 /* 악센트 색상 (붉은색/금색) */
-.text-ink-accent { color: #8B0000; }
-.text-ink-accent-light { color: #c5a572; }
-.text-ink-accent-dark { color: #6B0000; }
+.text-ink-accent {
+  color: #8B0000;
+}
 
-.dark .text-ink-accent { color: #c5a572; }
-.dark .text-ink-accent-light { color: #d4b896; }
-.dark .text-ink-accent-dark { color: #a68b5b; }
+.text-ink-accent-light {
+  color: #c5a572;
+}
+
+.text-ink-accent-dark {
+  color: #6B0000;
+}
+
+.dark .text-ink-accent {
+  color: #c5a572;
+}
+
+.dark .text-ink-accent-light {
+  color: #d4b896;
+}
+
+.dark .text-ink-accent-dark {
+  color: #a68b5b;
+}
 
 /* 배경 색상 */
-.bg-ink-100 { background-color: rgba(245, 240, 230, 0.5); }
-.bg-ink-200 { background-color: rgba(228, 220, 205, 0.5); }
-.bg-ink-700 { background-color: rgba(42, 36, 28, 0.5); }
+.bg-ink-100 {
+  background-color: rgba(245, 240, 230, 0.5);
+}
+
+.bg-ink-200 {
+  background-color: rgba(228, 220, 205, 0.5);
+}
+
+.bg-ink-700 {
+  background-color: rgba(42, 36, 28, 0.5);
+}
 
 /* 느린 회전 애니메이션 */
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .animate-spin-slow {
@@ -403,8 +526,13 @@ body {
 
 /* 역방향 느린 회전 */
 @keyframes spin-reverse-slow {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
 }
 
 .animate-spin-reverse-slow {
@@ -413,50 +541,105 @@ body {
 
 /* 프로그레스 바 shimmer 효과 */
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* 수묵화 붓터치 효과 (배경 장식용) */
 .ink-brush-stroke {
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(45, 35, 24, 0.1) 20%, 
-    rgba(45, 35, 24, 0.2) 50%, 
-    rgba(45, 35, 24, 0.1) 80%, 
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(45, 35, 24, 0.1) 20%,
+      rgba(45, 35, 24, 0.2) 50%,
+      rgba(45, 35, 24, 0.1) 80%,
+      transparent 100%);
   filter: blur(1px);
 }
 
 /* ===== 🎨 Card Click Animations ===== */
 @keyframes swing {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(-10deg); }
-  50% { transform: rotate(10deg); }
-  75% { transform: rotate(-5deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  20% {
+    transform: rotate(-15deg);
+  }
+
+  40% {
+    transform: rotate(10deg);
+  }
+
+  60% {
+    transform: rotate(-5deg);
+  }
+
+  80% {
+    transform: rotate(2deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 @keyframes pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  50% { transform: scale(1.2); opacity: 1; }
-  70% { transform: scale(0.9); opacity: 1; }
-  100% { transform: scale(1); opacity: 0; }
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  40% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
+  60% {
+    transform: scale(0.95);
+    opacity: 1;
+  }
+
+  80% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  90% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
 }
 
 @keyframes pulse-card {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.95); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .animate-swing {
-  animation: swing 1.5s ease-in-out forwards;
+  animation: swing 2s ease-in-out forwards;
 }
 
 .animate-pop {
-  animation: pop 1.5s ease-out forwards;
+  animation: pop 2s ease-in-out forwards;
 }
 
 .animate-pulse-card {

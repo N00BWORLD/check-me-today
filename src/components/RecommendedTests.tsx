@@ -30,7 +30,7 @@ export default function RecommendedTests({ currentTestId }: RecommendedTestsProp
         // Delay for animation
         setTimeout(() => {
             router.push(href);
-        }, 1500);
+        }, 2000);
     };
 
     return (
@@ -78,7 +78,7 @@ export default function RecommendedTests({ currentTestId }: RecommendedTestsProp
 
                         {/* Animation Overlays */}
                         {animatingId === test.id && test.id === "energy-balance" && (
-                            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+                            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
                                 <div className="text-5xl animate-swing filter drop-shadow-2xl">
                                     ⚖️
                                 </div>
@@ -86,7 +86,7 @@ export default function RecommendedTests({ currentTestId }: RecommendedTestsProp
                         )}
 
                         {animatingId === test.id && test.id === "fortune" && (
-                            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+                            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
                                 <div className="text-5xl animate-pop filter drop-shadow-2xl">
                                     🧧
                                 </div>

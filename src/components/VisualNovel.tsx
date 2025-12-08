@@ -149,12 +149,12 @@ export default function VisualNovel({ scenario, onComplete, onExit }: VisualNove
                         transition={{ duration: 0.5 }}
                         className={`absolute bottom-0 z-10 w-full flex items-end justify-center h-[90%] pointer-events-none`}
                     >
-                        <div className="relative h-full w-auto aspect-[1/1.5] md:aspect-[2/3] mix-blend-screen">
+                        <div className="relative h-full w-auto aspect-[1/1.5] md:aspect-[2/3]">
                             <Image
                                 src={scene.character.image}
                                 alt="character"
                                 fill
-                                className="object-contain object-bottom drop-shadow-2xl"
+                                className="object-contain object-bottom"
                                 sizes="(max-width: 768px) 100vw, 50vw"
                             />
                         </div>
