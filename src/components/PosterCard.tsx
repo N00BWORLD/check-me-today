@@ -53,8 +53,12 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
     );
   }
 
+  const href = ['starfall-rooftop', 'reaction-test'].includes(test.slug)
+    ? `/tests/${test.slug}`
+    : `/${test.slug}`;
+
   return (
-    <Link href={`/${test.slug}`} className="group block">
+    <Link href={href} className="group block">
       <div className={`
         relative overflow-hidden rounded-2xl aspect-[3/4]
         bg-gradient-to-b ${test.bgGradient}

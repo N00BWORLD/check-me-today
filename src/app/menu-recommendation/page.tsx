@@ -20,10 +20,10 @@ export default function MenuRecommendationPage() {
 
   const pageInfoData = {
     title: {
-      ko: "오늘 점심 뭐 먹지?",
-      en: "What to eat today?",
-      zh: "今天吃什么？",
-      ja: "今日のランチは何にする？"
+      ko: "오늘의 메뉴추천",
+      en: "Today's Menu Recommendation",
+      zh: "今日菜单推荐",
+      ja: "今日のメニューおすすめ"
     },
     subtitle: {
       ko: "결정장애 해결사 🦸",

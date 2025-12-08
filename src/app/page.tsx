@@ -105,8 +105,16 @@ export default function Home() {
 
       <div className="max-w-xl mx-auto px-4 pt-4">
         {/* Hero Banner - 오늘의 추천 테스트 */}
+        {/* Hero Banner - 오늘의 추천 테스트 */}
         {recommendedTest && (
-          <a href={`/${recommendedTest.slug}`} className="block">
+          <a
+            href={
+              ['starfall-rooftop', 'reaction-test'].includes(recommendedTest.slug)
+                ? `/tests/${recommendedTest.slug}`
+                : `/${recommendedTest.slug}`
+            }
+            className="block"
+          >
             <div className={`relative overflow-hidden rounded-2xl mb-6 bg-gradient-to-br ${recommendedTest.bgGradient} p-5 border border-white/30 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-shadow`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl translate-y-1/2 -translate-x-1/2" />
