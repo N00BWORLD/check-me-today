@@ -9,7 +9,8 @@ export type CategoryId =
   | "quiz"
   | "social"
   | "fun"
-  | "fortune";
+  | "fortune"
+  | "visual-novel";
 
 export interface Category {
   id: CategoryId;
@@ -17,12 +18,29 @@ export interface Category {
   emoji: string;
 }
 
-export type ContentType = 'test' | 'game';
+export type ContentType = 'test' | 'game' | 'visual-novel';
+
+export interface Question {
+  id: string;
+  text: Record<string, string>;
+  answers: {
+    text: Record<string, string>;
+    score?: any;
+    nextQuestionId?: string;
+  }[];
+}
+
+export interface Result {
+  id: string;
+  condition: (score: any) => boolean;
+  title: Record<string, string>;
+  description: Record<string, string>;
+}
 
 export interface TestData {
   id: string;
   slug: string; // URL 경로
-  type: ContentType; // 'test' 또는 'game'
+  type: ContentType; // 'test' 또는 'game' 또는 'visual-novel'
   category: CategoryId;
   name: Record<string, string>;
   description: Record<string, string>;
@@ -36,7 +54,8 @@ export interface TestData {
   isComingSoon: boolean;
   createdAt: string;
   // 게임일 경우 질문 데이터가 없을 수 있음
-  questions?: any[];
+  questions?: Question[];
+  results?: Result[];
 }
 
 // 카테고리 정의
@@ -262,6 +281,32 @@ export const tests: TestData[] = [
     isComingSoon: false,
     createdAt: "2024-12-09",
   },
+  {
+    id: 'starfall-rooftop',
+    slug: 'starfall-rooftop',
+    type: 'visual-novel',
+    category: 'visual-novel' as CategoryId,
+    name: {
+      ko: '별이 떨어지는 옥상',
+      en: 'The Starfall Rooftop',
+      zh: '星光坠落的屋顶',
+      ja: '星が降る屋上'
+    },
+    description: {
+      ko: '신비로운 전학생 세라와의 만남. 당신의 선택에 따라 엔딩이 달라지는 비주얼 노벨.',
+      en: 'A meeting with the mysterious transfer student Sera. A visual novel where your choices determine the ending.',
+      zh: '与神秘转学生塞拉的相遇。结局取决于你选择的视觉小说。',
+      ja: '神秘的な転校生セラとの出会い。あなたの選択によってエンディングが変わるビジュアルノベル。'
+    },
+    emoji: "🌠",
+    gradient: "from-indigo-600 via-purple-600 to-pink-600",
+    bgGradient: "from-indigo-100 to-pink-100 dark:from-indigo-900/30 dark:to-pink-900/30",
+    playCount: 1204,
+    likeCount: 45,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2024-12-09",
+  }
 ];
 
 // 유틸리티 함수들
@@ -285,8 +330,5 @@ export function formatPlayCount(count: number): string {
   if (count >= 10000) {
     return `${(count / 10000).toFixed(1)}만`;
   }
-  if (count >= 1000) {
-    return `${(count / 1000).toFixed(1)}천`;
-  }
-  return count.toString();
+  return count.toLocaleString();
 }

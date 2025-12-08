@@ -2,15 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { timeSlots, type TimeSlot, type MenuItem, menuRecommendations } from "@/data/menu-recommendation";
-import { getActiveTests } from "@/data/tests";
-import TestCard from "@/components/TestCard";
-import html2canvas from "html2canvas";
-import ResultActions from "@/components/ResultActions";
 import { useLike, useTestStats } from "@/hooks/useTestStats";
+import ResultActions from "@/components/ResultActions";
 
 interface MenuResultProps {
     menu: MenuItem;
-    timeSlot: TimeSlot;
+    timeSlot: TimeSlot | "random";
     onReset: () => void;
     pageInfo: any;
     stats: any;
@@ -31,7 +28,7 @@ export default function MenuResult({
     const suggestedMenus = useMemo(() => {
         const pool = menuRecommendations.filter((m) => {
             if (m.id === menu.id) return false;
-            if (timeSlot === 'random') return m.category !== 'dessert'; // 랜덤이면 디저트 제외하고 전체
+            if ((timeSlot as string) === 'random') return m.category !== 'dessert'; // 랜덤이면 디저트 제외하고 전체
             return m.category === timeSlot;
         });
         const shuffled = [...pool].sort(() => Math.random() - 0.5);
@@ -59,14 +56,18 @@ export default function MenuResult({
             font-family: system-ui, -apple-system, sans-serif;
         `;
 
-        const timeSlotDisplay = timeSlot === 'random'
+        const timeSlotDisplay = (timeSlot as string) === 'random'
             ? '랜덤 추천'
-            : timeSlots[timeSlot].name.ko;
+            : timeSlots[timeSlot as TimeSlot]?.label?.ko || '추천 메뉴';
+
+        const timeSlotHeader = (timeSlot as string) === 'random'
+            ? '🎲 랜덤 추천'
+            : `${timeSlots[timeSlot as TimeSlot].emoji} ${timeSlotDisplay}`;
 
         captureDiv.innerHTML = `
             <div style="text-align: center; color: ${isDark ? '#f1f5f9' : '#1e293b'}">
                 <div style="font-size: 24px; margin-bottom: 16px;">🍽️ 오늘의 메뉴추천</div>
-                <div style="font-size: 18px; margin-bottom: 8px;">${timeSlots[timeSlot].emoji} ${timeSlotDisplay}</div>
+                <div style="font-size: 18px; margin-bottom: 8px;">${timeSlotHeader}</div>
                 <div style="font-size: 32px; margin: 20px 0; font-weight: bold;">${menu.emoji} ${menu.name.ko}</div>
                 <div style="font-size: 14px; margin-bottom: 16px; line-height: 1.5;">${menu.description.ko}</div>
                 <div style="font-size: 12px; color: ${isDark ? '#94a3b8' : '#64748b'}; margin-top: 20px;">✨ check-me.today</div>
@@ -75,6 +76,7 @@ export default function MenuResult({
         document.body.appendChild(captureDiv);
 
         try {
+            const html2canvas = (await import("html2canvas")).default;
             const canvas = await html2canvas(captureDiv, {
                 scale: 3,
                 backgroundColor: bgColor,
@@ -105,7 +107,7 @@ export default function MenuResult({
     const handleTwitterShare = () => {
         const timeSlotDisplay = timeSlot === 'random'
             ? '랜덤 추천'
-            : `${timeSlots[timeSlot].name.ko}시간`;
+            : `${timeSlots[timeSlot as TimeSlot].label.ko}시간`;
 
         const url = window.location.href;
         const text = `🍽️ 오늘 ${timeSlotDisplay}에는 "${menu.name.ko}" 어떠세요?`;
@@ -119,7 +121,7 @@ export default function MenuResult({
     const handleNativeShare = async () => {
         const timeSlotDisplay = timeSlot === 'random'
             ? '랜덤 추천'
-            : `${timeSlots[timeSlot].name.ko}시간`;
+            : `${timeSlots[timeSlot as TimeSlot].label.ko}시간`;
 
         const shareData = {
             title: '오늘의 메뉴추천',
@@ -141,7 +143,7 @@ export default function MenuResult({
                     {/* 헤더 */}
                     <div className="text-center mb-6">
                         <h1 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                            🍽️ {pageInfo.title}
+                            🍽️ {pageInfo.title.ko || pageInfo.title}
                         </h1>
                         <p className="text-slate-600 dark:text-slate-300">
                             🍽️ 오늘의 메뉴 추천 결과
@@ -159,8 +161,8 @@ export default function MenuResult({
                                 </>
                             ) : (
                                 <>
-                                    <span className="text-2xl">{timeSlots[timeSlot].emoji}</span>
-                                    <span className="font-bold">{timeSlots[timeSlot].name.ko} 메뉴</span>
+                                    <span className="text-2xl">{timeSlots[timeSlot as TimeSlot].emoji}</span>
+                                    <span className="font-bold">{timeSlots[timeSlot as TimeSlot].label.ko} 메뉴</span>
                                 </>
                             )}
                         </div>

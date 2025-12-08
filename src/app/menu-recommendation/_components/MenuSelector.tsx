@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface MenuSelectorProps {
-    currentTimeSlot: TimeSlot;
-    onSelectTimeSlot: (timeSlot: TimeSlot) => void;
+    currentTimeSlot: TimeSlot | "random";
+    onSelectTimeSlot: (timeSlot: TimeSlot | "random") => void;
     pageInfo: any;
     stats: any;
 }

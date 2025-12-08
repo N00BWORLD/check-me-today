@@ -4,14 +4,17 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import html2canvas from "html2canvas";
 import { useLanguage } from "@/context/LanguageContext";
-import { 
-  faceFeatures, 
-  calculateFaceReading, 
+import {
+  faceFeatures,
+  calculateFaceReading,
   FaceReadingResult,
-  featureInterpretations 
+  featureInterpretations
 } from "@/data/face-reading";
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
+import RecommendedTests from "@/components/RecommendedTests";
+
+
 
 type PageState = "landing" | "upload" | "quiz" | "analyzing" | "result";
 
@@ -46,7 +49,7 @@ export default function FaceReadingPage() {
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [result, setResult] = useState<FaceReadingResult | null>(null);
   const [copied, setCopied] = useState(false);
-  
+
   // AI 분석을 위한 상태
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isModelLoading, setIsModelLoading] = useState(false);
@@ -60,8 +63,8 @@ export default function FaceReadingPage() {
 
   const texts = {
     title: { ko: "관상 분석", en: "Face Reading", zh: "面相分析", ja: "人相占い" },
-    subtitle: { 
-      ko: "동양 전통 관상학으로 보는 나의 얼굴", 
+    subtitle: {
+      ko: "동양 전통 관상학으로 보는 나의 얼굴",
       en: "Your face through Eastern physiognomy",
       zh: "用东方传统面相学看你的脸",
       ja: "東洋伝統の人相学で見るあなたの顔"
@@ -114,23 +117,23 @@ export default function FaceReadingPage() {
   // face-api.js 모델 로드
   const loadModel = useCallback(async () => {
     if (faceApiRef.current) return faceApiRef.current;
-    
+
     setIsModelLoading(true);
     setAnalysisMessage(t(texts.loadingModel));
     setAnalysisProgress(10);
-    
+
     try {
       // face-api.js 동적 임포트
       const faceapi = await import('face-api.js');
       setAnalysisProgress(30);
-      
+
       // 모델 로드 (로컬 public/models에서 - 빠름!)
       const MODEL_URL = '/models';
       await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
       setAnalysisProgress(50);
       await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
       setAnalysisProgress(70);
-      
+
       faceApiRef.current = faceapi as unknown as FaceApiModule;
       setIsModelLoading(false);
       return faceApiRef.current;
@@ -166,7 +169,7 @@ export default function FaceReadingPage() {
     // 턱선: 0-16, 눈썹: 17-26, 코: 27-35, 눈: 36-47, 입: 48-67
     const positions = landmarks.positions;
     const selections: Record<string, string> = {};
-    
+
     // 1. 얼굴형 분석 (턱선 너비 vs 높이)
     const jawOutline = landmarks.getJawOutline();
     if (jawOutline.length > 0) {
@@ -174,11 +177,11 @@ export default function FaceReadingPage() {
       const rightJaw = jawOutline[jawOutline.length - 1];
       const chin = jawOutline[Math.floor(jawOutline.length / 2)];
       const forehead = positions[27]; // 코 시작점 (이마 아래)
-      
+
       const faceWidth = Math.abs(rightJaw.x - leftJaw.x);
       const faceHeight = Math.abs(chin.y - forehead.y) * 1.3; // 이마 보정
       const ratio = faceWidth / faceHeight;
-      
+
       if (ratio > 0.9) {
         selections['face-shape'] = 'round';
       } else if (ratio > 0.8) {
@@ -189,7 +192,7 @@ export default function FaceReadingPage() {
         selections['face-shape'] = 'long';
       }
     }
-    
+
     // 2. 이마 분석 (눈썹 높이로 추정)
     const leftBrow = landmarks.getLeftEyeBrow();
     const rightBrow = landmarks.getRightEyeBrow();
@@ -197,7 +200,7 @@ export default function FaceReadingPage() {
       const browY = (leftBrow[2].y + rightBrow[2].y) / 2;
       const noseTop = positions[27].y;
       const browHeight = Math.abs(noseTop - browY);
-      
+
       if (browHeight > 40) {
         selections['forehead'] = 'high-wide';
       } else if (browHeight > 30) {
@@ -206,7 +209,7 @@ export default function FaceReadingPage() {
         selections['forehead'] = 'narrow-low';
       }
     }
-    
+
     // 3. 눈 분석
     const leftEye = landmarks.getLeftEye();
     const rightEye = landmarks.getRightEye();
@@ -214,10 +217,10 @@ export default function FaceReadingPage() {
       const eyeWidth = Math.abs(leftEye[3].x - leftEye[0].x);
       const eyeHeight = Math.abs(leftEye[4].y - leftEye[1].y);
       const eyeRatio = eyeHeight / eyeWidth;
-      
+
       // 눈꼬리 기울기 (외측 - 내측)
       const eyeSlope = (leftEye[3].y - leftEye[0].y) / (leftEye[3].x - leftEye[0].x);
-      
+
       if (eyeRatio > 0.4) {
         selections['eyes'] = 'big-round';
       } else if (eyeSlope < -0.1) {
@@ -230,7 +233,7 @@ export default function FaceReadingPage() {
         selections['eyes'] = 'small-sharp';
       }
     }
-    
+
     // 4. 코 분석
     const nose = landmarks.getNose();
     if (nose.length >= 9) {
@@ -238,11 +241,11 @@ export default function FaceReadingPage() {
       const noseTip = nose[6];
       const noseLeft = nose[4];
       const noseRight = nose[8];
-      
+
       const noseLength = Math.abs(noseTip.y - noseTop.y);
       const noseWidth = Math.abs(noseRight.x - noseLeft.x);
       const noseRatio = noseWidth / noseLength;
-      
+
       if (noseRatio > 0.8) {
         selections['nose'] = 'wide-sensual';
       } else if (noseRatio < 0.5) {
@@ -251,7 +254,7 @@ export default function FaceReadingPage() {
         selections['nose'] = 'small-cute';
       }
     }
-    
+
     // 5. 입 분석
     const mouth = landmarks.getMouth();
     if (mouth.length >= 12) {
@@ -259,13 +262,13 @@ export default function FaceReadingPage() {
       const mouthRight = mouth[6];
       const upperLip = mouth[3];
       const lowerLip = mouth[9];
-      
+
       const mouthWidth = Math.abs(mouthRight.x - mouthLeft.x);
       const lipHeight = Math.abs(lowerLip.y - upperLip.y);
-      
+
       // 입꼬리 기울기
       const mouthSlope = (mouthRight.y - mouthLeft.y) / (mouthRight.x - mouthLeft.x);
-      
+
       if (mouthSlope < -0.05) {
         selections['mouth'] = 'upturned';
       } else if (mouthSlope > 0.05) {
@@ -276,17 +279,17 @@ export default function FaceReadingPage() {
         selections['mouth'] = 'small-thin';
       }
     }
-    
+
     // 6. 턱 분석
     const jawOutline2 = landmarks.getJawOutline();
     if (jawOutline2.length >= 17) {
       const jawLeft = jawOutline2[4];
       const jawRight = jawOutline2[12];
       const chinTip = jawOutline2[8];
-      
+
       const jawWidth = Math.abs(jawRight.x - jawLeft.x);
       const chinPointedness = Math.abs((jawLeft.y + jawRight.y) / 2 - chinTip.y);
-      
+
       if (chinPointedness > jawWidth * 0.25) {
         selections['chin'] = 'pointed';
       } else if (jawWidth > 100) {
@@ -295,7 +298,7 @@ export default function FaceReadingPage() {
         selections['chin'] = 'round';
       }
     }
-    
+
     return selections;
   };
 
@@ -306,7 +309,7 @@ export default function FaceReadingPage() {
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let { width, height } = img;
-        
+
         // 최대 크기로 리사이징
         if (width > height && width > maxSize) {
           height = (height * maxSize) / width;
@@ -315,7 +318,7 @@ export default function FaceReadingPage() {
           width = (width * maxSize) / height;
           height = maxSize;
         }
-        
+
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
@@ -330,21 +333,21 @@ export default function FaceReadingPage() {
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    
+
     // 즉시 분석 화면으로 전환 (사용자 피드백)
     setState("analyzing");
     setAnalysisProgress(5);
     setAnalysisMessage(lang === 'ko' ? '이미지 처리 중...' : 'Processing image...');
-    
+
     const reader = new FileReader();
     reader.onload = async (e) => {
       const imageUrl = e.target?.result as string;
-      
+
       // 이미지 리사이징 (속도 향상)
       setAnalysisProgress(10);
       const resizedImage = await resizeImage(imageUrl);
       setUploadedImage(resizedImage);
-      
+
       // AI 분석 시작
       await analyzeWithAI(resizedImage);
     };
@@ -354,15 +357,15 @@ export default function FaceReadingPage() {
   // AI로 얼굴 분석
   const analyzeWithAI = async (imageUrl: string) => {
     setAnalysisProgress(15);
-    
+
     try {
       // 모델 로드 (캐시되어 있으면 빠름)
       setAnalysisMessage(t(texts.loadingModel));
       const faceapi = await loadModel();
-      
+
       setAnalysisMessage(t(texts.analyzingFace));
       setAnalysisProgress(75);
-      
+
       // 이미지 로드
       const img = new Image();
       img.crossOrigin = 'anonymous';
@@ -371,35 +374,35 @@ export default function FaceReadingPage() {
         img.onerror = reject;
         img.src = imageUrl;
       });
-      
+
       setAnalysisProgress(85);
-      
+
       // 얼굴 감지 및 랜드마크 (TinyFaceDetector 사용)
       const faceapiModule = await import('face-api.js');
       const detection = await faceapiModule.detectSingleFace(img, new faceapiModule.TinyFaceDetectorOptions()).withFaceLandmarks();
-      
+
       if (!detection) {
         alert(t(texts.noFaceDetected));
         setState("upload");
         return;
       }
-      
+
       setAnalysisProgress(95);
-      
+
       // 얼굴 특징 분석
       const analyzedSelections = analyzeFacialFeatures(detection.landmarks);
       setSelections(analyzedSelections);
-      
+
       setAnalysisProgress(100);
       setAnalysisMessage(lang === 'ko' ? '분석 완료!' : 'Analysis complete!');
-      
+
       // 결과 계산
       setTimeout(() => {
         const calculatedResult = calculateFaceReading(analyzedSelections);
         setResult(calculatedResult);
         setState("result");
       }, 500);
-      
+
     } catch (error) {
       console.error('AI 분석 실패:', error);
       alert('분석 중 오류가 발생했습니다. 직접 선택 모드를 이용해주세요.');
@@ -460,9 +463,9 @@ export default function FaceReadingPage() {
     if (!result) return;
 
     const isDark = document.documentElement.classList.contains('dark');
-    
+
     // 수묵화 스타일 색상
-    const bgGradient = isDark 
+    const bgGradient = isDark
       ? 'linear-gradient(180deg, #1a1814 0%, #252018 100%)'
       : 'linear-gradient(180deg, #f5f0e6 0%, #e8dfd0 100%)';
     const bgColor = isDark ? '#1a1814' : '#f5f0e6';
@@ -607,7 +610,7 @@ export default function FaceReadingPage() {
                 {lang === 'ko' ? '관상학' : lang === 'zh' ? '面相学' : lang === 'ja' ? '人相学' : 'Physiognomy'}
               </div>
             </div>
-            
+
             {/* 도장 스타일 아이콘 */}
             <div className="relative w-36 h-36 mx-auto mb-6">
               <div className="absolute inset-0 ink-stamp rounded-lg flex items-center justify-center">
@@ -636,10 +639,10 @@ export default function FaceReadingPage() {
                     {lang === 'ko' ? '얼굴 특징 선택' : lang === 'zh' ? '选择面部特征' : lang === 'ja' ? '顔の特徴を選択' : 'Select Features'}
                   </h3>
                   <p className="text-base text-ink-500 dark:text-ink-400">
-                    {lang === 'ko' ? '6가지 얼굴 부위의 특징을 선택합니다' : 
-                     lang === 'zh' ? '选择6个面部部位的特征' :
-                     lang === 'ja' ? '6つの顔のパーツの特徴を選びます' :
-                     'Select features from 6 facial areas'}
+                    {lang === 'ko' ? '6가지 얼굴 부위의 특징을 선택합니다' :
+                      lang === 'zh' ? '选择6个面部部位的特征' :
+                        lang === 'ja' ? '6つの顔のパーツの特徴を選びます' :
+                          'Select features from 6 facial areas'}
                   </p>
                 </div>
               </div>
@@ -651,9 +654,9 @@ export default function FaceReadingPage() {
                   </h3>
                   <p className="text-base text-ink-500 dark:text-ink-400">
                     {lang === 'ko' ? '마의상서, 신상전편 등 동양 관상학 참고' :
-                     lang === 'zh' ? '参考麻衣相书、神相全篇等东方面相学' :
-                     lang === 'ja' ? '麻衣相書、神相全篇など東洋の人相学を参考' :
-                     'References Mayi Xiangfa and other Eastern texts'}
+                      lang === 'zh' ? '参考麻衣相书、神相全篇等东方面相学' :
+                        lang === 'ja' ? '麻衣相書、神相全篇など東洋の人相学を参考' :
+                          'References Mayi Xiangfa and other Eastern texts'}
                   </p>
                 </div>
               </div>
@@ -665,9 +668,9 @@ export default function FaceReadingPage() {
                   </h3>
                   <p className="text-base text-ink-500 dark:text-ink-400">
                     {lang === 'ko' ? '재물운, 지혜, 리더십, 매력 등 분석' :
-                     lang === 'zh' ? '分析财运、智慧、领导力、魅力等' :
-                     lang === 'ja' ? '財運、知恵、リーダーシップ、魅力などを分析' :
-                     'Analysis of wealth, wisdom, leadership, charm'}
+                      lang === 'zh' ? '分析财运、智慧、领导力、魅力等' :
+                        lang === 'ja' ? '財運、知恵、リーダーシップ、魅力などを分析' :
+                          'Analysis of wealth, wisdom, leadership, charm'}
                   </p>
                 </div>
               </div>
@@ -684,7 +687,7 @@ export default function FaceReadingPage() {
               <span>📷 {t(texts.aiAnalyze)}</span>
               <span className="text-sm font-normal opacity-80">{t(texts.aiAnalyzeDesc)}</span>
             </button>
-            
+
             {/* 직접 선택 버튼 */}
             <button
               onClick={() => setState("quiz")}
@@ -698,9 +701,9 @@ export default function FaceReadingPage() {
           {/* 면책 */}
           <p className="mt-6 text-center text-sm text-ink-400">
             {lang === 'ko' ? '※ 본 테스트는 재미를 위한 것으로, 실제 운명을 결정하지 않습니다.' :
-             lang === 'zh' ? '※ 本测试仅供娱乐，不代表真实命运。' :
-             lang === 'ja' ? '※ このテストは娯楽目的であり、実際の運命を決定するものではありません。' :
-             '※ This test is for entertainment only and does not determine actual fate.'}
+              lang === 'zh' ? '※ 本测试仅供娱乐，不代表真实命运。' :
+                lang === 'ja' ? '※ このテストは娯楽目的であり、実際の運命を決定するものではありません。' :
+                  '※ This test is for entertainment only and does not determine actual fate.'}
           </p>
         </div>
       </main>
@@ -742,9 +745,9 @@ export default function FaceReadingPage() {
           <div className="ink-card rounded-2xl p-8 mb-6">
             {uploadedImage ? (
               <div className="relative">
-                <img 
-                  src={uploadedImage} 
-                  alt="Uploaded face" 
+                <img
+                  src={uploadedImage}
+                  alt="Uploaded face"
                   className="w-full rounded-xl"
                 />
                 <button
@@ -765,7 +768,7 @@ export default function FaceReadingPage() {
                 <p className="text-base text-ink-500 mb-6">
                   {t(texts.uploadDesc)}
                 </p>
-                
+
                 {/* 숨겨진 파일 입력 */}
                 <input
                   ref={fileInputRef}
@@ -774,7 +777,7 @@ export default function FaceReadingPage() {
                   onChange={handleImageUpload}
                   className="hidden"
                 />
-                
+
                 {/* 업로드 버튼 */}
                 <button
                   onClick={() => fileInputRef.current?.click()}
@@ -850,10 +853,10 @@ export default function FaceReadingPage() {
               <div className="flex items-center justify-center gap-3 mb-2">
                 <span className="text-ink-accent text-xl tracking-[4px] font-serif">
                   {currentFeature.id === 'face-shape' ? '面型' :
-                   currentFeature.id === 'forehead' ? '額' :
-                   currentFeature.id === 'eyes' ? '眼' :
-                   currentFeature.id === 'nose' ? '鼻' :
-                   currentFeature.id === 'mouth' ? '口' : '頤'}
+                    currentFeature.id === 'forehead' ? '額' :
+                      currentFeature.id === 'eyes' ? '眼' :
+                        currentFeature.id === 'nose' ? '鼻' :
+                          currentFeature.id === 'mouth' ? '口' : '頤'}
                 </span>
                 <span className="text-ink-500 text-base">
                   ({currentFeature.name[lang] || currentFeature.name.en})
@@ -873,11 +876,10 @@ export default function FaceReadingPage() {
                 <button
                   key={option.id}
                   onClick={() => handleSelect(option.id)}
-                  className={`w-full p-5 rounded-xl text-left transition-all duration-200 border-2 ${
-                    selections[currentFeature.id] === option.id
-                      ? 'ink-option-selected'
-                      : 'ink-option hover:border-ink-accent/50'
-                  }`}
+                  className={`w-full p-5 rounded-xl text-left transition-all duration-200 border-2 ${selections[currentFeature.id] === option.id
+                    ? 'ink-option-selected'
+                    : 'ink-option hover:border-ink-accent/50'
+                    }`}
                 >
                   <div className="flex items-center gap-4">
                     <span className="text-4xl">{option.emoji}</span>
@@ -898,9 +900,9 @@ export default function FaceReadingPage() {
           {/* 힌트 */}
           <p className="text-center text-lg text-ink-400">
             {lang === 'ko' ? '✨ 거울을 보며 직감적으로 선택해보세요' :
-             lang === 'zh' ? '✨ 照镜子凭直觉选择' :
-             lang === 'ja' ? '✨ 鏡を見ながら直感で選んでみてください' :
-             '✨ Look in the mirror and choose intuitively'}
+              lang === 'zh' ? '✨ 照镜子凭直觉选择' :
+                lang === 'ja' ? '✨ 鏡を見ながら直感で選んでみてください' :
+                  '✨ Look in the mirror and choose intuitively'}
           </p>
         </div>
       </main>
@@ -933,28 +935,28 @@ export default function FaceReadingPage() {
           <h2 className="text-3xl font-bold text-ink-800 dark:text-ink-100 mb-3 font-serif">
             {analysisMessage || t(texts.analyzing)}
           </h2>
-          
+
           {/* 한자 + 번역 */}
           <p className="text-ink-accent text-lg mb-6">
-            {isModelLoading 
+            {isModelLoading
               ? (lang === 'ko' ? 'AI 모델 준비 중...' : 'Loading AI Model...')
-              : (lang === 'ko' ? '觀相 (관상)' : 
-                 lang === 'zh' ? '觀相 (面相)' : 
-                 lang === 'ja' ? '觀相 (人相)' : 
-                 '觀相 (Face Reading)')}
+              : (lang === 'ko' ? '觀相 (관상)' :
+                lang === 'zh' ? '觀相 (面相)' :
+                  lang === 'ja' ? '觀相 (人相)' :
+                    '觀相 (Face Reading)')}
           </p>
 
           {/* 로딩 바 */}
           <div className="w-80 mx-auto h-2 bg-ink-200 dark:bg-ink-700 rounded-full overflow-hidden">
             <div
               className="h-full ink-progress rounded-full transition-all duration-500"
-              style={{ 
+              style={{
                 width: analysisProgress > 0 ? `${analysisProgress}%` : undefined,
                 animation: analysisProgress === 0 ? 'loading 3.5s ease-in-out forwards' : undefined
               }}
             />
           </div>
-          
+
           {/* AI 분석 진행률 표시 */}
           {analysisProgress > 0 && (
             <p className="mt-3 text-ink-500 text-sm">
@@ -965,9 +967,9 @@ export default function FaceReadingPage() {
           {/* 명언 */}
           <p className="mt-8 text-ink-500 dark:text-ink-400 text-lg font-serif italic max-w-sm mx-auto">
             {lang === 'ko' ? '"상은 마음에서 나오고, 마음이 바뀌면 상도 바뀐다"' :
-             lang === 'zh' ? '"相由心生，心变则相变"' :
-             lang === 'ja' ? '"相は心より生ず、心変われば相も変わる"' :
-             '"The face is born from the heart; when the heart changes, so does the face"'}
+              lang === 'zh' ? '"相由心生，心变则相变"' :
+                lang === 'ja' ? '"相は心より生ず、心変われば相も変わる"' :
+                  '"The face is born from the heart; when the heart changes, so does the face"'}
           </p>
         </div>
 
@@ -1009,10 +1011,10 @@ export default function FaceReadingPage() {
               <div className="flex items-center justify-center gap-2 mb-2">
                 <span className="text-ink-accent-light text-lg tracking-[4px] font-serif">觀相結果</span>
                 <span className="text-ink-accent-light/70 text-base">
-                  ({lang === 'ko' ? '관상 결과' : 
-                    lang === 'zh' ? '面相结果' : 
-                    lang === 'ja' ? '人相結果' : 
-                    'Result'})
+                  ({lang === 'ko' ? '관상 결과' :
+                    lang === 'zh' ? '面相结果' :
+                      lang === 'ja' ? '人相結果' :
+                        'Result'})
                 </span>
               </div>
               <div className="text-8xl mb-4">{result.emoji}</div>
@@ -1145,7 +1147,8 @@ export default function FaceReadingPage() {
           </div>
 
           {/* 버튼들 */}
-          <div className="grid grid-cols-2 gap-3">
+          {/* 하단 여백 및 광고를 고려하여 버튼 위치 조정 */}
+          <div className="grid grid-cols-2 gap-3 mb-8 relative z-30">
             <button
               onClick={() => {
                 setState("landing");
@@ -1163,10 +1166,13 @@ export default function FaceReadingPage() {
               </div>
             </Link>
           </div>
+
+          {/* 추천 테스트 */}
+          <RecommendedTests currentTestId="face-reading" />
         </div>
 
-        {/* 광고 */}
-        <div className="fixed bottom-0 left-0 right-0 z-40">
+        {/* 광고 - 고정 해제하고 스크롤 하단에 배치하여 버튼 가림 방지 */}
+        <div className="mt-8 flex justify-center z-10 w-full overflow-hidden">
           <AdUnit />
         </div>
       </main>
