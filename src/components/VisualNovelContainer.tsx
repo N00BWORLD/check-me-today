@@ -10,10 +10,27 @@ interface Props {
 export default function VisualNovelContainer({ scenario }: Props) {
     const [ending, setEnding] = useState<string | null>(null);
 
-    const handleComplete = (score: number) => {
-        let endingType = "BAD_ENDING";
-        if (score >= 80) endingType = "HAPPY_ENDING";
-        else if (score >= 40) endingType = "NORMAL_ENDING";
+    const handleComplete = (results: { love: number; suspicion: number }) => {
+        const { love, suspicion } = results;
+        let endingType = "NORMAL_ENDING";
+
+        // Logic based on User Report:
+        // True Ending (Starfall): High Love AND Moderate Evidence
+        // "Affection > 80 AND Suspicion > 60" -> Adjusted for current scale:
+        // Current Max Love: ~65. Max Suspicion: ~35.
+        // Let's normalize:
+        // True: Love >= 40 (Requires mostly positive choices)
+        // Bad (Memory Wipe): Suspicion >= 25 AND Love < 40 (Too nosey, not enough love)
+        // Normal (Forgotten): Love < 40 AND Suspicion < 25 (Just... faded away)
+
+        if (love >= 40) {
+            endingType = "HAPPY_ENDING"; // "True Ending"
+        } else if (suspicion >= 25) {
+            endingType = "BAD_ENDING"; // "Memory Wipe" where she erases you cause you know too much
+        } else {
+            endingType = "NORMAL_ENDING"; // "Forgotten Season"
+        }
+
         setEnding(endingType);
     };
 
@@ -31,21 +48,21 @@ export default function VisualNovelContainer({ scenario }: Props) {
 
                 <div className="z-10 text-center max-w-lg">
                     <h1 className="text-4xl font-bold mb-8 animate-pulse text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">
-                        {isHappy ? "Happy Ending" : isNormal ? "Normal Ending" : "Bad Ending"}
+                        {isHappy ? "True Ending: Starfall" : isNormal ? "Normal Ending: Forgotten Season" : "Bad Ending: Memory Wipe"}
                     </h1>
 
                     <div className="glass p-8 rounded-3xl bg-white/10 backdrop-blur-md mb-8 border border-white/20">
                         <p className="text-xl leading-relaxed mb-6 italic font-serif">
                             {isHappy && `"그 말... 기다렸어. 안 갈래, 네 곁에 있을래."`}
-                            {isNormal && `"고마웠어. 짧은 시간이었지만 즐거웠어."`}
-                            {!isHappy && !isNormal && `"역시... 인간은 믿을 게 못 돼. 넌 너무 많은 걸 알았어."`}
+                            {isNormal && `"고마웠어. 짧은 시간이었지만 즐거웠어. 안녕."`}
+                            {!isHappy && !isNormal && `"넌 너무 많은 걸 알았어. 미안하지만... 잊어줘."`}
                         </p>
                         <p className="text-slate-300 text-sm">
                             {isHappy
-                                ? "세라는 당신의 품에 안겼습니다."
+                                ? "세라는 지구에 남아 당신과 함께하기로 결심했습니다."
                                 : isNormal
-                                    ? "세라는 빛과 함께 사라졌습니다."
-                                    : "당신의 기억이 희미해집니다..."}
+                                    ? "세라는 빛과 함께 사라졌고, 당신은 다시 일상으로 돌아왔습니다."
+                                    : "눈을 떠보니 옥상이었습니다. 아무 일도 기억나지 않습니다."}
                         </p>
                     </div>
 
