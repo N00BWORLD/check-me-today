@@ -17,12 +17,16 @@ export interface Category {
   emoji: string;
 }
 
+export type ContentType = 'test' | 'game';
+
 export interface TestData {
   id: string;
   slug: string; // URL 경로
+  type: ContentType; // 'test' 또는 'game'
   category: CategoryId;
   name: Record<string, string>;
   description: Record<string, string>;
+  keywords?: string[]; // SEO 키워드
   emoji: string;
   gradient: string;
   bgGradient: string;
@@ -31,6 +35,8 @@ export interface TestData {
   badge?: "HOT" | "NEW" | null;
   isComingSoon: boolean;
   createdAt: string;
+  // 게임일 경우 질문 데이터가 없을 수 있음
+  questions?: any[];
 }
 
 // 카테고리 정의
@@ -50,6 +56,7 @@ export const tests: TestData[] = [
   {
     id: "energy-balance", // Firebase에서 사용하는 ID - 새로운 테스트
     slug: "test", // /test 경로
+    type: "test",
     category: "personality",
     name: {
       ko: "에너지 밸런스 테스트",
@@ -75,6 +82,7 @@ export const tests: TestData[] = [
   {
     id: "fortune",
     slug: "fortune",
+    type: "test",
     category: "fortune",
     name: {
       ko: "오늘의 운세",
@@ -100,6 +108,7 @@ export const tests: TestData[] = [
   {
     id: "face-reading",
     slug: "face-reading",
+    type: "test",
     category: "fortune",
     name: {
       ko: "관상 분석",
@@ -125,6 +134,7 @@ export const tests: TestData[] = [
   {
     id: "love-type",
     slug: "love-test",
+    type: "test",
     category: "love",
     name: {
       ko: "연애 유형 테스트",
@@ -150,6 +160,7 @@ export const tests: TestData[] = [
   {
     id: "animal-self",
     slug: "animal-test",
+    type: "test",
     category: "animal",
     name: {
       ko: "나의 동물 자아",
@@ -175,6 +186,7 @@ export const tests: TestData[] = [
   {
     id: "menu-recommendation",
     slug: "menu-recommendation",
+    type: "test",
     category: "fun",
     name: {
       ko: "오늘의 메뉴추천",
@@ -200,6 +212,7 @@ export const tests: TestData[] = [
   {
     id: "spending-habits",
     slug: "spending-test",
+    type: "test",
     category: "personality",
     name: {
       ko: "숨겨진 소비성향 테스트",
@@ -221,6 +234,33 @@ export const tests: TestData[] = [
     badge: "NEW",
     isComingSoon: false,
     createdAt: "2024-12-08",
+  },
+  {
+    id: "reaction-test",
+    slug: "reaction-test",
+    type: "game",
+    category: "fun",
+    name: {
+      ko: "반응속도 테스트 ⚡",
+      en: "Reaction Time Test ⚡",
+      zh: "反应速度测试 ⚡",
+      ja: "反応速度テスト ⚡"
+    },
+    description: {
+      ko: "나의 뇌지컬은 상위 몇 %일까? 기네스북 도전!",
+      en: "Test your reflexes! Challenge existing records!",
+      zh: "测试你的反应速度！挑战吉尼斯纪录！",
+      ja: "あなたの反射神経をテスト！ギネス記録に挑戦！"
+    },
+    keywords: ["game", "reaction", "reflex", "speed", "test"],
+    emoji: "⚡",
+    gradient: "from-yellow-400 via-orange-500 to-red-500",
+    bgGradient: "from-yellow-100 to-red-100 dark:from-yellow-900/30 dark:to-red-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2024-12-09",
   },
 ];
 
