@@ -149,13 +149,13 @@ export default function VisualNovel({ scenario, onComplete, onExit }: VisualNove
                         transition={{ duration: 0.5 }}
                         className={`absolute bottom-0 z-10 w-full flex items-end justify-center h-[80%] pointer-events-none icon-shadow-lg`}
                     >
-                        {/* Using a container to constrain excessive height if needed */}
-                        <div className="relative h-full w-auto aspect-[1/2]">
+                        <div className="relative h-full w-auto aspect-[1/1.5] md:aspect-[2/3]">
                             <Image
                                 src={scene.character.image}
                                 alt="character"
                                 fill
                                 className="object-contain object-bottom drop-shadow-2xl"
+                                sizes="(max-width: 768px) 100vw, 50vw"
                             />
                         </div>
                     </motion.div>
@@ -185,7 +185,7 @@ export default function VisualNovel({ scenario, onComplete, onExit }: VisualNove
                 <div className="w-full max-w-4xl mx-auto mb-8">
                     {/* Choices Overlay */}
                     {showChoices && scene.choices && (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/40 backdrop-blur-sm z-50">
+                        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-end gap-3 pb-24 z-50 px-4 pointer-events-none">
                             {scene.choices.map((choice, idx) => (
                                 <motion.button
                                     key={idx}
@@ -196,8 +196,9 @@ export default function VisualNovel({ scenario, onComplete, onExit }: VisualNove
                                         e.stopPropagation();
                                         handleChoice(choice);
                                     }}
-                                    className="w-[90%] max-w-2xl p-6 bg-white/90 dark:bg-slate-900/90 hover:bg-white hover:scale-105 transition-all text-slate-800 dark:text-slate-100 font-bold text-lg md:text-xl rounded-2xl shadow-xl border border-white/50"
+                                    className="pointer-events-auto w-full max-w-3xl p-4 bg-black/80 hover:bg-black/90 text-white border border-white/20 hover:border-white/50 backdrop-blur-md rounded-xl shadow-lg transition-all text-lg font-medium text-left px-6 group"
                                 >
+                                    <span className="group-hover:text-orange-400 transition-colors mr-2">▶</span>
                                     {choice.text[lang] || choice.text["ko"]}
                                 </motion.button>
                             ))}
