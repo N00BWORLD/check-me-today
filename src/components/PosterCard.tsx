@@ -1,6 +1,7 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { TestData, formatPlayCount } from "@/data/tests";
@@ -139,22 +140,6 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
           </div>
         </div>
 
-        {/* Animation Overlays */}
-        {isAnimating && animationType === "scale" && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-2xl">
-            <div className="text-6xl animate-swing filter drop-shadow-2xl">
-              ⚖️
-            </div>
-          </div>
-        )}
-
-        {isAnimating && animationType === "pop" && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-2xl">
-            <div className="text-6xl animate-pop filter drop-shadow-2xl">
-              🧧
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

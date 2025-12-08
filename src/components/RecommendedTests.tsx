@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
@@ -13,7 +14,12 @@ interface RecommendedTestsProps {
 export default function RecommendedTests({ currentTestId }: RecommendedTestsProps) {
     const { lang } = useLanguage();
     const router = useRouter();
+    const [mounted, setMounted] = useState(false);
     const [animatingId, setAnimatingId] = useState<string | null>(null);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // 현재 테스트 제외하고 랜덤으로 4개 선택
     const otherTests = tests
@@ -33,8 +39,39 @@ export default function RecommendedTests({ currentTestId }: RecommendedTestsProp
         }, 2000);
     };
 
+    // Render Portal for Animation Overlay
+    const renderAnimationOverlay = () => {
+        if (!mounted || !animatingId) return null;
+
+        const animatingTest = tests.find(t => t.id === animatingId);
+        if (!animatingTest) return null;
+
+        return createPortal(
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
+                {animatingId === "energy-balance" && (
+                    <div className="text-8xl animate-swing filter drop-shadow-2xl">
+                        ⚖️
+                    </div>
+                )}
+                {animatingId === "fortune" && (
+                    <div className="text-8xl animate-pop filter drop-shadow-2xl">
+                        🧧
+                    </div>
+                )}
+                {/* Fallback for other tests if needed, or just standard loading feel */}
+                {!["energy-balance", "fortune"].includes(animatingId) && (
+                    <div className="text-8xl animate-pulse-card filter drop-shadow-2xl">
+                        {animatingTest.emoji}
+                    </div>
+                )}
+            </div>,
+            document.body
+        );
+    };
+
     return (
         <div className="mt-8 animate-fade-in relative z-20"> {/* Explicit z-index */}
+            {renderAnimationOverlay()}
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
                     <span>🔥</span>
@@ -75,23 +112,6 @@ export default function RecommendedTests({ currentTestId }: RecommendedTestsProp
                                 {test.description[lang] || test.description['en']}
                             </p>
                         </div>
-
-                        {/* Animation Overlays */}
-                        {animatingId === test.id && test.id === "energy-balance" && (
-                            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-                                <div className="text-5xl animate-swing filter drop-shadow-2xl">
-                                    ⚖️
-                                </div>
-                            </div>
-                        )}
-
-                        {animatingId === test.id && test.id === "fortune" && (
-                            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-                                <div className="text-5xl animate-pop filter drop-shadow-2xl">
-                                    🧧
-                                </div>
-                            </div>
-                        )}
                     </div>
                 ))}
             </div>
