@@ -44,9 +44,7 @@ export const starfallScenario: VNScenario = {
         scene1_start: {
             id: "scene1_start",
             background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: {
-                image: "/images/vn/starfall/sera_base.png",
-            },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "???", en: "???", zh: "???", ja: "???" },
                 text: {
@@ -83,9 +81,7 @@ export const starfallScenario: VNScenario = {
         scene1_ghost_joke: {
             id: "scene1_ghost_joke",
             background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: {
-                image: "/images/vn/starfall/sera_smile.png",
-            },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -101,9 +97,7 @@ export const starfallScenario: VNScenario = {
         scene1_encounter: {
             id: "scene1_encounter",
             background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: {
-                image: "/images/vn/starfall/sera_base.png",
-            },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -119,9 +113,7 @@ export const starfallScenario: VNScenario = {
         scene1_encounter_continue: {
             id: "scene1_encounter_continue",
             background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: {
-                image: "/images/vn/starfall/sera_base.png",
-            },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -158,7 +150,7 @@ export const starfallScenario: VNScenario = {
         scene1_sky: {
             id: "scene1_sky",
             background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: { image: "/images/vn/starfall/sera_base.png" },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -174,7 +166,7 @@ export const starfallScenario: VNScenario = {
         scene1_skip: {
             id: "scene1_skip",
             background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: { image: "/images/vn/starfall/sera_surprised.png" },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -206,7 +198,7 @@ export const starfallScenario: VNScenario = {
         scene2_start: {
             id: "scene2_start",
             background: "/images/vn/starfall/bg_hallway.png",
-            character: { image: "/images/vn/starfall/sera_surprised.png" },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -222,7 +214,7 @@ export const starfallScenario: VNScenario = {
         scene2_drop: {
             id: "scene2_drop",
             background: "/images/vn/starfall/bg_hallway.png",
-            character: { image: "/images/vn/starfall/sera_surprised.png" },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "시스템", en: "System", zh: "系统", ja: "システム" },
                 text: {
@@ -269,7 +261,7 @@ export const starfallScenario: VNScenario = {
         scene2_kind: {
             id: "scene2_kind",
             background: "/images/vn/starfall/bg_hallway.png",
-            character: { image: "/images/vn/starfall/sera_shy.png" },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -285,7 +277,7 @@ export const starfallScenario: VNScenario = {
         scene2_curious: {
             id: "scene2_curious",
             background: "/images/vn/starfall/bg_hallway.png",
-            character: { image: "/images/vn/starfall/sera_shy.png" },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -301,7 +293,7 @@ export const starfallScenario: VNScenario = {
         scene2_ignore: {
             id: "scene2_ignore",
             background: "/images/vn/starfall/bg_hallway.png",
-            character: { image: "/images/vn/starfall/sera_sad.png" },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
@@ -333,7 +325,7 @@ export const starfallScenario: VNScenario = {
         scene3_start: {
             id: "scene3_start",
             background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: { image: "/images/vn/starfall/sera_sad.png" },
+            character: { image: "/images/vn/starfall/sera_main.png" },
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
