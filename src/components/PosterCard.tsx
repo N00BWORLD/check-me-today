@@ -14,7 +14,7 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
   const { lang } = useLanguage();
 
   const name = test.name[lang] || test.name.en;
-  
+
   // 실시간 통계가 있으면 사용, 없으면 기본값
   const playCount = realStats?.playCount ?? test.playCount;
   const likeCount = realStats?.likeCount ?? test.likeCount;
@@ -82,8 +82,8 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
         {test.badge && (
           <div className={`
             absolute top-2 right-2 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white/90 backdrop-blur-sm
-            ${test.badge === "HOT" 
-              ? "bg-gradient-to-r from-orange-500/80 to-red-500/80" 
+            ${test.badge === "HOT"
+              ? "bg-gradient-to-r from-orange-500/80 to-red-500/80"
               : "bg-gradient-to-r from-green-500/80 to-emerald-500/80"
             }
           `}>
@@ -99,26 +99,15 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
               {name}
             </h3>
 
-            {/* 통계 & 호버 시 시작 버튼 */}
-            <div className="relative mt-2 h-5">
-              {/* 기본: 통계 표시 */}
-              <div className="absolute inset-0 flex items-center justify-center gap-4 transition-opacity duration-200 group-hover:opacity-0">
-                <div className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 font-semibold">
-                  <span>▶</span>
-                  <span>{formatPlayCount(playCount)}</span>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-pink-500 dark:text-pink-400 font-semibold">
-                  <span>❤️</span>
-                  <span>{formatPlayCount(likeCount)}</span>
-                </div>
+            {/* 통계 */}
+            <div className="mt-2 flex items-center justify-center gap-4 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-1">
+                <span>▶</span>
+                <span>{formatPlayCount(playCount)}</span>
               </div>
-              
-              {/* 호버: 시작 버튼 */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <div className="flex items-center gap-1.5 px-4 py-1 bg-purple-500 dark:bg-purple-600 rounded-full text-[11px] font-bold text-white shadow-md">
-                  <span>▶</span>
-                  <span>{lang === 'ko' ? '시작하기' : lang === 'zh' ? '开始' : lang === 'ja' ? '開始' : 'Start'}</span>
-                </div>
+              <div className="flex items-center gap-1">
+                <span className="text-pink-500 dark:text-pink-400">❤️</span>
+                <span>{formatPlayCount(likeCount)}</span>
               </div>
             </div>
           </div>
