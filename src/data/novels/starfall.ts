@@ -19,10 +19,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "나", en: "Me", zh: "我", ja: "私" },
                 text: {
-                    ko: "학교 게시판에는 '구관 옥상 출입 금지'라는 경고문이 붙어 있다.\n붉은색 스프레이로 덧칠해진 그 경고문은 유령 따위보다 훨씬 현실적인 공포, 즉 '정학'을 의미한다.",
-                    en: "'DO NOT ENTER' signs preserve the legend of the rooftop ghost.\nBut to me, that red spray paint screams a much more realistic horror: 'Suspension'.",
-                    zh: "学校公告栏上贴着'禁止进入旧馆屋顶'的警告。\n比起幽灵，那红色的喷漆代表着更现实的恐惧——'停学'。",
-                    ja: "掲示板には「立ち入り禁止」の張り紙。\nその赤いスプレーが意味するのは幽霊なんかより現実的な恐怖、「停学」だ。",
+                    ko: "학교 게시판에는 '구관 옥상 출입 금지' 경고문이 붙어 있다.\n붉은 스프레이 자국은 유령보다 더 무서운 '정학'을 의미한다.",
+                    en: "'DO NOT ENTER' signs are plastered everywhere.\nThat red spray paint screams a horror worse than ghosts: 'Suspension'.",
+                    zh: "学校公告栏上贴着'禁止进入旧馆屋顶'的警告。\n红色的喷漆代表着比幽灵更可怕的——'停学'。",
+                    ja: "掲示板には「立ち入り禁止」の張り紙。\nその赤いスプレーは幽霊より恐ろしい「停学」を意味している。",
                 },
             },
             nextSceneId: "prologue_2",
@@ -33,10 +33,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "나", en: "Me", zh: "我", ja: "私" },
                 text: {
-                    ko: "하지만 인간의 호기심이란 금지될수록 타오르는 법이다.\n게다가 유령? 질량 보존의 법칙을 무시하는 존재가 있다면 내 눈으로 직접 확인하고 논문으로 써주지.",
-                    en: "But curiosity burns hottest when forbidden.\nAnd ghosts? If there's an entity defying the conservation of mass, I'll document it and publish a paper.",
-                    zh: "但好奇心越是被禁止越是燃烧。\n况且幽灵？如果真有无视质量守恒定律的存在，我就亲自确认并写成论文。",
-                    ja: "だが好奇心は禁止されるほど燃え上がる。\nそれに幽霊？質量保存の法則を無視する存在がいるなら、この目で確かめて論文にしてやる。",
+                    ko: "하지만 하지 말라면 더 하고 싶은 법.\n게다가 유령이라니, 요즘 세상에 그런 게 있을 리가. 그냥 옥상 바람이나 쐬러 가는 거다.",
+                    en: "But forbidden fruit tastes sweetest.\nAnd ghosts? In this day and age? No way. I'm just going for some fresh air.",
+                    zh: "但越是不让做越想做。\n况且幽灵，这世道哪有那种东西。只是去吹吹风。",
+                    ja: "でもダメだと言われるとやりたくなるもの。\nそれに幽霊？今の時代にそんなものあるわけない。ただ風にあたりに行くだけだ。",
                 },
             },
             nextSceneId: "scene1_start",
@@ -49,10 +49,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "???", en: "???", zh: "???", ja: "???" },
                 text: {
-                    ko: "......밀도가 높아. \n이 구역의 생명체 반응, 예상보다 15% 초과.",
-                    en: "......High density.\nLifeform readings in this sector exceed projections by 15%.",
-                    zh: "......密度很高。\n该区域的生命体反应比预期高出15%。",
-                    ja: "……密度が高い。\nこの区域の生命体反応、予想より15%超過。",
+                    ko: "......(빤히 쳐다본다)\n숨소리가 너무 커. 조용한 감상에 방해돼.",
+                    en: "......(Stares intently)\nYou're breathing too loudly. It disrupts the observation.",
+                    zh: "......(盯着看)\n呼吸声太大了。妨碍了安静的欣赏。",
+                    ja: "……(じっと見つめる)\n息遣いがうるさいわ。静かな鑑賞の邪魔よ。",
                 },
             },
             nextSceneId: "scene1_encounter",
@@ -64,19 +64,19 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "나", en: "Me", zh: "我", ja: "私" },
                 text: {
-                    ko: "(누군가 있다. 유령? 아니, 그냥 여학생이다. 하지만 뭔가... 위화감이 든다.)\n저기요?",
-                    en: "(Someone's there. A ghost? No, just a girl. But something feels... off.)\nExcuse me?",
-                    zh: "(有人。幽灵？不，只是个女学生。但总觉得...有违和感。)\n那个？",
-                    ja: "(誰かいる。幽霊？いや、ただの女子生徒だ。でも何か…違和感がある。)\nあの？",
+                    ko: "(누군가 있다. 유령은 아니고... 우리 학교 교복이다. 근데 분위기가 좀 특이하다.)\n아, 미안. 사람이 있을 줄은 몰랐네.",
+                    en: "(Someone's here. Not a ghost... wearing our uniform. But she feels odd.)\nAh, sorry. Didn't know anyone was here.",
+                    zh: "(有人。不是幽灵...穿着我们学校的校服。但气氛有点特别。)\n啊，抱歉。没想到有人。",
+                    ja: "(誰かいる。幽霊じゃなくて…ウチの制服だ。でも雰囲気が少し変わってる。)\nあ、ごめん。人がいるとは思わなかった。",
                 },
             },
             choices: [
                 {
                     text: {
-                        ko: "아, 미안. 문이 열려있길래.",
-                        en: "Ah, sorry. The door was open.",
-                        zh: "抱歉。门开着。",
-                        ja: "ごめん。ドアが開いてたから。",
+                        ko: "그냥 갈게. 방해해서 미안.",
+                        en: "I'll leave. Sorry to disturb.",
+                        zh: "我这就走。抱歉打扰。",
+                        ja: "もう行くよ。邪魔してごめん。",
                     },
                     scoreChange: 0,
                     suspicionChange: 0,
@@ -84,10 +84,10 @@ export const starfallScenario: VNScenario = {
                 },
                 {
                     text: {
-                        ko: "거기서 혼자 뭐 하세요?",
-                        en: "What are you doing here alone?",
-                        zh: "在这个人做什么？",
-                        ja: "ここで一人で何してるの？",
+                        ko: "근데 여기서 혼자 뭐 해?",
+                        en: "But what are you doing here alone?",
+                        zh: "但是你一个人在这里做什么？",
+                        ja: "でもここで一人で何してるの？",
                     },
                     scoreChange: 5,
                     suspicionChange: -5,
@@ -95,13 +95,13 @@ export const starfallScenario: VNScenario = {
                 },
                 {
                     text: {
-                        ko: "당신... 사람이 아니군?",
-                        en: "You are... not human?",
-                        zh: "你...不是人吧？",
-                        ja: "君…人間じゃないな？",
+                        ko: "너... 처음 보는데? 전학생?",
+                        en: "Never seen you before. Transfer student?",
+                        zh: "没见过你？转学生？",
+                        ja: "君…初めて見るけど？転校生？",
                     },
                     scoreChange: -5,
-                    suspicionChange: 20,
+                    suspicionChange: 10,
                     nextSceneId: "scene1_suspicion",
                 }
             ],
@@ -114,10 +114,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "나는 세라. 학습을 위해... 아니, 전학 온 지 얼마 안 됐어.\n이 옥상의 좌표가 노을 관측에 최적화되어 있더군.",
-                    en: "I am Sera. Here for learning... no, I transferred recently.\nThese coordinates are optimized for sunset observation.",
-                    zh: "我是塞拉。为了学习...不，刚转学不久。\n这屋顶的坐标最适合观测日落。",
-                    ja: "私はセラ。学習のために…いや、転校してきたばかり。\nこの屋上の座標が夕焼けの観測に最適化されていたの。",
+                    ko: "나는 세라. 전학 온 지 얼마 안 됐어.\n이 옥상이... 학교에서 하늘이 가장 잘 보여서 좋아.",
+                    en: "I'm Sera. Just transferred.\nI like this rooftop... it has the best view of the sky.",
+                    zh: "我是塞拉。刚转学不久。\n这屋顶...是学校里看天空最好的地方。",
+                    ja: "私はセラ。転校してきたばかり。\nこの屋上…学校で一番空がよく見えるから好きなの。",
                 },
             },
             nextSceneId: "scene1_sky",
@@ -130,40 +130,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "유령? (자신의 손을 내려다보며)\n내 신체 구성 물질의 밀도는 정상 범위인데... 투명화 모듈이 오작동한 건가?",
-                    en: "Ghost? (Looks at hand)\nMy body density is within normal parameters... Did the cloaking module malfunction?",
-                    zh: "幽灵？(看着自己的手)\n我的身体密度在正常范围内... 隐形模块故障了吗？",
-                    ja: "幽霊？(自分の手を見下ろして)\n私の身体構成物質の密度は正常範囲だけど…透明化モジュールが誤作動したのかしら？",
-                },
-            },
-            nextSceneId: "scene1_suspicion_2",
-        },
-        scene1_suspicion_2: {
-            id: "scene1_suspicion_2",
-            background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: { image: "/images/vn/starfall/sera_main.png" },
-            dialogue: {
-                speaker: { ko: "나", en: "Me", zh: "我", ja: "私" },
-                text: {
-                    ko: "...뭐라고? 투명화 모듈?",
-                    en: "...What? Cloaking module?",
-                    zh: "...什么？隐形模块？",
-                    ja: "…何だって？透明化モジュール？",
-                },
-            },
-            nextSceneId: "scene1_joke_cover",
-        },
-        scene1_joke_cover: {
-            id: "scene1_joke_cover",
-            background: "/images/vn/starfall/bg_rooftop_sunset.png",
-            character: { image: "/images/vn/starfall/sera_smile.png" },
-            dialogue: {
-                speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
-                text: {
-                    ko: "아, 아무것도 아니야! 농담... 농담이야. 하. 하. 하.\n(굉장히 어색한 웃음이다)",
-                    en: "Ah, nothing! Joke... it was a joke. Ha. Ha. Ha.\n(It's an incredibly awkward laugh)",
-                    zh: "啊，没什么！玩笑...是玩笑。哈。哈。哈。\n(非常尴尬的笑声)",
-                    ja: "あ、何でもない！冗談…冗談よ。ハ。ハ。ハ。\n(ものすごくぎこちない笑いだ)",
+                    ko: "전학생 맞아. 좀 조용히 지내고 싶었는데... 눈에 띄었나 보네.",
+                    en: "Comparison accurate. I wanted to be quiet... but I guess I stand out.",
+                    zh: "是转学生。本来想安静待着的...看来也太显眼了。",
+                    ja: "転校生よ。少し静かに過ごしたかったんだけど…目立っちゃったみたいね。",
                 },
             },
             nextSceneId: "scene1_sky",
@@ -176,19 +146,19 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "태양의 입사각이 굴절되어 대기가 붉게 산란되고 있어.\n이 행성의 생명체들은 이 비효율적인 에너지 소멸 과정을 '아름답다'고 정의한다지?",
-                    en: "Angle of incidence refracting, scattering red light.\nBeings on this planet define this inefficient energy dissipation as 'beautiful', correct?",
-                    zh: "太阳入射角折射，大气散射红光。\n这星球的生命体把这种低效的能量消散过程定义为'美'，对吧？",
-                    ja: "太陽の入射角が屈折し、大気が赤く散乱している。\nこの惑星の生命体は、この非効率的なエネルギー消滅過程を『美しい』と定義するんだったわよね？",
+                    ko: "저거 봐. 가스가 불타면서 색이 변하고 있어.\n사람들은 왜 저런 비효율적인 연소 과정을 멍하니 쳐다보는 걸까? 너도 저게 예뻐?",
+                    en: "Look. Gas burning, changing colors.\nWhy do people stare at such inefficient combustion? do you find it pretty too?",
+                    zh: "看那个。气体燃烧，颜色在变。\n人们为什么发呆看着这种低效的燃烧过程？你也觉得那个漂亮吗？",
+                    ja: "あれを見て。ガスが燃えて色が変わってる。\n人々はどうしてあんな非効率的な燃焼過程をぼんやり見つめるのかしら？君もあれが綺麗？",
                 },
             },
             choices: [
                 {
                     text: {
-                        ko: "너... 말투가 왜 그래?",
-                        en: "Why do you talk like that?",
-                        zh: "你怎么那样说话？",
-                        ja: "君…喋り方が変だよ？",
+                        ko: "말하는 게 참... 독특하네.",
+                        en: "You talk... really uniquely.",
+                        zh: "说话真...独特。",
+                        ja: "喋り方が…独特だね。",
                     },
                     scoreChange: -5,
                     suspicionChange: 10,
@@ -196,10 +166,10 @@ export const starfallScenario: VNScenario = {
                 },
                 {
                     text: {
-                        ko: "맞아. 낭만적이잖아. 너도 그렇게 생각해?",
-                        en: "Yeah. It's romantic. Don't you think so?",
-                        zh: "是啊。很浪漫。你不这么觉得吗？",
-                        ja: "うん。ロマンチックじゃない。君もそう思う？",
+                        ko: "글쎄, 그냥 보고 있으면 기분이 묘해지잖아.",
+                        en: "I don't know, it just makes you feel something.",
+                        zh: "不知道，只是看着心情会变微妙。",
+                        ja: "さあね、ただ見てると気分が不思議になるじゃない。",
                     },
                     scoreChange: 10,
                     suspicionChange: 0,
@@ -217,10 +187,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "나", en: "Me", zh: "我", ja: "私" },
                 text: {
-                    ko: "그날 이후, 나는 그녀를 관찰하기 시작했다.\n급식을 원소 기호로 분석하거나, 자판기와 대화하는 모습... 확실히 평범하지 않다.",
-                    en: "Since then, I started observing her.\nAnalyzing lunch via periodic table, talking to vending machines... Definitely not normal.",
-                    zh: "那之后，我开始观察她。\n用元素符号分析午餐，和自动售货机对话...确实不正常。",
-                    ja: "あの日以来、僕は彼女を観察し始めた。\n給食を元素記号で分析したり、自販機と会話したり…明らかに普通じゃない。",
+                    ko: "그날 이후, 복도에서 그녀를 종종 마주쳤다.\n그녀는 항상 뭔가에 쫓기는 사람처럼 주변을 두리번거렸다. 평범한 학생 같지는 않다.",
+                    en: "Since then, I saw her in the halls often.\nShe always looked around like she was being chased. Definitely not a normal student.",
+                    zh: "那之后，经常在走廊遇到她。\n她总是像被什么追赶一样东张西望。不像普通学生。",
+                    ja: "あの日以来、廊下で彼女を度々見かけた。\n彼女はいつも何かに追われている人のように辺りを見回していた。普通の生徒には見えない。",
                 },
             },
             nextSceneId: "scene2_start",
@@ -232,10 +202,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "으윽...! (갑자기 귀를 막으며 비틀거린다)\n이 주파수... 견딜 수 없어...!",
-                    en: "Ugh...! (Stumbles, covering ears)\nThis frequency... Can't withstand it...!",
-                    zh: "呃...！(突然捂住耳朵踉跄)\n这频率...受不了...！",
-                    ja: "うっ…！(急に耳を塞いでよろめく)\nこの周波数…耐えられない…！",
+                    ko: "윽...! (갑자기 귀를 막으며 웅크린다)\n이 소리... 종소리가 너무 날카로워... 머리가 깨질 것 같아.",
+                    en: "Ugh...! (Crouches, covering ears)\nThis sound... the bell is too sharp... my head feels like it's splitting.",
+                    zh: "呃...！(突然捂住耳朵蹲下)\n这声音...钟声太尖锐了...头要炸了。",
+                    ja: "うっ…！(急に耳を塞いでうずくまる)\nこの音…チャイムが鋭すぎる…頭が割れそう。",
                 },
             },
             effect: "shake",
@@ -248,19 +218,19 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "시스템", en: "System", zh: "系统", ja: "システム" },
                 text: {
-                    ko: "(채랭-)\n그녀의 주머니에서 펜던트가 떨어졌다. 단순한 액세서리가 아니다.\n미세하게 진동하며 푸른 빛을 내뿜고 있다.",
-                    en: "(Clatter-)\nA pendant fell from her pocket. Not jewelry.\nIt's vibrating subtly, emitting a blue pulse.",
-                    zh: "(当啷-)\n她的口袋掉出了吊坠。不是简单的饰品。\n发出微弱振动，散发蓝光。",
-                    ja: "(チャリッ-)\n彼女のポケットからペンダントが落ちた。ただのアクセサリーじゃない。\n微かに振動し、青い光を放っている。",
+                    ko: "(챙그랑-)\n그녀의 주머니에서 무언가 떨어졌다. 기하학적인 문양이 새겨진 금속 펜던트다.\n은은하게 푸른 빛이 돌고 있다.",
+                    en: "(Clatter-)\nSomething fell from her pocket. A metal pendant with geometric patterns.\nIt's glowing faintly blue.",
+                    zh: "(当啷-)\n她口袋里掉了什么东西。刻有几何花纹的金属吊坠。\n散发着隐约的蓝光。",
+                    ja: "(チャリッ-)\n彼女のポケットから何かが落ちた。幾何学模様が刻まれた金属のペンダントだ。\nほのかに青い光を放っている。",
                 },
             },
             choices: [
                 {
                     text: {
-                        ko: "(주워주며) 괜찮아? 많이 아파 보이는데.",
-                        en: "(Pick it up) Are you okay? You look in pain.",
-                        zh: "(捡起) 没事吧？看起来很痛。",
-                        ja: "(拾って) 大丈夫？すごく痛そうだけど。",
+                        ko: "(주워주며) 괜찮아? 어디 아픈 거야?",
+                        en: "(Pick it up) You okay? Are you sick?",
+                        zh: "(捡起) 没事吧？哪里不舒服吗？",
+                        ja: "(拾って) 大丈夫？どこか具合悪いの？",
                     },
                     scoreChange: 20,
                     suspicionChange: 5,
@@ -268,10 +238,10 @@ export const starfallScenario: VNScenario = {
                 },
                 {
                     text: {
-                        ko: "(펜던트를 자세히 본다) 이거... 지도가 움직이는데?",
-                        en: "(Inspect pendant) This... is the map moving?",
-                        zh: "(仔细看吊坠) 这个...地图在动？",
-                        ja: "(ペンダントを詳しく見る) これ…地図が動いてる？",
+                        ko: "(펜던트를 유심히 본다) 이거 폰 고리야? 빛이 나는데?",
+                        en: "(Inspect closely) Is this a phone charm? It's glowing?",
+                        zh: "(仔细看) 这是手机挂件？在发光？",
+                        ja: "(ペンダントをよく見る) これスマホのストラップ？光ってるけど？",
                     },
                     scoreChange: -10,
                     suspicionChange: 30,
@@ -279,10 +249,10 @@ export const starfallScenario: VNScenario = {
                 },
                 {
                     text: {
-                        ko: "모르는 척 지나간다.",
-                        en: "Ignore and walk away.",
-                        zh: "装作不知道走开。",
-                        ja: "知らないふりをして通り過ぎる。",
+                        ko: "귀찮아질 거 같다. 모르는 척 가자.",
+                        en: "Looks troublesome. Pretend I didn't see.",
+                        zh: "好像很麻烦。装作没看见走吧。",
+                        ja: "面倒になりそうだ。知らないふりして行こう。",
                     },
                     scoreChange: -10,
                     suspicionChange: 0,
@@ -298,10 +268,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "아... 고마워.\n(펜던트를 소중히 쥐며) 이건 내... 유일한 연결 고리야.",
-                    en: "Ah... thanks.\n(Clutches pendant) This is my... only connection.",
-                    zh: "啊...谢谢。\n(珍惜地握着吊坠) 这是我...唯一的连接。",
-                    ja: "あ…ありがとう。\n(ペンダントを大事に握り) これは私の…唯一の繋がりなの。",
+                    ko: "아... 고마워.\n(황급히 펜던트를 챙기며) 그냥... 빈혈이야. 이건 내 부적 같은 거고.",
+                    en: "Ah... thanks.\n(Quickly takes pendant) Just... anemia. This is like my charm.",
+                    zh: "啊...谢谢。\n(慌忙收起吊坠) 只是...贫血。这是我的护身符。",
+                    ja: "あ…ありがとう。\n(慌ててペンダントをしまい) ただの…貧血よ。これは私のお守りみたいなもので。",
                 },
             },
             nextSceneId: "scene3_pre",
@@ -313,10 +283,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "내놔! 이건 장난감이 아니야!\n(황급히 낚아채며 경계하는 눈빛을 보낸다)",
-                    en: "Give it! It's not a toy!\n(Snatches it back, eyeing you warily)",
-                    zh: "拿来！这不是玩具！\n(慌忙夺回，露出警惕的眼神)",
-                    ja: "返して！これはおもちゃじゃないの！\n(慌てて奪い取り、警戒した目を向ける)",
+                    ko: "손대지 마!\n(거칠게 낚아채 간다) ...미안, 남이 만지는 거 싫어해.",
+                    en: "Don't touch it!\n(Snatches it away) ...Sorry, I don't like people touching my stuff.",
+                    zh: "别碰！\n(粗暴地夺走) ...抱歉，我不喜欢别人碰。",
+                    ja: "触らないで！\n(荒々しく奪い取る) …ごめん、人が触るの嫌いなの。",
                 },
             },
             nextSceneId: "scene3_pre",
@@ -328,10 +298,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "......(말없이 펜던트를 줍는다)",
-                    en: "......(Silently picks it up)",
-                    zh: "......(默默捡起)",
-                    ja: "......(黙って拾う)",
+                    ko: "......(한숨을 쉬며 펜던트를 줍는다)",
+                    en: "......(Sighs and picks up the pendant)",
+                    zh: "......(叹气捡起吊坠)",
+                    ja: "......(ため息をついてペンダントを拾う)",
                 },
             },
             nextSceneId: "scene3_pre",
@@ -346,10 +316,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "나", en: "Me", zh: "我", ja: "私" },
                 text: {
-                    ko: "그날 밤, 그녀가 옥상으로 나를 불렀다.\n평소와 다른 차가운 공기. 직감이 경고하고 있다.",
-                    en: "That night, she called me to the rooftop.\nCold air. My intuition is screaming.",
-                    zh: "那天晚上，她叫我去屋顶。\n空气异常寒冷。直觉在警告我。",
-                    ja: "その日の夜、彼女が屋上に私を呼んだ。\nいつもと違う冷たい空気。直感が警告している。",
+                    ko: "며칠 뒤 저녁, 그녀가 옥상으로 나를 불렀다.\n평소의 멍한 표정이 아니다. 뭔가 결심한 듯한 눈빛이다.",
+                    en: "Changes later, she called me to the rooftop.\nNot her usual blank look. She looks determined.",
+                    zh: "几天后的晚上，她叫我去屋顶。\n不是平时发呆的表情。眼神仿佛下了决心。",
+                    ja: "数日後の夕方、彼女が屋上に私を呼んだ。\nいつものぼんやりした顔じゃない。何か決心したような目だ。",
                 },
             },
             nextSceneId: "scene3_start",
@@ -361,10 +331,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "나... 내일이면 떠나야 해.\n데이터 수집이 완료됐어. 아니, 사실 오류가 났어.",
-                    en: "I... leave tomorrow.\nData collection complete. No, actually, a critical error occurred.",
-                    zh: "我...明天要走了。\n数据收集完成。不，其实出错了。",
-                    ja: "私…明日には行かなきゃいけないの。\nデータ収集が完了したわ。いや、実はエラーが起きたの。",
+                    ko: "나... 내일이면 가야 해.\n원래는 더 일찍 갔어야 했는데... 자꾸 미루게 됐어.",
+                    en: "I... have to go tomorrow.\nShould have gone earlier... but I kept delaying it.",
+                    zh: "我...明天得走了。\n本来该早点走的...一直拖着。",
+                    ja: "私…明日には行かなきゃいけないの。\n本当はもっと早く行くべきだったんだけど…ずっと先延ばしにしてた。",
                 },
             },
             nextSceneId: "scene3_confession",
@@ -376,19 +346,19 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "내 고향엔 '작별'이란 개념이 없어. 데이터가 통합될 뿐이니까.\n하지만 지구에선... 떠나면 영원히 볼 수 없다는 걸 배웠어.\n그래서 지금 나는... 시스템 오류가 날 만큼 슬퍼.",
-                    en: "My home has no concept of 'goodbye'. Data just integrates.\nBut here... leaving means never seeing you again.\nI am... sad enough to crash my system.",
-                    zh: "我故乡没有'道别'的概念。只是数据统合。\n但在地球...离开就意味着永远不见。\n所以我现在...悲伤到系统要崩溃。",
-                    ja: "私の故郷に『さよなら』という概念はないの。データが統合されるだけだから。\nでも地球では…去れば永遠に会えないと学んだわ。\nだから今私は…システムエラーが起きるほど悲しいの。",
+                    ko: "믿을지 모르겠지만, 난 여기서 아주 먼 곳에서 왔어.\n내 고향엔 '작별'이란 말이 없어. 그냥 다같이 하나로 연결되어 있거든.\n근데 여기선... 헤어지면 끝이잖아? 그게 너무... 가슴이 아파.",
+                    en: "You might not believe me, but I'm from very far away.\nWe don't have 'goodbye' there. We are all connected.\nBut here... leaving means the end, right? That... hurts my chest.",
+                    zh: "不知你信不信，我来自很远的地方。\n我故乡没有'道别'。大家都是连在一起的。\n但这这里...分开就是结束对吧？那太...心痛了。",
+                    ja: "信じないかもしれないけど、私はすごく遠い所から来たの。\n故郷には『さよなら』という言葉がないの。みんな一つに繋がってるから。\nでもここでは…別れたら終わりでしょ？それがすごく…胸が痛いの。",
                 },
             },
             choices: [
                 {
                     text: {
-                        ko: "상관없어. 네가 외계인이든 유령이든, 넌 그냥 세라잖아.",
-                        en: "Doesn't matter. Alien, ghost... you're just Sera.",
-                        zh: "没关系。无论外星人还是幽灵，你就是塞拉。",
-                        ja: "関係ない。宇宙人でも幽霊でも、君はただのセラだ。",
+                        ko: "알고 있었어. 넌 좀... 특별했으니까.",
+                        en: "I knew. You were always... special.",
+                        zh: "我知道。你一直...很特别。",
+                        ja: "知ってたよ。君はずっと…特別だったから。",
                     },
                     scoreChange: 30, // High Love
                     suspicionChange: 0,
@@ -396,10 +366,10 @@ export const starfallScenario: VNScenario = {
                 },
                 {
                     text: {
-                        ko: "그럴 줄 알았어. 펜던트도 말투도... 다 설명이 되는군.",
-                        en: "I knew it. The pendant, the speech... explains everything.",
-                        zh: "我就知道。吊坠和语气...都能解释了。",
-                        ja: "そうだと思った。ペンダントも口調も…全て説明がつく。",
+                        ko: "솔직히 말해줘서 고마워. 이제야 이해가 되네.",
+                        en: "Thanks for being honest. Makes sense now.",
+                        zh: "谢谢你坦白。现在理解了。",
+                        ja: "正直に話してくれてありがとう。やっと理解できたよ。",
                     },
                     scoreChange: 0,
                     suspicionChange: 20, // High Logic
@@ -407,10 +377,10 @@ export const starfallScenario: VNScenario = {
                 },
                 {
                     text: {
-                        ko: "미친 소리 하지 마. SF 영화 너무 많이 본 거 아니야?",
-                        en: "Don't be crazy. Too many sci-fi movies?",
-                        zh: "别发疯了。科幻片看多了吧？",
-                        ja: "ふざけないで。SF映画の見すぎじゃない？",
+                        ko: "무슨 소설 써? 전학 가는 거면서.",
+                        en: "Writing a novel? You're just transferring.",
+                        zh: "写小说呢？明明只是转学。",
+                        ja: "小説でも書いてるの？ただの転校でしょ。",
                     },
                     scoreChange: -20, // Low Love
                     suspicionChange: -10,
@@ -427,10 +397,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "너는... 정말 비논리적일 정도로 다정하구나.\n내가 없어도, 나를 데이터 속에서라도 기억해 줄래?",
-                    en: "You are... illogically kind.\nWill you remember me, even if only in data?",
-                    zh: "你...真是温柔得不合逻辑。\n即使我不在，也会在数据中记得我吗？",
-                    ja: "君は…本当に非論理的なほど優しいのね。\n私がいなくても、データの中でだけでも覚えていてくれる？",
+                    ko: "너는... 정말 이상한 애야.\n외계인이라고 해도 놀라지도 않고... 그냥 내 옆에 있어주는구나.",
+                    en: "You are... really weird.\nNot scanned by 'alien'... just staying by my side.",
+                    zh: "你...真是奇怪的孩子。\n说是外星人也不惊讶...只是待在我身边。",
+                    ja: "君は…本当に変な子ね。\n宇宙人だと言っても驚きもしないで…ただ私のそばにいてくれるのね。",
                 },
             },
             nextSceneId: "ending_check",
@@ -442,10 +412,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "역시... 넌 눈치채고 있었구나.\n지구인의 관찰력, 예상 범위를 상회했어.",
-                    en: "So... you noticed.\nEarthling observation skills exceeded parameters.",
-                    zh: "果然...你察觉到了。\n地球人的观察力超出了预期范围。",
-                    ja: "やっぱり…気づいていたのね。\n地球人の観察力、予想範囲を上回ったわ。",
+                    ko: "눈치채고 있었어? 하긴... 내가 좀 어설펐지.\n지구인들은 생각보다 예리하구나.",
+                    en: "Did you notice? Well... I was clumsy.\nEarthlings are sharper than I thought.",
+                    zh: "察觉到了？也是...我有点笨拙。\n地球人比想象中敏锐啊。",
+                    ja: "気づいてたの？まあ…私が少し不器用だったわね。\n地球人は思ったより鋭いのね。",
                 },
             },
             nextSceneId: "ending_check",
@@ -457,10 +427,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "세라", en: "Sera", zh: "塞拉", ja: "セラ" },
                 text: {
-                    ko: "...그래. 이해해.\n이런 비과학적인 얘기, 받아들이기 힘들겠지. 안녕.",
-                    en: "...Okay. I understand.\nUnscientific data is hard to accept. Bye.",
-                    zh: "...好的。我理解。\n这种不科学的话很难接受吧。再见。",
-                    ja: "...そう。理解するわ。\nこんな非科学的な話、受け入れ難いわよね。さようなら。",
+                    ko: "...그래. 차라리 농담으로 받아들이는 게 낫겠네.\n잘 지내. 안녕.",
+                    en: "...Okay. Better to take it as a joke.\nTake care. Bye.",
+                    zh: "...好的。当成玩笑更好。\n保重。再见。",
+                    ja: "...そう。冗談として受け取る方がいいわね。\n元気で。さようなら。",
                 },
             },
             nextSceneId: "ending_check",
@@ -473,10 +443,10 @@ export const starfallScenario: VNScenario = {
             dialogue: {
                 speaker: { ko: "시스템", en: "System", zh: "系统", ja: "システム" },
                 text: {
-                    ko: "전송 프로토콜 개시...(터치하여 결말 확인)",
-                    en: "Transmission Protocol Start...(Touch to see result)",
-                    zh: "传输协议启动...(点击查看结果)",
-                    ja: "転送プロトコル開始...(タッチして結果を確認)",
+                    ko: "그녀와의 시간이 끝났습니다...(터치하여 결과 확인)",
+                    en: "Time with her is up...(Touch to see result)",
+                    zh: "与她的时间结束了...(点击查看结果)",
+                    ja: "彼女との時間が終わりました...(タッチして結果を確認)",
                 },
             },
             isEnding: true,
