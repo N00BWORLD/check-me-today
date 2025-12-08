@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -146,6 +146,30 @@ export default function MenuRecommendationPage() {
     fluffy: { ko: "폭신", en: "Fluffy", zh: "蓬松", ja: "ふわふわ" },
   };
 
+  // 태그 카테고리 정의
+  const TAG_CATEGORIES = {
+    style: {
+      label: { ko: "나라/스타일", en: "Cuisine/Style", zh: "国家/风格", ja: "国/スタイル" },
+      tags: ["korean", "chinese", "japanese", "western", "mexican", "thai", "vietnamese", "american", "spanish", "italian", "new-york", "korean-chinese", "korean-style", "street-food", "street"]
+    },
+    type: {
+      label: { ko: "종류", en: "Type", zh: "种类", ja: "種類" },
+      tags: ["rice", "noodles", "noodle", "ramen", "soup", "stew", "bowl", "ricebowl", "rice-bowl", "porridge", "burger", "pizza", "taco", "wrap", "bread", "waffle", "dumpling", "gyoza", "steak", "cutlet", "wings", "salad", "set", "combo", "platter", "drink", "dessert", "coffee", "tea"]
+    },
+    ingredient: {
+      label: { ko: "재료", en: "Ingredient", zh: "材料", ja: "材料" },
+      tags: ["meat", "chicken", "beef", "pork", "seafood", "fish", "tuna", "salmon", "octopus", "veggie", "mushroom", "potato", "cheese", "cheesy", "bacon", "sausage", "poached-egg"]
+    },
+    taste: {
+      label: { ko: "맛/식감", en: "Taste/Texture", zh: "味道/口感", ja: "味/食感" },
+      tags: ["spicy", "mild", "sweet", "sweet-salty", "rich", "creamy", "buttery", "crispy", "crunchy", "chewy", "fluffy", "juicy", "fresh", "hot", "cool", "fire-hot", "fruity", "fragrant", "smoked", "flavorful"]
+    },
+    vibe: {
+      label: { ko: "분위기/기타", en: "Vibe/Other", zh: "氛围/其他", ja: "雰囲気/その他" },
+      tags: ["healthy", "light", "hearty", "filling", "quick", "simple", "convenient", "value", "premium", "luxury", "special", "popular", "trendy", "instagram", "comfort", "comforting", "traditional", "addictive", "superfood", "balanced", "nutritious", "sharing", "share", "essential", "mcdonalds", "burger-king", "kfc", "subway"]
+    }
+  };
+
   const TAG_OPTIONS = useMemo(() => {
     const set = new Set<string>();
     menuRecommendations.forEach((m) => m.tags?.forEach((t) => set.add(t)));
@@ -272,9 +296,8 @@ export default function MenuRecommendationPage() {
                 {rouletteItems.map((item, idx) => (
                   <div
                     key={item.id}
-                    className={`glass p-2 rounded-lg text-center transition transform ${
-                      idx === highlightIndex ? "ring-2 ring-orange-500 scale-105" : "opacity-80"
-                    }`}
+                    className={`glass p-2 rounded-lg text-center transition transform ${idx === highlightIndex ? "ring-2 ring-orange-500 scale-105" : "opacity-80"
+                      }`}
                   >
                     <div className="text-2xl">{item.emoji}</div>
                     <div className="text-xs font-semibold line-clamp-1">{item.name.ko}</div>
@@ -307,6 +330,7 @@ export default function MenuRecommendationPage() {
       pageInfo={info}
       stats={stats?.playCount ?? 0}
       tagOptions={TAG_OPTIONS}
+      tagCategories={TAG_CATEGORIES}
       selectedTags={selectedTags}
       onToggleTag={(tag: string) => {
         setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
