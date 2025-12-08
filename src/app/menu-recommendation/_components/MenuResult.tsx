@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { timeSlots, type TimeSlot, type MenuItem, menuRecommendations } from "@/data/menu-recommendation";
+import { getActiveTests } from "@/data/tests";
+import TestCard from "@/components/TestCard";
 import html2canvas from "html2canvas";
 
 interface MenuResultProps {
@@ -267,6 +269,21 @@ export default function MenuResult({
                             <span>{pageInfo.stats}:</span>
                             <span className="font-bold">{stats.toLocaleString()}</span>
                         </div>
+                    </div>
+                </div>
+
+                {/* 인기 테스트 추천 */}
+                <div className="mt-12">
+                    <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 mb-4 text-center">
+                        👀 다른 테스트도 해보세요!
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {useMemo(() => {
+                            const others = getActiveTests().filter(t => t.id !== 'menu-recommendation');
+                            return others.sort(() => Math.random() - 0.5).slice(0, 2);
+                        }, []).map((test) => (
+                            <TestCard key={test.id} test={test} />
+                        ))}
                     </div>
                 </div>
             </div>

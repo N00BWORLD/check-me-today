@@ -6,6 +6,7 @@ import { useTestStats } from "@/hooks/useTestStats";
 import { menuRecommendations } from "@/data/menu-recommendation";
 import MenuSelector from "./_components/MenuSelector";
 import MenuResult from "./_components/MenuResult";
+import PhysicsRoulette from "./_components/PhysicsRoulette";
 
 export default function MenuRecommendationPage() {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<"random" | null>(null);
@@ -149,23 +150,23 @@ export default function MenuRecommendationPage() {
   // 태그 카테고리 정의
   const TAG_CATEGORIES = {
     style: {
-      label: { ko: "나라/스타일", en: "Cuisine/Style", zh: "国家/风格", ja: "国/スタイル" },
+      label: { ko: "🇰🇷 나라/스타일", en: "🇰🇷 Cuisine/Style", zh: "🇰🇷 国家/风格", ja: "🇰🇷 国/スタイル" },
       tags: ["korean", "chinese", "japanese", "western", "mexican", "thai", "vietnamese", "american", "spanish", "italian", "new-york", "korean-chinese", "korean-style", "street-food", "street"]
     },
     type: {
-      label: { ko: "종류", en: "Type", zh: "种类", ja: "種類" },
+      label: { ko: "🍜 종류", en: "🍜 Type", zh: "🍜 种类", ja: "🍜 種類" },
       tags: ["rice", "noodles", "noodle", "ramen", "soup", "stew", "bowl", "ricebowl", "rice-bowl", "porridge", "burger", "pizza", "taco", "wrap", "bread", "waffle", "dumpling", "gyoza", "steak", "cutlet", "wings", "salad", "set", "combo", "platter", "drink", "dessert", "coffee", "tea"]
     },
     ingredient: {
-      label: { ko: "재료", en: "Ingredient", zh: "材料", ja: "材料" },
+      label: { ko: "🥩 재료", en: "🥩 Ingredient", zh: "🥩 材料", ja: "🥩 材料" },
       tags: ["meat", "chicken", "beef", "pork", "seafood", "fish", "tuna", "salmon", "octopus", "veggie", "mushroom", "potato", "cheese", "cheesy", "bacon", "sausage", "poached-egg"]
     },
     taste: {
-      label: { ko: "맛/식감", en: "Taste/Texture", zh: "味道/口感", ja: "味/食感" },
+      label: { ko: "😋 맛/식감", en: "😋 Taste/Texture", zh: "😋 味道/口感", ja: "😋 味/食感" },
       tags: ["spicy", "mild", "sweet", "sweet-salty", "rich", "creamy", "buttery", "crispy", "crunchy", "chewy", "fluffy", "juicy", "fresh", "hot", "cool", "fire-hot", "fruity", "fragrant", "smoked", "flavorful"]
     },
     vibe: {
-      label: { ko: "분위기/기타", en: "Vibe/Other", zh: "氛围/其他", ja: "雰囲気/その他" },
+      label: { ko: "✨ 분위기/기타", en: "✨ Vibe/Other", zh: "✨ 氛围/其他", ja: "✨ 雰囲気/その他" },
       tags: ["healthy", "light", "hearty", "filling", "quick", "simple", "convenient", "value", "premium", "luxury", "special", "popular", "trendy", "instagram", "comfort", "comforting", "traditional", "addictive", "superfood", "balanced", "nutritious", "sharing", "share", "essential", "mcdonalds", "burger-king", "kfc", "subway"]
     }
   };
@@ -194,18 +195,7 @@ export default function MenuRecommendationPage() {
     setSelectedTimeSlot("random");
     const pool = buildPool();
     setRouletteItems(pool);
-    setHighlightIndex(0);
-
-    if (pool.length === 0) {
-      setIsGenerating(false);
-      return;
-    }
-    const selectedMenu = pool[Math.floor(Math.random() * pool.length)];
-    setTimeout(() => {
-      setRecommendedMenu(selectedMenu);
-      setIsGenerating(false);
-      if (incrementPlayCount) incrementPlayCount();
-    }, 1200);
+    // Removed legacy timeout logic here; waiting for onComplete from Roulette
   };
 
   const resetRecommendation = () => {
@@ -213,13 +203,7 @@ export default function MenuRecommendationPage() {
     setRecommendedMenu(null);
   };
 
-  useEffect(() => {
-    if (!isGenerating || rouletteItems.length === 0) return;
-    const interval = setInterval(() => {
-      setHighlightIndex((prev) => (prev + 1) % rouletteItems.length);
-    }, 80);
-    return () => clearInterval(interval);
-  }, [isGenerating, rouletteItems.length]);
+  // Removed useEffect for highlightIndex loop
 
   const pageInfo = {
     ko: {
@@ -269,43 +253,48 @@ export default function MenuRecommendationPage() {
   };
 
   const info = pageInfo[lang] || pageInfo.ko;
+
   const filteredCount = useMemo(
     () => filterByTags(menuRecommendations.filter((m) => m.category !== "dessert")).length,
     [selectedTags]
   );
 
+  const handleRouletteComplete = (selectedMenu: any) => {
+    // 룰렛 완료 시 호출됨
+    setTimeout(() => {
+      setRecommendedMenu(selectedMenu);
+      setIsGenerating(false);
+      if (incrementPlayCount) incrementPlayCount();
+    }, 1000); // 1초 뒤 결과창으로 이동 (여운)
+  };
+
   if (isGenerating) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                {info.title}
-              </h1>
-              <p className="text-lg text-slate-600 dark:text-slate-300">{info.subtitle}</p>
-            </div>
-
-            <div className="glass rounded-2xl p-8 mb-6">
-              <div className="flex items-center justify-center mb-6">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
-              </div>
-              <h3 className="text-xl font-bold mb-2">룰렛이 돌아가는 중... 🍽️</h3>
-              <p className="text-slate-600 dark:text-slate-300 mb-4">선택한 태그에 맞는 메뉴를 찾고 있어요!</p>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                {rouletteItems.map((item, idx) => (
-                  <div
-                    key={item.id}
-                    className={`glass p-2 rounded-lg text-center transition transform ${idx === highlightIndex ? "ring-2 ring-orange-500 scale-105" : "opacity-80"
-                      }`}
-                  >
-                    <div className="text-2xl">{item.emoji}</div>
-                    <div className="text-xs font-semibold line-clamp-1">{item.name.ko}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex flex-col items-center justify-center p-4">
+        <div className="max-w-md w-full text-center">
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200">
+              {info.title}
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400">
+              {rouletteItems.length}개의 메뉴가 기다리고 있어요!
+            </p>
           </div>
+
+          <div className="glass rounded-3xl p-4 mb-8 shadow-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl border border-white/50 dark:border-slate-700">
+            <PhysicsRoulette
+              items={rouletteItems}
+              onComplete={handleRouletteComplete}
+              lang={lang}
+            />
+          </div>
+
+          <button
+            onClick={() => setIsGenerating(false)}
+            className="text-sm text-slate-400 underline hover:text-slate-600"
+          >
+            {info.back}
+          </button>
         </div>
       </div>
     );
