@@ -91,9 +91,8 @@ export default function ReactionGame() {
 
     return (
         <div
-            className={`w-full aspect-square max-w-lg mx-auto rounded-3xl shadow-xl flex flex-col items-center justify-center cursor-pointer transition-all duration-200 select-none p-6 text-center ${bgClass}`}
-            onMouseDown={handleClick}
-            onTouchStart={handleClick}
+            className={`w-full aspect-square max-w-lg mx-auto rounded-3xl shadow-xl flex flex-col items-center justify-center cursor-pointer transition-all duration-200 select-none p-6 text-center touch-none ${bgClass}`}
+            onPointerDown={handleClick}
         >
             {state === "idle" && (
                 <>
