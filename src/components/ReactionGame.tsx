@@ -83,11 +83,27 @@ export default function ReactionGame() {
         return Math.floor(history.reduce((a, b) => a + b, 0) / history.length);
     };
 
+    // Tiers Definition
+    const tiers = [
+        { max: 170, name: { ko: "신의 경지", en: "God Like", zh: "超神", ja: "神の領域" }, emoji: "👽", color: "text-purple-600 dark:text-purple-400" },
+        { max: 200, name: { ko: "프로게이머", en: "Pro Gamer", zh: "职业选手", ja: "プロゲーマー" }, emoji: "🏆", color: "text-blue-600 dark:text-blue-400" },
+        { max: 230, name: { ko: "고인물", en: "Hacker", zh: "黑客", ja: "達人" }, emoji: "⚡", color: "text-emerald-600 dark:text-emerald-400" },
+        { max: 270, name: { ko: "일반인 평균", en: "Average", zh: "普通人", ja: "平均" }, emoji: "😐", color: "text-slate-600 dark:text-slate-400" },
+        { max: 350, name: { ko: "연습이 필요해요", en: "Practice needed", zh: "需加练习", ja: "練習が必要" }, emoji: "🐢", color: "text-amber-600 dark:text-amber-400" },
+        { max: 9999, name: { ko: "혹시... 자나요?", en: "Sleeping?", zh: "睡着了吗？", ja: "寝てる？" }, emoji: "🦥", color: "text-slate-400 dark:text-slate-600" },
+    ];
+
+    const getTier = (ms: number) => {
+        return tiers.find(t => ms < t.max) || tiers[tiers.length - 1];
+    };
+
     // Dynamic Styles
     let bgClass = "bg-slate-100 dark:bg-slate-800";
     if (state === "waiting") bgClass = "bg-red-500";
     if (state === "ready") bgClass = "bg-green-500";
     if (state === "early") bgClass = "bg-slate-200 dark:bg-slate-700";
+
+    const currentTier = state === "result" ? getTier(endTime - startTime) : null;
 
     return (
         <div
@@ -128,12 +144,19 @@ export default function ReactionGame() {
                 </>
             )}
 
-            {state === "result" && (
+            {state === "result" && currentTier && (
                 <>
-                    <div className="text-6xl mb-2">⏱️</div>
-                    <h2 className="text-5xl font-black text-slate-800 dark:text-white mb-1">
-                        {endTime - startTime}ms
+                    <div className="text-6xl mb-2 animate-bounce">
+                        {currentTier.emoji}
+                    </div>
+                    <h2 className="text-6xl font-black text-slate-800 dark:text-white mb-2 tracking-tighter">
+                        {endTime - startTime}<span className="text-3xl ml-1 text-slate-500 font-bold">ms</span>
                     </h2>
+                    
+                    <div className={`text-2xl font-bold mb-6 ${currentTier.color}`}>
+                        {currentTier.name[lang] || currentTier.name.en}
+                    </div>
+
                     <p className="text-slate-500 dark:text-slate-400 mb-8 font-medium">
                         {texts.result.title[lang] || texts.result.title.en}
                     </p>
@@ -147,7 +170,7 @@ export default function ReactionGame() {
                         </div>
                     )}
 
-                    <div className="font-bold text-amber-500 animate-bounce">{texts.result.cta[lang] || texts.result.cta.en}</div>
+                    <div className="font-bold text-amber-500 animate-pulse">{texts.result.cta[lang] || texts.result.cta.en}</div>
                     <p className="text-xs text-slate-400 mt-4 opacity-60">Click to keep playing</p>
                 </>
             )}
