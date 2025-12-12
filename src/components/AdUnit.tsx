@@ -25,7 +25,11 @@ export default function AdUnit({
     }, []);
 
     return (
-        <div className={`w-full overflow-hidden ${className}`}>
+        <div
+            className={`w-full overflow-hidden ${className}`}
+            role="complementary"
+            aria-label="Advertisement"
+        >
             <ins
                 className="adsbygoogle"
                 style={{ display: "block" }}

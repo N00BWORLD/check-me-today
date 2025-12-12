@@ -89,6 +89,25 @@ export default function RootLayout({
           crossOrigin="anonymous"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
         />
+        {/* JSON-LD for Brand Entity */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Check Me Today",
+              "alternateName": "오늘 나를 확인해봐",
+              "url": "https://check-me.today",
+              "description": "심리학 기반의 성향 테스트, 운세, 관상 분석을 제공하는 자아 탐구 플랫폼",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://check-me.today/?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
         {/* Google AdSense Script */}
         <Script
           async
@@ -104,7 +123,7 @@ export default function RootLayout({
           <div className="floating-shape w-80 h-80 bg-cyan-300/30 dark:bg-cyan-500/20 top-1/3 -right-40" style={{ animationDelay: "-5s" }} />
           <div className="floating-shape w-72 h-72 bg-pink-300/30 dark:bg-pink-500/20 bottom-0 left-1/4" style={{ animationDelay: "-10s" }} />
         </div>
-        
+
         <ThemeProvider>
           <LanguageProvider>
             {children}

@@ -12,14 +12,17 @@ export default function CategoryTabs({ selected, onSelect }: CategoryTabsProps) 
     const { lang } = useLanguage();
 
     return (
-        <div className="w-full">
-            <div className="flex flex-wrap gap-2">
+        <nav className="w-full" aria-label="Category Filter">
+            <div className="flex flex-wrap gap-2" role="tablist">
                 {categories.map((cat) => {
                     const isSelected = selected === cat.id;
                     return (
                         <button
                             key={cat.id}
                             onClick={() => onSelect(cat.id)}
+                            role="tab"
+                            aria-selected={isSelected}
+                            aria-controls="test-list"
                             className={`
                                 flex items-center gap-1.5 px-4 py-2.5 rounded-full
                                 text-sm font-semibold whitespace-nowrap
@@ -36,7 +39,7 @@ export default function CategoryTabs({ selected, onSelect }: CategoryTabsProps) 
                     );
                 })}
             </div>
-        </div>
+        </nav>
     );
 }
 
