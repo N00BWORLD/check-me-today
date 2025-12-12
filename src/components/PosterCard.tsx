@@ -100,7 +100,11 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
 
         {/* 상단: 이모지 영역 (55%) */}
         <div className="absolute inset-x-0 top-0 h-[55%] flex items-center justify-center">
-          <span className={`text-5xl drop-shadow-lg transition-transform duration-300 ${!isAnimating ? 'group-hover:scale-110 group-hover:rotate-3' : ''}`}>
+          <span
+            className={`text-5xl drop-shadow-lg transition-transform duration-300 ${!isAnimating ? 'group-hover:scale-110 group-hover:rotate-3' : ''}`}
+            role="img"
+            aria-label={`${name} icon`}
+          >
             {test.emoji}
           </span>
         </div>

@@ -81,12 +81,13 @@ export default function Home() {
             <div className="flex items-center gap-2.5">
               <div className="relative">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
-                  <span className="text-xl">✨</span>
+                  <span className="text-xl" role="img" aria-label="Logo">✨</span>
                 </div>
               </div>
               <div>
-                <h1 className="text-base font-black text-slate-800 dark:text-white tracking-tight leading-tight">
-                  Check Me Today
+                <h1 className="text-base font-black text-slate-800 dark:text-white tracking-tight leading-tight flex flex-col">
+                  <span>Check Me Today</span>
+                  <span className="sr-only"> - 무료 성격 유형 테스트, 심리 테스트, 운세 모음</span>
                 </h1>
                 <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                   {dateString}

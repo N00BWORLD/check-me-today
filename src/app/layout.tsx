@@ -5,26 +5,54 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
-  title: "Check Me Today | 오늘 나를 확인해봐",
-  description: "테토-에겐 테스트, 퍼스널 컬러, 수면 분석 등 다양한 심리 테스트로 진짜 나를 발견해보세요!",
-  keywords: ["심리 테스트", "성격 테스트", "MBTI", "테토", "에겐", "퍼스널 컬러", "check me today"],
+  metadataBase: new URL("https://check-me.today"),
+  title: {
+    default: "Check Me Today | 오늘 나를 확인해봐",
+    template: "%s | Check Me Today",
+  },
+  description: "심리 테스트, 성격 테스트, 운세, MBTI, 퍼스널 컬러 등 나를 알아보는 다양한 콘텐츠를 제공합니다. 오늘 당신의 상태를 확인해보세요!",
+  keywords: ["심리 테스트", "성격 테스트", "MBTI", "운세", "관상", "사주", "무료 테스트", "check me today"],
   authors: [{ name: "Check Me Today" }],
+  creator: "Check Me Today",
+  publisher: "Check Me Today",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Check Me Today | 오늘 나를 확인해봐",
-    description: "테토-에겐 테스트부터 다양한 심리 테스트까지, 진짜 나를 발견해보세요!",
+    description: "테토/에겐 성격 테스트, 오늘의 운세, 관상 분석까지! 나를 발견하는 가장 쉬운 방법.",
     url: "https://check-me.today",
     siteName: "Check Me Today",
     locale: "ko_KR",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Check Me Today - 심리테스트 & 운세",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Check Me Today | 오늘 나를 확인해봐",
-    description: "테토-에겐 테스트부터 다양한 심리 테스트까지!",
+    description: "테토/에겐 성격 테스트, 오늘의 운세, 관상 분석까지!",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: "google-site-verification-code", // 추후 실제 코드로 교체 필요
   },
 };
 
