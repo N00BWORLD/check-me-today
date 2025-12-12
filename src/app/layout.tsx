@@ -54,7 +54,10 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-code", // 추후 실제 코드로 교체 필요
+    google: "google-site-verification-code",
+    other: {
+      "naver-site-verification": "8dfc3ad226234d261301e6ac70d16af0420faf76",
+    },
   },
 };
 
