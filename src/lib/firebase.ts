@@ -17,6 +17,7 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0
 const db = getFirestore(app);
 import { getAuth } from "firebase/auth";
 const auth = getAuth(app);
+import { incrementDistributedCounter, getDistributedCount } from "./counters";
 
 // 테스트 통계 타입
 export interface TestStats {
@@ -47,16 +48,14 @@ export async function getTestStats(testId: string): Promise<TestStats> {
 // 조회수 증가
 export async function incrementPlayCount(testId: string): Promise<void> {
   try {
+    // Sharded Counter (High Scalability)
+    await incrementDistributedCounter(testId, "tests");
+    // Also update main doc for simple reads (Optional, or rely on aggregation)
+    // For now, we update both to maintain backward compatibility until full aggregation is ready
     const docRef = doc(db, "tests", testId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      await updateDoc(docRef, {
-        playCount: increment(1)
-      });
-    } else {
-      await setDoc(docRef, { playCount: 1, likeCount: 0 });
-    }
+    await updateDoc(docRef, { playCount: increment(1) }).catch(() => {
+      setDoc(docRef, { playCount: 1, likeCount: 0 });
+    });
   } catch (error) {
     console.error("Error incrementing play count:", error);
   }
