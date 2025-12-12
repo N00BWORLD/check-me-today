@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/api/og?title=Check%20Me%20Today&desc=%EC%97%90%EB%84%88%EC%A7%80%20%EB%B0%B8%EB%9F%B0%EC%8A%A4%20%ED%85%8C%EC%8A%A4%ED%8A%B8&emoji=%E2%9C%A8", // Energy Balance Test
         width: 1200,
         height: 630,
         alt: "Check Me Today - 심리테스트 & 운세",
