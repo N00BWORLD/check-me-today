@@ -4,6 +4,7 @@ import Script from "next/script";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import BottomNav from "@/components/BottomNav";
+import InstallPrompt from "@/components/InstallPrompt";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://check-me.today"),
@@ -132,6 +133,7 @@ export default function RootLayout({
         <ThemeProvider>
           <LanguageProvider>
             {children}
+            <InstallPrompt />
             <BottomNav />
           </LanguageProvider>
         </ThemeProvider>
