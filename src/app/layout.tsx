@@ -3,9 +3,11 @@ import "./globals.css";
 import Script from "next/script";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import BottomNav from "@/components/BottomNav";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://check-me.today"),
+  manifest: "/manifest.json",
   title: {
     default: "Check Me Today | 오늘 나를 확인해봐",
     template: "%s | Check Me Today",
@@ -127,6 +129,7 @@ export default function RootLayout({
         <ThemeProvider>
           <LanguageProvider>
             {children}
+            <BottomNav />
           </LanguageProvider>
         </ThemeProvider>
       </body>

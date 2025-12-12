@@ -243,12 +243,6 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Bottom Ad */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-t border-slate-200 dark:border-slate-800 flex justify-center items-center h-[60px]">
-        <div className="w-full max-w-[320px] h-[50px] overflow-hidden">
-          <AdUnit slotId="1234567890" format="horizontal" responsive={false} className="w-full h-full" />
-        </div>
-      </div>
     </main>
   );
 }
