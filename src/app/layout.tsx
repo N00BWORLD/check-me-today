@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Check Me Today | 오늘 나를 확인해봐",
-    description: "테토/에겐 성격 테스트, 오늘의 운세, 관상 분석까지! 나를 발견하는 가장 쉬운 방법.",
+    description: "에너지 밸런스 테스트, 오늘의 운세, 관상 분석까지! 나를 발견하는 가장 쉬운 방법.",
     url: "https://check-me.today",
     siteName: "Check Me Today",
     locale: "ko_KR",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Check Me Today | 오늘 나를 확인해봐",
-    description: "테토/에겐 성격 테스트, 오늘의 운세, 관상 분석까지!",
+    description: "에너지 밸런스 테스트, 오늘의 운세, 관상 분석까지!",
     images: ["/og-image.png"],
   },
   robots: {
