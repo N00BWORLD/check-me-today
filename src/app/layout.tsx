@@ -60,6 +60,10 @@ export const metadata: Metadata = {
       "naver-site-verification": "8dfc3ad226234d261301e6ac70d16af0420faf76",
     },
   },
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export const viewport: Viewport = {
