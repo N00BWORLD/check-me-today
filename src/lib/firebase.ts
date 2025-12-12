@@ -15,6 +15,8 @@ const firebaseConfig = {
 // Firebase 앱 초기화 (중복 방지)
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
+import { getAuth } from "firebase/auth";
+const auth = getAuth(app);
 
 // 테스트 통계 타입
 export interface TestStats {
@@ -27,7 +29,7 @@ export async function getTestStats(testId: string): Promise<TestStats> {
   try {
     const docRef = doc(db, "tests", testId);
     const docSnap = await getDoc(docRef);
-    
+
     if (docSnap.exists()) {
       return docSnap.data() as TestStats;
     } else {
@@ -47,7 +49,7 @@ export async function incrementPlayCount(testId: string): Promise<void> {
   try {
     const docRef = doc(db, "tests", testId);
     const docSnap = await getDoc(docRef);
-    
+
     if (docSnap.exists()) {
       await updateDoc(docRef, {
         playCount: increment(1)
@@ -65,7 +67,7 @@ export async function incrementLikeCount(testId: string): Promise<void> {
   try {
     const docRef = doc(db, "tests", testId);
     const docSnap = await getDoc(docRef);
-    
+
     if (docSnap.exists()) {
       await updateDoc(docRef, {
         likeCount: increment(1)
@@ -84,11 +86,11 @@ export async function getAllTestStats(): Promise<Record<string, TestStats>> {
     const { collection, getDocs } = await import("firebase/firestore");
     const querySnapshot = await getDocs(collection(db, "tests"));
     const stats: Record<string, TestStats> = {};
-    
+
     querySnapshot.forEach((doc) => {
       stats[doc.id] = doc.data() as TestStats;
     });
-    
+
     return stats;
   } catch (error) {
     console.error("❌ Error getting all test stats:", error);
@@ -96,5 +98,5 @@ export async function getAllTestStats(): Promise<Record<string, TestStats>> {
   }
 }
 
-export { db };
+export { db, auth };
 
