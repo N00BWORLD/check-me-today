@@ -223,6 +223,11 @@ export default function Home() {
             </div>
           </section>
         )}
+
+        {/* Revenue Recovery: AdSense Unit */}
+        <div className="py-6 flex justify-center">
+          <AdUnit slotId="1234567890" format="horizontal" responsive={true} />
+        </div>
       </div>
 
       {/* Footer */}
