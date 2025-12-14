@@ -281,32 +281,7 @@ export const tests: TestData[] = [
     isComingSoon: false,
     createdAt: "2024-12-09",
   },
-  {
-    id: 'starfall-rooftop',
-    slug: 'starfall-rooftop',
-    type: 'visual-novel',
-    category: 'visual-novel' as CategoryId,
-    name: {
-      ko: '미연시 시뮬레이션: 별이 떨어지는 옥상',
-      en: 'Dating Sim: The Starfall Rooftop',
-      zh: '恋爱模拟：星光坠落的屋顶',
-      ja: '恋愛シミュレーション：星が降る屋上'
-    },
-    description: {
-      ko: '신비로운 전학생 세라와의 만남. 당신의 선택에 따라 엔딩이 달라지는 미연시 시뮬레이션.',
-      en: 'A meeting with the mysterious transfer student Sera. A dating sim where your choices determine the ending.',
-      zh: '与神秘转学生塞拉的相遇。结局取决于你选择的恋爱模拟游戏。',
-      ja: '神秘的な転校生セラとの出会い。あなたの選択によってエンディングが変わる恋愛シミュレーション。'
-    },
-    emoji: "🌠",
-    gradient: "from-indigo-600 via-purple-600 to-pink-600",
-    bgGradient: "from-indigo-100 to-pink-100 dark:from-indigo-900/30 dark:to-pink-900/30",
-    playCount: 0,
-    likeCount: 0,
-    badge: "NEW",
-    isComingSoon: false,
-    createdAt: "2024-12-09",
-  }
+
 ];
 
 // 유틸리티 함수들
