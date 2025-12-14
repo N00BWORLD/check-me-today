@@ -59,7 +59,7 @@ export default async function TestPage({ params }: Props) {
     return (
         <main className="min-h-screen pb-20 pt-4 px-4 max-w-xl mx-auto">
             {isVN ? (
-                <VisualNovelContainer scenario={starfallScenario} />
+                <VisualNovelContainer scenario={starfallScenario} testId={test.id} />
             ) : (
                 <>
                     {/* Top Ad */}
@@ -83,7 +83,7 @@ export default async function TestPage({ params }: Props) {
                     {/* Content Area */}
                     <div className="mb-8">
                         {isGame && test.id === 'reaction-test' ? (
-                            <ReactionGame />
+                            <ReactionGame testId={test.id} />
                         ) : (
                             <div className="p-8 bg-slate-100 dark:bg-slate-800 rounded-2xl text-center">
                                 <p className="text-lg font-bold mb-2">테스트를 불러오는 중...</p>

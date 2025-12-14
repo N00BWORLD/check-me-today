@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import VisualNovel, { VNScenario } from "@/components/VisualNovel";
+import { useIncrementPlay } from "@/hooks/useTestStats";
 
 interface Props {
     scenario: VNScenario;
+    testId: string;
 }
 
-export default function VisualNovelContainer({ scenario }: Props) {
+export default function VisualNovelContainer({ scenario, testId }: Props) {
+    useIncrementPlay(testId);
     const [ending, setEnding] = useState<string | null>(null);
 
     const handleComplete = (results: { love: number; suspicion: number }) => {

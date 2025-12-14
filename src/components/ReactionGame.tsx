@@ -3,14 +3,22 @@
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
+import { useIncrementPlay } from "@/hooks/useTestStats";
+
 type GameState = "idle" | "waiting" | "ready" | "early" | "result";
 
-export default function ReactionGame() {
+interface Props {
+    testId?: string;
+}
+
+export default function ReactionGame({ testId = "reaction-test" }: Props) {
     const { lang } = useLanguage();
     const [state, setState] = useState<GameState>("idle");
     const [startTime, setStartTime] = useState(0);
     const [endTime, setEndTime] = useState(0);
     const [history, setHistory] = useState<number[]>([]);
+
+    useIncrementPlay(testId);
 
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
