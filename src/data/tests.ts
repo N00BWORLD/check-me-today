@@ -173,7 +173,7 @@ export const tests: TestData[] = [
     playCount: 0,
     likeCount: 0,
     badge: "NEW",
-    isComingSoon: true,
+    isComingSoon: false,
     createdAt: "2024-12-06",
   },
   {

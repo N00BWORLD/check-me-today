@@ -51,7 +51,7 @@ function AnalyzingContent() {
         const duration = 5000;
         const interval = 50;
         const increment = 100 / (duration / interval);
-        
+
         const progressTimer = setInterval(() => {
             setProgress(prev => {
                 if (prev >= 100) {
@@ -86,14 +86,31 @@ function AnalyzingContent() {
         };
     }, [searchParams, router, currentMessages.length]);
 
+    const test = searchParams.get("test") || "energy-balance";
     const type = searchParams.get("type") || "SOLAR";
-    const isSolar = type === "SOLAR";
-    const emoji = "⚖️";
-    const primaryEmoji = isSolar ? "☀️" : "🌙";
-    const gradient = isSolar 
-        ? "from-amber-500 via-orange-500 to-red-500" 
-        : "from-indigo-500 via-purple-500 to-violet-500";
-    const shadowColor = isSolar ? "shadow-orange-500/30" : "shadow-indigo-500/30";
+
+    // 테스트별 UI 설정
+    const getTestConfig = () => {
+        if (test === "love-test") {
+            return {
+                emoji: "💖",
+                gradient: "from-pink-500 via-rose-500 to-red-500",
+                shadowColor: "shadow-pink-500/30",
+                labels: { ko: ["열정", "안정"], en: ["Passion", "Stability"], zh: ["热情", "稳定"], ja: ["情熱", "安定"] }
+            };
+        }
+        // 기본값 (에너지 밸런스)
+        const isSolar = type === "SOLAR";
+        return {
+            emoji: "⚖️",
+            gradient: isSolar ? "from-amber-500 via-orange-500 to-red-500" : "from-indigo-500 via-purple-500 to-violet-500",
+            shadowColor: isSolar ? "shadow-orange-500/30" : "shadow-indigo-500/30",
+            labels: { ko: ["☀️ Solar", "Lunar 🌙"], en: ["☀️ Solar", "Lunar 🌙"], zh: ["☀️ Solar", "Lunar 🌙"], ja: ["☀️ Solar", "Lunar 🌙"] }
+        };
+    };
+
+    const config = getTestConfig();
+    const labels = config.labels[lang] || config.labels.en;
 
     return (
         <main className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -103,26 +120,32 @@ function AnalyzingContent() {
                     {/* 배경 원 */}
                     <div className={`
                         w-32 h-32 mx-auto rounded-full 
-                        bg-gradient-to-br ${gradient}
+                        bg-gradient-to-br ${config.gradient}
                         flex items-center justify-center
-                        animate-pulse shadow-2xl ${shadowColor}
+                        animate-pulse shadow-2xl ${config.shadowColor}
                         relative overflow-hidden
                     `}>
-                        <span className="text-6xl animate-bounce">{emoji}</span>
-                        {/* 태양/달 장식 */}
-                        <div className="absolute -left-2 top-2 text-2xl animate-pulse" style={{ animationDelay: "0.5s" }}>
-                            ☀️
-                        </div>
-                        <div className="absolute -right-2 bottom-2 text-2xl animate-pulse" style={{ animationDelay: "0.8s" }}>
-                            🌙
-                        </div>
+                        <span className="text-6xl animate-bounce">{config.emoji}</span>
+                        {/* 데코레이션 */}
+                        {test === 'energy-balance' && (
+                            <>
+                                <div className="absolute -left-2 top-2 text-2xl animate-pulse" style={{ animationDelay: "0.5s" }}>☀️</div>
+                                <div className="absolute -right-2 bottom-2 text-2xl animate-pulse" style={{ animationDelay: "0.8s" }}>🌙</div>
+                            </>
+                        )}
+                        {test === 'love-test' && (
+                            <>
+                                <div className="absolute -left-2 top-2 text-2xl animate-pulse" style={{ animationDelay: "0.5s" }}>💕</div>
+                                <div className="absolute -right-2 bottom-2 text-2xl animate-pulse" style={{ animationDelay: "0.8s" }}>💘</div>
+                            </>
+                        )}
                     </div>
-                    
+
                     {/* 회전하는 링 */}
                     <div className="absolute inset-0 flex items-center justify-center">
                         <div className={`
                             w-40 h-40 rounded-full border-4 border-transparent
-                            ${isSolar ? "border-t-amber-500 border-r-orange-500" : "border-t-indigo-500 border-r-purple-500"}
+                            ${test === 'love-test' ? 'border-t-pink-500 border-r-rose-500' : (type === 'SOLAR' ? "border-t-amber-500 border-r-orange-500" : "border-t-indigo-500 border-r-purple-500")}
                             animate-spin
                         `} style={{ animationDuration: "1.5s" }} />
                     </div>
@@ -136,29 +159,29 @@ function AnalyzingContent() {
                 {/* 프로그레스 바 */}
                 <div className="w-full max-w-xs mx-auto mb-8">
                     <div className="h-3 bg-white/30 dark:bg-slate-700 rounded-full overflow-hidden backdrop-blur-sm flex">
-                        <div 
-                            className="h-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-100"
+                        <div
+                            className={`h-full ${test === 'love-test' ? 'bg-gradient-to-r from-pink-400 to-rose-500' : 'bg-gradient-to-r from-amber-400 to-orange-500'} transition-all duration-100`}
                             style={{ width: `${progress / 2}%` }}
                         />
-                        <div 
-                            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-100"
+                        <div
+                            className={`h-full ${test === 'love-test' ? 'bg-gradient-to-r from-rose-500 to-red-500' : 'bg-gradient-to-r from-indigo-500 to-purple-500'} transition-all duration-100`}
                             style={{ width: `${progress / 2}%` }}
                         />
                     </div>
                     <div className="flex justify-between text-xs mt-2 text-slate-400 dark:text-slate-500">
-                        <span>☀️ Solar</span>
+                        <span>{labels[0]}</span>
                         <span className="font-bold">{Math.round(progress)}%</span>
-                        <span>Lunar 🌙</span>
+                        <span>{labels[1]}</span>
                     </div>
                 </div>
 
                 {/* 광고 영역 */}
                 <div className="mb-6">
                     <p className="text-xs text-slate-400 dark:text-slate-500 mb-3">
-                        {lang === 'ko' ? '잠시만 기다려 주세요' : 
-                         lang === 'zh' ? '请稍等' : 
-                         lang === 'ja' ? 'しばらくお待ちください' : 
-                         'Please wait a moment'}
+                        {lang === 'ko' ? '잠시만 기다려 주세요' :
+                            lang === 'zh' ? '请稍等' :
+                                lang === 'ja' ? 'しばらくお待ちください' :
+                                    'Please wait a moment'}
                     </p>
                     <AdUnit />
                 </div>
@@ -170,12 +193,12 @@ function AnalyzingContent() {
                             const params = new URLSearchParams(searchParams.toString());
                             router.push(`/result?${params.toString()}`);
                         }}
-                        className={`text-sm text-slate-400 dark:text-slate-500 hover:${isSolar ? 'text-amber-500' : 'text-indigo-500'} dark:hover:${isSolar ? 'text-amber-400' : 'text-indigo-400'} transition-colors animate-fade-in`}
+                        className={`text-sm text-slate-400 dark:text-slate-500 hover:text-pink-500 dark:hover:text-pink-400 transition-colors animate-fade-in`}
                     >
-                        {lang === 'ko' ? '결과 보기 →' : 
-                         lang === 'zh' ? '查看结果 →' : 
-                         lang === 'ja' ? '結果を見る →' : 
-                         'View results →'}
+                        {lang === 'ko' ? '결과 보기 →' :
+                            lang === 'zh' ? '查看结果 →' :
+                                lang === 'ja' ? '結果を見る →' :
+                                    'View results →'}
                     </button>
                 )}
             </div>
