@@ -234,6 +234,10 @@ export default function Home() {
             <a href="/terms" className="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">
               {lang === 'ko' ? '이용약관' : lang === 'zh' ? '服务条款' : lang === 'ja' ? '利用規約' : 'Terms of Service'}
             </a>
+            <span>•</span>
+            <a href="/ideas" className="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">
+              {lang === 'ko' ? '💡 아이디어 제안' : lang === 'zh' ? '💡 创意建议' : lang === 'ja' ? '💡 アイデア提案' : '💡 Suggest an Idea'}
+            </a>
           </div>
           <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-2">
             © 2025 Check Me Today. All rights reserved.

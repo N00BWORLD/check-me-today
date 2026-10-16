@@ -32,6 +32,12 @@ export default function BottomNav() {
             icon: "🍽️",
             label: { ko: "메뉴", en: "Menu", zh: "菜单", ja: "メニュー" },
             match: (path: string) => path.startsWith("/menu-recommendation")
+        },
+        {
+            href: "/ideas",
+            icon: "💡",
+            label: { ko: "제안", en: "Ideas", zh: "建议", ja: "提案" },
+            match: (path: string) => path.startsWith("/ideas")
         }
     ];
 
