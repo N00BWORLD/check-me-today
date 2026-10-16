@@ -281,6 +281,33 @@ export const tests: TestData[] = [
     isComingSoon: false,
     createdAt: "2024-12-09",
   },
+  {
+    id: "ladder-game",
+    slug: "ladder-game",
+    type: "game",
+    category: "fun",
+    name: {
+      ko: "사다리 타기 🎲",
+      en: "Ladder Game 🎲",
+      zh: "爬梯子 🎲",
+      ja: "あみだくじ 🎲"
+    },
+    description: {
+      ko: "누가 커피 쏠래? 공정한 운명의 사다리",
+      en: "Who's buying coffee? Let the ladder decide",
+      zh: "谁请咖啡？让梯子来决定",
+      ja: "誰がコーヒーをおごる？運命のあみだくじ"
+    },
+    keywords: ["사다리 타기", "사다리 게임", "ladder game", "amidakuji", "뽑기", "내기"],
+    emoji: "🎲",
+    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+    bgGradient: "from-emerald-100 to-cyan-100 dark:from-emerald-900/30 dark:to-cyan-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2026-10-16",
+  },
 
 ];
 

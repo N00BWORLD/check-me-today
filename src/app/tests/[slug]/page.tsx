@@ -3,7 +3,14 @@ import { getTestBySlug, getTestPath, tests } from '@/data/tests';
 import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';
 import ReactionGame from '@/components/ReactionGame';
+import LadderGame from '@/components/LadderGame';
 import AdUnit from '@/components/AdUnit';
+
+// 게임 id → 컴포넌트. 새 게임을 추가하면 여기와 tests.ts 에만 등록하면 됨
+const GAME_COMPONENTS: Record<string, React.ComponentType> = {
+    'reaction-test': ReactionGame,
+    'ladder-game': LadderGame,
+};
 
 // Force dynamic rendering to ensure search params and randomness work if needed
 export const dynamic = 'force-dynamic';
@@ -25,8 +32,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const title = test.name['ko'] || test.name['en'];
     const desc = test.description['ko'] || test.description['en'];
 
+    // 루트 레이아웃의 title 템플릿("%s | Check Me Today")이 사이트명을 붙이므로 여기서는 이름만 지정
     return {
-        title: `${title} | Check Me Today`,
+        title,
         description: desc,
         openGraph: {
             title: `${title} | Check Me Today`,
@@ -59,7 +67,7 @@ export default async function TestPage({ params }: Props) {
         permanentRedirect(realPath);
     }
 
-    const isGame = test.type === 'game';
+    const Game = test.type === 'game' ? GAME_COMPONENTS[test.id] : undefined;
     return (
         <main className="min-h-screen pb-20 pt-4 px-4 max-w-xl mx-auto">
             {/* Top Ad */}
@@ -82,8 +90,8 @@ export default async function TestPage({ params }: Props) {
 
             {/* Content Area */}
             <div className="mb-8">
-                {isGame && test.id === 'reaction-test' ? (
-                    <ReactionGame />
+                {Game ? (
+                    <Game />
                 ) : (
                     <div className="p-8 bg-slate-100 dark:bg-slate-800 rounded-2xl text-center">
                         <p className="text-lg font-bold mb-2">준비 중인 콘텐츠입니다</p>
