@@ -43,3 +43,6 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+# 삽화 원본(대용량 PNG). 서비스에는 public/ 의 WebP 를 쓴다
+_originals/

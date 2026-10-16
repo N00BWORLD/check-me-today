@@ -4,7 +4,7 @@
 // - 어르신 기준: 글자 20px 이상, 버튼 높이 64px 이상, 고대비, 포커스 링 표시
 // - 한지(연한 베이지) 배경 + 먹색 글자 + 주홍 포인트
 
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { useState, type ButtonHTMLAttributes, type ReactNode } from "react";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
@@ -134,5 +134,42 @@ export function Toast({ message }: ToastProps) {
         </div>
       )}
     </div>
+  );
+}
+
+interface TypeImageProps {
+  /** 결과 유형 id (public/face-reading/{id}.webp) */
+  id: string;
+  /** 그림이 없을 때 대신 보여 줄 이모지 */
+  emoji: string;
+  alt: string;
+  /** 한 변의 픽셀 크기 */
+  size?: number;
+  className?: string;
+}
+
+/**
+ * 결과 유형 삽화. 파일이 없으면(404) 큰 이모지로 대체한다.
+ * 유형마다 파일이 있을 수도 없을 수도 있어 next/image 대신 onError 폴백이 되는 img 를 쓴다.
+ */
+export function TypeImage({ id, emoji, alt, size = 224, className = "" }: TypeImageProps) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className="text-[88px] leading-none my-4" aria-hidden="true">
+        {emoji}
+      </div>
+    );
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/face-reading/${id}.webp`}
+      alt={alt}
+      width={size}
+      height={size}
+      onError={() => setFailed(true)}
+      className={twMerge("mx-auto my-4 rounded-3xl object-cover border-4 border-[#e2c17a]/70 shadow-lg bg-[#f6efe0]", className)}
+    />
   );
 }

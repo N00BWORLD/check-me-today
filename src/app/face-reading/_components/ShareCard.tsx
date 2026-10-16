@@ -14,6 +14,7 @@ import {
   TraitScores,
 } from "@/data/face-reading";
 import { texts } from "./texts";
+import { TypeImage } from "./ui";
 
 interface ShareCardProps {
   result: FaceReadingResult;
@@ -30,7 +31,7 @@ const ShareCard = forwardRef<HTMLDivElement, ShareCardProps>(function ShareCard(
         <div className="ink-header px-6 py-8 text-center">
           <p className="text-[#e2c17a] text-[16px] tracking-[0.4em] font-serif">觀相結果</p>
           <p className="text-[#f6efe0] text-[14px] mt-1">{t(texts.resultOf)}</p>
-          <div className="text-[76px] leading-none my-5">{result.emoji}</div>
+          <TypeImage id={result.id} emoji={result.emoji} alt="" size={240} className="w-60 h-60 my-5" />
           <p className="text-[#e2c17a] text-[16px] tracking-[0.3em] font-serif mb-1">{result.hanja}</p>
           <p className="text-[36px] font-bold text-[#fbf7ee] font-serif leading-none">{t(result.type)}</p>
         </div>
