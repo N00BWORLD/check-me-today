@@ -427,3 +427,18 @@ export function formatPlayCount(count: number): string {
   }
   return count.toLocaleString();
 }
+
+// 카테고리 랜딩 페이지(/category/[id])가 존재하는 카테고리인지
+// - "전체"는 홈이 그 역할을 하므로 제외
+// - categories[] 에 등록돼 있고, 준비중이 아닌 테스트가 1개 이상 있어야 함 (테스트가 생기면 자동으로 페이지가 생긴다)
+// 페이지 본문 데이터는 src/data/categories.ts 참고
+/** 카테고리 랜딩 페이지 경로 */
+export function getCategoryPath(categoryId: CategoryId): string {
+  return `/category/${categoryId}`;
+}
+
+export function hasCategoryLanding(categoryId: CategoryId): boolean {
+  if (categoryId === "all") return false;
+  if (!categories.some((c) => c.id === categoryId)) return false;
+  return tests.some((t) => t.category === categoryId && !t.isComingSoon);
+}

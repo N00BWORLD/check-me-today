@@ -12,6 +12,7 @@ export const AD_SLOTS = {
   quiz: "",        // 퀴즈 진행 중 사각형 광고
   testTop: "",     // /tests/[slug] 상단 320x50
   testBottom: "",  // /tests/[slug] 하단 300x250
+  category: "",    // /category/[id] 소개글 아래 가로 배너
 };
 
 export type AdSlotKey = keyof typeof AD_SLOTS;
