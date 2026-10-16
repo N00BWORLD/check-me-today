@@ -7,7 +7,8 @@
 //      https://docs.google.com/forms/d/e/XXXXXXXX/viewform?embedded=true
 //
 // 값이 비어 있으면 /ideas 페이지는 "준비 중" 안내 화면을 보여준다.
-export const IDEAS_FORM_EMBED_URL = "";
+export const IDEAS_FORM_EMBED_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSceFxpW77aUrklSuHstSJKLpG4QWDn1sNvyuBjaiva0Tyz5qA/viewform?embedded=true";
 
 // 새 탭에서 열 때 쓰는 URL (embedded 파라미터 제거)
 export function getIdeasFormOpenUrl(): string {
