@@ -6,7 +6,8 @@ service cloud.firestore {
     // Tests public access (Read/Update counters)
     match /tests/{testId} {
       allow read: if true;
-      allow update: if true; // Increments allowed
+      // 새 테스트의 통계 문서는 첫 조회 시 클라이언트가 생성하므로 create 도 허용 (delete 는 불가)
+      allow create, update: if true;
 
       // 분산 카운터 샤드 (src/lib/counters.ts)
       // 샤드 문서는 처음 증가 시 lazy 생성되므로 create 도 필요
