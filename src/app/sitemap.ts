@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { tests, getTestPath } from '@/data/tests';
+import { quizzes } from '@/data/engine';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://check-me.today';
@@ -28,5 +29,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.8,
         }));
 
-    return [...staticPages, ...testPages];
+    // 엔진 테스트의 결과 유형별 정적 페이지 (/q/[slug]/[type])
+    const quizTypePages = quizzes.flatMap((quiz) => {
+        const test = tests.find((t) => t.slug === quiz.slug);
+        if (test?.isComingSoon) return [];
+        return quiz.results.map((result) => ({
+            url: `${baseUrl}/q/${quiz.slug}/${result.id}`,
+            lastModified: test ? new Date(test.createdAt) : new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.6,
+        }));
+    });
+
+    return [...staticPages, ...testPages, ...quizTypePages];
 }

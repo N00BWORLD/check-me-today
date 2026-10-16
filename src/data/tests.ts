@@ -18,7 +18,8 @@ export interface Category {
   emoji: string;
 }
 
-export type ContentType = 'test' | 'game' | 'visual-novel';
+// 'quiz' = 범용 엔진 테스트 (src/data/engine). 데이터 파일 하나로 /q/[slug] 페이지가 만들어진다
+export type ContentType = 'test' | 'game' | 'visual-novel' | 'quiz';
 
 export interface Question {
   id: string;
@@ -40,7 +41,7 @@ export interface Result {
 export interface TestData {
   id: string;
   slug: string; // URL 경로
-  type: ContentType; // 'test' 또는 'game' 또는 'visual-novel'
+  type: ContentType; // 'test' | 'game' | 'visual-novel' | 'quiz'
   category: CategoryId;
   name: Record<string, string>;
   description: Record<string, string>;
@@ -354,10 +355,13 @@ export function getActiveTests(): TestData[] {
 
 // 테스트의 실제 URL 경로
 // - 게임(type: "game")은 동적 라우트 /tests/[slug] 에서 렌더링
+// - 엔진 테스트(type: "quiz")는 동적 라우트 /q/[slug] 에서 렌더링 (데이터: src/data/engine)
 // - 그 외 테스트는 각자 독립 폴더 /[slug] 에 페이지가 있음
 // 사이트맵, 홈 카드, 추천 배너가 모두 이 함수를 사용하므로 경로 규칙은 여기서만 바꾸면 됨
 export function getTestPath(test: TestData): string {
-  return test.type === "game" ? `/tests/${test.slug}` : `/${test.slug}`;
+  if (test.type === "game") return `/tests/${test.slug}`;
+  if (test.type === "quiz") return `/q/${test.slug}`;
+  return `/${test.slug}`;
 }
 
 export function formatPlayCount(count: number): string {
