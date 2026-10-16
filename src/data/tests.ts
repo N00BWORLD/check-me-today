@@ -245,7 +245,7 @@ export const tests: TestData[] = [
       zh: "我是吝啬鬼还是大手大脚？💸 消费风格诊断",
       ja: "私はケチ？それとも浪費家？💸 消費スタイル診断"
     },
-    emoji: "🪙",
+    emoji: "💰",
     gradient: "from-purple-600 via-pink-600 to-rose-600",
     bgGradient: "from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30",
     playCount: 0,

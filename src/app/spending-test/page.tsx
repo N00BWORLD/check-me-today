@@ -97,7 +97,7 @@ export default function SpendingTestPage() {
                     <div className="glass-strong rounded-[2rem] p-8 text-center relative overflow-hidden animate-fade-in">
                         <div className="absolute top-0 right-0 w-48 h-48 bg-purple-400/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
-                        <div className="text-6xl mb-6 animate-bounce">🪙</div>
+                        <div className="text-6xl mb-6 animate-bounce">💰</div>
 
                         <h1 className="text-2xl font-black text-slate-800 dark:text-white mb-2 break-keep">
                             {t(info.title)}
