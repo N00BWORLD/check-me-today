@@ -20,19 +20,36 @@ import {
   TraitScores,
 } from "@/data/face-reading";
 import { useLike, useTestStats } from "@/hooks/useTestStats";
+import { SITE_URL } from "@/lib/kakao";
 import RecommendedTests from "@/components/RecommendedTests";
 import { colorNames, featureHanja, texts } from "./texts";
 import { BackButton, BigButton, cls, SectionTitle, Toast, TypeImage } from "./ui";
 import ShareButtons from "./ShareButtons";
+import ShareCard from "./ShareCard";
 
 interface ResultScreenProps {
   result: FaceReadingResult;
-  scores: TraitScores;
+  /** 성향 점수. 공유받은 결과처럼 선택이 없으면 null (한눈에 보는 운세를 숨긴다) */
+  scores: TraitScores | null;
   selections: Record<string, string>;
+  /** 다른 사람이 공유한 결과를 보는 중인지 */
+  isSharedView?: boolean;
   onRetry: () => void;
+  /** 오늘의 관상 운세로 이동 */
+  onDaily: () => void;
+  /** 공유받은 화면에서 "나도 관상 보기" */
+  onStartMine: () => void;
 }
 
-export default function ResultScreen({ result, scores, selections, onRetry }: ResultScreenProps) {
+export default function ResultScreen({
+  result,
+  scores,
+  selections,
+  isSharedView = false,
+  onRetry,
+  onDaily,
+  onStartMine,
+}: ResultScreenProps) {
   const { t, lang } = useLanguage();
   const router = useRouter();
   const { stats } = useTestStats("face-reading");
@@ -61,6 +78,15 @@ export default function ResultScreen({ result, scores, selections, onRetry }: Re
           <span className={`${cls.muted} font-serif`}>{t(texts.resultOf)}</span>
         </div>
 
+        {isSharedView && (
+          <div className="mb-5 space-y-3">
+            <p className={`${cls.body} font-bold text-center`}>💌 {t(texts.sharedNotice)}</p>
+            <BigButton onClick={onStartMine} aria-label={t(texts.startMine)} className="min-h-[72px] text-[24px]">
+              🔮 {t(texts.startMine)} →
+            </BigButton>
+          </div>
+        )}
+
         {/* 유형 머리 */}
         <section className={`${cls.card} overflow-hidden mb-6 animate-fade-in`} aria-labelledby="face-result-type">
           <div className="ink-header px-6 py-8 text-center">
@@ -80,7 +106,8 @@ export default function ResultScreen({ result, scores, selections, onRetry }: Re
           </div>
         </section>
 
-        {/* 한눈에 보는 운세 */}
+        {/* 한눈에 보는 운세 (내 선택이 있을 때만) */}
+        {scores && (
         <section className={`${cls.card} p-6 mb-6`} aria-label={t(texts.fortuneOverview)}>
           <SectionTitle emoji="🧭">{t(texts.fortuneOverview)}</SectionTitle>
           <ul className="space-y-5">
@@ -113,8 +140,10 @@ export default function ResultScreen({ result, scores, selections, onRetry }: Re
             })}
           </ul>
         </section>
+        )}
 
-        {/* 부위별 풀이 */}
+        {/* 부위별 풀이 (내 선택이 있을 때만) */}
+        {Object.keys(selections).length > 0 && (
         <section className={`${cls.card} p-6 mb-6`} aria-label={t(texts.featureReadings)}>
           <SectionTitle emoji="👤">{t(texts.featureReadings)}</SectionTitle>
           <ul className="space-y-5">
@@ -144,6 +173,7 @@ export default function ResultScreen({ result, scores, selections, onRetry }: Re
             })}
           </ul>
         </section>
+        )}
 
         {/* 타고난 장점 */}
         <section className={`${cls.card} p-6 mb-6`} aria-label={t(texts.strengths)}>
@@ -200,6 +230,17 @@ export default function ResultScreen({ result, scores, selections, onRetry }: Re
           </ul>
         </section>
 
+        {/* 매일 보는 관상 운세 (내 결과일 때만) */}
+        {!isSharedView && (
+          <section className={`${cls.card} p-6 mb-8 border-[#e2c17a]`} aria-label={t(texts.dailyPromo)}>
+            <SectionTitle emoji="🌅">{t(texts.dailyPromo)}</SectionTitle>
+            <p className={`${cls.body} mb-5`}>{t(texts.dailyPromoDesc)}</p>
+            <BigButton onClick={onDaily} aria-label={t(texts.dailyButton)} className="min-h-[72px] text-[24px]">
+              🌅 {t(texts.dailyButton)}
+            </BigButton>
+          </section>
+        )}
+
         {/* 추천하기 */}
         <BigButton
           variant={hasLiked ? "secondary" : "primary"}
@@ -216,7 +257,15 @@ export default function ResultScreen({ result, scores, selections, onRetry }: Re
 
         {/* 공유 */}
         <div className={`${cls.card} p-6 mb-8`}>
-          <ShareButtons result={result} scores={scores} onToast={setToast} />
+          <ShareButtons
+            shareTitle={`🔮 ${t(texts.shareText)}: ${t(result.type)}`}
+            shareDescription={t(result.title)}
+            imageUrl={`${SITE_URL}/face-reading/share/${result.id}.jpg`}
+            shareUrl={`${SITE_URL}/face-reading?type=${result.id}`}
+            downloadName={`face-reading-${result.id}-${new Date().toISOString().split("T")[0]}`}
+            card={scores ? <ShareCard result={result} scores={scores} /> : undefined}
+            onToast={setToast}
+          />
         </div>
 
         {/* 다시 보기 / 처음으로 */}

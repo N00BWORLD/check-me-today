@@ -115,6 +115,33 @@ export const texts = {
   viewResult: { ko: "결과 보기", en: "View result", zh: "查看结果", ja: "結果を見る" },
   retry: { ko: "다시 보기", en: "Try again", zh: "再看一次", ja: "もう一度" },
   resultOf: { ko: "관상 결과", en: "Result", zh: "面相结果", ja: "人相結果" },
+
+  // ----- 오늘의 관상 운세 -----
+  dailyTitle: { ko: "오늘의 관상 운세", en: "Today's Face Fortune", zh: "今日面相运势", ja: "今日の人相運勢" },
+  dailyButton: { ko: "오늘의 관상 운세 보기", en: "See today's fortune", zh: "查看今日运势", ja: "今日の運勢を見る" },
+  dailyHint: { ko: "매일 아침 새 운세가 준비됩니다", en: "A new fortune is ready every morning", zh: "每天早上都有新运势", ja: "毎朝新しい運勢が用意されます" },
+  dailyPromise: { ko: "결과를 보고 나면 매일 오늘의 관상 운세를 볼 수 있어요", en: "After your reading, you can see a daily fortune every day", zh: "看完结果后，每天都能看今日面相运势", ja: "結果を見た後は、毎日今日の人相運勢が見られます" },
+  retakeHeading: { ko: "관상 다시 보기", en: "Read your face again", zh: "重新看面相", ja: "人相をもう一度見る" },
+  retakeButton: { ko: "처음부터 다시 보기", en: "Start over", zh: "从头再看", ja: "最初からもう一度" },
+  seeMyResult: { ko: "내 관상 결과 보기", en: "See my full reading", zh: "查看我的面相结果", ja: "私の人相結果を見る" },
+  dailyOverall: { ko: "오늘 하루는", en: "Today will be", zh: "今天是", ja: "今日は" },
+  dailyMessage: { ko: "오늘의 한마디", en: "Word for today", zh: "今日一言", ja: "今日のひと言" },
+  dailyTraits: { ko: "오늘의 운세 항목", en: "Today by area", zh: "今日各项运势", ja: "今日の運勢項目" },
+  dailyLucky: { ko: "오늘의 행운", en: "Today's lucky picks", zh: "今日幸运", ja: "今日のラッキー" },
+  luckyInitial: { ko: "행운의 초성", en: "Lucky letter", zh: "幸运天干", ja: "ラッキー文字" },
+  luckyNumber: { ko: "행운의 숫자", en: "Lucky number", zh: "幸运数字", ja: "ラッキーナンバー" },
+  luckyItem: { ko: "행운의 물건", en: "Lucky item", zh: "幸运物品", ja: "ラッキーアイテム" },
+  luckyFood: { ko: "행운의 음식", en: "Lucky food", zh: "幸运食物", ja: "ラッキーフード" },
+  luckyTime: { ko: "행운의 시간", en: "Lucky time", zh: "幸运时间", ja: "ラッキータイム" },
+  dailyAdvice: { ko: "오늘의 조언", en: "Advice for today", zh: "今日建议", ja: "今日のアドバイス" },
+  dailyWarning: { ko: "오늘 조심할 점", en: "Watch out today", zh: "今日注意", ja: "今日の注意" },
+  comeBackTomorrow: { ko: "내일 다시 오시면 새 운세가 기다립니다", en: "Come back tomorrow for a new fortune", zh: "明天再来，新运势等着您", ja: "明日また来れば新しい運勢が待っています" },
+  streakPrefix: { ko: "", en: "Day", zh: "连续", ja: "" },
+  streakSuffix: { ko: "일째 보고 계세요", en: " in a row", zh: "天", ja: "日連続" },
+  dailyPromo: { ko: "매일 보는 관상 운세", en: "A daily fortune for your face", zh: "每日面相运势", ja: "毎日見る人相運勢" },
+  dailyPromoDesc: { ko: "결과가 기기에 저장되어, 내일부터는 첫 화면에서 바로 오늘의 관상 운세를 볼 수 있어요.", en: "Your result is saved on this device, so from tomorrow you can see today's fortune right from the first screen.", zh: "结果已保存在设备上，明天起可在首页直接查看今日运势。", ja: "結果はこの端末に保存され、明日からは最初の画面ですぐ今日の運勢が見られます。" },
+  sharedNotice: { ko: "친구가 보내 준 관상 결과입니다", en: "A reading shared by a friend", zh: "朋友分享的面相结果", ja: "友人から送られた人相結果です" },
+  startMine: { ko: "나도 관상 보기", en: "Read my face too", zh: "我也要看面相", ja: "私も人相を見る" },
 } satisfies Record<string, LocalizedText>;
 
 /** 행운의 색(16진수) → 색 이름. 색만으로 정보를 전하지 않기 위해 글로도 보여 준다 */
