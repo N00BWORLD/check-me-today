@@ -14,6 +14,7 @@ import {
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
 import { shareKakaoFeed } from "@/lib/kakao";
+import { copyToClipboard } from "@/lib/share";
 
 type FortuneState = "input" | "opening" | "result";
 
@@ -48,8 +49,7 @@ export default function FortunePage() {
 
   // 링크 복사
   const handleCopyLink = async () => {
-    const url = window.location.href;
-    await navigator.clipboard.writeText(url);
+    if (!(await copyToClipboard(window.location.href))) return;
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

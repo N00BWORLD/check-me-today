@@ -5,6 +5,7 @@ import { timeSlots, type TimeSlot, type MenuItem, menuRecommendations } from "@/
 import { useLike, useTestStats } from "@/hooks/useTestStats";
 import ResultActions from "@/components/ResultActions";
 import { shareKakaoFeed } from "@/lib/kakao";
+import { copyToClipboard } from "@/lib/share";
 
 interface MenuResultProps {
     menu: MenuItem;
@@ -98,8 +99,7 @@ export default function MenuResult({
 
     // 링크 복사 함수
     const handleCopyLink = async () => {
-        const url = window.location.href;
-        await navigator.clipboard.writeText(url);
+        if (!(await copyToClipboard(window.location.href))) return;
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };

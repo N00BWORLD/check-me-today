@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "에너지 밸런스 테스트 | Check Me Today",
+    title: "에너지 밸런스 테스트",
     description: "내 안의 태양과 달 ☀️🌙 심리학 기반 성향 테스트로 나의 에너지 밸런스를 확인해보세요!",
     openGraph: {
         title: "에너지 밸런스 테스트 ☀️🌙",

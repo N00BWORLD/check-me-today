@@ -7,6 +7,13 @@ service cloud.firestore {
     match /tests/{testId} {
       allow read: if true;
       allow update: if true; // Increments allowed
+
+      // 분산 카운터 샤드 (src/lib/counters.ts)
+      // 샤드 문서는 처음 증가 시 lazy 생성되므로 create 도 필요
+      match /shards/{shardId} {
+        allow read: if true;
+        allow create, update: if true;
+      }
     }
 
     // User Data (Private)

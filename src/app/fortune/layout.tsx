@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "오늘의 운세 | Check Me Today",
+    title: "오늘의 운세",
     description: "이름과 생년월일로 보는 오늘의 운세 🧧 종합운, 재물운, 연애운, 건강운, 직장/학업운을 확인해보세요!",
     openGraph: {
         title: "오늘의 운세 🧧",

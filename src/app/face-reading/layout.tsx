@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "관상 분석 테스트 | Face Reading | Check Me Today",
+  title: "관상 분석 테스트 | Face Reading",
   description: "마의상서와 신상전편 등 동양 고전에 기반한 관상 분석. 얼굴 특징으로 알아보는 나의 운명 - Face reading based on ancient Eastern physiognomy texts.",
   keywords: ["관상", "면상", "관상학", "face reading", "physiognomy", "面相", "人相", "운세", "fortune"],
   openGraph: {

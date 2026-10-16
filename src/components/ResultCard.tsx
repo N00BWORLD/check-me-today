@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 import html2canvas from "html2canvas";
 import ResultActions from "./ResultActions";
 import { shareKakaoFeed } from "@/lib/kakao";
+import { copyToClipboard } from "@/lib/share";
 
 interface ResultCardProps {
     type: PersonalityType;
@@ -126,13 +127,9 @@ export default function ResultCard({ type, traitScores, solarScore, lunarScore }
     // 링크 복사
     const handleCopyLink = async () => {
         const url = typeof window !== 'undefined' ? window.location.href : '';
-        try {
-            await navigator.clipboard.writeText(url);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        } catch (err) {
-            console.error(err);
-        }
+        if (!(await copyToClipboard(url))) return;
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     };
 
     // 트위터/X 공유

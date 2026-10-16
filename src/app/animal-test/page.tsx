@@ -14,6 +14,7 @@ import {
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
 import { shareKakaoFeed } from "@/lib/kakao";
+import { copyToClipboard } from "@/lib/share";
 
 type PageState = "landing" | "quiz" | "analyzing" | "result";
 
@@ -149,7 +150,7 @@ export default function AnimalTestPage() {
 
   // 공유 기능들
   const handleCopyLink = async () => {
-    await navigator.clipboard.writeText(window.location.href);
+    if (!(await copyToClipboard(window.location.href))) return;
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

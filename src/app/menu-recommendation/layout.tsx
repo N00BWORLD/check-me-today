@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "오늘의 메뉴추천 | Check Me Today",
+    title: "오늘의 메뉴추천",
     description: "🍽️ 지금 시간에 맞는 최적의 메뉴를 추천해드려요! 아침·점심·저녁·야식 별 맞춤 메뉴 추천",
     openGraph: {
         title: "오늘의 메뉴추천 🍽️",
