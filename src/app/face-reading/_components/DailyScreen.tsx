@@ -79,8 +79,7 @@ export default function DailyScreen({ result, streak, onShowResult, onRetry, onB
           <BackButton label={t(texts.back)} onClick={onBack} />
           {streak > 1 && (
             <span className="text-[18px] font-bold text-[#8b1a1a] dark:text-[#e2c17a]" aria-live="polite">
-              🔥 {t(texts.streakPrefix)} {streak}
-              {t(texts.streakSuffix)}
+              🔥 {t(texts.streakText).replace("{n}", String(streak))}
             </span>
           )}
         </div>

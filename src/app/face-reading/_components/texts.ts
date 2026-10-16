@@ -136,8 +136,8 @@ export const texts = {
   dailyAdvice: { ko: "오늘의 조언", en: "Advice for today", zh: "今日建议", ja: "今日のアドバイス" },
   dailyWarning: { ko: "오늘 조심할 점", en: "Watch out today", zh: "今日注意", ja: "今日の注意" },
   comeBackTomorrow: { ko: "내일 다시 오시면 새 운세가 기다립니다", en: "Come back tomorrow for a new fortune", zh: "明天再来，新运势等着您", ja: "明日また来れば新しい運勢が待っています" },
-  streakPrefix: { ko: "", en: "Day", zh: "连续", ja: "" },
-  streakSuffix: { ko: "일째 보고 계세요", en: " in a row", zh: "天", ja: "日連続" },
+  // {n} 자리에 연속 일수가 들어간다. 빈 문자열은 t() 가 영어로 대체하므로 접두어/접미어로 나누지 않는다
+  streakText: { ko: "{n}일째 보고 계세요", en: "Day {n} in a row", zh: "连续第{n}天", ja: "{n}日連続で見ています" },
   dailyPromo: { ko: "매일 보는 관상 운세", en: "A daily fortune for your face", zh: "每日面相运势", ja: "毎日見る人相運勢" },
   dailyPromoDesc: { ko: "결과가 기기에 저장되어, 내일부터는 첫 화면에서 바로 오늘의 관상 운세를 볼 수 있어요.", en: "Your result is saved on this device, so from tomorrow you can see today's fortune right from the first screen.", zh: "结果已保存在设备上，明天起可在首页直接查看今日运势。", ja: "結果はこの端末に保存され、明日からは最初の画面ですぐ今日の運勢が見られます。" },
   sharedNotice: { ko: "친구가 보내 준 관상 결과입니다", en: "A reading shared by a friend", zh: "朋友分享的面相结果", ja: "友人から送られた人相結果です" },
