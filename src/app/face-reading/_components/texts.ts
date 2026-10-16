@@ -124,6 +124,12 @@ export const colorNames: Record<string, LocalizedText> = {
   "#8B0000": { ko: "붉은색", en: "Red", zh: "红色", ja: "赤色" },
   "#FF69B4": { ko: "분홍색", en: "Pink", zh: "粉色", ja: "ピンク" },
   "#228B22": { ko: "초록색", en: "Green", zh: "绿色", ja: "緑色" },
+  "#800080": { ko: "보라색", en: "Purple", zh: "紫色", ja: "紫色" },
+  "#FF8C00": { ko: "주황색", en: "Orange", zh: "橙色", ja: "オレンジ色" },
+  "#1F1A14": { ko: "먹색(검은색)", en: "Ink black", zh: "墨黑色", ja: "墨色(黒)" },
+  "#87CEEB": { ko: "하늘색", en: "Sky blue", zh: "天蓝色", ja: "空色" },
+  "#C0C0C0": { ko: "은색", en: "Silver", zh: "银色", ja: "銀色" },
+  "#8B4513": { ko: "갈색", en: "Brown", zh: "棕色", ja: "茶色" },
 };
 
 /** 부위 이름 옆에 붙이는 한자 (전통 관상 느낌용 장식) */

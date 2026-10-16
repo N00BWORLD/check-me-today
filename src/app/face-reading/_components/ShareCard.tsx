@@ -31,7 +31,8 @@ const ShareCard = forwardRef<HTMLDivElement, ShareCardProps>(function ShareCard(
           <p className="text-[#e2c17a] text-[16px] tracking-[0.4em] font-serif">觀相結果</p>
           <p className="text-[#f6efe0] text-[14px] mt-1">{t(texts.resultOf)}</p>
           <div className="text-[76px] leading-none my-5">{result.emoji}</div>
-          <p className="text-[38px] font-bold text-[#fbf7ee] font-serif leading-none">{t(result.type)}</p>
+          <p className="text-[#e2c17a] text-[16px] tracking-[0.3em] font-serif mb-1">{result.hanja}</p>
+          <p className="text-[36px] font-bold text-[#fbf7ee] font-serif leading-none">{t(result.type)}</p>
         </div>
 
         {/* 본문 */}

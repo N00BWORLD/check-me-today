@@ -25,6 +25,38 @@ import { colorNames, featureHanja, texts } from "./texts";
 import { BackButton, BigButton, cls, SectionTitle, Toast } from "./ui";
 import ShareButtons from "./ShareButtons";
 
+interface TypeImageProps {
+  id: string;
+  emoji: string;
+  alt: string;
+}
+
+/**
+ * 유형 삽화. public/face-reading/{id}.png 가 있으면 그림을, 없으면(404) 큰 이모지를 보여 준다.
+ * 파일이 아직 없는 유형도 있어 next/image 대신 onError 폴백이 되는 img 를 쓴다.
+ */
+function TypeImage({ id, emoji, alt }: TypeImageProps) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className="text-[88px] leading-none my-4" aria-hidden="true">
+        {emoji}
+      </div>
+    );
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/face-reading/${id}.png`}
+      alt={alt}
+      width={224}
+      height={224}
+      onError={() => setFailed(true)}
+      className="w-56 h-56 mx-auto my-4 rounded-3xl object-cover border-4 border-[#e2c17a]/70 shadow-lg bg-[#f6efe0]"
+    />
+  );
+}
+
 interface ResultScreenProps {
   result: FaceReadingResult;
   scores: TraitScores;
@@ -65,10 +97,11 @@ export default function ResultScreen({ result, scores, selections, onRetry }: Re
         <section className={`${cls.card} overflow-hidden mb-6 animate-fade-in`} aria-labelledby="face-result-type">
           <div className="ink-header px-6 py-8 text-center">
             <p className="text-[#f6efe0] text-[20px]">{t(texts.yourFace)}</p>
-            <div className="text-[88px] leading-none my-4" aria-hidden="true">
-              {result.emoji}
-            </div>
-            <h1 id="face-result-type" className="text-[44px] font-bold text-[#fbf7ee] font-serif leading-none">
+            <TypeImage id={result.id} emoji={result.emoji} alt={t(result.type)} />
+            <p className="text-[#e2c17a] text-[20px] tracking-[0.3em] font-serif mb-2" aria-hidden="true">
+              {result.hanja}
+            </p>
+            <h1 id="face-result-type" className="text-[44px] font-bold text-[#fbf7ee] font-serif leading-none break-keep">
               {t(result.type)}
             </h1>
           </div>
