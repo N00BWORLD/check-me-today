@@ -363,6 +363,33 @@ export const tests: TestData[] = [
     isComingSoon: false,
     createdAt: "2026-10-16",
   },
+  {
+    id: "lotto",
+    slug: "lotto", // /lotto 경로 (src/app/lotto)
+    type: "test",
+    category: "fortune",
+    name: {
+      ko: "로또 번호 뽑기",
+      en: "Lotto Number Picker",
+      zh: "乐透号码抽取",
+      ja: "ロト番号を選ぶ"
+    },
+    description: {
+      ko: "역대 당첨 통계로 뽑는 재미있는 로또 번호 6개 🎱",
+      en: "Fun lotto numbers picked from draw history 🎱",
+      zh: "用历史中奖统计抽出6个乐透号码 🎱",
+      ja: "過去の当選統計で選ぶロト番号6個 🎱"
+    },
+    keywords: ["로또 번호", "로또 번호 추첨", "로또 번호 생성기", "로또 6/45", "lotto number generator"],
+    emoji: "🎱",
+    gradient: "from-amber-500 via-red-500 to-emerald-600",
+    bgGradient: "from-amber-100 to-emerald-100 dark:from-amber-900/30 dark:to-emerald-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2026-10-16",
+  },
 
 ];
 
