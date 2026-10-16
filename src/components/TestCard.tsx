@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { TestData, formatPlayCount } from "@/data/tests";
+import { TestData, formatPlayCount, getTestPath } from "@/data/tests";
 import { useLanguage } from "@/context/LanguageContext";
 import { TestStats } from "@/lib/firebase";
 
@@ -57,7 +57,7 @@ export default function TestCard({ test, realStats }: TestCardProps) {
     }
 
     return (
-        <Link href={`/${test.slug}`} className="block group">
+        <Link href={getTestPath(test)} className="block group">
             <div className={`
                 relative overflow-hidden rounded-2xl p-4
                 glass transition-all duration-300

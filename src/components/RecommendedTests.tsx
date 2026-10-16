@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { tests, TestData } from "@/data/tests";
+import { tests, TestData, getTestPath } from "@/data/tests";
 
 interface RecommendedTestsProps {
     currentTestId?: string;
@@ -16,22 +16,28 @@ export default function RecommendedTests({ currentTestId }: RecommendedTestsProp
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
     const [animatingId, setAnimatingId] = useState<string | null>(null);
+    // 현재 테스트 제외하고 랜덤으로 4개 선택
+    // 서버 렌더링과 클라이언트의 결과가 달라 hydration 오류가 나지 않도록 마운트 후에 섞는다
+    const [otherTests, setOtherTests] = useState<TestData[]>([]);
 
     useEffect(() => {
+        // 무작위 선택은 클라이언트에서만 가능하므로 효과 안에서 setState 한다 (hydration 안전)
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
-    }, []);
-
-    // 현재 테스트 제외하고 랜덤으로 4개 선택
-    const otherTests = tests
-        .filter((test) => test.id !== currentTestId && !test.isComingSoon)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 4);
+        setOtherTests(
+            tests
+                .filter((test) => test.id !== currentTestId && !test.isComingSoon)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 4)
+        );
+    }, [currentTestId]);
 
     const handleTestClick = (e: React.MouseEvent, test: TestData) => {
         e.preventDefault();
         setAnimatingId(test.id);
 
-        const href = `/${test.slug}`;
+        // 실제 경로는 getTestPath 가 결정 (게임 /tests/, 엔진 테스트 /q/, 나머지 /slug)
+        const href = getTestPath(test);
 
         // Delay for animation
         setTimeout(() => {

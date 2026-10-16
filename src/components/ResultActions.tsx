@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { useLanguage, uiTexts } from "@/context/LanguageContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TestCard from "./TestCard";
-import { getActiveTests } from "@/data/tests";
-import { useMemo } from "react";
+import { getActiveTests, TestData } from "@/data/tests";
 
 interface ResultActionsProps {
     hasLiked: boolean;
@@ -37,6 +36,15 @@ export default function ResultActions({
 }: ResultActionsProps) {
     const { t, lang } = useLanguage();
     const [copied, setCopied] = useState(false);
+    // 교차 홍보 카드 2개. 서버 렌더링과 결과가 달라 hydration 오류가 나지 않도록 마운트 후에 섞는다
+    const [promoTests, setPromoTests] = useState<TestData[]>([]);
+
+    useEffect(() => {
+        const others = getActiveTests().filter((test) => test.id !== excludeTestId);
+        // 무작위 선택은 클라이언트에서만 가능하므로 효과 안에서 setState 한다 (hydration 안전)
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setPromoTests(others.sort(() => Math.random() - 0.5).slice(0, 2));
+    }, [excludeTestId]);
 
     const handleCopyLinkInfo = () => {
         onCopyLink();
@@ -168,10 +176,7 @@ export default function ResultActions({
                     👀 {lang === 'ko' ? '다른 테스트도 해보세요!' : 'Try other tests!'}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {useMemo(() => {
-                        const others = getActiveTests().filter(t => t.id !== excludeTestId);
-                        return others.sort(() => Math.random() - 0.5).slice(0, 2);
-                    }, [excludeTestId]).map((test) => (
+                    {promoTests.map((test) => (
                         <TestCard key={test.id} test={test} />
                     ))}
                 </div>
