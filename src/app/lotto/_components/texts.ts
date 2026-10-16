@@ -2,7 +2,7 @@
 // - 어르신이 읽기 쉽도록 외래어 대신 쉬운 한국어를 쓴다.
 // - 추첨 방식 이름·설명은 methodTexts 에 방식별로 모아 둔다.
 
-import type { FrequencyTag, LottoMethod } from "@/data/lotto";
+import type { FrequencyTag, LottoGameId, LottoMethod } from "@/data/lotto";
 
 export type LocalizedText = { ko: string; en: string; zh: string; ja: string };
 
@@ -23,18 +23,32 @@ export const texts = {
     zh: "※ 仅供娱乐，不保证中奖。请理性购彩。",
     ja: "※ 娯楽目的であり当選を保証するものではありません。ほどほどに楽しみましょう。",
   },
-  statsBasis: {
-    ko: "출현 횟수는 1회부터 {round}회({date})까지의 당첨 번호 기준입니다. 보너스 번호는 빼고 셌습니다.",
-    en: "Frequencies are based on draws 1 to {round} ({date}), bonus numbers excluded.",
-    zh: "出现次数以第1期至第{round}期（{date}）的中奖号码为准，不含奖励号码。",
-    ja: "出現回数は第1回から第{round}回（{date}）までの当選番号が基準です。ボーナス番号は除きます。",
+  statsBasisRound: {
+    ko: "출현 횟수는 1회부터 {round}회({date})까지의 당첨 번호 기준입니다. 보너스 번호는 빼고 셌습니다. (출처: {source})",
+    en: "Frequencies are based on draws 1 to {round} ({date}), bonus numbers excluded. (Source: {source})",
+    zh: "出现次数以第1期至第{round}期（{date}）的中奖号码为准，不含奖励号码。（来源：{source}）",
+    ja: "出現回数は第1回から第{round}回（{date}）までの当選番号が基準です。ボーナス番号は除きます。（出典：{source}）",
+  },
+  statsBasisDate: {
+    ko: "출현 횟수는 현재 규칙이 시작된 {since}부터 {date}까지 {count}회 추첨의 본번호 기준입니다. 보조 공은 빼고 셌습니다. (출처: {source})",
+    en: "Frequencies cover the {count} draws from {since} (current rules) to {date}, main numbers only. (Source: {source})",
+    zh: "出现次数以现行规则开始的{since}至{date}共{count}期的主号码为准，不含特别号码。（来源：{source}）",
+    ja: "出現回数は現行ルール開始の{since}から{date}までの{count}回の本数字が基準です。特別数字は除きます。（出典：{source}）",
   },
   statsMissing: {
-    ko: "출현 횟수 자료의 기준 회차가 아직 확인되지 않았습니다. 빈도 방식은 무작위로 뽑힙니다.",
-    en: "The draw history has not been loaded yet, so frequency methods pick at random.",
-    zh: "尚未确认出现次数资料的基准期数，频率方式将随机抽取。",
-    ja: "出現回数データの基準回がまだ確認されていません。頻度方式はランダムに選びます。",
+    ko: "이 복권은 믿을 만한 역대 당첨 자료를 구하지 못해 '적게 나온 번호'와 '많이 나온 번호' 방식은 제공하지 않습니다.",
+    en: "No reliable draw history is available for this lottery, so the rarely/frequently drawn methods are not offered.",
+    zh: "此彩票暂无可靠的历史开奖资料，因此不提供“出现少/出现多的号码”方式。",
+    ja: "この宝くじは信頼できる過去の当せんデータが得られないため、「あまり出ていない/よく出ている番号」方式は提供していません。",
   },
+
+  // ----- 게임 고르기 -----
+  selectedMark: { ko: "선택함", en: "Selected", zh: "已选", ja: "選択中" },
+  chooseGame: { ko: "어느 복권인가요?", en: "Which lottery?", zh: "哪种彩票？", ja: "どの宝くじですか？" },
+  ruleMain: { ko: "1~{max} 중 {pick}개", en: "{pick} of 1–{max}", zh: "1~{max}中选{pick}个", ja: "1〜{max}から{pick}個" },
+  ruleExtra: { ko: " + {name} 1~{max} 중 1개", en: " + {name} 1–{max}", zh: " + {name} 1~{max}中选1个", ja: " + {name} 1〜{max}から1個" },
+  extraRandom: { ko: "{name}은(는) 무작위로 뽑습니다", en: "The {name} is drawn at random", zh: "{name}随机抽取", ja: "{name}はランダムに選びます" },
+  reasonLastDate: { ko: "마지막 {date}", en: "last on {date}", zh: "最近{date}", ja: "直近は{date}" },
 
   // ----- 방식 고르기 화면 -----
   chooseMethod: { ko: "어떤 방식으로 뽑을까요?", en: "How should we pick?", zh: "用哪种方式抽？", ja: "どの方式で選びますか？" },
@@ -75,6 +89,15 @@ export const texts = {
   numbersCopied: { ko: "번호를 복사했습니다. 붙여넣기 해서 쓰세요.", en: "Numbers copied. Paste them anywhere.", zh: "已复制号码，粘贴即可使用。", ja: "番号をコピーしました。貼り付けて使ってください。" },
   sharedView: { ko: "다른 분이 보내 준 번호입니다", en: "Numbers someone shared with you", zh: "这是别人分享给您的号码", ja: "他の方から届いた番号です" },
   drawMine: { ko: "나도 번호 뽑기", en: "Draw my own numbers", zh: "我也要抽号码", ja: "自分も番号を選ぶ" },
+
+  // ----- 복권 정보 카드 -----
+  infoHeading: { ko: "알아 두면 좋은 복권 정보", en: "Good to know about this lottery", zh: "值得了解的彩票信息", ja: "知っておきたい宝くじ情報" },
+  infoDisclaimer: {
+    ko: "※ 참고용이며 실제 세금·절차는 거주국과 시점에 따라 달라집니다. 정확한 내용은 각 복권 공식 안내를 확인하세요.",
+    en: "※ For reference only. Actual taxes and procedures depend on your country of residence and may change. Check the official lottery guidance.",
+    zh: "※ 仅供参考，实际税务与手续因居住国和时间而异，请以各彩票官方说明为准。",
+    ja: "※ 参考情報です。実際の税金や手続きは居住国や時期により異なります。各宝くじの公式案内をご確認ください。",
+  },
 
   // ----- 공유 -----
   shareHeading: { ko: "번호를 가족·친구에게 보내기", en: "Send the numbers to family and friends", zh: "把号码发给家人朋友", ja: "番号を家族・友人に送る" },
@@ -139,6 +162,28 @@ export const methodTexts: Record<LottoMethod, { emoji: string; name: LocalizedTe
       zh: "不设条件，从1到45中随机抽6个",
       ja: "条件なしで1〜45から6個をそのまま選びます",
     },
+  },
+};
+
+/** 게임(복권) 이름·보조 공 이름 */
+export const gameTexts: Record<LottoGameId, { flag: string; name: LocalizedText; extraName?: LocalizedText }> = {
+  kr645: { flag: "🇰🇷", name: { ko: "로또 6/45 (한국)", en: "Lotto 6/45 (Korea)", zh: "乐透6/45（韩国）", ja: "ロト6/45（韓国）" } },
+  "us-powerball": {
+    flag: "🇺🇸",
+    name: { ko: "파워볼 (미국)", en: "Powerball (USA)", zh: "强力球（美国）", ja: "パワーボール（米国）" },
+    extraName: { ko: "파워볼", en: "Powerball", zh: "强力球", ja: "パワーボール" },
+  },
+  "us-megamillions": {
+    flag: "🇺🇸",
+    name: { ko: "메가밀리언스 (미국)", en: "Mega Millions (USA)", zh: "超级百万（美国）", ja: "メガミリオンズ（米国）" },
+    extraName: { ko: "메가볼", en: "Mega Ball", zh: "超级球", ja: "メガボール" },
+  },
+  "jp-loto6": { flag: "🇯🇵", name: { ko: "로또6 (일본)", en: "Loto 6 (Japan)", zh: "乐透6（日本）", ja: "ロト6（日本）" } },
+  "jp-loto7": { flag: "🇯🇵", name: { ko: "로또7 (일본)", en: "Loto 7 (Japan)", zh: "乐透7（日本）", ja: "ロト7（日本）" } },
+  "cn-ssq": {
+    flag: "🇨🇳",
+    name: { ko: "쌍색구 (중국)", en: "Shuangseqiu (China)", zh: "双色球（中国）", ja: "双色球（中国）" },
+    extraName: { ko: "파란 공", en: "blue ball", zh: "蓝球", ja: "青い球" },
   },
 };
 
