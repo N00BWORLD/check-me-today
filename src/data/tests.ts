@@ -336,6 +336,33 @@ export const tests: TestData[] = [
     isComingSoon: false,
     createdAt: "2026-10-16",
   },
+  {
+    id: "work-stress",
+    slug: "work-stress",
+    type: "quiz", // 범용 엔진: 데이터는 src/data/engine/quizzes/work-stress.ts
+    category: "social",
+    name: {
+      ko: "직장 스트레스 유형 테스트",
+      en: "Work Stress Type Test",
+      zh: "职场压力类型测试",
+      ja: "職場ストレスタイプ診断"
+    },
+    description: {
+      ko: "회사에서 나는 어떻게 버티고 있을까? 💼 스트레스 대처 유형 4가지",
+      en: "How do you survive at work? 💼 4 stress-coping types",
+      zh: "在公司里我是怎么撑下来的？💼 4种压力应对类型",
+      ja: "会社で私はどう耐えている？💼 ストレス対処タイプ4種"
+    },
+    keywords: ["직장 스트레스 테스트", "스트레스 유형", "번아웃 테스트", "직장인 심리테스트", "work stress test"],
+    emoji: "💼",
+    gradient: "from-sky-500 via-indigo-500 to-violet-500",
+    bgGradient: "from-sky-100 to-violet-100 dark:from-sky-900/30 dark:to-violet-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2026-10-16",
+  },
 
 ];
 

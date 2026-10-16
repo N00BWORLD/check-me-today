@@ -2,8 +2,10 @@
 // 새 테스트 데이터 파일을 만들면 아래 quizzes[] 에 추가한다.
 // (이 파일은 서버 컴포넌트에서만 import 할 것 — 클라이언트에서 import 하면 모든 테스트 데이터가 번들에 포함됨)
 import type { QuizDefinition, QuizResultType } from "./types";
+import { workStressQuiz } from "./quizzes/work-stress";
 
 export const quizzes: QuizDefinition[] = [
+    workStressQuiz,
 ];
 
 export function getQuizBySlug(slug: string): QuizDefinition | undefined {
