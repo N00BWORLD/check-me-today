@@ -82,7 +82,8 @@ bun dev
 
 ### 4. 광고 (Ads)
 - 결과 확인 전 `analyzing` 단계에서 전면 광고 노출 (권장 5초)
-- AdSense ID: `ca-pub-9155498101026498`
+- AdSense ID: `ca-pub-8585338769159452` (public/ads.txt 와 동일)
+- 게시자 ID·광고 슬롯 ID 설정: `src/lib/ads.ts` (슬롯 ID가 비어 있으면 해당 위치는 렌더링되지 않음)
 
 ### 5. Git 워크플로우
 - 작업(Task) 단위 완료 시 즉시 `git push` 실행

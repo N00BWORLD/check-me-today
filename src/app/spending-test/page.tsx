@@ -189,7 +189,7 @@ export default function SpendingTestPage() {
                 {/* AD AREA */}
                 <div className="w-full max-w-sm glass-strong rounded-xl p-2 bg-white/50">
                     <p className="text-xs text-slate-400 mb-1">Sponsored</p>
-                    <AdUnit slotId="1234567890" format="rectangle" className="min-h-[250px]" />
+                    <AdUnit slot="quiz" format="rectangle" className="min-h-[250px]" />
                 </div>
             </main>
         );

@@ -298,6 +298,14 @@ export function getActiveTests(): TestData[] {
   return tests.filter(test => !test.isComingSoon);
 }
 
+// 테스트의 실제 URL 경로
+// - 게임(type: "game")은 동적 라우트 /tests/[slug] 에서 렌더링
+// - 그 외 테스트는 각자 독립 폴더 /[slug] 에 페이지가 있음
+// 사이트맵, 홈 카드, 추천 배너가 모두 이 함수를 사용하므로 경로 규칙은 여기서만 바꾸면 됨
+export function getTestPath(test: TestData): string {
+  return test.type === "game" ? `/tests/${test.slug}` : `/${test.slug}`;
+}
+
 export function formatPlayCount(count: number): string {
   if (count >= 100000000) {
     return `${(count / 100000000).toFixed(1)}억`;

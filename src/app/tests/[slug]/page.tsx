@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
-import { getTestBySlug, tests } from '@/data/tests';
-import { notFound } from 'next/navigation';
+import { getTestBySlug, getTestPath, tests } from '@/data/tests';
+import { notFound, permanentRedirect } from 'next/navigation';
+import Link from 'next/link';
 import ReactionGame from '@/components/ReactionGame';
 import AdUnit from '@/components/AdUnit';
 
@@ -51,12 +52,19 @@ export default async function TestPage({ params }: Props) {
         notFound();
     }
 
+    // 게임이 아닌 테스트는 각자 독립 폴더(/[slug])에 페이지가 있음
+    // 옛 사이트맵 등으로 /tests/[slug]에 들어온 경우 실제 페이지로 영구 리다이렉트(308)
+    const realPath = getTestPath(test);
+    if (realPath !== `/tests/${slug}`) {
+        permanentRedirect(realPath);
+    }
+
     const isGame = test.type === 'game';
     return (
         <main className="min-h-screen pb-20 pt-4 px-4 max-w-xl mx-auto">
             {/* Top Ad */}
             <div className="w-full flex justify-center mb-6">
-                <AdUnit slotId="1234567890" className="w-[320px] h-[50px] bg-slate-100 dark:bg-slate-800 rounded-lg" />
+                <AdUnit slot="testTop" className="w-[320px] h-[50px] bg-slate-100 dark:bg-slate-800 rounded-lg" />
             </div>
 
             {/* Header Info */}
@@ -78,18 +86,15 @@ export default async function TestPage({ params }: Props) {
                     <ReactionGame />
                 ) : (
                     <div className="p-8 bg-slate-100 dark:bg-slate-800 rounded-2xl text-center">
-                        <p className="text-lg font-bold mb-2">테스트를 불러오는 중...</p>
-                        <p className="text-sm opacity-60">
-                            (이 테스트는 아직 구형 페이지에 있습니다. <br />
-                            <a href={`/${test.slug}`} className="text-blue-500 underline">여기</a>를 클릭하여 이동하세요.)
-                        </p>
+                        <p className="text-lg font-bold mb-2">준비 중인 콘텐츠입니다</p>
+                        <Link href="/" className="text-sm text-blue-500 underline">홈으로 돌아가기</Link>
                     </div>
                 )}
             </div>
 
             {/* Bottom Ad */}
             <div className="w-full flex justify-center mt-6">
-                <AdUnit slotId="0987654321" className="w-[300px] h-[250px] bg-slate-100 dark:bg-slate-800 rounded-lg" />
+                <AdUnit slot="testBottom" className="w-[300px] h-[250px] bg-slate-100 dark:bg-slate-800 rounded-lg" />
             </div>
         </main>
     );

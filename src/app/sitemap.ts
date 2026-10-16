@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { tests } from '@/data/tests';
+import { tests, getTestPath } from '@/data/tests';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://check-me.today';
@@ -16,17 +16,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 1.0,
     }));
 
-    // Dynamic Test pages
-    // We include both the old paths (if we keep them) and new paths
-    const testPages = tests.map((test) => ({
-        url: `${baseUrl}/tests/${test.slug}`,
-        lastModified: new Date(test.createdAt),
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-    }));
-
-    // Legacy paths (if needed, otherwise we count on redirects or just index the new ones)
-    // For now, let's index the new structure primarily.
+    // 테스트 페이지 (준비중인 테스트는 제외)
+    // 실제 페이지 경로는 getTestPath()가 결정 (게임은 /tests/[slug], 나머지는 /[slug])
+    const testPages = tests
+        .filter((test) => !test.isComingSoon)
+        .map((test) => ({
+            url: `${baseUrl}${getTestPath(test)}`,
+            lastModified: new Date(test.createdAt),
+            changeFrequency: 'weekly' as const,
+            priority: 0.8,
+        }));
 
     return [...staticPages, ...testPages];
 }

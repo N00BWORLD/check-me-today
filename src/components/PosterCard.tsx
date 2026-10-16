@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { TestData, formatPlayCount } from "@/data/tests";
+import { TestData, formatPlayCount, getTestPath } from "@/data/tests";
 import { useLanguage } from "@/context/LanguageContext";
 import { TestStats } from "@/lib/firebase";
 
@@ -59,9 +59,7 @@ export default function PosterCard({ test, realStats }: PosterCardProps) {
     );
   }
 
-  const href = ['starfall-rooftop', 'reaction-test'].includes(test.slug)
-    ? `/tests/${test.slug}`
-    : `/${test.slug}`;
+  const href = getTestPath(test);
 
   const handleCardClick = (e: React.MouseEvent) => {
     e.preventDefault();

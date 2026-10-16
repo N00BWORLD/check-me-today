@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import BottomNav from "@/components/BottomNav";
 import InstallPrompt from "@/components/InstallPrompt";
+import { ADSENSE_CLIENT } from "@/lib/ads";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://check-me.today"),
@@ -55,7 +56,9 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-code",
+    // Google Search Console 메타태그 인증을 쓰려면 아래 줄의 주석을 풀고 실제 코드를 넣을 것
+    // (콘솔 > 설정 > 소유권 확인 > HTML 태그 의 content 값). 비워 두면 메타태그가 출력되지 않음.
+    // google: "실제-인증-코드",
     other: {
       "naver-site-verification": "8dfc3ad226234d261301e6ac70d16af0420faf76",
     },
@@ -121,7 +124,7 @@ export default function RootLayout({
         {/* Google AdSense Script */}
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8585338769159452"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />

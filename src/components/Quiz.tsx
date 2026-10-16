@@ -125,7 +125,7 @@ export default function Quiz() {
                 <div className="w-full max-w-sm mx-auto glass-strong rounded-xl overflow-hidden shadow-lg p-2 bg-white/50">
                     <p className="text-xs text-center text-slate-400 mb-1">Sponsored</p>
                     {/* Rectangle Format Ad */}
-                    <AdUnit slotId="1234567890" format="rectangle" className="min-h-[250px]" />
+                    <AdUnit slot="quiz" format="rectangle" className="min-h-[250px]" />
                 </div>
             </div>
         );

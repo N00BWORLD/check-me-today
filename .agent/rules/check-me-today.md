@@ -169,7 +169,8 @@ src/data/[test-slug].ts  # 질문, 결과 타입, 설명 등
 - **결과 페이지 진입 전**: `/analyzing` 페이지에서 광고 표시 (5초)
 - **결과 페이지 하단**: 배너 광고
 - **홈 하단**: 고정 배너 광고
-- AdSense Publisher ID: `ca-pub-9155498101026498`
+- AdSense Publisher ID: `ca-pub-8585338769159452` (public/ads.txt 와 동일)
+- 게시자 ID·광고 슬롯 ID 설정: `src/lib/ads.ts` (슬롯 ID가 비어 있으면 해당 위치는 렌더링되지 않음)
 - 광고 컴포넌트: `src/components/AdUnit.tsx`
 
 ### 2. 결과 페이지 디자인 (스크린샷용)
