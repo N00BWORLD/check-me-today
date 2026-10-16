@@ -6,6 +6,8 @@ import ReactionGame from '@/components/ReactionGame';
 import LadderGame from '@/components/LadderGame';
 import TenSecondsGame from '@/components/TenSecondsGame';
 import AdUnit from '@/components/AdUnit';
+import Breadcrumb from '@/components/Breadcrumb';
+import { getTestBreadcrumbItems } from '@/lib/breadcrumb';
 
 // 게임 id → 컴포넌트. 새 게임을 추가하면 여기와 tests.ts 에만 등록하면 됨
 const GAME_COMPONENTS: Record<string, React.ComponentType> = {
@@ -72,6 +74,9 @@ export default async function TestPage({ params }: Props) {
     const Game = test.type === 'game' ? GAME_COMPONENTS[test.id] : undefined;
     return (
         <main className="min-h-screen pb-20 pt-4 px-4 max-w-xl mx-auto">
+            {/* 빵부스러기: 홈 > 카테고리 > 테스트 */}
+            <Breadcrumb items={getTestBreadcrumbItems(test)} className="mb-3" />
+
             {/* Top Ad */}
             <div className="w-full flex justify-center mb-6">
                 <AdUnit slot="testTop" className="w-[320px] h-[50px] bg-slate-100 dark:bg-slate-800 rounded-lg" />

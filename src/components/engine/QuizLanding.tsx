@@ -8,6 +8,9 @@ import type { QuizDefinition } from "@/data/engine/types";
 import { estimateMinutes } from "@/data/engine/scoring";
 import { engineTexts, fill } from "./engineTexts";
 import { ACCENT } from "./accent";
+import { getTestBySlug } from "@/data/tests";
+import Breadcrumb from "@/components/Breadcrumb";
+import { getTestBreadcrumbItems, HOME_LABEL } from "@/lib/breadcrumb";
 
 interface Props {
     quiz: QuizDefinition;
@@ -18,6 +21,11 @@ export default function QuizLanding({ quiz, onStart }: Props) {
     const { t } = useLanguage();
     const accent = ACCENT[quiz.theme.accent];
     const minutes = estimateMinutes(quiz);
+    // 빵부스러기: 홈 > 카테고리 > 테스트 (tests.ts 에 등록된 카테고리 기준)
+    const registered = getTestBySlug(quiz.slug);
+    const crumbs = registered
+        ? getTestBreadcrumbItems(registered)
+        : [{ href: "/", label: HOME_LABEL }, { label: quiz.name }];
 
     const stats = [
         fill(t(engineTexts.questions), quiz.questions.length),
@@ -28,9 +36,7 @@ export default function QuizLanding({ quiz, onStart }: Props) {
     return (
         <main className="min-h-screen p-4 pb-24">
             <div className="w-full max-w-md mx-auto">
-                <Link href="/" className="inline-block text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 mb-3 transition-colors">
-                    ← {t(engineTexts.home)}
-                </Link>
+                <Breadcrumb items={crumbs} className="mb-3" />
 
                 {/* 히어로 카드 */}
                 <section className="glass-strong rounded-[2rem] p-8 text-center relative overflow-hidden animate-fade-in">

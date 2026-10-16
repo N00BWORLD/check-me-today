@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { tests, categories, getTestsByCategory, getTestPath, CategoryId } from "@/data/tests";
+import { tests, categories, getTestsByCategory, getTestPath, getCategoryPath, hasCategoryLanding, CategoryId } from "@/data/tests";
+import Link from "next/link";
 import CategoryTabs from "@/components/CategoryTabs";
 import PosterCard from "@/components/PosterCard";
 import SearchBar from "@/components/SearchBar";
@@ -180,6 +181,15 @@ export default function Home() {
               <span className="text-xs text-slate-400 dark:text-slate-500 font-normal ml-1">
                 ({filteredTests.length})
               </span>
+              {/* 카테고리 랜딩 페이지(/category/[id])로 가는 링크 */}
+              {!searchQuery && hasCategoryLanding(selectedCategory) && (
+                <Link
+                  href={getCategoryPath(selectedCategory)}
+                  className="ml-auto text-xs font-semibold text-purple-500 dark:text-purple-400 hover:underline"
+                >
+                  {lang === 'ko' ? '모음 페이지 보기 →' : lang === 'zh' ? '查看合集页 →' : lang === 'ja' ? 'まとめページへ →' : 'View collection →'}
+                </Link>
+              )}
             </h3>
 
             {filteredTests.length > 0 ? (
@@ -226,6 +236,21 @@ export default function Home() {
       {/* Footer */}
       <footer className="pb-24 pt-8 px-4">
         <div className="max-w-xl mx-auto text-center">
+          {/* 카테고리 랜딩 페이지 링크 목록 (검색엔진 내부 링크) */}
+          <nav aria-label="Categories" className="mb-4">
+            <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 mb-2">
+              {lang === 'ko' ? '카테고리별 테스트 모음' : lang === 'zh' ? '按栏目查看测试' : lang === 'ja' ? 'カテゴリ別テストまとめ' : 'Tests by category'}
+            </p>
+            <ul className="flex flex-wrap justify-center gap-x-3 gap-y-1.5 text-xs text-slate-400 dark:text-slate-500">
+              {categories.filter(c => hasCategoryLanding(c.id)).map(c => (
+                <li key={c.id}>
+                  <Link href={getCategoryPath(c.id)} className="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">
+                    {c.emoji} {c.name[lang] || c.name.en}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <div className="flex items-center justify-center gap-4 text-xs text-slate-400 dark:text-slate-500">
             <a href="/privacy" className="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">
               {lang === 'ko' ? '개인정보처리방침' : lang === 'zh' ? '隐私政策' : lang === 'ja' ? 'プライバシーポリシー' : 'Privacy Policy'}
