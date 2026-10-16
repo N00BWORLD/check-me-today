@@ -16,6 +16,7 @@ interface ResultActionsProps {
     onCopyLink: () => void;
     onNativeShare: () => void;
     onTwitterShare: () => void;
+    /** 카카오톡 공유. src/lib/kakao.ts 의 shareKakaoFeed 를 호출하고, 불가능하면 링크 복사로 폴백할 것 */
     onKakaoShare: () => void;
     retakeLink?: string;
     excludeTestId?: string;

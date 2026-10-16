@@ -13,6 +13,7 @@ import {
 } from "@/data/animal-test";
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
+import { shareKakaoFeed } from "@/lib/kakao";
 
 type PageState = "landing" | "quiz" | "analyzing" | "result";
 
@@ -176,28 +177,18 @@ export default function AnimalTestPage() {
     }
   };
 
+  // 카카오톡 공유 (Kakao SDK 피드 메시지, 키가 없으면 링크 복사로 폴백)
   const handleKakaoShare = () => {
-    // 카카오톡 공유 텍스트 생성
-    const title = lang === 'ko' 
-      ? `🦊 나의 동물 자아: ${result?.animal.ko} ${result?.emoji}`
-      : `🦊 My Animal Self: ${result?.animal.en} ${result?.emoji}`;
-    const description = result?.title[lang] || result?.title.en;
-    const url = window.location.href;
-
-    // 모바일에서 카카오톡 앱으로 공유 시도
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      // 카카오톡 URL 스킴 (앱이 설치된 경우)
-      const kakaoText = `${title}\n${description}\n\n${url}`;
-      const kakaoUrl = `https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(kakaoText)}`;
-      window.open(kakaoUrl, '_blank');
-    } else {
-      // 데스크톱에서는 카카오스토리 공유 페이지로 이동
-      const kakaoText = `${title}\n${description}`;
-      const kakaoUrl = `https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(kakaoText)}`;
-      window.open(kakaoUrl, '_blank', 'width=600,height=400');
-    }
+    const animalName = result?.animal[lang] || result?.animal.en || '';
+    const sent = shareKakaoFeed({
+      title: lang === 'ko'
+        ? `나의 동물 자아: ${animalName} ${result?.emoji ?? ''}`
+        : `My Animal Self: ${animalName} ${result?.emoji ?? ''}`,
+      description: result?.title[lang] || result?.title.en || '',
+      emoji: result?.emoji || '🦊',
+      buttonTitle: lang === 'ko' ? '결과 보기' : 'View Result',
+    });
+    if (!sent) handleCopyLink();
   };
 
   const handleSaveImage = async () => {

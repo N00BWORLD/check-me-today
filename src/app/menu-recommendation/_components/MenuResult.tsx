@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { timeSlots, type TimeSlot, type MenuItem, menuRecommendations } from "@/data/menu-recommendation";
 import { useLike, useTestStats } from "@/hooks/useTestStats";
 import ResultActions from "@/components/ResultActions";
+import { shareKakaoFeed } from "@/lib/kakao";
 
 interface MenuResultProps {
     menu: MenuItem;
@@ -117,6 +118,20 @@ export default function MenuResult({
         );
     };
 
+    // 카카오톡 공유 (Kakao SDK 피드 메시지, 키가 없으면 링크 복사로 폴백)
+    const handleKakaoShare = () => {
+        const timeSlotDisplay = timeSlot === 'random'
+            ? '랜덤 추천'
+            : `${timeSlots[timeSlot as TimeSlot].label.ko}시간`;
+        const sent = shareKakaoFeed({
+            title: `오늘 ${timeSlotDisplay}에는 "${menu.name.ko}" 어떠세요?`,
+            description: '오늘의 메뉴추천 · check-me.today',
+            emoji: menu.emoji || '🍽️',
+            buttonTitle: '메뉴 보기',
+        });
+        if (!sent) void handleCopyLink();
+    };
+
     // 네이티브 공유 함수
     const handleNativeShare = async () => {
         const timeSlotDisplay = timeSlot === 'random'
@@ -224,7 +239,7 @@ export default function MenuResult({
                         onCopyLink={handleCopyLink}
                         onNativeShare={handleNativeShare}
                         onTwitterShare={handleTwitterShare}
-                        onKakaoShare={handleCopyLink}
+                        onKakaoShare={handleKakaoShare}
                         retakeLink="/"
                         excludeTestId="menu-recommendation"
                     />

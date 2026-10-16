@@ -12,6 +12,7 @@ import {
 } from "@/data/face-reading";
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
+import { shareKakaoFeed } from "@/lib/kakao";
 import RecommendedTests from "@/components/RecommendedTests";
 
 
@@ -457,6 +458,19 @@ export default function FaceReadingPage() {
     } else {
       handleCopyLink();
     }
+  };
+
+  // 카카오톡 공유 (Kakao SDK 피드 메시지, 키가 없으면 링크 복사로 폴백)
+  const handleKakaoShare = () => {
+    const sent = shareKakaoFeed({
+      title: lang === 'ko'
+        ? `🔮 나의 관상 분석 결과: ${result?.type.ko ?? ''}`
+        : `🔮 My Face Reading: ${result?.type.en ?? ''}`,
+      description: result?.title[lang] || result?.title.en || '',
+      emoji: '🔮',
+      buttonTitle: lang === 'ko' ? '결과 보기' : 'View Result',
+    });
+    if (!sent) handleCopyLink();
   };
 
   const handleSaveImage = async () => {
@@ -1135,7 +1149,7 @@ export default function FaceReadingPage() {
                 <div className="text-sm text-ink-600 dark:text-ink-300">Twitter</div>
               </button>
               <button
-                onClick={handleCopyLink}
+                onClick={handleKakaoShare}
                 className="py-4 px-2 ink-card rounded-xl text-center hover:bg-ink-100 dark:hover:bg-ink-700 transition-colors"
               >
                 <div className="text-2xl mb-1">💬</div>

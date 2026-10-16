@@ -7,6 +7,7 @@ import { useLike, useTestStats } from "@/hooks/useTestStats";
 import { useState, useEffect, useCallback } from "react";
 import html2canvas from "html2canvas";
 import ResultActions from "./ResultActions";
+import { shareKakaoFeed } from "@/lib/kakao";
 
 interface ResultCardProps {
     type: PersonalityType;
@@ -147,9 +148,19 @@ export default function ResultCard({ type, traitScores, solarScore, lunarScore }
         );
     };
 
-    // 카카오톡 공유 (URL만 복사)
+    // 카카오톡 공유 (Kakao SDK 피드 메시지, 키가 없으면 링크 복사로 폴백)
     const handleKakaoShare = () => {
-        handleCopyLink();
+        const title = getLocalizedText(content.title);
+        const emoji = type === 'SOLAR' ? '☀️' : '🌙';
+        const sent = shareKakaoFeed({
+            title: lang === 'ko' ? `나의 에너지 유형은 ${title}!` : `My energy type: ${title}!`,
+            description: lang === 'ko'
+                ? `☀️ ${solarPercent}% : 🌙 ${lunarPercent}% · 에너지 밸런스 테스트`
+                : `☀️ ${solarPercent}% : 🌙 ${lunarPercent}% · Energy Balance Test`,
+            emoji,
+            buttonTitle: lang === 'ko' ? '결과 보기' : 'View Result',
+        });
+        if (!sent) handleCopyLink();
     };
 
     // 이미지로 저장

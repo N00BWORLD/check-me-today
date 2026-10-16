@@ -13,6 +13,7 @@ import {
 } from "@/data/fortunes";
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
+import { shareKakaoFeed } from "@/lib/kakao";
 
 type FortuneState = "input" | "opening" | "result";
 
@@ -70,9 +71,18 @@ export default function FortunePage() {
     );
   };
 
-  // 카카오톡 공유 (링크 복사로 대체)
+  // 카카오톡 공유 (Kakao SDK 피드 메시지, 키가 없으면 링크 복사로 폴백)
   const handleKakaoShare = () => {
-    handleCopyLink();
+    const overallStars = "★".repeat(fortune?.overall || 0) + "☆".repeat(5 - (fortune?.overall || 0));
+    const sent = shareKakaoFeed({
+      title: lang === 'ko' ? '🧧 오늘의 운세' : lang === 'zh' ? '🧧 今日运势' : lang === 'ja' ? '🧧 今日の運勢' : '🧧 Daily Fortune',
+      description: lang === 'ko'
+        ? `${name}님의 오늘의 운세 (${overallStars})`
+        : `${name}'s Fortune (${overallStars})`,
+      emoji: '🧧',
+      buttonTitle: lang === 'ko' ? '내 운세 보기' : 'Check my fortune',
+    });
+    if (!sent) handleCopyLink();
   };
 
   // 네이티브 공유

@@ -80,6 +80,20 @@ bun dev
 - 결과 페이지는 인스타그램 스토리 비율(세로형) 최적화
 - `html2canvas`를 사용한 이미지 저장 기능 포함
 
+- 결과 페이지의 공유 버튼 묶음은 `src/components/ResultActions.tsx` (네이티브 공유 / 이미지 저장 / 링크 복사 / X / 카카오톡)
+- 카카오톡 버튼은 `src/lib/kakao.ts` 의 `shareKakaoFeed()` 로 피드 메시지(이미지 + 제목 + 설명 + 버튼 링크)를 보낸다.
+  썸네일은 `/api/og?title=&desc=&emoji=` 동적 OG 이미지를 쓴다. 앱 키가 없으면 링크 복사로 폴백한다.
+
+#### 카카오톡 공유 설정 (NEXT_PUBLIC_KAKAO_JS_KEY)
+
+1. [카카오 개발자 사이트](https://developers.kakao.com)에 로그인 → **내 애플리케이션 → 애플리케이션 추가하기** 로 앱을 만든다.
+2. **앱 키** 메뉴에서 **JavaScript 키**를 복사한다.
+3. **플랫폼 → Web → 사이트 도메인** 에 `https://check-me.today` 를 등록한다. (로컬 테스트용으로 `http://localhost:2222` 도 추가 가능)
+4. **카카오 로그인 / 동의항목은 필요 없음**. 공유만 쓰므로 "카카오톡 공유(Kakao Share)" 는 별도 활성화 없이 동작한다.
+5. Vercel 대시보드 → 프로젝트 → **Settings → Environment Variables** 에 `NEXT_PUBLIC_KAKAO_JS_KEY` = (JavaScript 키) 를 Production/Preview 에 추가하고 **다시 배포**한다.
+   (`NEXT_PUBLIC_` 변수는 빌드 시점에 번들에 들어가므로 변수 추가 후 재배포가 필요하다.)
+6. 로컬에서는 `.env.example` 을 복사해 `.env.local` 을 만들고 같은 키를 넣는다. 키가 없으면 카카오톡 버튼은 링크 복사로 동작한다.
+
 ### 4. 광고 (Ads)
 - 결과 확인 전 `analyzing` 단계에서 전면 광고 노출 (권장 5초)
 - AdSense ID: `ca-pub-8585338769159452` (public/ads.txt 와 동일)

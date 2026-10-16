@@ -128,6 +128,13 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        {/* Kakao JavaScript SDK (카카오톡 공유). 앱 키는 NEXT_PUBLIC_KAKAO_JS_KEY, 초기화는 src/lib/kakao.ts 에서 처리 */}
+        <Script
+          src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.8/kakao.min.js"
+          integrity="sha384-WUSirVbD0ASvo37f3qQZuDap8wy76aJjmGyXKOYgPL/NdAs8HhgmPlk9dz2XQsNv"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </head>
       <body className="antialiased">
         {/* Background Decorative Elements */}
