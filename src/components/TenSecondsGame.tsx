@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useIncrementPlay } from "@/hooks/useTestStats";
+import ShareButtons from "./ShareButtons";
 
 // ===== N초 맞추기 (인형뽑기 10초 챌린지) =====
 // 0.00부터 올라가는 타이머를 목표 시간(기본 10.00초)에 정확히 멈추는 게임.
@@ -266,6 +267,18 @@ export default function TenSecondsGame() {
                 </p>
             </button>
             <p className="text-center text-[11px] text-slate-400 dark:text-slate-500 hidden sm:block">{t("hint")}</p>
+
+            {/* 결과 공유 */}
+            {phase === "result" && !timedOut && (
+                <ShareButtons
+                    className="animate-fade-in"
+                    title={lang === 'ko'
+                        ? `${fmt(target)}초 맞추기: ${fmt(elapsed)}초 (오차 ${diff > 0 ? "+" : ""}${fmt(diff)}초)`
+                        : `Stop at ${fmt(target)}s: ${fmt(elapsed)}s (off by ${diff > 0 ? "+" : ""}${fmt(diff)}s)`}
+                    description={lang === 'ko' ? '인형뽑기 10초 챌린지 · 너도 도전해봐!' : 'Claw machine 10-second challenge · Try it!'}
+                    emoji={absDiff <= 0.01 ? "🧸" : "⏱️"}
+                />
+            )}
 
             {/* 기록 */}
             {(best !== null || history.length > 0) && (

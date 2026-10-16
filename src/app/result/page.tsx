@@ -4,19 +4,32 @@ import { useSearchParams } from "next/navigation";
 import ResultCard from "@/components/ResultCard";
 import LoveResultCard from "@/app/love-test/_components/LoveResultCard";
 import AdUnit from "@/components/AdUnit";
+import ShareButtons from "@/components/ShareButtons";
+import { loveResults, defaultResult } from "@/data/love-test";
+import { useLanguage } from "@/context/LanguageContext";
 import { Suspense } from "react";
 import { PersonalityType, TraitType } from "@/data/questions";
 
 function ResultContent() {
     const searchParams = useSearchParams();
+    const { lang } = useLanguage();
     const test = searchParams.get("test") || "energy-balance";
     const type = searchParams.get("type") || "SOLAR";
 
     // Love Test 결과 처리
     if (test === "love-test") {
+        // 공유 메시지용 결과 정보 (카드와 같은 데이터)
+        const love = loveResults.find(r => r.id === type) || defaultResult;
+        const loveTitle = love.title[lang] || love.title.en;
         return (
             <div className="flex flex-col items-center gap-8 w-full max-w-md animate-fade-in">
                 <LoveResultCard type={type} />
+                <ShareButtons
+                    className="w-full"
+                    title={lang === 'ko' ? `나의 연애 유형: ${loveTitle} ${love.emoji}` : `My love type: ${loveTitle} ${love.emoji}`}
+                    description={lang === 'ko' ? '연애 유형 테스트 · check-me.today' : 'Love Type Test · check-me.today'}
+                    emoji={love.emoji}
+                />
                 <AdUnit />
             </div>
         );

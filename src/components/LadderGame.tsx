@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useIncrementPlay } from "@/hooks/useTestStats";
+import ShareButtons from "./ShareButtons";
 
 // ===== 사다리 타기 =====
 // 참가자(위)와 결과(아래)를 입력하고 사다리를 만들면,
@@ -340,6 +341,19 @@ export default function LadderGame() {
                     🔀 {t("shuffle")}
                 </button>
             </div>
+            {/* 결과 공유 (모두 공개된 뒤) */}
+            {allRevealed && (
+                <ShareButtons
+                    className="mt-3 animate-fade-in"
+                    title={lang === 'ko' ? '사다리 타기 결과 🎲' : 'Ladder game result 🎲'}
+                    description={Object.entries(revealed)
+                        .map(([s, e]) => `${names[Number(s)]} → ${prizes[e]}`)
+                        .join(" · ")
+                        .slice(0, 80)}
+                    emoji="🎲"
+                />
+            )}
+
             <button
                 onClick={() => setPhase("setup")}
                 className="w-full mt-2 py-2 text-xs text-slate-400 dark:text-slate-500 hover:text-purple-500 transition-colors"

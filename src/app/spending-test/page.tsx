@@ -6,6 +6,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { spendingQuestions, spendingResults, SpendingType } from "@/data/spending-test";
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
+import ShareButtons from "@/components/ShareButtons";
 
 export default function SpendingTestPage() {
     const { lang } = useLanguage();
@@ -247,18 +248,21 @@ export default function SpendingTestPage() {
                                 </p>
                             </div>
 
-                            {/* Share / Retry */}
-                            <div className="flex gap-3">
-                                <button
-                                    onClick={() => window.location.reload()}
-                                    className="flex-1 py-3 rounded-xl border border-slate-200 dark:border-slate-700 font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                                >
-                                    ↻ {lang === 'ko' ? '다시하기' : 'Retry'}
-                                </button>
-                                <button className="flex-1 py-3 rounded-xl bg-slate-800 dark:bg-white text-white dark:text-slate-900 font-bold hover:opacity-90 transition-opacity">
-                                    🔗 {lang === 'ko' ? '공유하기' : 'Share'}
-                                </button>
-                            </div>
+                            {/* 공유: 카카오톡 · 링크 복사 · 기기 공유 */}
+                            <ShareButtons
+                                className="mb-3"
+                                title={lang === 'ko' ? `나의 소비 성향: ${t(result.name)} ${result.emoji}` : `My spending type: ${t(result.name)} ${result.emoji}`}
+                                description={lang === 'ko' ? '숨겨진 소비성향 테스트 · check-me.today' : 'Hidden Spending Habits Test · check-me.today'}
+                                emoji={result.emoji}
+                            />
+
+                            {/* Retry */}
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="w-full py-3 rounded-xl border border-slate-200 dark:border-slate-700 font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                            >
+                                ↻ {lang === 'ko' ? '다시하기' : 'Retry'}
+                            </button>
                         </div>
                     </div>
 

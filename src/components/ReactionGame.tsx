@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import ShareButtons from "./ShareButtons";
 
 type GameState = "idle" | "waiting" | "ready" | "early" | "result";
 
@@ -104,8 +105,10 @@ export default function ReactionGame() {
     if (state === "early") bgClass = "bg-slate-200 dark:bg-slate-700";
 
     const currentTier = state === "result" ? getTier(endTime - startTime) : null;
+    const lastMs = endTime - startTime;
 
     return (
+        <>
         <div
             className={`w-full aspect-square max-w-lg mx-auto rounded-3xl shadow-xl flex flex-col items-center justify-center cursor-pointer transition-all duration-200 select-none p-6 text-center touch-none ${bgClass}`}
             onPointerDown={handleClick}
@@ -175,5 +178,19 @@ export default function ReactionGame() {
                 </>
             )}
         </div>
+
+        {/* 결과 공유 (카드 바깥: 카드 클릭은 재시작이므로) */}
+        {state === "result" && currentTier && (
+            <div className="max-w-lg mx-auto mt-4 animate-fade-in">
+                <ShareButtons
+                    title={lang === 'ko'
+                        ? `반응속도 ${lastMs}ms · ${currentTier.name.ko} ${currentTier.emoji}`
+                        : `Reaction time ${lastMs}ms · ${currentTier.name[lang] || currentTier.name.en} ${currentTier.emoji}`}
+                    description={lang === 'ko' ? '반응속도 테스트 · 너는 몇 ms?' : 'Reaction Time Test · What is yours?'}
+                    emoji={currentTier.emoji}
+                />
+            </div>
+        )}
+        </>
     );
 }
