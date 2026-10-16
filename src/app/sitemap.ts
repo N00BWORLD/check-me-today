@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { tests, getTestPath } from '@/data/tests';
 import { quizzes } from '@/data/engine';
+import { getLandingCategories, getCategoryPath } from '@/data/categories';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://check-me.today';
@@ -16,6 +17,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: 'daily' as const,
         priority: 1.0,
+    }));
+
+    // 카테고리 랜딩 페이지 (/category/[id]) — 테스트가 있는 카테고리만 자동 포함
+    const categoryPages = getLandingCategories().map(({ category, tests: catTests }) => ({
+        url: `${baseUrl}${getCategoryPath(category.id)}`,
+        lastModified: new Date(Math.max(...catTests.map((t) => new Date(t.createdAt).getTime()))),
+        changeFrequency: 'weekly' as const,
+        priority: 0.9,
     }));
 
     // 테스트 페이지 (준비중인 테스트는 제외)
@@ -41,5 +50,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
         }));
     });
 
-    return [...staticPages, ...testPages, ...quizTypePages];
+    return [...staticPages, ...categoryPages, ...testPages, ...quizTypePages];
 }
