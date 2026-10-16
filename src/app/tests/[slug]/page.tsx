@@ -4,12 +4,14 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';
 import ReactionGame from '@/components/ReactionGame';
 import LadderGame from '@/components/LadderGame';
+import TenSecondsGame from '@/components/TenSecondsGame';
 import AdUnit from '@/components/AdUnit';
 
 // 게임 id → 컴포넌트. 새 게임을 추가하면 여기와 tests.ts 에만 등록하면 됨
 const GAME_COMPONENTS: Record<string, React.ComponentType> = {
     'reaction-test': ReactionGame,
     'ladder-game': LadderGame,
+    'ten-seconds': TenSecondsGame,
 };
 
 // Force dynamic rendering to ensure search params and randomness work if needed

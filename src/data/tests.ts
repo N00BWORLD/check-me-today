@@ -308,6 +308,33 @@ export const tests: TestData[] = [
     isComingSoon: false,
     createdAt: "2026-10-16",
   },
+  {
+    id: "ten-seconds",
+    slug: "ten-seconds",
+    type: "game",
+    category: "fun",
+    name: {
+      ko: "10초 맞추기 ⏱️",
+      en: "Stop at 10s ⏱️",
+      zh: "10秒挑战 ⏱️",
+      ja: "10秒ぴったり ⏱️"
+    },
+    description: {
+      ko: "인형뽑기 10초 챌린지! 0.01초까지 정확히 멈춰봐",
+      en: "Claw machine 10-second challenge. Stop to the 1/100s!",
+      zh: "抓娃娃机10秒挑战！精确到0.01秒",
+      ja: "クレーンゲームの10秒チャレンジ！0.01秒まで合わせよう"
+    },
+    keywords: ["10초 맞추기", "10초 게임", "인형뽑기", "타이머 게임", "stop at 10 seconds", "10秒"],
+    emoji: "⏱️",
+    gradient: "from-indigo-500 via-purple-500 to-pink-500",
+    bgGradient: "from-indigo-100 to-pink-100 dark:from-indigo-900/30 dark:to-pink-900/30",
+    playCount: 0,
+    likeCount: 0,
+    badge: "NEW",
+    isComingSoon: false,
+    createdAt: "2026-10-16",
+  },
 
 ];
 
