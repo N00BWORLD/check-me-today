@@ -1,7 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { menuRecommendations, timeSlots, type TimeSlot, type MenuItem } from "@/data/menu-recommendation";
+// 오늘의 메뉴추천: 종류 선택 → 룰렛 → 결과
+// 메뉴 풀은 언어(문화권)별로 다르다 (src/data/menu-recommendation.ts)
+import { useCallback, useMemo, useState } from "react";
+import {
+  getMenuPool,
+  getMenuItems,
+  getMenuCategory,
+  menuText,
+  type MenuItem,
+} from "@/data/menu-recommendation";
 import MenuResult from "./_components/MenuResult";
 import MenuSelector from "./_components/MenuSelector";
 import TextRoulette from "./_components/TextRoulette";
@@ -9,132 +17,94 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useTestStats } from "@/hooks/useTestStats";
 import { incrementPlayCount } from "@/lib/firebase";
 
-export const dynamic = "force-dynamic";
+type Stage = "select" | "spinning" | "result";
 
 export default function MenuRecommendationPage() {
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | "random" | null>(null);
-  const [recommendedMenu, setRecommendedMenu] = useState<MenuItem | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
   const { lang } = useLanguage();
   const { stats } = useTestStats("menu-recommendation");
 
-  const pageInfoData = {
-    title: {
-      ko: "오늘의 메뉴추천",
-      en: "Today's Menu Recommendation",
-      zh: "今日菜单推荐",
-      ja: "今日のメニューおすすめ"
-    },
-    subtitle: {
-      ko: "결정장애 해결사 🦸",
-      en: "Decision Solver 🦸",
-      zh: "选择困难症救星 🦸",
-      ja: "優柔不断解決 🦸"
-    },
-    description: {
-      ko: "지금 이 시간, 가장 완벽한 메뉴를 추천해드려요!",
-      en: "We recommend the perfect menu for right now!",
-      zh: "为您推荐此时此刻最完美的菜单！",
-      ja: "今この時間、最も完璧なメニューをおすすめします！"
-    },
-    recommend: {
-      ko: "메뉴 추천받기",
-      en: "Get Recommendation",
-      zh: "获取推荐",
-      ja: "メニューをおすすめ"
-    },
-    stats: {
-      ko: "참여자 수",
-      en: "Participants",
-      zh: "参与人数",
-      ja: "参加者数"
-    },
-    back: {
-      ko: "처음으로",
-      en: "Home",
-      zh: "返回首页",
-      ja: "ホームへ"
-    }
-  };
+  const [stage, setStage] = useState<Stage>("select");
+  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [menu, setMenu] = useState<MenuItem | null>(null);
+  const [spinKey, setSpinKey] = useState(0); // 같은 카테고리로 다시 돌릴 때 룰렛 재마운트용
 
-  const localizedPageInfo = {
-    title: pageInfoData.title[lang] || pageInfoData.title.ko,
-    subtitle: pageInfoData.subtitle[lang] || pageInfoData.subtitle.ko,
-    description: pageInfoData.description[lang] || pageInfoData.description.ko,
-    recommend: pageInfoData.recommend[lang] || pageInfoData.recommend.ko,
-    stats: pageInfoData.stats[lang] || pageInfoData.stats.ko,
-    back: pageInfoData.back[lang] || pageInfoData.back.ko,
-  };
+  const pool = useMemo(() => getMenuPool(lang), [lang]);
+  const items = useMemo(
+    () => (categoryId ? getMenuItems(pool, categoryId) : []),
+    [pool, categoryId]
+  );
+  const category = categoryId ? getMenuCategory(pool, categoryId) ?? null : null;
 
-  const generateRecommendation = (timeSlot: TimeSlot | "random") => {
-    setSelectedTimeSlot(timeSlot);
-    setIsGenerating(true);
+  // 1단계 → 룰렛
+  const handleSelectCategory = (id: string) => {
+    setCategoryId(id);
+    setMenu(null);
+    setSpinKey((k) => k + 1);
+    setStage("spinning");
     incrementPlayCount("menu-recommendation");
   };
 
-  const handleRouletteComplete = (selectedItem: MenuItem) => {
-    // 룰렛 완료 시 호출
+  // 룰렛 완료 → 결과
+  const handleRouletteComplete = useCallback((picked: MenuItem) => {
     setTimeout(() => {
-      setRecommendedMenu(selectedItem);
-      setIsGenerating(false);
+      setMenu(picked);
+      setStage("result");
     }, 500);
+  }, []);
+
+  const spinAgain = () => {
+    setMenu(null);
+    setSpinKey((k) => k + 1);
+    setStage("spinning");
   };
 
-  const resetRecommendation = () => {
-    setSelectedTimeSlot(null);
-    setRecommendedMenu(null);
-    setIsGenerating(false);
+  const changeCategory = () => {
+    setCategoryId(null);
+    setMenu(null);
+    setStage("select");
   };
 
-  if (isGenerating) {
+  if (stage === "spinning" && items.length > 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex flex-col items-center justify-center p-4">
         <div className="max-w-md w-full text-center">
-          <div className="mb-8">
+          <div className="mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 dark:bg-slate-800/70 text-sm font-bold text-slate-700 dark:text-slate-200 mb-3">
+              <span>{category?.emoji ?? "🎲"}</span>
+              <span>{category?.label ?? menuText("random", lang)}</span>
+            </div>
             <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200">
-              {localizedPageInfo.title}
+              {menuText("title", lang)}
             </h2>
-            <p className="text-slate-500 dark:text-slate-400">
-              {lang === 'ko' ? '메뉴를 고르고 있어요...' : 'Picking a menu...'}
-            </p>
+            <p className="text-slate-500 dark:text-slate-400">{menuText("spinning", lang)}</p>
           </div>
 
           <div className="glass rounded-3xl p-4 mb-8 shadow-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl border border-white/50 dark:border-slate-700">
-            <TextRoulette
-              items={menuRecommendations}
-              onComplete={handleRouletteComplete}
-            />
+            <TextRoulette key={spinKey} items={items} onComplete={handleRouletteComplete} />
           </div>
 
           <button
-            onClick={() => setIsGenerating(false)}
+            onClick={changeCategory}
             className="text-sm text-slate-400 underline hover:text-slate-600"
           >
-            {lang === 'ko' ? '취소' : 'Cancel'}
+            {menuText("cancel", lang)}
           </button>
         </div>
       </div>
     );
   }
 
-  if (recommendedMenu && selectedTimeSlot) {
+  if (stage === "result" && menu && categoryId) {
     return (
       <MenuResult
-        menu={recommendedMenu}
-        timeSlot={selectedTimeSlot}
-        onReset={resetRecommendation}
-        pageInfo={localizedPageInfo}
-        stats={stats?.playCount ?? 0}
+        menu={menu}
+        category={category}
+        pool={pool}
+        onSpinAgain={spinAgain}
+        onChangeCategory={changeCategory}
       />
     );
   }
 
-  return (
-    <MenuSelector
-      currentTimeSlot={"random"}
-      onSelectTimeSlot={generateRecommendation}
-      pageInfo={localizedPageInfo}
-      stats={stats?.playCount ?? 0}
-    />
-  );
+  return <MenuSelector onSelectCategory={handleSelectCategory} stats={stats?.playCount ?? 0} />;
 }

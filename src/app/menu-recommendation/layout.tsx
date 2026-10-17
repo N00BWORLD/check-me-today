@@ -2,10 +2,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "오늘의 메뉴추천",
-    description: "🍽️ 지금 시간에 맞는 최적의 메뉴를 추천해드려요! 아침·점심·저녁·야식 별 맞춤 메뉴 추천",
+    description: "🍽️ 오늘 뭐 먹지? 한식·중식·일식·양식·분식·야식·디저트 중 종류만 고르면 룰렛이 메뉴를 뽑아 드려요. 80가지 메뉴 중 결정장애 해결!",
     openGraph: {
         title: "오늘의 메뉴추천 🍽️",
-        description: "지금 시간에 맞는 최적의 메뉴를 추천해드려요! 아침·점심·저녁·야식 별 맞춤 메뉴 추천",
+        description: "오늘 뭐 먹지? 한식·중식·일식·양식·분식·야식·디저트 중 종류만 고르면 룰렛이 메뉴를 뽑아 드려요.",
         images: [
             {
                 url: "/og-menu.png",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "오늘의 메뉴추천 🍽️",
-        description: "지금 시간에 맞는 최적의 메뉴를 추천해드려요! 아침·점심·저녁·야식 별 맞춤 메뉴 추천",
+        description: "오늘 뭐 먹지? 종류만 고르면 룰렛이 메뉴를 뽑아 드려요. 80가지 메뉴 중 결정장애 해결!",
         images: ["/og-menu.png"],
     },
 };

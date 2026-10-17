@@ -66,7 +66,7 @@ export default function TextRoulette({ items, onComplete, duration = 3000 }: Tex
                     >
                         <div className="text-6xl mb-2">{items[currentIndex].emoji}</div>
                         <div className="text-2xl font-black text-slate-800 dark:text-white truncate max-w-[200px]">
-                            {items[currentIndex].name['ko']}
+                            {items[currentIndex].name}
                         </div>
                     </motion.div>
                 </AnimatePresence>

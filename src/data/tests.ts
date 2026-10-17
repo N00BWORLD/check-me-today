@@ -215,10 +215,10 @@ export const tests: TestData[] = [
       ja: "今日のメニューおすすめ"
     },
     description: {
-      ko: "🍽️ 지금 시간에 맞는 최적의 메뉴! 아침·점심·저녁·야식 별 추천",
-      en: "🍽️ Perfect menu for your current time! Breakfast·Lunch·Dinner·Late-night",
-      zh: "🍽️ 适合当前时间的完美菜单！早餐·午餐·晚餐·宵夜推荐",
-      ja: "🍽️ 現在の時間にぴったりのメニュー！朝・昼・夕・夜食のおすすめ"
+      ko: "🍽️ 오늘 뭐 먹지? 한식·중식·일식·양식·분식·야식 중 종류만 고르면 룰렛이 뽑아줘요",
+      en: "🍽️ What should I eat? Pick a cuisine and let the roulette decide",
+      zh: "🍽️ 今天吃什么？选个种类，让轮盘替你决定",
+      ja: "🍽️ 今日何食べる？ジャンルを選べばルーレットが決めてくれる"
     },
     emoji: "🍽️",
     gradient: "from-orange-500 via-red-500 to-yellow-500",
