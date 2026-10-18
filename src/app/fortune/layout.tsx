@@ -6,7 +6,9 @@ const description =
     "생년월일로 띠와 별자리를 찾아 보는 오늘의 운세. 종합운 점수와 재물운·연애운·건강운·직장운 풀이, 행운의 숫자·색·방향·시간·아이템까지. 매일 자정에 새로 바뀝니다.";
 
 export const metadata: Metadata = {
-    title,
+    // 이 레이아웃이 title 을 문자열로 두면 루트 템플릿이 여기서 끊겨 하위 페이지(/fortune/zodiac/*, /fortune/star/*)에
+    // 사이트명이 붙지 않는다. 그래서 템플릿을 다시 선언하고, /fortune 자체는 absolute 로 완성된 제목을 준다
+    title: { absolute: `${title} | Check Me Today`, template: "%s | Check Me Today" },
     description,
     keywords: ["오늘의 운세", "띠별 운세", "별자리 운세", "오늘 운세", "무료 운세", "재물운", "연애운", "일일 운세"],
     alternates: { canonical: "/fortune" },

@@ -1137,7 +1137,8 @@ export interface SignHubContent {
 }
 
 export const zodiacHub: SignHubContent = {
-  title: { ko: "띠별 오늘의 운세 | 12띠 운세·성격·궁합", en: "Daily Horoscope by Chinese Zodiac | 12 Animal Signs", zh: "生肖今日运势 | 十二生肖运势·性格·配对", ja: "干支別 今日の運勢 | 十二支の運勢・性格・相性" },
+  // 사이트명은 /fortune 레이아웃의 title 템플릿이 뒤에 붙이므로 여기엔 "|" 를 쓰지 않는다
+  title: { ko: "띠별 오늘의 운세 · 12띠 성격과 궁합", en: "Daily Horoscope by Chinese Zodiac · 12 Animal Signs", zh: "生肖今日运势 · 十二生肖性格与配对", ja: "干支別 今日の運勢 · 十二支の性格と相性" },
   description: {
     ko: "쥐띠부터 돼지띠까지 12띠 오늘의 운세를 매일 새로 봅니다. 띠별 성격과 강점, 어울리는 사람, 올해 흐름, 자주 묻는 질문까지 정리했어요. 내 띠 계산법도 함께 확인하세요.",
     en: "Fresh daily fortunes for all 12 Chinese zodiac animals, from Rat to Pig, with personality, strengths, compatible signs, the year's flow and FAQs. Find out how to work out your own sign.",
@@ -1182,7 +1183,8 @@ export const zodiacHub: SignHubContent = {
 };
 
 export const starHub: SignHubContent = {
-  title: { ko: "별자리 오늘의 운세 | 12별자리 운세·성격·궁합", en: "Daily Horoscope by Star Sign | 12 Zodiac Signs", zh: "星座今日运势 | 十二星座运势·性格·配对", ja: "星座別 今日の運勢 | 12星座の運勢・性格・相性" },
+  // 사이트명은 /fortune 레이아웃의 title 템플릿이 뒤에 붙이므로 여기엔 "|" 를 쓰지 않는다
+  title: { ko: "별자리 오늘의 운세 · 12별자리 성격과 궁합", en: "Daily Horoscope by Star Sign · 12 Zodiac Signs", zh: "星座今日运势 · 十二星座性格与配对", ja: "星座別 今日の運勢 · 12星座の性格と相性" },
   description: {
     ko: "양자리부터 물고기자리까지 12별자리 오늘의 운세를 매일 새로 봅니다. 별자리별 성격과 강점, 어울리는 사람, 올해 흐름, 자주 묻는 질문까지 정리했어요. 생일로 내 별자리 찾는 법도 함께 확인하세요.",
     en: "Fresh daily horoscopes for all 12 star signs, from Aries to Pisces, with personality, strengths, compatible signs, the year's flow and FAQs. Find your sign by birthday.",
