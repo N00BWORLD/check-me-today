@@ -111,10 +111,10 @@ export const tests: TestData[] = [
       ja: "今日の運勢"
     },
     description: {
-      ko: "이름과 생년월일로 보는 오늘의 운세 🧧",
-      en: "Your daily fortune based on name & birth date 🧧",
-      zh: "根据姓名和生日查看今日运势 🧧",
-      ja: "名前と生年月日で見る今日の運勢 🧧"
+      ko: "띠·별자리로 보는 오늘의 운세 🧧 종합·재물·연애·건강·직장",
+      en: "Daily fortune by zodiac & star sign 🧧 overall, wealth, love, health, work",
+      zh: "以生肖·星座看今日运势 🧧 综合·财运·爱情·健康·事业",
+      ja: "干支・星座で見る今日の運勢 🧧 総合・金運・恋愛・健康・仕事"
     },
     emoji: "🧧",
     gradient: "from-red-500 via-orange-500 to-yellow-500",

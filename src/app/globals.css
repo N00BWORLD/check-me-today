@@ -651,3 +651,36 @@ body {
     stroke-dashoffset: 0;
   }
 }
+
+/* 오늘의 운세: 복주머니 흔들림 · 열기 진행 막대 · 종합운 원형 게이지 채우기 */
+@keyframes pouch-shake {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  15% { transform: rotate(-8deg) translateY(-4px); }
+  30% { transform: rotate(7deg) translateY(0); }
+  45% { transform: rotate(-6deg) translateY(-3px); }
+  60% { transform: rotate(5deg) translateY(0); }
+  75% { transform: rotate(-3deg) translateY(-2px); }
+}
+
+.animate-pouch-shake {
+  animation: pouch-shake 0.9s ease-in-out infinite;
+  transform-origin: 50% 40%;
+}
+
+@keyframes pouch-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.animate-pouch-progress {
+  animation: pouch-progress 2s ease-in-out forwards;
+}
+
+@keyframes ring-fill {
+  from { stroke-dashoffset: var(--ring-length); }
+  to { stroke-dashoffset: var(--ring-offset); }
+}
+
+.animate-ring-fill {
+  animation: ring-fill 1.1s ease-out forwards;
+}
