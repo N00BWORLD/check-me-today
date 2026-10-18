@@ -19,6 +19,14 @@ import {
     getEnergyTraitPath,
     getEnergyTypePath,
 } from '@/data/energy-balance-guide';
+import { starSigns, zodiacAnimals } from '@/data/fortunes';
+import {
+    FORTUNE_SIGNS_PUBLISHED,
+    FORTUNE_STAR_PATH,
+    FORTUNE_ZODIAC_PATH,
+    getStarFortunePath,
+    getZodiacFortunePath,
+} from '@/data/fortune-signs';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://check-me.today';
@@ -115,6 +123,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.6,
     }));
 
+    // 띠별·별자리별 오늘의 운세: 허브 2개(0.8) → 상세 24개(0.7). 상세는 운세가 매일 바뀌므로 daily
+    const fortuneSignsDate = new Date(FORTUNE_SIGNS_PUBLISHED);
+    const fortuneHubPages = [FORTUNE_ZODIAC_PATH, FORTUNE_STAR_PATH].map((path) => ({
+        url: `${baseUrl}${path}`,
+        lastModified: fortuneSignsDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+    }));
+    const fortuneSignPages = [
+        ...zodiacAnimals.map((a) => getZodiacFortunePath(a.id)),
+        ...starSigns.map((s) => getStarFortunePath(s.id)),
+    ].map((path) => ({
+        url: `${baseUrl}${path}`,
+        lastModified: new Date(),
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+    }));
+
     return [
         ...staticPages,
         ...categoryPages,
@@ -127,5 +153,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         energyHubPage,
         ...energyTraitPages,
         ...energyTypePages,
+        ...fortuneHubPages,
+        ...fortuneSignPages,
     ];
 }

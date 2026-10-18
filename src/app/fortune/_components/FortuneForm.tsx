@@ -11,6 +11,12 @@ import { cardClass, inputClass, primaryButtonClass } from "./styles";
 
 const STORAGE_KEY = "fortuneInput";
 
+/** 하단 "띠별 운세 보기 · 별자리 운세 보기" 링크 문구 */
+const signLinkTexts = {
+  zodiac: { ko: "띠별 운세 보기", en: "Fortune by zodiac animal", zh: "查看生肖运势", ja: "干支別の運勢を見る" },
+  star: { ko: "별자리 운세 보기", en: "Fortune by star sign", zh: "查看星座运势", ja: "星座別の運勢を見る" },
+};
+
 interface Props {
   onSubmit: (input: FortuneInput) => void;
 }
@@ -165,6 +171,13 @@ export default function FortuneForm({ onSubmit }: Props) {
         </form>
 
         <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-500 break-keep">{t("disclaimer")}</p>
+
+        {/* 띠별·별자리별 정적 운세 페이지(/fortune/zodiac, /fortune/star)로 가는 링크 한 줄 */}
+        <p className="mt-3 text-center text-sm text-slate-500 dark:text-slate-400">
+          <Link href="/fortune/zodiac" className="underline underline-offset-4 hover:text-[#c62f26] dark:hover:text-[#f0c060]">{signLinkTexts.zodiac[lang] || signLinkTexts.zodiac.en}</Link>
+          <span className="mx-2 text-slate-300 dark:text-slate-600">·</span>
+          <Link href="/fortune/star" className="underline underline-offset-4 hover:text-[#c62f26] dark:hover:text-[#f0c060]">{signLinkTexts.star[lang] || signLinkTexts.star.en}</Link>
+        </p>
       </div>
     </main>
   );

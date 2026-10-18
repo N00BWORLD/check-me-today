@@ -636,8 +636,8 @@ export function getLocalDateKey(now: Date = new Date()): string {
   return `${y}-${m}-${d}`;
 }
 
-/** 두 난수의 평균 → 1~5. 극단값(1, 5)이 너무 자주 나오지 않도록 가운데로 모은다 */
-function pickScore(random: () => number): number {
+/** 두 난수의 평균 → 1~5. 극단값(1, 5)이 너무 자주 나오지 않도록 가운데로 모은다. 띠별·별자리별 운세(src/data/fortune-signs.ts)도 같이 쓴다 */
+export function pickScore(random: () => number): number {
   const v = (random() + random()) / 2; // 0~1, 삼각 분포
   return Math.min(5, Math.max(1, Math.floor(v * 5) + 1));
 }
