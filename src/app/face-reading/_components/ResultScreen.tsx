@@ -22,6 +22,7 @@ import {
 import { useLike, useTestStats } from "@/hooks/useTestStats";
 import { SITE_URL } from "@/lib/kakao";
 import RecommendedTests from "@/components/RecommendedTests";
+import InstallPromptTrigger from "@/components/InstallPromptTrigger";
 import { colorNames, featureHanja, texts } from "./texts";
 import { BackButton, BigButton, cls, SectionTitle, Toast, TypeImage } from "./ui";
 import ShareButtons from "./ShareButtons";
@@ -267,6 +268,9 @@ export default function ResultScreen({
             onToast={setToast}
           />
         </div>
+
+        {/* 내 관상을 직접 본 뒤에만 앱 설치 안내 (한 번). 공유받은 결과 화면에서는 띄우지 않는다 */}
+        <InstallPromptTrigger enabled={!isSharedView} />
 
         {/* 다시 보기 / 처음으로 */}
         <div className="grid grid-cols-2 gap-3 mb-10">

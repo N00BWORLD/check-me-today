@@ -7,6 +7,7 @@ import { spendingQuestions, spendingResults, SpendingType } from "@/data/spendin
 import { useIncrementPlay } from "@/hooks/useTestStats";
 import AdUnit from "@/components/AdUnit";
 import ShareButtons from "@/components/ShareButtons";
+import InstallPromptTrigger from "@/components/InstallPromptTrigger";
 
 export default function SpendingTestPage() {
     const { lang } = useLanguage();
@@ -244,7 +245,7 @@ export default function SpendingTestPage() {
                                     💡 {lang === 'ko' ? '금융 조언' : 'Financial Advice'}
                                 </h3>
                                 <p className="text-sm text-purple-800 dark:text-purple-200 italic">
-                                    "{result.advice}"
+                                    &ldquo;{result.advice}&rdquo;
                                 </p>
                             </div>
 
@@ -255,6 +256,9 @@ export default function SpendingTestPage() {
                                 description={lang === 'ko' ? '숨겨진 소비성향 테스트 · check-me.today' : 'Hidden Spending Habits Test · check-me.today'}
                                 emoji={result.emoji}
                             />
+
+                            {/* 테스트를 끝낸 뒤에만 앱 설치 안내 (한 번) */}
+                            <InstallPromptTrigger />
 
                             {/* Retry */}
                             <button

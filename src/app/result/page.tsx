@@ -5,6 +5,7 @@ import ResultCard from "@/components/ResultCard";
 import LoveResultCard from "@/app/love-test/_components/LoveResultCard";
 import AdUnit from "@/components/AdUnit";
 import ShareButtons from "@/components/ShareButtons";
+import InstallPromptTrigger from "@/components/InstallPromptTrigger";
 import { loveResults, defaultResult } from "@/data/love-test";
 import { useLanguage } from "@/context/LanguageContext";
 import { Suspense } from "react";
@@ -31,6 +32,8 @@ function ResultContent() {
                     emoji={love.emoji}
                 />
                 <AdUnit />
+                {/* 테스트를 끝낸 뒤에만 앱 설치 안내 (한 번) */}
+                <InstallPromptTrigger />
             </div>
         );
     }
@@ -57,6 +60,8 @@ function ResultContent() {
                 lunarScore={lunarScore}
             />
             <AdUnit />
+            {/* 테스트를 끝낸 뒤에만 앱 설치 안내 (한 번) */}
+            <InstallPromptTrigger />
         </div>
     );
 }

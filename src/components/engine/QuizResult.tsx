@@ -11,6 +11,7 @@ import { copyToClipboard } from "@/lib/share";
 import ResultActions from "@/components/ResultActions";
 import RecommendedTests from "@/components/RecommendedTests";
 import AdUnit from "@/components/AdUnit";
+import InstallPromptTrigger from "@/components/InstallPromptTrigger";
 import ResultCard from "./ResultCard";
 import { engineTexts } from "./engineTexts";
 
@@ -94,6 +95,9 @@ export default function QuizResult({ quiz, result, viaShare }: Props) {
                 <Link href="/" className="inline-block text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 mb-3 transition-colors">
                     ← {t(engineTexts.home)}
                 </Link>
+
+                {/* 직접 테스트를 끝낸 뒤에만 앱 설치 안내 (한 번). 공유 링크로 들어온 경우는 제외 */}
+                <InstallPromptTrigger enabled={!viaShare} />
 
                 {/* 공유 링크로 들어온 방문자 안내 */}
                 {viaShare && (
