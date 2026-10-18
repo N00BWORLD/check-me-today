@@ -95,7 +95,7 @@ export const tests: TestData[] = [
     bgGradient: "from-amber-100 to-indigo-100 dark:from-amber-900/30 dark:to-indigo-900/30",
     playCount: 0, // Firebase에서 실시간으로 가져옴
     likeCount: 0, // Firebase에서 실시간으로 가져옴
-    badge: "HOT",
+    badge: null, // HOT 배지는 홈에서 실제 조회수 기준으로 동적 부여
     isComingSoon: false,
     createdAt: "2024-12-01",
   },
@@ -121,7 +121,7 @@ export const tests: TestData[] = [
     bgGradient: "from-red-100 to-yellow-100 dark:from-red-900/30 dark:to-yellow-900/30",
     playCount: 0,
     likeCount: 0,
-    badge: "HOT",
+    badge: null, // HOT 배지는 홈에서 실제 조회수 기준으로 동적 부여
     isComingSoon: false,
     createdAt: "2024-12-06",
   },

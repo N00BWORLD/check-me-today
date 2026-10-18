@@ -36,16 +36,23 @@ export default function Home() {
     return result;
   }, [selectedCategory, searchQuery, lang]);
 
-  // HOT 테스트 (배지가 HOT인 것들) - 조회수 기준 정렬
-  const hotTests = useMemo(() => {
-    const hot = tests.filter(t => t.badge === "HOT" && !t.isComingSoon);
-    // 실시간 통계로 조회수 기준 정렬
-    return hot.sort((a, b) => {
-      const aPlays = allStats[a.id]?.playCount ?? a.playCount;
-      const bPlays = allStats[b.id]?.playCount ?? b.playCount;
-      return bPlays - aPlays; // 내림차순
-    });
-  }, [allStats]);
+  // 인기 테스트: Firebase 실제 조회수 기준 상위 4개 (배지와 무관)
+  // 통계가 아직 안 왔으면 빈 목록 → 섹션 숨김 (잘못된 순서가 잠깐 보이는 것 방지)
+  const statsLoaded = Object.keys(allStats).length > 0;
+  const plays = (t: typeof tests[number]) => allStats[t.id]?.playCount ?? 0;
+  const rankedTests = useMemo(() => {
+    if (!statsLoaded) return [];
+    return tests
+      .filter(t => !t.isComingSoon && plays(t) > 0)
+      .sort((a, b) => plays(b) - plays(a));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allStats, statsLoaded]);
+  const hotTests = rankedTests.slice(0, 4);
+
+  // HOT 배지는 하드코딩이 아니라 실제 조회수 상위 3개에 동적으로 붙인다
+  const hotIds = useMemo(() => new Set(rankedTests.slice(0, 3).map(t => t.id)), [rankedTests]);
+  const withBadge = (t: typeof tests[number]) =>
+    hotIds.has(t.id) ? { ...t, badge: "HOT" as const } : t;
 
 
   // 오늘의 추천 - 인기 테스트 중 랜덤 또는 가장 인기 있는 것
@@ -158,7 +165,7 @@ export default function Home() {
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {hotTests.map(test => (
-                <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
+                <PosterCard key={test.id} test={withBadge(test)} realStats={allStats[test.id]} />
               ))}
             </div>
           </section>
@@ -195,7 +202,7 @@ export default function Home() {
             {filteredTests.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {filteredTests.map(test => (
-                  <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
+                  <PosterCard key={test.id} test={withBadge(test)} realStats={allStats[test.id]} />
                 ))}
               </div>
             ) : (
@@ -221,7 +228,7 @@ export default function Home() {
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {tests.map(test => (
-                <PosterCard key={test.id} test={test} realStats={allStats[test.id]} />
+                <PosterCard key={test.id} test={withBadge(test)} realStats={allStats[test.id]} />
               ))}
             </div>
           </section>
