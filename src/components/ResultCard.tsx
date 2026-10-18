@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { PersonalityType, TraitType, traitNames, traitDescriptions, solarTraits, lunarTraits, maxTraitScore } from "@/data/questions";
+import { energyGuideTexts, getEnergyTraitPath, getEnergyTypePath } from "@/data/energy-balance-guide";
 import { useLanguage, uiTexts } from "@/context/LanguageContext";
 import { useLike, useTestStats } from "@/hooks/useTestStats";
 import { useState, useEffect, useCallback } from "react";
@@ -45,6 +46,15 @@ export default function ResultCard({ type, traitScores, solarScore, lunarScore }
 
     // 주 유형의 특성들
     const displayTraits = type === "SOLAR" ? solarTraits : lunarTraits;
+
+    // 막대가 가장 짧은 차원 = 성장 포인트 (동점이면 앞의 것). 그 차원 옆에 가이드 안내 한 줄을 붙인다
+    const growthTrait = displayTraits.reduce(
+        (lowest, trait) => (traitScores[trait] < traitScores[lowest] ? trait : lowest),
+        displayTraits[0]
+    );
+
+    // 유형 페이지(/test/types/solar|lunar) 주소. 아래 descriptions 폴백(알 수 없는 값은 SOLAR)과 맞춰 LUNAR 일 때만 lunar 로 보낸다
+    const typeGuideHref = getEnergyTypePath(type === "LUNAR" ? "lunar" : "solar");
 
     // 결과 데이터 (다국어)
     const descriptions = {
@@ -441,7 +451,21 @@ export default function ResultCard({ type, traitScores, solarScore, lunarScore }
                             <div key={trait} className="space-y-1">
                                 <div className="flex justify-between text-sm">
                                     <span className="font-semibold text-slate-600 dark:text-slate-300">
-                                        {traitNames[trait][lang] || traitNames[trait]["en"]}
+                                        {/* 차원 이름 → 차원별 가이드(/test/guide/[trait]) */}
+                                        <Link
+                                            href={getEnergyTraitPath(trait)}
+                                            className="underline underline-offset-4 decoration-dotted decoration-slate-400 dark:decoration-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+                                        >
+                                            {traitNames[trait][lang] || traitNames[trait]["en"]}
+                                        </Link>
+                                        {trait === growthTrait && (
+                                            <Link
+                                                href={getEnergyTraitPath(trait)}
+                                                className={`ml-2 text-xs font-medium ${content.color.accent} underline underline-offset-4 hover:opacity-80 transition-opacity`}
+                                            >
+                                                🌱 {getLocalizedText(energyGuideTexts.resultGrowthHint)} →
+                                            </Link>
+                                        )}
                                     </span>
                                     <span className={`font-bold ${content.color.accent}`}>
                                         {percentage}%
@@ -475,6 +499,16 @@ export default function ResultCard({ type, traitScores, solarScore, lunarScore }
                     <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm break-keep">
                         {getLocalizedText(content.description)}
                     </p>
+                </div>
+
+                {/* 유형 페이지(/test/types/solar|lunar)로 가는 링크: 결과 → 가이드 → 테스트 순환 */}
+                <div className="mt-4 text-center animate-fade-in" style={{ animationDelay: "1.05s" }}>
+                    <Link
+                        href={typeGuideHref}
+                        className={`inline-block text-sm font-semibold ${content.color.accent} underline underline-offset-4 hover:opacity-80 transition-opacity`}
+                    >
+                        📖 {getLocalizedText(energyGuideTexts.resultTypeLink)} →
+                    </Link>
                 </div>
 
                 {/* 워터마크 */}

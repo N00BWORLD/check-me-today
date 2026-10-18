@@ -1152,6 +1152,10 @@ export const energyGuideTexts = {
     zh: "详细了解六大性格维度与Solar·Lunar类型",
     ja: "6つの性格次元とSolar・Lunarタイプを詳しく読む",
   },
+  /** 결과 카드(ResultCard)에서 유형 페이지(/test/types/solar|lunar)로 가는 링크 */
+  resultTypeLink: { ko: "이 유형 자세히 보기", en: "Read more about this type", zh: "详细了解此类型", ja: "このタイプを詳しく見る" },
+  /** 결과 카드의 막대 목록에서 점수가 가장 낮은 차원 옆에 붙는 안내 */
+  resultGrowthHint: { ko: "성장 포인트 읽기", en: "Read your growth point", zh: "阅读成长要点", ja: "成長ポイントを読む" },
   ctaTest: { ko: "내 에너지 비율 확인하기", en: "Check my energy balance", zh: "查看我的能量比例", ja: "自分のエネルギー比率を確認する" },
   ctaMine: { ko: "나도 테스트해 보기", en: "Take the test myself", zh: "我也要测试", ja: "私もテストしてみる" },
   ctaSub: {
