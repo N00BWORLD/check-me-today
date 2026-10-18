@@ -11,6 +11,14 @@ import {
     getFaceGuidePath,
     getFaceTypePath,
 } from '@/data/face-reading-guide';
+import {
+    energyTraitGuides,
+    energyTypeGuides,
+    ENERGY_GUIDE_PATH,
+    ENERGY_GUIDE_PUBLISHED,
+    getEnergyTraitPath,
+    getEnergyTypePath,
+} from '@/data/energy-balance-guide';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://check-me.today';
@@ -86,6 +94,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.6,
     }));
 
+    // 에너지 밸런스 콘텐츠 클러스터: 허브(0.9) → 차원별 가이드(0.8) → 유형 2종(0.6)
+    const energyGuideDate = new Date(ENERGY_GUIDE_PUBLISHED);
+    const energyHubPage = {
+        url: `${baseUrl}${ENERGY_GUIDE_PATH}`,
+        lastModified: energyGuideDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.9,
+    };
+    const energyTraitPages = energyTraitGuides.map((guide) => ({
+        url: `${baseUrl}${getEnergyTraitPath(guide.id)}`,
+        lastModified: energyGuideDate,
+        changeFrequency: 'monthly' as const,
+        priority: 0.8,
+    }));
+    const energyTypePages = energyTypeGuides.map((guide) => ({
+        url: `${baseUrl}${getEnergyTypePath(guide.id)}`,
+        lastModified: energyGuideDate,
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+    }));
+
     return [
         ...staticPages,
         ...categoryPages,
@@ -95,5 +124,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ...faceGuidePages,
         faceEnPage,
         ...faceTypePages,
+        energyHubPage,
+        ...energyTraitPages,
+        ...energyTypePages,
     ];
 }
