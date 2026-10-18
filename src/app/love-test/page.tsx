@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { useTestStats } from "@/hooks/useTestStats";
+import { useTestStats, useIncrementPlay } from "@/hooks/useTestStats";
 import LoveQuiz from "./_components/LoveQuiz";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -11,6 +11,8 @@ export default function LoveTestPage() {
     const [started, setStarted] = useState(false);
     const { lang } = useLanguage();
     const { stats } = useTestStats("love-type");
+    // 조회수 기록 (세션당 1회) — 빠져 있어서 연애 테스트 실행수가 항상 0이던 문제 수정
+    useIncrementPlay("love-type");
 
     const testInfo = {
         ko: {

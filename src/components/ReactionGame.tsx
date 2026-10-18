@@ -2,12 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useIncrementPlay } from "@/hooks/useTestStats";
 import ShareButtons from "./ShareButtons";
 
 type GameState = "idle" | "waiting" | "ready" | "early" | "result";
 
 export default function ReactionGame() {
     const { lang } = useLanguage();
+    // 조회수 기록 (세션당 1회) — 다른 테스트와 동일하게 Firebase tests/reaction-test 에 집계
+    useIncrementPlay("reaction-test");
     const [state, setState] = useState<GameState>("idle");
     const [startTime, setStartTime] = useState(0);
     const [endTime, setEndTime] = useState(0);
