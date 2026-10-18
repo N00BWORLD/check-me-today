@@ -4,7 +4,9 @@
 // - 저장된 관상 결과가 있으면 맨 위에 "오늘의 관상 운세 보기" 큰 버튼을 먼저 보여 준다 (매일 다시 오는 입구)
 // - 없으면 큰 제목 + 안내 3줄 + 시작 버튼(크게) + 사진으로 보기(보조)
 
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { FACE_GUIDE_PATH, faceGuideTexts } from "@/data/face-reading-guide";
 import type { FaceReadingResult } from "@/data/face-reading";
 import { texts } from "./texts";
 import { BackButton, BigButton, cls, TypeImage } from "./ui";
@@ -111,6 +113,13 @@ export default function StartScreen({ saved, onStart, onPhoto, onDaily }: StartS
         </div>
 
         {!saved && <p className={`${cls.body} text-center mt-6`}>🌅 {t(texts.dailyPromise)}</p>}
+
+        {/* 부위별 관상 가이드·유형 30종 허브로 가는 링크 (검색 유입 콘텐츠 클러스터) */}
+        <p className="text-center mt-8">
+          <Link href={FACE_GUIDE_PATH} className={`${cls.muted} ${cls.accent} underline underline-offset-4 ${cls.focus}`}>
+            📖 {t(faceGuideTexts.landingLink)} →
+          </Link>
+        </p>
 
         <p className={`${cls.muted} text-center mt-8`}>{t(texts.disclaimer)}</p>
       </div>
