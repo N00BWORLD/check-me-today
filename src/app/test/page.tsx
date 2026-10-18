@@ -5,6 +5,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useTestStats } from "@/hooks/useTestStats";
 import Quiz from "@/components/Quiz";
 import Link from "next/link";
+import { ENERGY_GUIDE_PATH, energyGuideTexts } from "@/data/energy-balance-guide";
 
 export default function TestPage() {
     const [started, setStarted] = useState(false);
@@ -168,6 +169,13 @@ export default function TestPage() {
                         {info.start} →
                     </button>
                 </div>
+
+                {/* 6가지 성향 차원·유형 가이드 허브로 가는 링크 (검색 유입 콘텐츠 클러스터) */}
+                <p className="text-center mb-4">
+                    <Link href={ENERGY_GUIDE_PATH} className="text-sm font-medium text-indigo-600 dark:text-indigo-400 underline underline-offset-4 hover:text-amber-500 transition-colors">
+                        📖 {energyGuideTexts.landingLink[lang] || energyGuideTexts.landingLink.en} →
+                    </Link>
+                </p>
 
                 {/* 하단 정보 */}
                 <p className="text-center text-xs text-slate-400 dark:text-slate-500">
