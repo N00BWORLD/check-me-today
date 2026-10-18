@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import {
   faceFeatures,
@@ -19,6 +20,7 @@ import {
   traitOrder,
   TraitScores,
 } from "@/data/face-reading";
+import { faceGuideTexts, getFaceGuidePartByFeature, getFaceGuidePath, getFaceTypePath } from "@/data/face-reading-guide";
 import { useLike, useTestStats } from "@/hooks/useTestStats";
 import { SITE_URL } from "@/lib/kakao";
 import RecommendedTests from "@/components/RecommendedTests";
@@ -104,6 +106,13 @@ export default function ResultScreen({
             <p className={`${cls.h2}`}>{t(result.title)}</p>
             <p className={`${cls.muted} mt-2`}>{t(result.subtitle)}</p>
             <p className={`${cls.body} mt-5 text-left`}>{t(result.description)}</p>
+            {/* 유형 페이지(/face-reading/types/{id})로 가는 링크: 결과 → 가이드 → 테스트 순환 */}
+            <Link
+              href={getFaceTypePath(result.id)}
+              className={`inline-block mt-5 ${cls.muted} ${cls.accent} font-bold underline underline-offset-4 ${cls.focus}`}
+            >
+              📖 {t(faceGuideTexts.resultTypeLink)} →
+            </Link>
           </div>
         </section>
 
@@ -152,6 +161,8 @@ export default function ResultScreen({
               const option = getSelectedOption(feature.id, selections);
               if (!option) return null;
               const reading = optionReadings[feature.id]?.[option.id];
+              // 이 부위를 다루는 가이드(/face-reading/guide/{part}). 없으면 제목을 글자로만 보여 준다
+              const guide = getFaceGuidePartByFeature(feature.id);
               return (
                 <li key={feature.id} className="flex items-start gap-4">
                   <span
@@ -165,7 +176,18 @@ export default function ResultScreen({
                       <span className={`${cls.accent} font-serif mr-2`} aria-hidden="true">
                         {featureHanja[feature.id]}
                       </span>
-                      {t(feature.name)} · {t(option.label)}
+                      {guide ? (
+                        <Link
+                          href={getFaceGuidePath(guide.id)}
+                          className={`underline underline-offset-4 decoration-[#d8c8a6] dark:decoration-[#5c4b35] hover:text-[#8b1a1a] dark:hover:text-[#e2c17a] ${cls.focus}`}
+                          aria-label={`${t(feature.name)} ${t(faceGuideTexts.resultPartLink)}`}
+                        >
+                          {t(feature.name)}
+                        </Link>
+                      ) : (
+                        t(feature.name)
+                      )}{" "}
+                      · {t(option.label)}
                     </p>
                     {reading && <p className={`${cls.body} mt-1`}>{t(reading)}</p>}
                   </div>

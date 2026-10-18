@@ -1355,6 +1355,11 @@ export function getFaceGuidePart(id: string): FaceGuidePart | undefined {
   return faceGuideParts.find((p) => p.id === id);
 }
 
+/** 테스트 부위 id(faceFeatures[].id)로 그 부위를 다루는 가이드를 찾는다. 테스트에서 묻지 않는 부위(이마·눈썹 등)는 undefined */
+export function getFaceGuidePartByFeature(featureId: string): FaceGuidePart | undefined {
+  return faceGuideParts.find((p) => p.featureId === featureId);
+}
+
 // =====================================================================
 // 허브 페이지(/face-reading/guide) 소개글
 // =====================================================================
@@ -1437,6 +1442,10 @@ export const faceGuideTexts = {
     zh: "查看分部位面相看法与30种面相类型",
     ja: "部位別の人相の見方と人相タイプ30種を見る",
   },
+  /** 결과 화면(ResultScreen)에서 유형 페이지(/face-reading/types/{id})로 가는 링크 */
+  resultTypeLink: { ko: "이 유형 자세히 보기", en: "Read more about this type", zh: "详细了解此类型", ja: "このタイプを詳しく見る" },
+  /** 결과 화면 "부위별 풀이"의 부위 제목 링크에 붙는 접근성 설명 (예: "눈 관상 가이드 보기") */
+  resultPartLink: { ko: "관상 가이드 보기", en: "face reading guide", zh: "面相指南", ja: "人相ガイドを見る" },
   ctaAnalyze: { ko: "내 관상 분석해 보기", en: "Analyze my face", zh: "分析我的面相", ja: "自分の人相を分析する" },
   ctaMine: { ko: "나도 분석해 보기", en: "Get my own reading", zh: "我也要分析", ja: "私も分析してみる" },
   ctaSub: {
