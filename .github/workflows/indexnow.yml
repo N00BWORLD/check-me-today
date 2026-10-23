@@ -1,0 +1,18 @@
+# Vercel 운영(Production) 배포가 성공하면 사이트맵 주소를 IndexNow 에 알린다.
+# 미리보기(Preview) 배포에서는 실행하지 않는다.
+name: IndexNow
+
+on: deployment_status
+
+jobs:
+  submit:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # 도메인 연결이 새 배포로 넘어갈 시간을 잠깐 준다
+      - run: sleep 30
+      - run: node scripts/indexnow.mjs
